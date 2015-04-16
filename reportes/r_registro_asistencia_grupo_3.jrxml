@@ -371,8 +371,7 @@ ORDER BY registro_asistencia.empleado_nro_documento,registro_asistencia.fecha AS
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Serif" size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[
-$F{detalle_registro_asistencia_hora_fin} == null ?
+				<textFieldExpression><![CDATA[$F{detalle_registro_asistencia_hora_fin} == null ?
 "N.M." : new SimpleDateFormat("HH:mm:ss").format($F{detalle_registro_asistencia_hora_fin})]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">

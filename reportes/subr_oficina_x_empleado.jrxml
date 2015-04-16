@@ -12,7 +12,7 @@
 FROM
      "dbo"."TB_USER" u INNER JOIN
      "dbo"."TB_USER_DEPT" dep ON u.nDepartmentIdn = dep.nDepartmentIdn
-WHERE u.sUserID = $P{empleado_nro_documento}]]>
+WHERE u.sUserID LIKE $P{empleado_nro_documento}]]>
 	</queryString>
 	<field name="nombre" class="java.lang.String"/>
 	<detail>
