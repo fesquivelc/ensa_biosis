@@ -1,5 +1,6 @@
 package entidades;
 
+import entidades.escalafon.Empleado;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -29,9 +30,9 @@ public class SaldoVacacional implements Serializable {
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fechaDesde;
-    @Column(name="empleado_nro_documento",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
-    @Basic
-    private String empleado;
+    @ManyToOne(targetEntity = Empleado.class)
+    @JoinColumn(name = "empleado_nro_documento",referencedColumnName = "nro_documento")
+    private Empleado empleado;
     @Column(name="fecha_hasta",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Temporal(TemporalType.DATE)
     @Basic
@@ -76,14 +77,15 @@ public class SaldoVacacional implements Serializable {
     public void setFechaDesde(Date fechaDesde) {
         this.fechaDesde = fechaDesde;
     }
-   
-    public String getEmpleado() {
-        return this.empleado;
+
+    public Empleado getEmpleado() {
+        return empleado;
     }
 
-    public void setEmpleado(String empleado) {
+    public void setEmpleado(Empleado empleado) {
         this.empleado = empleado;
     }
+   
    
     public Date getFechaHasta() {
         return this.fechaHasta;

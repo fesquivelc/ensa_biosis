@@ -6,7 +6,7 @@
 package controladores;
 
 import dao.DAOBIOSTAR;
-import entidades.Departamento;
+import entidades.escalafon.Area;
 import entidades.Marcacion;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,13 +18,13 @@ import org.apache.log4j.Logger;
  *
  * @author fesquivelc
  */
-public class DepartamentoControlador extends Controlador<Departamento> {
+public class DepartamentoControlador extends Controlador<Area> {
 
     public DepartamentoControlador() {
-        super(Departamento.class, new DAOBIOSTAR(Departamento.class));
+        super(Area.class, new DAOBIOSTAR(Area.class));
     }
 
-    public List<Departamento> buscarXNombre(String patron){
+    public List<Area> buscarXNombre(String patron){
         String jpql = "SELECT d FROM Departamento d WHERE UPPER(d.nombre) LIKE CONCAT('%',UPPER(:patron),'%')";
         Map<String,Object> param = new HashMap<>();
         param.put("patron", patron);

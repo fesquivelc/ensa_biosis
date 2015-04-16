@@ -7,9 +7,9 @@ package controladores;
 
 import entidades.AsignacionHorario;
 import entidades.DetalleGrupoHorario;
-import entidades.Empleado;
 import entidades.GrupoHorario;
 import entidades.Horario;
+import entidades.escalafon.Empleado;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,12 +47,12 @@ public class AsignacionHorarioControlador extends Controlador<AsignacionHorario>
         String jpql = "SELECT a FROM AsignacionHorario a WHERE "
                 + "a.empleado = :empleado";
         Map<String, Object> mapa = new HashMap<>();
-        mapa.put("empleado", empleado.getNroDocumento());
+        mapa.put("empleado", empleado);
         return this.getDao().buscar(jpql, mapa);
     }
     
-    public List<AsignacionHorario> buscarXEmpleado(List<String> dnis ,Horario horario){
-        List<DetalleGrupoHorario> detalleGrupo = dgc.buscarXEmpleados(dnis);
+    public List<AsignacionHorario> buscarXEmpleado(List<Empleado> empleados ,Horario horario){
+        List<DetalleGrupoHorario> detalleGrupo = dgc.buscarXEmpleados(empleados);
         List<GrupoHorario> grupos = new ArrayList<>();
         
         for(DetalleGrupoHorario detalle : detalleGrupo){
@@ -60,10 +60,11 @@ public class AsignacionHorarioControlador extends Controlador<AsignacionHorario>
         }
         
         String jpql = "SELECT a FROM AsignacionHorario a WHERE "
-                + "(a.empleado IN :empleados OR a.grupo) AND a.horario = :horario";
+                + "(a.empleado IN :empleados OR a.grupo IN :grupos) AND a.horario = :horario";
         Map<String, Object> mapa = new HashMap<>();
-        mapa.put("empleados", dnis);
+        mapa.put("empleados", empleados);
         mapa.put("horario", horario);
+        mapa.put("grupos", grupos);
         return this.getDao().buscar(jpql, mapa);
     }
 

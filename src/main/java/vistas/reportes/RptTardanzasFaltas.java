@@ -13,21 +13,19 @@ import controladores.EmpleadoControlador;
 import controladores.GrupoHorarioControlador;
 import controladores.PeriodoControlador;
 import entidades.DetalleGrupoHorario;
-import entidades.Empleado;
 import entidades.GrupoHorario;
 import entidades.Periodo;
-import vistas.dialogos.DlgEmpleado;
-import vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
 import controladores.HorarioControlador;
 import controladores.MarcacionControlador;
 import entidades.AsignacionHorario;
-import entidades.Departamento;
+import entidades.escalafon.Area;
 import entidades.EmpleadoBiostar;
 import entidades.Horario;
 import entidades.Jornada;
 import entidades.Marcacion;
+import entidades.escalafon.Empleado;
 import java.awt.Component;
 import java.io.File;
 import java.text.DateFormat;
@@ -290,7 +288,7 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnOficinaActionPerformed
 
-    private Departamento oficinaSeleccionada;
+    private Area oficinaSeleccionada;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOficina;
@@ -419,29 +417,29 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
 
             //SE ANALIZA PERSONA A PERSONA HASTA OBTENER UN LISTADO =D
             List<AsignacionHorario> asignaciones = horarioSeleccionado.getAsignacionHorarioList();
-            List<String> dnis = dnis(asignaciones);
-            for (String dni : dnis) {
+            List<Empleado> empleados = dnis(asignaciones);
+            for (Empleado empleado : empleados) {
                 //comprobamos persona a persona si ha llegado tarde o a falta
                 Marcacion marcacion;
 //                System.out.println("EMPLEADO: "+ah.getEmpleado());
 
-                marcacion = mc.buscarXFechaXhora(dni, fecha, jornada.getDesdeHE(), jornada.getToleranciaHE());
+                marcacion = mc.buscarXFechaXhora(empleado, fecha, jornada.getDesdeHE(), jornada.getToleranciaHE());
                 if (marcacion == null) {
                     //SE DISCERNIRA SI ESTA EN FALTA
-                    marcacion = mc.buscarXFechaXhora(dni, fecha, jornada.getToleranciaHE(), jornada.getTardanzaHE());
+                    marcacion = mc.buscarXFechaXhora(empleado, fecha, jornada.getToleranciaHE(), jornada.getTardanzaHE());
 
                     if (marcacion == null) {
                         if (radFalta.isSelected()) {
-                            faltas.add(dni);
+                            faltas.add(empleado.getNroDocumento());
                         }
 
                     } else if (radTardanza.isSelected()) {
-                        Empleado e = ec.buscarPorId(marcacion.getEmpleado());
+                        Empleado e = marcacion.getEmpleado();
                         RTardanzaFaltaBean bean = new RTardanzaFaltaBean();
-                        bean.setCodigoModular(e.getCodigoModular());
+                        bean.setCodigoModular(e.getFichaLaboral().getCodigoTrabajador());
                         bean.setDocumentoIdentidad(e.getNroDocumento());
                         bean.setHoraMarcacion(marcacion.getHora());
-                        bean.setNombre(e.getApellidoPaterno() + " " + e.getApellidoMaterno() + " " + e.getNombre());
+                        bean.setNombre(e.getPaterno() + " " + e.getMaterno() + " " + e.getNombre());
                         tardanzas.add(bean);
                     }
                 } else {
@@ -506,40 +504,40 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
 
     boolean bandera = false;
 
-    private List<String> obtenerDNI() {
+//    private List<String> obtenerDNI() {
+//
+//        List<String> lista = new ArrayList<>();
+//        if (radGrupo.isSelected()) {
+//            obtenerGrupo();
+//            List<DetalleGrupoHorario> detalleGrupo = dgc.buscarXGrupo(grupoSeleccionado);
+//            for (DetalleGrupoHorario detalle : detalleGrupo) {                
+//                lista.add(detalle.getEmpleado());
+//            }
+//        } else if (radOficina.isSelected()) {
+//            List<EmpleadoBiostar> empleadoBiostar = oficinaSeleccionada.getEmpleadoList();
+//            List<Integer> dniInt = dniInteger(empleadoBiostar);
+//            List<Empleado> empleados = ec.buscarPorListaEnteros(dniInt);
+//            for (Empleado empleado : empleados) {
+//                lista.add(empleado.getNroDocumento());
+//            }
+//        }
+//        
+//        List<AsignacionHorario> listado = ahc.buscarXEmpleado(lista, horarioSeleccionado);
+//        lista.clear();
+//        for(AsignacionHorario asignacion : listado){
+//            lista.add(asignacion.getEmpleado());
+//        }
+//
+//        return lista;
+//    }
 
-        List<String> lista = new ArrayList<>();
-        if (radGrupo.isSelected()) {
-            obtenerGrupo();
-            List<DetalleGrupoHorario> detalleGrupo = dgc.buscarXGrupo(grupoSeleccionado);
-            for (DetalleGrupoHorario detalle : detalleGrupo) {                
-                lista.add(detalle.getEmpleado());
-            }
-        } else if (radOficina.isSelected()) {
-            List<EmpleadoBiostar> empleadoBiostar = oficinaSeleccionada.getEmpleadoList();
-            List<Integer> dniInt = dniInteger(empleadoBiostar);
-            List<Empleado> empleados = ec.buscarPorListaEnteros(dniInt);
-            for (Empleado empleado : empleados) {
-                lista.add(empleado.getNroDocumento());
-            }
-        }
-        
-        List<AsignacionHorario> listado = ahc.buscarXEmpleado(lista, horarioSeleccionado);
-        lista.clear();
-        for(AsignacionHorario asignacion : listado){
-            lista.add(asignacion.getEmpleado());
-        }
-
-        return lista;
-    }
-
-    private List<Integer> dniInteger(List<EmpleadoBiostar> empleados) {
-        List<Integer> dni = new ArrayList<>();
-        for (EmpleadoBiostar e : empleados) {
-            dni.add(e.getId());
-        }
-        return dni;
-    }
+//    private List<Integer> dniInteger(List<EmpleadoBiostar> empleados) {
+//        List<Integer> dni = new ArrayList<>();
+//        for (EmpleadoBiostar e : empleados) {
+//            dni.add(e.getId());
+//        }
+//        return dni;
+//    }
 //
 //    public void agregarEmpleado(Empleado empleado) {
 //        empleadoList.add(empleado);
@@ -556,8 +554,8 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         }
     }
 
-    private List<String> dnis(List<AsignacionHorario> asignaciones) {
-        List<String> listado = new ArrayList<>();
+    private List<Empleado> dnis(List<AsignacionHorario> asignaciones) {
+        List<Empleado> listado = new ArrayList<>();
         for (AsignacionHorario ah : asignaciones) {
             if (ah.isPorGrupo()) {
                 List<DetalleGrupoHorario> detalles = ah.getGrupoHorario().getDetalleGrupoHorarioList();

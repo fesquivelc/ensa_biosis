@@ -8,16 +8,14 @@ package vistas.mantenimientos;
 import controladores.Controlador;
 import controladores.EmpleadoControlador;
 import controladores.UsuarioControlador;
-import entidades.Empleado;
 import entidades.Rol;
 import entidades.Usuario;
 import vistas.dialogos.DlgEmpleado;
 import vistas.dialogos.DlgRol;
-import vistas.modelos.MTJornada;
 import com.personal.utiles.FormularioUtil;
+import entidades.escalafon.Empleado;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
@@ -382,7 +380,7 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
             seleccionado.setPassword(Encriptador.encrypt(password));
             seleccionado.setActivo(chkActivo.isSelected());
             seleccionado.setCambiarPassword(true);
-            seleccionado.setEmpleado(empleadoSeleccionado.getNroDocumento());
+            seleccionado.setEmpleado(empleadoSeleccionado);
             seleccionado.setRol(rolSeleccionado);
 
             if (usuarioControlador.accion(accion)) {
@@ -404,7 +402,7 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
         DlgEmpleado dlg = new DlgEmpleado(this);
         empleadoSeleccionado = dlg.getSeleccionado();
         if (empleadoSeleccionado != null) {
-            txtEmpleado.setText(empleadoSeleccionado.getApellidoPaterno() + " " + empleadoSeleccionado.getApellidoMaterno() + " " + empleadoSeleccionado.getNombre());
+            txtEmpleado.setText(empleadoSeleccionado.getPaterno()+ " " + empleadoSeleccionado.getMaterno() + " " + empleadoSeleccionado.getNombre());
         }
     }//GEN-LAST:event_btnEmpleadoActionPerformed
 
@@ -518,7 +516,7 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
         chkCambiarContraseña.setSelected(seleccionado.isCambiarPassword());
         empleadoSeleccionado = empleadoControlador.buscarPorId(seleccionado.getEmpleado());
         if (empleadoSeleccionado != null) {
-            txtEmpleado.setText(empleadoSeleccionado.getApellidoPaterno() + " " + empleadoSeleccionado.getApellidoMaterno() + " " + empleadoSeleccionado.getNombre());
+            txtEmpleado.setText(empleadoSeleccionado.getPaterno() + " " + empleadoSeleccionado.getMaterno() + " " + empleadoSeleccionado.getNombre());
         }
         txtRol.setText(seleccionado.getRol().getNombre());
 

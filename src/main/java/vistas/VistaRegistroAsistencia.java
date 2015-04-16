@@ -9,7 +9,6 @@ import algoritmo.AnalisisAsistencia;
 import controladores.MarcacionControlador;
 import controladores.RegistroAsistenciaControlador;
 import entidades.DetalleRegistroAsistencia;
-import entidades.Empleado;
 import entidades.Horario;
 import entidades.Marcacion;
 import entidades.RegistroAsistencia;
@@ -23,10 +22,11 @@ import com.personal.utiles.FormularioUtil;
 import controladores.EmpleadoControlador;
 import controladores.TCAnalisisControlador;
 import controladores.TCSistemaControlador;
-import entidades.Departamento;
-import entidades.DetalleGrupoHorario;
+import entidades.escalafon.Area;
 import entidades.EmpleadoBiostar;
 import entidades.TCSistema;
+import entidades.escalafon.Empleado;
+import entidades.escalafon.FichaLaboral;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -515,7 +515,7 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         controles();
     }//GEN-LAST:event_radPersonalizadoActionPerformed
 
-    private Departamento oficinaSeleccionada;
+    private Area oficinaSeleccionada;
     private void btnOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOficinaActionPerformed
         // TODO add your handling code here:
         DlgOficina oficinas = new DlgOficina(this);
@@ -650,11 +650,9 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
                 lista.add(empleado.getNroDocumento());
             }
         } else if (radOficina.isSelected()) {
-            List<EmpleadoBiostar> empleadoBiostar = oficinaSeleccionada.getEmpleadoList();
-            List<Integer> dniInt = dniInteger(empleadoBiostar);
-            List<Empleado> empleados = ec.buscarPorListaEnteros(dniInt);
-            for (Empleado empleado : empleados) {
-                lista.add(empleado.getNroDocumento());
+            List<FichaLaboral> fichas = oficinaSeleccionada.getFichaLaboralList();
+            for (FichaLaboral f : fichas) {
+                lista.add(f.getEmpleado().getNroDocumento());
             }
         }
 
@@ -807,7 +805,7 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         tblHorario.packAll();
     }
 
-    private void mostrarMarcaciones(String empleado, Date fecha) {
+    private void mostrarMarcaciones(Empleado empleado, Date fecha) {
         marcacionList.clear();
         marcacionList.addAll(mc.buscarXFecha(empleado, fecha));
 

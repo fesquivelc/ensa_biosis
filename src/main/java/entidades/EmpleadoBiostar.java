@@ -1,5 +1,6 @@
 package entidades;
 
+import entidades.escalafon.Area;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -19,9 +20,9 @@ public class EmpleadoBiostar implements Serializable {
     @Column(name="sUserID")
     @Id
     private Integer id;
-    @ManyToOne(targetEntity = Departamento.class)
+    @ManyToOne(targetEntity = Area.class)
     @JoinColumn(name="nDepartmentIdn",referencedColumnName="nDepartmentIdn")
-    private Departamento departamento;
+    private Area departamento;
 
     public EmpleadoBiostar() {
 
@@ -43,11 +44,11 @@ public class EmpleadoBiostar implements Serializable {
         this.id = id;
     }
    
-    public Departamento getDepartamento() {
+    public Area getDepartamento() {
         return this.departamento;
     }
 
-    public void setDepartamento(Departamento departamento) {
+    public void setDepartamento(Area departamento) {
         this.departamento = departamento;
     }
 }

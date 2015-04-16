@@ -5,8 +5,8 @@
  */
 package vistas.modelos;
 
-import entidades.Empleado;
 import com.personal.utiles.ModeloTabla;
+import entidades.escalafon.Empleado;
 import java.util.List;
 
 /**
@@ -31,9 +31,9 @@ public class MTEmpleado extends ModeloTabla<Empleado>{
             case 0:
                 return empleado.getNroDocumento();
             case 1:
-                return empleado.getApellidoPaterno()
+                return empleado.getPaterno()
                         + " "
-                        + empleado.getApellidoMaterno()
+                        + empleado.getMaterno()
                         + " "
                         + empleado.getNombre();
                 default:

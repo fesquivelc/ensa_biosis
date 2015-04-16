@@ -8,7 +8,6 @@ package vistas;
 import dao.DAO;
 import dao.DAOBIOSTAR;
 import dao.DAOMINEDU;
-import entidades.Empleado;
 import entidades.Marcacion;
 import entidades.RolAcceso;
 import entidades.Usuario;
@@ -25,6 +24,7 @@ import vistas.reportes.RptVacaciones;
 import com.personal.utiles.ImagenFondo;
 import controladores.EmpleadoControlador;
 import controladores.UsuarioControlador;
+import entidades.escalafon.Empleado;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseMotionListener;
@@ -647,19 +647,14 @@ public class Principal extends javax.swing.JFrame {
         agregarAPanel(registroAsistencia, true);
     }
 
-    private void marcacionesTR() {
-        VistaMarcacionesTR mtr = new VistaMarcacionesTR();
-        agregarAPanel(mtr, true);
-    }
-
     private final EmpleadoControlador ec = new EmpleadoControlador();
     private final DateFormat dfTimestamp = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     private final UsuarioControlador uc = new UsuarioControlador();
     public void setUsuario(Usuario u) {
         if (u != null) {
             UsuarioActivo.setUsuario(u);
-            Empleado e = ec.buscarPorId(u.getEmpleado());
-            lblUsuario.setText("Empleado: "+e.getApellidoPaterno()+" "+e.getApellidoMaterno()+" "+e.getNombre()+" | Usuario: " + u.getLogin() + " | Rol: " + u.getRol().getNombre()+" | Ult. inicio de sesión: "+(u.getUltimoInicio() != null ? dfTimestamp.format(u.getUltimoInicio()) : dfTimestamp.format(new Date()))+" |");
+            Empleado e = u.getEmpleado();
+            lblUsuario.setText("Empleado: "+e.getPaterno()+" "+e.getMaterno()+" "+e.getNombre()+" | Usuario: " + u.getLogin() + " | Rol: " + u.getRol().getNombre()+" | Ult. inicio de sesión: "+(u.getUltimoInicio() != null ? dfTimestamp.format(u.getUltimoInicio()) : dfTimestamp.format(new Date()))+" |");
             this.habilitarMenu();
             if(u.getUltimoInicio() == null){
                 

@@ -8,8 +8,7 @@ package vistas.dialogos;
 import vistas.VistaRegistroAsistencia;
 import vistas.AsignarPermiso;
 import controladores.EmpleadoControlador;
-import entidades.Empleado;
-import entidades.RegistroAsistencia;
+import entidades.escalafon.Empleado;
 import vistas.mantenimientos.CRUDGrupoHorario;
 import vistas.reportes.RptPermisos;
 import vistas.reportes.RptRegistroAsistencia;
@@ -251,7 +250,7 @@ public class DlgEmpleado extends javax.swing.JDialog {
         int fila = tblEmpleado.getSelectedRow();
         if (fila != -1) {
             DlgDatosEmpleado dialogo = new DlgDatosEmpleado(this, true);
-            dialogo.setEmpleado(lista.get(fila));
+            dialogo.setEmpleado(lista.get(0));
             dialogo.setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed

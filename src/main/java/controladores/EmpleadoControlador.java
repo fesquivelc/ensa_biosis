@@ -6,7 +6,7 @@
 package controladores;
 
 import dao.DAOMINEDU;
-import entidades.Empleado;
+import entidades.escalafon.Empleado;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +23,8 @@ public class EmpleadoControlador extends Controlador<Empleado> {
 
     public List<Empleado> buscarXPatron(String patron) {
         String jpql = "SELECT e FROM Empleado e WHERE "
-                + "UPPER(CONCAT(nombre,apellidoPaterno,apellidoMaterno)) LIKE CONCAT('%',UPPER(:patron),'%') OR e.nroDocumento = UPPER(:patron) "
-                + "ORDER BY e.apellidoPaterno,e.apellidoMaterno,e.nombre";
+                + "UPPER(CONCAT(nombre,paterno,materno)) LIKE CONCAT('%',UPPER(:patron),'%') OR e.nroDocumento = UPPER(:patron) "
+                + "ORDER BY e.paterno,e.materno,e.nombre";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("patron", patron);
         return this.getDao().buscar(jpql, mapa);
@@ -32,8 +32,8 @@ public class EmpleadoControlador extends Controlador<Empleado> {
     
     public List<Empleado> buscarXPatron(String patron, int desde, int tamanio) {
         String jpql = "SELECT e FROM Empleado e WHERE "
-                + "UPPER(CONCAT(nombre,apellidoPaterno,apellidoMaterno)) LIKE CONCAT('%',UPPER(:patron),'%') OR e.nroDocumento = UPPER(:patron) OR e.codigoModular = UPPER(:patron)"
-                + "ORDER BY e.apellidoPaterno,e.apellidoMaterno,e.nombre";
+                + "UPPER(CONCAT(nombre,paterno,materno)) LIKE CONCAT('%',UPPER(:patron),'%') OR e.nroDocumento = UPPER(:patron) OR e.codigoModular = UPPER(:patron)"
+                + "ORDER BY e.paterno,e.materno,e.nombre";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("patron", patron);
         return this.getDao().buscar(jpql, mapa, desde, tamanio);
@@ -41,7 +41,7 @@ public class EmpleadoControlador extends Controlador<Empleado> {
     
     public int totalXPatron(String patron){
         String jpql = "SELECT COUNT(e.nroDocumento) FROM Empleado e WHERE "
-                + "UPPER(CONCAT(nombre,' ',apellidoPaterno,' ',apellidoMaterno)) LIKE CONCAT('%',UPPER(:patron),'%') OR e.nroDocumento = UPPER(:patron)  OR e.codigoModular = UPPER(:patron)";
+                + "UPPER(CONCAT(e.nombre,' ',e.paterno,' ',e.materno)) LIKE CONCAT('%',UPPER(:patron),'%') OR e.nroDocumento = UPPER(:patron)  OR e.codigoModular = UPPER(:patron)";
         Long cont = (Long)this.getDao().getEntityManager().createQuery(jpql)
                 .setParameter("patron", patron).getSingleResult();
         int conteo = cont.intValue();

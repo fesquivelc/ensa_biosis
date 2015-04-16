@@ -10,9 +10,7 @@ import controladores.Controlador;
 import controladores.EmpleadoControlador;
 import controladores.PermisoControlador;
 import controladores.TCAnalisisControlador;
-import entidades.AsignacionHorario;
 import entidades.AsignacionPermiso;
-import entidades.Empleado;
 import entidades.Permiso;
 import entidades.TipoPermiso;
 import vistas.dialogos.DlgEmpleado;
@@ -22,6 +20,7 @@ import vistas.modelos.MTEmpleado;
 import com.personal.utiles.FechaUtil;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
+import entidades.escalafon.Empleado;
 import java.io.File;
 import java.math.BigDecimal;
 import java.text.DateFormat;
@@ -694,7 +693,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 
             List<String> dnis = new ArrayList<>();
             for (AsignacionPermiso asignacion : seleccionada.getAsignacionPermisoList()) {
-                dnis.add(asignacion.getEmpleado());
+                dnis.add(asignacion.getEmpleado().getNroDocumento());
                 //System.out.println(asignacion.getEmpleado());
             }
 
@@ -771,8 +770,8 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         if (this.empleadoSeleccionado != null) {
             this.txtEmpleado.setText(
                     empleadoSeleccionado.getNroDocumento()
-                    + " " + empleadoSeleccionado.getApellidoPaterno()
-                    + " " + empleadoSeleccionado.getApellidoMaterno()
+                    + " " + empleadoSeleccionado.getPaterno()
+                    + " " + empleadoSeleccionado.getMaterno()
                     + " " + empleadoSeleccionado.getNombre());
         }
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -954,9 +953,9 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
             spHoraFin.setValue(permiso.getHoraFin());
         }
 
-        List<String> listaDNI = obtenerListadoDNI(permiso.getAsignacionPermisoList());
-        if (!listaDNI.isEmpty()) {
-            mostrarIntegrantes(listaDNI);
+        List<Empleado> empleados = obtenerListadoDNI(permiso.getAsignacionPermisoList());
+        if (!empleados.isEmpty()) {
+            mostrarIntegrantes(empleados);
         }
 
     }
@@ -987,9 +986,9 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         tblTabla.packAll();
     }
 
-    private void mostrarIntegrantes(List<String> listadoDNI) {
+    private void mostrarIntegrantes(List<Empleado> empleados) {
         integrantes.clear();
-        integrantes.addAll(ec.buscarPorLista(listadoDNI));
+        integrantes.addAll(empleados);
         tblEmpleados.packAll();
     }
 
@@ -1023,19 +1022,19 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         checkPorFecha(accion);
     }
 
-    private List<String> obtenerListadoDNI(List<AsignacionPermiso> detalles) {
-        List<String> listadoDNI = new ArrayList<>();
+    private List<Empleado> obtenerListadoDNI(List<AsignacionPermiso> detalles) {
+        List<Empleado> empleados = new ArrayList<>();
         for (AsignacionPermiso detalle : detalles) {
-            listadoDNI.add(detalle.getEmpleado());
+            empleados.add(detalle.getEmpleado());
         }
-        return listadoDNI;
+        return empleados;
     }
 
     public void agregarEmpleado(Empleado empleado) {
         integrantes.add(empleado);
 
         AsignacionPermiso detalle = new AsignacionPermiso();
-        detalle.setEmpleado(empleado.getNroDocumento());
+        detalle.setEmpleado(empleado);
         detalle.setPermiso(controlador.getSeleccionado());
 
         controlador.getSeleccionado().getAsignacionPermisoList().add(detalle);
@@ -1247,8 +1246,8 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 
     private final TCAnalisisControlador tcac = new TCAnalisisControlador();
 
-    private void retrocederTiempo(List<String> dnis, Date fechaInicio) {
-        tcac.retrocederTiempo(dnis, fechaInicio);
+    private void retrocederTiempo(List<String> empleados, Date fechaInicio) {
+        tcac.retrocederTiempo(empleados, fechaInicio);
     }
 
     private void checkPorFecha(int accion) {
@@ -1320,7 +1319,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 
     private void mostrarRecord(Empleado empleado) {
         Calendar cal = Calendar.getInstance();
-        cal.setTime(empleado.getFechaInicioContrato());
+        cal.setTime(empleado.getFichaLaboral().getFechaInicio());
 
         Date fInicio = dcFechaInicio.getDate();
 

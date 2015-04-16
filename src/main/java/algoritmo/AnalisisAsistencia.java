@@ -19,7 +19,6 @@ import entidades.AsignacionHorario;
 import entidades.AsignacionPermiso;
 import entidades.DetalleGrupoHorario;
 import entidades.DetalleRegistroAsistencia;
-import entidades.Empleado;
 import entidades.Feriado;
 import entidades.GrupoHorario;
 import entidades.Horario;
@@ -34,12 +33,11 @@ import com.personal.utiles.FechaUtil;
 import controladores.Controlador;
 import controladores.PermisoControlador;
 import controladores.TipoPermisoControlador;
+import entidades.escalafon.Empleado;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Logger;
 
@@ -89,9 +87,10 @@ public class AnalisisAsistencia {
         if (partida == null) {
             partida = new TCAnalisis();
             TCSistema sistema = tcsc.buscarPorId("BIOSIS");
-            Date contrato = empleado.getFechaInicioContrato();
+            Date contrato = empleado.getFichaLaboral().getFechaInicio();
             Date fechaCero = sistema.getFechaCero();
 
+            
             if (contrato.compareTo(fechaCero) < 0) {
                 partida.setFecha(fechaCero);
                 partida.setHora(sistema.getHoraCero());
@@ -212,7 +211,7 @@ public class AnalisisAsistencia {
 //                System.out.println("FECHA INICIO: " + fInicio.toString() + " FECHA FIN: " + fFin.toString());
                 registro = new RegistroAsistencia();
                 registro.setFecha(fInicio);
-                registro.setEmpleado(empleado.getNroDocumento());
+                registro.setEmpleado(empleado);
                 registro.setHorario(horario);
 
                 AsignacionPermiso permisoXFecha = this.apc.buscarXDia(empleado.getNroDocumento(), fInicio);
@@ -242,7 +241,7 @@ public class AnalisisAsistencia {
                                 //TOMAMOS EN CUENTA EL ONOMASTICO
                                 if (isOnomastico(empleado, fInicio)) {
                                     //SE REGISTRA COMO ONOMASTICO
-                                    registro.setPermiso(generarPermisoOnomastico(empleado.getNroDocumento(), fInicio));
+                                    registro.setPermiso(generarPermisoOnomastico(empleado, fInicio));
                                     registro.setTipoAsistencia('P');
                                 } else {
                                     //SE PROCEDE AL ANALISIS DE LA JORNADA
@@ -361,7 +360,7 @@ public class AnalisisAsistencia {
             BigDecimal minPermisoSinGoce = BigDecimal.ZERO;
             BigDecimal minPermisoConGoce = BigDecimal.ZERO;
             for (AsignacionPermiso asignacion : asignacionesPermiso) {
-                DetalleRegistroAsistencia detallePermiso = this.analizarPermisoXHora(empleado.getNroDocumento(), jornada, asignacion.getPermiso());
+                DetalleRegistroAsistencia detallePermiso = this.analizarPermisoXHora(empleado, jornada, asignacion.getPermiso());
 
                 if (detallePermiso.getResultado() != 'F') {
                     if (detallePermiso.getHoraInicio().compareTo(jornada.getTurnoHE()) == 0) {
@@ -390,7 +389,7 @@ public class AnalisisAsistencia {
             //ANALIZAMOS TURNO
             //ANALIZAMOS LOS MINUTOS EXTRA TAMBIEN
             BigDecimal minExtra = null;
-            DetalleRegistroAsistencia detalleTurno = this.analizarTurno(empleado.getNroDocumento(), fecha, fechaFin, jornada.getDesdeHE(), jornada.getToleranciaHE(), jornada.getTardanzaHE(), jornada.getTurnoHS(), 60 * 4);
+            DetalleRegistroAsistencia detalleTurno = this.analizarTurno(empleado, fecha, fechaFin, jornada.getDesdeHE(), jornada.getToleranciaHE(), jornada.getTardanzaHE(), jornada.getTurnoHS(), 60 * 4);
             detalleTurno.setHoraInicio((ocupaEntrada == null) ? detalleTurno.getHoraInicio() : ocupaEntrada);
             detalleTurno.setHoraFin((ocupaSalida == null) ? detalleTurno.getHoraFin() : ocupaSalida);
             detalleTurno.setResultado(ocupaEntrada == null && ocupaSalida == null ? detalleTurno.getResultado() : 'F');
@@ -412,7 +411,7 @@ public class AnalisisAsistencia {
             
             DetalleRegistroAsistencia detalleRefrigerio
                     = this.analizarRefrigerio(
-                            empleado.getNroDocumento(),
+                            empleado,
                             fecha,
                             jornada.getRefrigerioHS(),
                             jornada.getRefrigerioHE(),
@@ -457,7 +456,7 @@ public class AnalisisAsistencia {
             registroAsistencia.setMinTrabajados(trabajoTotal);
             registroAsistencia.setDetalleRegistroAsistenciaList(detalles);
             registroAsistencia.setFecha(fecha);
-            registroAsistencia.setEmpleado(empleado.getNroDocumento());
+            registroAsistencia.setEmpleado(empleado);
 
         }
 
@@ -475,14 +474,14 @@ public class AnalisisAsistencia {
         }
     }
 
-    private DetalleRegistroAsistencia analizarTurno(String empleadoDNI, Date fechaInicio, Date fechaFin, Date horaDesde, Date horaToleranciaInicio, Date horaMaximaInicio, Date horaFin, int minutosMaximoFin) {
+    private DetalleRegistroAsistencia analizarTurno(Empleado empleado, Date fechaInicio, Date fechaFin, Date horaDesde, Date horaToleranciaInicio, Date horaMaximaInicio, Date horaFin, int minutosMaximoFin) {
         DetalleRegistroAsistencia registroTurno = new DetalleRegistroAsistencia();
         registroTurno.setOrden(0);
         registroTurno.setTipoRegistro('T');
 
         Calendar calendar = Calendar.getInstance();
 
-        Marcacion marcacionInicio = mc.buscarXFechaXhora(empleadoDNI, fechaInicio, horaDesde, horaMaximaInicio);
+        Marcacion marcacionInicio = mc.buscarXFechaXhora(empleado, fechaInicio, horaDesde, horaMaximaInicio);
 
         char resultadoInicio;
         char resultadoFin;
@@ -505,7 +504,7 @@ public class AnalisisAsistencia {
         calendar.set(Calendar.HOUR_OF_DAY, 23);
         calendar.set(Calendar.MINUTE, 59);
         calendar.set(Calendar.SECOND, 59);
-        Marcacion marcacionFin = mc.buscarXFechaXhora(empleadoDNI, fechaFin, horaFin, calendar.getTime());
+        Marcacion marcacionFin = mc.buscarXFechaXhora(empleado, fechaFin, horaFin, calendar.getTime());
 
         if (marcacionFin == null) {
             registroTurno.setHoraFin(null);
@@ -524,7 +523,7 @@ public class AnalisisAsistencia {
         return registroTurno;
     }
 
-    private DetalleRegistroAsistencia analizarRefrigerio(String empleadoDNI, Date fechaInicio, Date horaInicio, Date horaFin, Date horaMaximaFin, int milisHoraInicio, int minutosRefrigerio) {
+    private DetalleRegistroAsistencia analizarRefrigerio(Empleado empleado, Date fechaInicio, Date horaInicio, Date horaFin, Date horaMaximaFin, int milisHoraInicio, int minutosRefrigerio) {
         DetalleRegistroAsistencia registroRefrigerio = new DetalleRegistroAsistencia();
         registroRefrigerio.setOrden(1);
         registroRefrigerio.setTipoRegistro('R');
@@ -537,7 +536,7 @@ public class AnalisisAsistencia {
 
         System.out.println("MINUTOS HORA INICIO: "+milisHoraInicio+" "+horaMaximaInicio);
 //        System.out.println("MARCACION INICIO REFRIGERIO PARAMS: " + fechaInicio + " " + horaInicio + " " + horaMaximaInicio);
-        Marcacion marcacionInicio = mc.buscarXFechaXhora(empleadoDNI, fechaInicio, horaInicio, horaMaximaInicio);
+        Marcacion marcacionInicio = mc.buscarXFechaXhora(empleado, fechaInicio, horaInicio, horaMaximaInicio);
 
         if (marcacionInicio == null) {
             //NO SE TOMA EN CUENTA EL REFRIGERIO
@@ -559,7 +558,7 @@ public class AnalisisAsistencia {
             calendar.add(Calendar.SECOND, 1);
             Date limiteInferiorHoraFin = calendar.getTime();
 
-            Marcacion marcacionFin = mc.buscarXFechaXhora(empleadoDNI, fechaInicio, limiteInferiorHoraFin, horaMaximaFin);
+            Marcacion marcacionFin = mc.buscarXFechaXhora(empleado, fechaInicio, limiteInferiorHoraFin, horaMaximaFin);
 
             if (marcacionFin == null) {
                 registroRefrigerio.setHoraFin(null);
@@ -581,7 +580,7 @@ public class AnalisisAsistencia {
         return registroRefrigerio;
     }//FIN DE ANALIZAR REFRIGERIO
 
-    private DetalleRegistroAsistencia analizarPermisoXHora(String dni, Jornada jornada, Permiso permiso) {
+    private DetalleRegistroAsistencia analizarPermisoXHora(Empleado empleado, Jornada jornada, Permiso permiso) {
         DetalleRegistroAsistencia registroPermiso = new DetalleRegistroAsistencia();
         registroPermiso.setOrden(2);
         registroPermiso.setTipoRegistro('P');
@@ -600,7 +599,7 @@ public class AnalisisAsistencia {
             cal.add(Calendar.MINUTE, MIN_ANTES_INICIO_PERMISO);
             Date limiteSuperiorHoraInicio = cal.getTime();
 
-            Marcacion inicioPermiso = mc.buscarXFechaXhora(dni, permiso.getFechaInicio(), permiso.getHoraInicio(), limiteSuperiorHoraInicio);
+            Marcacion inicioPermiso = mc.buscarXFechaXhora(empleado, permiso.getFechaInicio(), permiso.getHoraInicio(), limiteSuperiorHoraInicio);
 
             horaInicio = (inicioPermiso == null) ? null : inicioPermiso.getHora();
         }
@@ -617,7 +616,7 @@ public class AnalisisAsistencia {
             cal.add(Calendar.MILLISECOND, diferenciaPermiso.intValue());
             Date horaEsperadaFinPermiso = cal.getTime();
 
-            Marcacion finPermiso = mc.buscarXFechaXhora(dni, permiso.getFechaInicio(), limiteInferiorFinPermiso, jornada.getTurnoHS());
+            Marcacion finPermiso = mc.buscarXFechaXhora(empleado, permiso.getFechaInicio(), limiteInferiorFinPermiso, jornada.getTurnoHS());
 
             horaFin = (finPermiso == null) ? jornada.getTurnoHS() : finPermiso.getHora();
 
@@ -641,13 +640,13 @@ public class AnalisisAsistencia {
         return registroPermiso;
     }
 
-    private Permiso generarPermisoOnomastico(String dni, Date fInicio) {
+    private Permiso generarPermisoOnomastico(Empleado empleado, Date fInicio) {
         pc.prepararCrear();
         Permiso onomastico = pc.getSeleccionado();
         
         //CREAMOS LA ASIGNACION
         AsignacionPermiso ap = new AsignacionPermiso();        
-        ap.setEmpleado(dni);
+        ap.setEmpleado(empleado);
         ap.setPermiso(onomastico);
         
         //

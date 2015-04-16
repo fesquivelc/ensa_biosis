@@ -5,8 +5,8 @@
  */
 package vistas.dialogos;
 
-import entidades.Empleado;
 import com.personal.utiles.FormularioUtil;
+import entidades.escalafon.Empleado;
 import java.util.Date;
 import javax.swing.JDialog;
 import javax.swing.JInternalFrame;
@@ -362,14 +362,14 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
 
     private void actualizarControles() {
         txtNroDoc.setText(empleado.getNroDocumento());
-        txtTipoDoc.setText(empleado.getTipoDocumento());
-        txtApellidoPaterno.setText(empleado.getApellidoPaterno());
-        txtApellidoMaterno.setText(empleado.getApellidoMaterno());
+        txtTipoDoc.setText(empleado.getTipoDocumento().getNombre());
+        txtApellidoPaterno.setText(empleado.getPaterno());
+        txtApellidoMaterno.setText(empleado.getMaterno());
         txtNombre.setText(empleado.getNombre());
         dtFechaNacimiento.setDate(empleado.getFechaNacimiento());
-        txtRegimenLaboral.setText(empleado.getRegimenLaboral());
-        dtFechaContrato.setDate(empleado.getFechaInicioContrato());
-        txtCodigoModular.setText(empleado.getCodigoModular());
+        txtRegimenLaboral.setText(empleado.getFichaLaboral().getRegimenLaboral().getNombre());
+        dtFechaContrato.setDate(empleado.getFichaLaboral().getFechaInicio());
+        txtCodigoModular.setText(empleado.getFichaLaboral().getCodigoTrabajador());
         
     }
 }

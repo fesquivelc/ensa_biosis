@@ -1,7 +1,7 @@
 package entidades;
 
+import entidades.escalafon.Empleado;
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,9 +19,9 @@ public class DetalleGrupoHorario implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @Column(name="empleado_nro_documento",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
-    @Basic
-    private String empleado;
+    @ManyToOne(targetEntity = Empleado.class)
+    @JoinColumn(name = "empleado_nro_documento",referencedColumnName = "nro_documento")
+    private Empleado empleado;
     @ManyToOne(optional=false,targetEntity = GrupoHorario.class)
     @JoinColumn(name="grupo_horario_codigo",referencedColumnName="codigo",insertable=true,nullable=false,unique=false,updatable=true)
     private GrupoHorario grupoHorario;
@@ -37,12 +37,12 @@ public class DetalleGrupoHorario implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-   
-    public String getEmpleado() {
-        return this.empleado;
+
+    public Empleado getEmpleado() {
+        return empleado;
     }
 
-    public void setEmpleado(String empleado) {
+    public void setEmpleado(Empleado empleado) {
         this.empleado = empleado;
     }
    

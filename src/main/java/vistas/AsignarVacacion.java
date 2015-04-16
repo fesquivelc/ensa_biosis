@@ -10,9 +10,7 @@ import controladores.EmpleadoControlador;
 import controladores.PeriodoControlador;
 import controladores.SaldoVacacionalControlador;
 import controladores.VacacionControlador;
-import dao.DAOMINEDU;
 import entidades.AsignacionPermiso;
-import entidades.Empleado;
 import entidades.Periodo;
 import entidades.SaldoVacacional;
 import entidades.TipoPermiso;
@@ -20,11 +18,11 @@ import entidades.Vacacion;
 import vistas.dialogos.DlgEmpleado;
 import vistas.dialogos.DlgInterrupcionVacacion;
 import vistas.modelos.MTAsignarVacacion;
-import vistas.modelos.MTEmpleado;
 import vistas.modelos.MTVacacion;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
 import controladores.TCAnalisisControlador;
+import entidades.escalafon.Empleado;
 import java.awt.Component;
 import java.io.File;
 import java.util.ArrayList;
@@ -577,7 +575,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
             
             
             if(accion == Controlador.NUEVO){
-                seleccionada.setEmpleado(empleadoSeleccionado.getNroDocumento());
+                seleccionada.setEmpleado(empleadoSeleccionado);
             }
             if(seleccionada.getEmpleado() != null){
                 System.out.println("Hay empleado");
@@ -595,7 +593,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
             
             if (controlador.accion(accion)) {
                 List<String> dni = new ArrayList<>();
-                dni.add(seleccionada.getEmpleado());
+                dni.add(seleccionada.getEmpleado().getNroDocumento());
                 retrocederTiempo(dni, seleccionada.getFechaInicio());
                 SaldoVacacional sv = buscarCrear(empleadoSeleccionado, seleccionada.getPeriodo());
                 int[] saldos = obtenerSaldos(empleadoSeleccionado,seleccionada.getPeriodo());
@@ -641,8 +639,8 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         empleadoSeleccionado = dialogo.getSeleccionado();
         if (empleadoSeleccionado != null) {
             txtEmpleadoSeleccionado.setText(
-                    empleadoSeleccionado.getApellidoPaterno()
-                    + " " + empleadoSeleccionado.getApellidoMaterno()
+                    empleadoSeleccionado.getPaterno()
+                    + " " + empleadoSeleccionado.getMaterno()
                     + " " + empleadoSeleccionado.getNombre());
             actualizarResumenVacaciones(empleadoSeleccionado);
         }
@@ -665,8 +663,8 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         if (this.empleadoBusqueda != null) {
             this.txtEmpleado.setText(
                     empleadoBusqueda.getNroDocumento()
-                    + " " + empleadoBusqueda.getApellidoPaterno()
-                    + " " + empleadoBusqueda.getApellidoMaterno()
+                    + " " + empleadoBusqueda.getPaterno()
+                    + " " + empleadoBusqueda.getMaterno()
                     + " " + empleadoBusqueda.getNombre());
         }
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -799,7 +797,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 
     private void mostrar(Vacacion vacacion) {
         Empleado e = ec.buscarPorId(vacacion.getEmpleado());
-        txtEmpleadoSeleccionado.setText(e.getApellidoPaterno() + " " + e.getApellidoMaterno() + " " + e.getNombre());
+        txtEmpleadoSeleccionado.setText(e.getPaterno()+ " " + e.getMaterno()+ " " + e.getNombre());
         dcFechaInicio.setDate(vacacion.getFechaInicio());
         dcFechaFin.setDate(vacacion.getFechaFin());
         cboPeriodo.setSelectedItem(vacacion.getPeriodo());
@@ -884,13 +882,13 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         }
     }
 
-    private List<String> obtenerListadoDNI(List<AsignacionPermiso> detalles) {
-        List<String> listadoDNI = new ArrayList<>();
-        for (AsignacionPermiso detalle : detalles) {
-            listadoDNI.add(detalle.getEmpleado());
-        }
-        return listadoDNI;
-    }
+//    private List<String> obtenerListadoDNI(List<AsignacionPermiso> detalles) {
+//        List<String> listadoDNI = new ArrayList<>();
+//        for (AsignacionPermiso detalle : detalles) {
+//            listadoDNI.add(detalle.getEmpleado());
+//        }
+//        return listadoDNI;
+//    }
 
     private MTVacacion mtVac;
 
@@ -1016,7 +1014,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private void actualizarResumenVacaciones(Empleado empleado) {
         if (empleado != null && cboPeriodo.getSelectedIndex() != -1) {
 
-            this.mtVac.setVacaciones(this.controlador.buscarXEmpleadoXPeriodo(empleado.getNroDocumento(), periodoList.get(cboPeriodo.getSelectedIndex())));
+            this.mtVac.setVacaciones(this.controlador.buscarXEmpleadoXPeriodo(empleado, periodoList.get(cboPeriodo.getSelectedIndex())));
         }
     }
     private final SaldoVacacionalControlador svc = new SaldoVacacionalControlador();
@@ -1024,8 +1022,8 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private final Calendar calendar = Calendar.getInstance();
 
     public SaldoVacacional buscarCrear(Empleado empleado, Periodo periodo) {
-        SaldoVacacional sv = svc.buscarXPeriodo(empleado.getNroDocumento(), periodo);
-        Date fechaContrato = empleado.getFechaInicioContrato();
+        SaldoVacacional sv = svc.buscarXPeriodo(empleado, periodo);
+        Date fechaContrato = empleado.getFichaLaboral().getFechaInicio();
         calendar.setTime(fechaContrato);
         if (sv == null && periodo.getAnio() > calendar.get(Calendar.YEAR)) {
             //CREAMOS
@@ -1041,14 +1039,14 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
             sv.setFechaDesde(calendar.getTime());
             calendar.add(Calendar.YEAR, 1);
             sv.setFechaHasta(calendar.getTime());
-            sv.setEmpleado(empleado.getNroDocumento());
+            sv.setEmpleado(empleado);
             sv.setLunesViernes(0);
             sv.setSabado(0);
             sv.setDomingo(0);
             sv.setPeriodo(periodo);
             svc.modificar(sv);
         }
-        sv = svc.buscarXPeriodo(empleado.getNroDocumento(), periodo);
+        sv = svc.buscarXPeriodo(empleado, periodo);
         return sv;
     }
 
@@ -1095,7 +1093,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 
     private final Calendar cal = Calendar.getInstance();
     private int[] obtenerSaldos(Empleado empleado, Periodo periodo) {
-        List<Vacacion> vacaciones = controlador.buscarXEmpleadoXPeriodo(empleado.getNroDocumento(), periodo);
+        List<Vacacion> vacaciones = controlador.buscarXEmpleadoXPeriodo(empleado, periodo);
         int[] saldo = new int[3];
         int lunesViernes = 0;
         int sabado = 0;

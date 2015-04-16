@@ -6,7 +6,6 @@
 package vistas.modelos;
 
 import controladores.EmpleadoControlador;
-import entidades.Empleado;
 import entidades.Marcacion;
 import com.personal.utiles.ModeloTabla;
 import java.text.DateFormat;

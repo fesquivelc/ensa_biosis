@@ -5,9 +5,9 @@
  */
 package vistas.modelos;
 
-import entidades.Empleado;
 import entidades.RegistroAsistencia;
 import com.personal.utiles.ModeloTabla;
+import entidades.escalafon.Empleado;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -18,7 +18,8 @@ import java.util.List;
  *
  * @author RyuujiMD
  */
-public class MTRegistroAsistencia extends ModeloTabla<RegistroAsistencia>{
+public class MTRegistroAsistencia extends ModeloTabla<RegistroAsistencia> {
+
     private List<Empleado> empleadoList;
     private final DateFormat dfFecha;
     private final DateFormat dfMinutos;
@@ -30,20 +31,20 @@ public class MTRegistroAsistencia extends ModeloTabla<RegistroAsistencia>{
 
     public void setEmpleadoList(List<Empleado> empleadoList) {
         this.empleadoList = empleadoList;
-    }        
-    
+    }
+
     public MTRegistroAsistencia(List<RegistroAsistencia> datos) {
         super(datos);
         this.dfFecha = new SimpleDateFormat("dd/MM/yyyy");
         this.dfMinutos = new SimpleDateFormat("HH:mm:ss");
         this.cal = Calendar.getInstance();
-        this.nombreColumnas = new String[]{"Nro de doc.","Nombre del empleado","Fecha","Tipo de asist.","Tardanza total"};
+        this.nombreColumnas = new String[]{"Nro de doc.", "Nombre del empleado", "Fecha", "Tipo de asist.", "Tardanza total"};
     }
 
     @Override
     public Object getValorEn(int rowIndex, int columnIndex) {
         RegistroAsistencia registro = this.datos.get(rowIndex);
-        switch(columnIndex){
+        switch (columnIndex) {
             case 0:
                 return registro.getEmpleado();
             case 1:
@@ -58,19 +59,15 @@ public class MTRegistroAsistencia extends ModeloTabla<RegistroAsistencia>{
                 return null;
         }
     }
-    
-    private String nombreCompleto(String dni){
-        String nombre = "";
-        for(Empleado empleado : empleadoList){
-            if(empleado.getNroDocumento().equals(dni)){
-                return empleado.getApellidoPaterno() + " " + empleado.getApellidoMaterno() + " " + empleado.getNombre();
-            }
-        }
-        return nombre;
+
+    private String nombreCompleto(Empleado empleado) {
+
+        return empleado.getPaterno() + " " + empleado.getMaterno() + " " + empleado.getNombre();
+
     }
-    
-    private String tipoAsistencia(char tipo){
-        switch(tipo){
+
+    private String tipoAsistencia(char tipo) {
+        switch (tipo) {
             case 'F':
                 return "FALTA";
             case 'R':
@@ -90,13 +87,11 @@ public class MTRegistroAsistencia extends ModeloTabla<RegistroAsistencia>{
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        if(columnIndex == 4){
+        if (columnIndex == 4) {
             return BigDecimal.class;
-        }else{
+        } else {
             return String.class;
         }
     }
-    
-    
-    
+
 }

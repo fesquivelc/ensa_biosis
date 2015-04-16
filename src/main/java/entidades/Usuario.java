@@ -1,5 +1,6 @@
 package entidades;
 
+import entidades.escalafon.Empleado;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -17,9 +18,9 @@ public class Usuario implements Serializable {
     @Column(name="cambiar_password",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private boolean cambiarPassword;
-    @Column(name="empleado_nro_documento",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
-    @Basic
-    private String empleado;
+    @ManyToOne(targetEntity = Empleado.class)
+    @JoinColumn(name = "empleado_nro_documento",referencedColumnName = "nro_documento")
+    private Empleado empleado;
     @Column(name="ultimo_inicio")
     @Temporal(TemporalType.TIMESTAMP)
     private Date ultimoInicio;
@@ -55,12 +56,12 @@ public class Usuario implements Serializable {
     public void setCambiarPassword(boolean cambiarPassword) {
         this.cambiarPassword = cambiarPassword;
     }
-   
-    public String getEmpleado() {
-        return this.empleado;
+
+    public Empleado getEmpleado() {
+        return empleado;
     }
 
-    public void setEmpleado(String empleado) {
+    public void setEmpleado(Empleado empleado) {
         this.empleado = empleado;
     }
    

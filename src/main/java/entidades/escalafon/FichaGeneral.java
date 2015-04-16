@@ -50,9 +50,9 @@ public class FichaGeneral implements Serializable {
     @ManyToOne(targetEntity = Nacionalidad.class)
     @JoinColumn(name="nacionalidad_codigo",referencedColumnName="codigo")
     private Nacionalidad nacionalidad;
-    @OneToOne(targetEntity = Persona.class)
+    @OneToOne(targetEntity = Empleado.class)
     @JoinColumn(name="persona_nro_documento",referencedColumnName="nro_documento",nullable=false)
-    private Persona persona;
+    private Empleado empleado;
 
     public FichaGeneral() {
 
@@ -146,11 +146,11 @@ public class FichaGeneral implements Serializable {
         this.nacionalidad = nacionalidad;
     }
    
-    public Persona getPersona() {
-        return this.persona;
+    public Empleado getEmpleado() {
+        return this.empleado;
     }
 
-    public void setPersona(Persona persona) {
-        this.persona = persona;
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
     }
 }

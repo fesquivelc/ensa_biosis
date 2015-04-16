@@ -8,13 +8,13 @@ package vistas.dialogos;
 import controladores.Controlador;
 import controladores.EmpleadoControlador;
 import controladores.VacacionControlador;
-import entidades.Empleado;
 import entidades.Vacacion;
 import com.personal.utiles.FormularioUtil;
 import controladores.SaldoVacacionalControlador;
 import controladores.TCAnalisisControlador;
 import entidades.Periodo;
 import entidades.SaldoVacacional;
+import entidades.escalafon.Empleado;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -187,7 +187,7 @@ public class DlgInterrupcionVacacion extends javax.swing.JDialog {
                 sv.setDomingo(saldos[2]);
                 svc.modificar(sv);
                 List<String> dnis = new ArrayList<>();
-                dnis.add(vacacion.getEmpleado());
+                dnis.add(vacacion.getEmpleado().getNroDocumento());
                 retrocederTiempo(dnis, vacacion.getFechaInicio());
                 this.dispose();
             }
@@ -221,7 +221,7 @@ public class DlgInterrupcionVacacion extends javax.swing.JDialog {
 
     private void controles() {
         Empleado empleado = ec.buscarPorId(vacacion.getEmpleado());
-        txtEmpleado.setText(empleado.getNombre() + " " + empleado.getApellidoPaterno() + " " + empleado.getApellidoMaterno());
+        txtEmpleado.setText(empleado.getNombre() + " " + empleado.getPaterno() + " " + empleado.getMaterno());
         dtFechaInicio.setDate(vacacion.getFechaInicio());
         dtFechaFin.setDate(vacacion.getFechaFin());
 
@@ -232,8 +232,8 @@ public class DlgInterrupcionVacacion extends javax.swing.JDialog {
     
     private final Calendar cal = Calendar.getInstance();
     private final SaldoVacacionalControlador svc = new SaldoVacacionalControlador();
-    private int[] obtenerSaldos(String dni, Periodo periodo) {
-        List<Vacacion> vacaciones = vc.buscarXEmpleadoXPeriodo(dni, periodo);
+    private int[] obtenerSaldos(Empleado empleado, Periodo periodo) {
+        List<Vacacion> vacaciones = vc.buscarXEmpleadoXPeriodo(empleado, periodo);
         int[] saldo = new int[3];
         int lunesViernes = 0;
         int sabado = 0;
@@ -264,8 +264,8 @@ public class DlgInterrupcionVacacion extends javax.swing.JDialog {
         return saldo;
     }
     private final Calendar calendar = Calendar.getInstance();
-    public SaldoVacacional buscarSaldo(String dni, Periodo periodo) {
-        SaldoVacacional sv = svc.buscarXPeriodo(dni, periodo);        
+    public SaldoVacacional buscarSaldo(Empleado empleado, Periodo periodo) {
+        SaldoVacacional sv = svc.buscarXPeriodo(empleado, periodo);        
         return sv;
     }
 }

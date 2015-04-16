@@ -8,14 +8,13 @@ package vistas.mantenimientos;
 import controladores.Controlador;
 import controladores.EmpleadoControlador;
 import controladores.GrupoHorarioControlador;
-import entidades.AsignacionHorario;
 import entidades.DetalleGrupoHorario;
-import entidades.Empleado;
 import entidades.GrupoHorario;
 import vistas.dialogos.DlgEmpleado;
 import vistas.modelos.MTEmpleado;
 import vistas.modelos.MTGrupoHorario;
 import com.personal.utiles.FormularioUtil;
+import entidades.escalafon.Empleado;
 import java.util.ArrayList;
 import java.util.List;
 import org.jdesktop.observablecollections.ObservableCollections;
@@ -402,9 +401,9 @@ public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
         txtCodigo.setText(grupo.getCodigo());
         txtNombre.setText(grupo.getNombre());
 
-        List<String> listaDNI = obtenerListadoDNI(grupo.getDetalleGrupoHorarioList());
-        if (!listaDNI.isEmpty()) {
-            mostrarIntegrantes(listaDNI);
+        List<Empleado> listaEmpleados = obtenerEmpleados(grupo.getDetalleGrupoHorarioList());
+        if (!listaEmpleados.isEmpty()) {
+            mostrarIntegrantes(listaEmpleados);
         }
 
     }
@@ -432,9 +431,9 @@ public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
         tblTabla.packAll();
     }
 
-    private void mostrarIntegrantes(List<String> listadoDNI) {
+    private void mostrarIntegrantes(List<Empleado> empleadoList) {
         integrantes.clear();
-        integrantes.addAll(ec.buscarPorLista(listadoDNI));
+        integrantes.addAll(empleadoList);
         tblIntegrantes.packAll();
     }
 
@@ -458,12 +457,12 @@ public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
         }
     }
 
-    private List<String> obtenerListadoDNI(List<DetalleGrupoHorario> detalles) {
-        List<String> listadoDNI = new ArrayList<>();
+    private List<Empleado> obtenerEmpleados(List<DetalleGrupoHorario> detalles) {
+        List<Empleado> empleadoList = new ArrayList<>();
         for (DetalleGrupoHorario detalle : detalles) {
-            listadoDNI.add(detalle.getEmpleado());
+            empleadoList.add(detalle.getEmpleado());
         }
-        return listadoDNI;
+        return empleadoList;
     }
 
     public void agregarEmpleado(Empleado empleado) {
@@ -471,7 +470,7 @@ public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
             integrantes.add(empleado);
 
             DetalleGrupoHorario detalle = new DetalleGrupoHorario();
-            detalle.setEmpleado(empleado.getNroDocumento());
+            detalle.setEmpleado(empleado);
             detalle.setGrupoHorario(controlador.getSeleccionado());
 
             controlador.getSeleccionado().getDetalleGrupoHorarioList().add(detalle);

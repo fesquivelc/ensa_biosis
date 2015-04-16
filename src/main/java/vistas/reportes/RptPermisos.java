@@ -11,16 +11,16 @@ import controladores.EmpleadoControlador;
 import controladores.GrupoHorarioControlador;
 import controladores.PeriodoControlador;
 import entidades.DetalleGrupoHorario;
-import entidades.Empleado;
 import entidades.GrupoHorario;
 import entidades.Periodo;
 import vistas.dialogos.DlgEmpleado;
 import vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
-import entidades.Departamento;
+import entidades.escalafon.Area;
 import entidades.EmpleadoBiostar;
-import java.awt.BorderLayout;
+import entidades.escalafon.Empleado;
+import entidades.escalafon.FichaLaboral;
 import java.awt.Component;
 import java.io.File;
 import java.text.DateFormat;
@@ -33,8 +33,6 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import net.sf.jasperreports.view.JasperViewer;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BindingGroup;
@@ -576,8 +574,13 @@ public class RptPermisos extends javax.swing.JInternalFrame {
     private void imprimir() {
         String reporte = "reportes/r_permisos_licencia_comision.jasper";
         List<String> listaTipo = obtenerTipos();
-        List<Empleado> empleados = obtenerEmpleados();
-        List<String> listaDNI = obtenerDNI();
+        List<Empleado> empleados = obtenerDNI();
+        List<String> listaDNI = new ArrayList<>();
+        
+        for(Empleado e : empleados){
+            listaDNI.add(e.getNroDocumento());
+        }
+        
         Calendar cal = Calendar.getInstance();
 
         int anio;
@@ -677,9 +680,10 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         return empleado;
     }
 
-    private Departamento oficinaSeleccionada;
-    private List<String> obtenerDNI() {
-        List<String> lista = new ArrayList<>();
+    private Area oficinaSeleccionada;
+    private List<Empleado> obtenerDNI() {
+
+        List<Empleado> lista = new ArrayList<>();
         if (radGrupo.isSelected()) {
             obtenerGrupo();
             List<DetalleGrupoHorario> detalleGrupo = dgc.buscarXGrupo(grupoSeleccionado);
@@ -687,15 +691,13 @@ public class RptPermisos extends javax.swing.JInternalFrame {
                 lista.add(detalle.getEmpleado());
             }
         } else if (radPersonalizado.isSelected()) {
-            for (Empleado e : empleadoList) {
-                lista.add(e.getNroDocumento());
+            for (Empleado empleado : empleadoList) {
+                lista.add(empleado);
             }
         } else if (radOficina.isSelected()) {
-            List<EmpleadoBiostar> empleadoBiostar = oficinaSeleccionada.getEmpleadoList();
-            List<Integer> dniInt = dniInteger(empleadoBiostar);
-            List<Empleado> empleados = ec.buscarPorListaEnteros(dniInt);
-            for (Empleado empleado : empleados) {
-                lista.add(empleado.getNroDocumento());
+            List<FichaLaboral> fichas = oficinaSeleccionada.getFichaLaboralList();
+            for (FichaLaboral f : fichas) {
+                lista.add(f.getEmpleado());
             }
         }
 

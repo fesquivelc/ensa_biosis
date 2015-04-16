@@ -1,14 +1,17 @@
 package entidades.escalafon;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="area",schema="institucional")
+@Table(name="v_area",schema = "institucional")
 public class Area implements Serializable {
 
     @Column(name="nombre")
@@ -17,6 +20,16 @@ public class Area implements Serializable {
     @Column(name="codigo")
     @Id
     private String codigo;
+    @OneToMany(fetch = FetchType.LAZY,targetEntity = FichaLaboral.class,mappedBy = "area")
+    private List<FichaLaboral> fichaLaboralList;
+
+    public List<FichaLaboral> getFichaLaboralList() {
+        return fichaLaboralList;
+    }
+
+    public void setFichaLaboralList(List<FichaLaboral> fichaLaboralList) {
+        this.fichaLaboralList = fichaLaboralList;
+    }
 
     public Area() {
 
@@ -29,12 +42,12 @@ public class Area implements Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-   
-    public String getCodigo() {
-        return this.codigo;
+
+    public String getId() {
+        return codigo;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setId(String id) {
+        this.codigo = id;
     }
 }

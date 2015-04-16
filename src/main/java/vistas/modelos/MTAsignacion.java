@@ -7,8 +7,8 @@ package vistas.modelos;
 
 import controladores.EmpleadoControlador;
 import entidades.AsignacionHorario;
-import entidades.Empleado;
 import com.personal.utiles.ModeloTabla;
+import entidades.escalafon.Empleado;
 import java.util.List;
 
 /**
@@ -52,7 +52,7 @@ public class MTAsignacion extends ModeloTabla<AsignacionHorario>{
                 }else{
                     Empleado empleado = ec.buscarPorId(seleccion.getEmpleado());
                     if(empleado != null){
-                        return empleado.getApellidoPaterno() + " " + empleado.getApellidoMaterno() + " " + empleado.getNombre();
+                        return empleado.getPaterno() + " " + empleado.getMaterno() + " " + empleado.getNombre();
                     }
                     
                 }

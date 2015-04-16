@@ -16,18 +16,18 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="persona",schema="personal")
-public class Persona implements Serializable {
+public class Empleado implements Serializable {
 
     @Column(name="nro_documento",nullable=false)
     @Id
     private String nroDocumento;
     @Column(name="nombres",nullable=false)
     @Basic
-    private String nombres;
+    private String nombre;
     @Column(name="condicion")
     @Basic
     private char condicion;
-    @OneToOne(fetch = FetchType.LAZY,targetEntity = FichaGeneral.class,mappedBy = "persona")
+    @OneToOne(fetch = FetchType.LAZY,targetEntity = FichaGeneral.class,mappedBy = "empleado")
     private FichaGeneral fcihaGeneral;
     @Column(name="materno",nullable=false)
     @Basic
@@ -41,14 +41,14 @@ public class Persona implements Serializable {
     @Column(name="paterno",nullable=false)
     @Basic
     private String paterno;
-    @OneToOne(fetch = FetchType.LAZY,targetEntity = FichaLaboral.class,mappedBy = "persona")
+    @OneToOne(fetch = FetchType.LAZY,targetEntity = FichaLaboral.class,mappedBy = "empleado")
     private FichaLaboral fichaLaboral;
     @Column(name="fecha_nacimiento")
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fechaNacimiento;
 
-    public Persona() {
+    public Empleado() {
 
     }
    
@@ -59,14 +59,15 @@ public class Persona implements Serializable {
     public void setNroDocumento(String nroDocumento) {
         this.nroDocumento = nroDocumento;
     }
-   
-    public String getNombres() {
-        return this.nombres;
+
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombres(String nombres) {
-        this.nombres = nombres;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
+   
    
     public char getCondicion() {
         return this.condicion;

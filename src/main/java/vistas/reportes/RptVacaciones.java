@@ -11,15 +11,16 @@ import controladores.GrupoHorarioControlador;
 import controladores.PeriodoControlador;
 import controladores.SaldoVacacionalControlador;
 import entidades.DetalleGrupoHorario;
-import entidades.Empleado;
 import entidades.GrupoHorario;
 import entidades.Periodo;
 import entidades.SaldoVacacional;
 import vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
-import entidades.Departamento;
+import entidades.escalafon.Area;
 import entidades.EmpleadoBiostar;
+import entidades.escalafon.Empleado;
+import entidades.escalafon.FichaLaboral;
 import java.awt.Component;
 import java.io.File;
 import java.util.ArrayList;
@@ -290,7 +291,7 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         controles();
     }//GEN-LAST:event_radOficinaActionPerformed
 
-    private Departamento oficinaSeleccionada;
+    private Area oficinaSeleccionada;
     private void btnOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOficinaActionPerformed
         // TODO add your handling code here:
         DlgOficina oficinas = new DlgOficina(this);
@@ -398,10 +399,15 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
     }
 
     private void generarReporte() {
-        List<String> dnis = obtenerDNI();
+        List<Empleado> empleados = obtenerDNI();
+        List<String> dnis = new ArrayList<>();
         Periodo periodo = obtenerPeriodo();
-        List<Empleado> empleados = ec.buscarPorLista(dnis);
+       
+        
+        
+//        List<Empleado> empleados = ec.buscarPorLista(dnis);
         for (Empleado e : empleados) {
+            dnis.add(e.getNroDocumento());
             buscarCrear(e, periodo);
         }
         String ficheroReporte = "reportes/r_vacaciones.jasper";
@@ -428,8 +434,8 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
     private final ReporteUtil reporteUtil = new ReporteUtil();
 
     public void buscarCrear(Empleado empleado, Periodo periodo) {
-        SaldoVacacional sv = svc.buscarXPeriodo(empleado.getNroDocumento(), periodo);
-        Date fechaContrato = empleado.getFechaInicioContrato();
+        SaldoVacacional sv = svc.buscarXPeriodo(empleado, periodo);
+        Date fechaContrato = empleado.getFichaLaboral().getFechaInicio();
         calendar.setTime(fechaContrato);
         if (sv == null && periodo.getAnio() > calendar.get(Calendar.YEAR)) {
             //CREAMOS
@@ -446,7 +452,7 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
             calendar.add(Calendar.YEAR, 1);
             calendar.add(Calendar.DATE, -1);
             sv.setFechaHasta(calendar.getTime());
-            sv.setEmpleado(empleado.getNroDocumento());
+            sv.setEmpleado(empleado);
             sv.setLunesViernes(0);
             sv.setSabado(0);
             sv.setDomingo(0);
@@ -455,9 +461,9 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         }
     }
 
-    private List<String> obtenerDNI() {
+    private List<Empleado> obtenerDNI() {
 
-        List<String> lista = new ArrayList<>();
+        List<Empleado> lista = new ArrayList<>();
         if (radGrupo.isSelected()) {
             obtenerGrupo();
             List<DetalleGrupoHorario> detalleGrupo = dgc.buscarXGrupo(grupoSeleccionado);
@@ -466,14 +472,12 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
             }
         } else if (radPersonalizado.isSelected()) {
             for (Empleado empleado : empleadoList) {
-                lista.add(empleado.getNroDocumento());
+                lista.add(empleado);
             }
         } else if (radOficina.isSelected()) {
-            List<EmpleadoBiostar> empleadoBiostar = oficinaSeleccionada.getEmpleadoList();
-            List<Integer> dniInt = dniInteger(empleadoBiostar);
-            List<Empleado> empleados = ec.buscarPorListaEnteros(dniInt);
-            for (Empleado empleado : empleados) {
-                lista.add(empleado.getNroDocumento());
+            List<FichaLaboral> fichas = oficinaSeleccionada.getFichaLaboralList();
+            for (FichaLaboral f : fichas) {
+                lista.add(f.getEmpleado());
             }
         }
 

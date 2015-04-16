@@ -23,6 +23,8 @@ public class FichaLaboral implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "codigo_trabajador")
+    private String codigoTrabajador;
     @ManyToOne(targetEntity = TipoContrato.class)
     @JoinColumn(name="tipo_contrato_codigo",referencedColumnName="codigo")
     private TipoContrato tiṕoContrato;
@@ -32,9 +34,9 @@ public class FichaLaboral implements Serializable {
     @ManyToOne(targetEntity = SituacionTrabajador.class)
     @JoinColumn(name="situacion_trabajador_codigo",referencedColumnName="codigo")
     private SituacionTrabajador situacionTrabajador;
-    @OneToOne(targetEntity = Persona.class)
+    @OneToOne(targetEntity = Empleado.class)
     @JoinColumn(name="persona_nro_documento",referencedColumnName="nro_documento",nullable=false)
-    private Persona persona;
+    private Empleado empleado;
     @Column(name="fecha_inicio")
     @Temporal(TemporalType.DATE)
     @Basic
@@ -45,6 +47,14 @@ public class FichaLaboral implements Serializable {
 
     public FichaLaboral() {
 
+    }
+
+    public String getCodigoTrabajador() {
+        return codigoTrabajador;
+    }
+
+    public void setCodigoTrabajador(String codigoTrabajador) {
+        this.codigoTrabajador = codigoTrabajador;
     }
    
     public Long getId() {
@@ -79,12 +89,12 @@ public class FichaLaboral implements Serializable {
         this.situacionTrabajador = situacionTrabajador;
     }
    
-    public Persona getPersona() {
-        return this.persona;
+    public Empleado getEmpleado() {
+        return this.empleado;
     }
 
-    public void setPersona(Persona persona) {
-        this.persona = persona;
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
     }
    
     public Date getFechaInicio() {

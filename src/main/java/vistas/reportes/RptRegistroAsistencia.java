@@ -1,18 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vistas.reportes;
 
 import algoritmo.AnalisisAsistencia;
-import controladores.AsignacionHorarioControlador;
 import controladores.DetalleGrupoControlador;
 import controladores.EmpleadoControlador;
 import controladores.GrupoHorarioControlador;
 import controladores.PeriodoControlador;
 import entidades.DetalleGrupoHorario;
-import entidades.Empleado;
 import entidades.GrupoHorario;
 import entidades.Periodo;
 import vistas.dialogos.DlgEmpleado;
@@ -20,8 +13,10 @@ import vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
 import controladores.MarcacionControlador;
-import entidades.Departamento;
+import entidades.escalafon.Area;
 import entidades.EmpleadoBiostar;
+import entidades.escalafon.Empleado;
+import entidades.escalafon.FichaLaboral;
 import java.awt.Component;
 import java.io.File;
 import java.text.DateFormat;
@@ -35,7 +30,6 @@ import java.util.Map;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import net.sf.jasperreports.view.JasperViewer;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BindingGroup;
@@ -442,7 +436,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnQuitarActionPerformed
 
-    private Departamento oficinaSeleccionada;
+    private Area oficinaSeleccionada;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
@@ -565,10 +559,14 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
 
         String usuario = UsuarioActivo.getUsuario().getLogin();
 
-        List<Empleado> empleados;
 
-        List<String> dnis = obtenerDNI();
-        empleados = this.ec.buscarPorLista(dnis);
+        List<Empleado> empleados = obtenerDNI();
+        
+        List<String> dnis = new ArrayList<>();
+        
+        for(Empleado e : empleados){
+            dnis.add(e.getNroDocumento());
+        }
 
         analisis.analizarEmpleados(empleados);
 
@@ -637,9 +635,9 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
 
     boolean bandera = false;
 
-    private List<String> obtenerDNI() {
+    private List<Empleado> obtenerDNI() {
 
-        List<String> lista = new ArrayList<>();
+        List<Empleado> lista = new ArrayList<>();
         if (radGrupo.isSelected()) {
             obtenerGrupo();
             List<DetalleGrupoHorario> detalleGrupo = dgc.buscarXGrupo(grupoSeleccionado);
@@ -648,26 +646,16 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
             }
         } else if (radPersonalizado.isSelected()) {
             for (Empleado empleado : empleadoList) {
-                lista.add(empleado.getNroDocumento());
+                lista.add(empleado);
             }
         } else if (radOficina.isSelected()) {
-            List<EmpleadoBiostar> empleadoBiostar = oficinaSeleccionada.getEmpleadoList();
-            List<Integer> dniInt = dniInteger(empleadoBiostar);
-            List<Empleado> empleados = ec.buscarPorListaEnteros(dniInt);
-            for (Empleado empleado : empleados) {
-                lista.add(empleado.getNroDocumento());
+            List<FichaLaboral> fichas = oficinaSeleccionada.getFichaLaboralList();
+            for (FichaLaboral f : fichas) {
+                lista.add(f.getEmpleado());
             }
         }
 
         return lista;
-    }
-
-    private List<Integer> dniInteger(List<EmpleadoBiostar> empleados) {
-        List<Integer> dni = new ArrayList<>();
-        for (EmpleadoBiostar e : empleados) {
-            dni.add(e.getId());
-        }
-        return dni;
     }
 
     public void agregarEmpleado(Empleado empleado) {

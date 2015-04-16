@@ -6,8 +6,8 @@
 package vistas.dialogos;
 
 import algoritmo.AnalisisAsistencia;
-import entidades.Empleado;
 import entidades.Horario;
+import entidades.escalafon.Empleado;
 import vistas.modelos.MTHorario;
 import java.util.List;
 import javax.swing.JInternalFrame;
@@ -34,7 +34,7 @@ public class DlgMostrarHorarios extends javax.swing.JDialog {
         accion = 0;
         this.setTitle("HORARIOS DEL EMPLEADO: "
                 +empleado.getNroDocumento()+" - "
-                +empleado.getNombre()+" "+empleado.getApellidoPaterno()+" "+empleado.getApellidoMaterno());
+                +empleado.getNombre()+" "+empleado.getPaterno()+" "+empleado.getMaterno());
 //        this.controles(accion);
     }
 

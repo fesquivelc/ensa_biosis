@@ -7,15 +7,16 @@ package vistas;
 
 import com.opencsv.CSVWriter;
 import controladores.MarcacionControlador;
-import entidades.Empleado;
 import entidades.Marcacion;
 import vistas.dialogos.DlgEmpleado;
 import vistas.modelos.MTMarcacion;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
 import controladores.EmpleadoControlador;
-import entidades.Departamento;
+import entidades.escalafon.Area;
 import entidades.EmpleadoBiostar;
+import entidades.escalafon.Empleado;
+import entidades.escalafon.FichaLaboral;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -397,8 +398,8 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         if (this.empleadoSeleccionado != null) {
             this.txtBusqueda.setText(
                     empleadoSeleccionado.getNroDocumento()
-                    + " " + empleadoSeleccionado.getApellidoPaterno()
-                    + " " + empleadoSeleccionado.getApellidoMaterno()
+                    + " " + empleadoSeleccionado.getPaterno()
+                    + " " + empleadoSeleccionado.getMaterno()
                     + " " + empleadoSeleccionado.getNombre());
         }
     }//GEN-LAST:event_btnEmpleadoActionPerformed
@@ -478,7 +479,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnOficinaActionPerformed
 
-    private Departamento oficinaSeleccionada;
+    private Area oficinaSeleccionada;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnBuscar;
@@ -512,7 +513,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     private Empleado empleadoSeleccionado;
-    private Departamento departamentoSeleccionado;
+    private Area departamentoSeleccionado;
     private void bindeoSalvaje() {
         lista = ObservableCollections.observableList(new ArrayList<Marcacion>());
 
@@ -560,7 +561,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         tblEmpleado.packAll();
     }
 
-    private List<Marcacion> listar(List<Integer> empleados, Date fechaInicio, Date fechaFin, int pagina, int tamanio) {
+    private List<Marcacion> listar(List<Empleado> empleados, Date fechaInicio, Date fechaFin, int pagina, int tamanio) {
         int total;
         if ((empleadoSeleccionado == null && radEmpleado.isSelected()) || (oficinaSeleccionada == null && radOficina.isSelected())) {
             if(radFechas.isSelected()){
@@ -605,15 +606,15 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
 
     }
     
-    private List<Integer> obtenerDNIEntero(){
-        List<Integer> dnisEnteros = new ArrayList<>();
+    private List<Empleado> obtenerDNIEntero(){
+        List<Empleado> dnisEnteros = new ArrayList<>();
         if(radEmpleado.isSelected() && empleadoSeleccionado != null){
             
-            dnisEnteros.add(Integer.parseInt(empleadoSeleccionado.getNroDocumento()));
+            dnisEnteros.add(empleadoSeleccionado);
         }else if(radOficina.isSelected() && oficinaSeleccionada != null){
-            List<EmpleadoBiostar> empleados = oficinaSeleccionada.getEmpleadoList();
-            for(EmpleadoBiostar e : empleados){
-                dnisEnteros.add(e.getId());
+            List<FichaLaboral> fichas = oficinaSeleccionada.getFichaLaboralList();
+            for(FichaLaboral f : fichas){
+                dnisEnteros.add(f.getEmpleado());
             }
         }
         return dnisEnteros;

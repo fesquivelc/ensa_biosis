@@ -7,6 +7,7 @@ package controladores;
 
 import entidades.Periodo;
 import entidades.Vacacion;
+import entidades.escalafon.Empleado;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -82,10 +83,10 @@ public class VacacionControlador extends Controlador<Vacacion> {
         }
     }
 
-    public List<Vacacion> buscarXEmpleadoXPeriodo(String dni, Periodo periodo) {
+    public List<Vacacion> buscarXEmpleadoXPeriodo(Empleado empleado, Periodo periodo) {
         String jpql = "SELECT v FROM Vacacion v WHERE v.empleado = :dni AND v.periodo = :periodo";
         Map<String, Object> mapa = new HashMap<>();
-        mapa.put("dni", dni);
+        mapa.put("dni", empleado);
         mapa.put("periodo", periodo);
         List<Vacacion> vacacion = this.getDao().buscar(jpql, mapa);
         return vacacion;

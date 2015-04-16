@@ -11,13 +11,13 @@ import controladores.EmpleadoControlador;
 import controladores.GrupoHorarioControlador;
 import controladores.HorarioControlador;
 import entidades.AsignacionHorario;
-import entidades.Empleado;
 import entidades.GrupoHorario;
 import entidades.Horario;
 import vistas.dialogos.DlgEmpleado;
 import vistas.dialogos.DlgVerIntegrantes;
 import vistas.modelos.MTAsignacion;
 import com.personal.utiles.FormularioUtil;
+import entidades.escalafon.Empleado;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
@@ -358,7 +358,7 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
             if (radGrupoHorario.isSelected()) {
                 seleccionada.setGrupoHorario(grupoList.get(cboGrupo.getSelectedIndex()));
             } else {
-                seleccionada.setEmpleado(empleadoSeleccionado.getNroDocumento());
+                seleccionada.setEmpleado(empleadoSeleccionado);
             }
 
             seleccionada.setPorGrupo(radGrupoHorario.isSelected());
@@ -416,7 +416,7 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
         DlgEmpleado seleccion = new DlgEmpleado(this);
         empleadoSeleccionado = seleccion.getSeleccionado();
         if (empleadoSeleccionado != null) {
-            txtEmpleado.setText(empleadoSeleccionado.getApellidoPaterno() + " " + empleadoSeleccionado.getApellidoMaterno() + " " + empleadoSeleccionado.getNombre());
+            txtEmpleado.setText(empleadoSeleccionado.getPaterno() + " " + empleadoSeleccionado.getMaterno() + " " + empleadoSeleccionado.getNombre());
         }
     }//GEN-LAST:event_btnEmpleadoActionPerformed
 
@@ -560,7 +560,7 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
             cboGrupo.setSelectedItem(asignacion.getGrupoHorario());
         } else {
             Empleado e = ec.buscarPorId(asignacion.getEmpleado());
-            txtEmpleado.setText(e.getApellidoPaterno() + " " + e.getApellidoMaterno() + " " + e.getNombre());
+            txtEmpleado.setText(e.getPaterno() + " " + e.getMaterno() + " " + e.getNombre());
         }
     }
 }

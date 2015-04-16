@@ -5,9 +5,8 @@
  */
 package controladores;
 
-import entidades.AsignacionHorario;
 import entidades.AsignacionPermiso;
-import entidades.Empleado;
+import entidades.escalafon.Empleado;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -41,19 +40,19 @@ public class AsignacionPermisoControlador extends Controlador<AsignacionPermiso>
     }
 
     //Query para comprobacion de permisos en rango de fecha
-    public List<AsignacionPermiso> buscarXFechaDni(String dni,Date fechaInicio){
+    public List<AsignacionPermiso> buscarXFechaDni(Empleado empleado,Date fechaInicio){
         String jpl = "SELECT a FROM AsignacionPermiso a WHERE a.empleado = :dni AND :fechaInicio BETWEEN a.permiso.fechaInicio and a.permiso.fechaFin ";
         Map<String, Object> mapa = new HashMap<>();
-        mapa.put("dni", dni);
+        mapa.put("dni", empleado);
         mapa.put("fechaInicio", fechaInicio);
         return this.getDao().buscar(jpl, mapa);
     }
     
     //Query para comprobacion de permisos en rango de hora
-    public List<AsignacionPermiso> buscarXHora(String dni, Date horaInicio){
+    public List<AsignacionPermiso> buscarXHora(Empleado empleado, Date horaInicio){
         String jpl = "SELECT a FROM AsignacionPermiso a WHERE a.empleado = :dni AND :horaInicio BETWEEN a.permiso.horaInicio and a.permiso.horaFin ";
         Map<String, Object> mapa = new HashMap<>();
-        mapa.put("dni", dni);
+        mapa.put("dni", empleado);
         mapa.put("horaInicio", horaInicio);
         return this.getDao().buscar(jpl, mapa);
     }

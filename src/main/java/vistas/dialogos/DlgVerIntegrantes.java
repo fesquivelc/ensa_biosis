@@ -7,10 +7,9 @@ package vistas.dialogos;
 
 import controladores.DetalleGrupoControlador;
 import controladores.EmpleadoControlador;
-import entidades.AsignacionHorario;
 import entidades.DetalleGrupoHorario;
-import entidades.Empleado;
 import entidades.GrupoHorario;
+import entidades.escalafon.Empleado;
 import vistas.modelos.MTEmpleado;
 import java.util.ArrayList;
 import java.util.List;
@@ -94,14 +93,13 @@ public class DlgVerIntegrantes extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void bindeoSalvaje() {
-        List<String> empleadosDNI = this.dnis(this.ahc.buscarXGrupo(grupoSeleccionado));
-        List<Empleado> empleados = ec.buscarPorLista(empleadosDNI);
+        List<Empleado> empleados = this.dnis(this.ahc.buscarXGrupo(grupoSeleccionado));
         MTEmpleado mt = new MTEmpleado(empleados);
         tblTabla.setModel(mt);
     }
 
-    private List<String> dnis(List<DetalleGrupoHorario> asignaciones) {
-        List<String> listado = new ArrayList<>();
+    private List<Empleado> dnis(List<DetalleGrupoHorario> asignaciones) {
+        List<Empleado> listado = new ArrayList<>();
         for (DetalleGrupoHorario asignacion : asignaciones) {
             listado.add(asignacion.getEmpleado());
         }
