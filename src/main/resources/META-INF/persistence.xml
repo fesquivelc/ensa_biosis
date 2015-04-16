@@ -2,27 +2,41 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="biosis-PU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <class>entidades.Horario</class>
-    <class>entidades.SaldoVacacional</class>
     <class>entidades.Acceso</class>
-    <class>entidades.Periodo</class>
-    <class>entidades.TCSistema</class>
-    <class>entidades.AsignacionPermiso</class>
-    <class>entidades.RegistroAsistencia</class>
-    <class>entidades.GrupoHorario</class>
-    <class>entidades.Usuario</class>
     <class>entidades.AsignacionHorario</class>
-    <class>entidades.RolAcceso</class>
-    <class>entidades.Feriado</class>
-    <class>entidades.Rol</class>
-    <class>entidades.DetalleRegistroAsistencia</class>
-    <class>entidades.TipoPermiso</class>
-    <class>entidades.Vacacion</class>
-    <class>entidades.TCAnalisis</class>
-    <class>entidades.DetalleGrupoHorario</class>
-    <class>entidades.Permiso</class>
+    <class>entidades.AsignacionPermiso</class>
     <class>entidades.Bitacora</class>
+    <class>entidades.DetalleGrupoHorario</class>
+    <class>entidades.DetalleRegistroAsistencia</class>
+    <class>entidades.Feriado</class>
+    <class>entidades.GrupoHorario</class>
+    <class>entidades.Horario</class>
     <class>entidades.Jornada</class>
+    <class>entidades.Marcacion</class>
+    <class>entidades.Periodo</class>
+    <class>entidades.Permiso</class>
+    <class>entidades.RegistroAsistencia</class>
+    <class>entidades.Rol</class>
+    <class>entidades.RolAcceso</class>
+    <class>entidades.SaldoVacacional</class>
+    <class>entidades.TCAnalisis</class>
+    <class>entidades.TCSistema</class>
+    <class>entidades.TipoPermiso</class>
+    <class>entidades.Usuario</class>
+    <class>entidades.Vacacion</class>
+    <class>entidades.escalafon.Area</class>
+    <class>entidades.escalafon.Empleado</class>
+    <class>entidades.escalafon.FichaGeneral</class>
+    <class>entidades.escalafon.FichaLaboral</class>
+    <class>entidades.escalafon.Nacionalidad</class>
+    <class>entidades.escalafon.NivelEducativo</class>
+    <class>entidades.escalafon.RegimenLaboral</class>
+    <class>entidades.escalafon.SituacionTrabajador</class>
+    <class>entidades.escalafon.TipoContrato</class>
+    <class>entidades.escalafon.TipoDocumento</class>
+    <class>entidades.escalafon.TipoVia</class>
+    <class>entidades.escalafon.TipoZona</class>
+    <class>entidades.escalafon.Ubigeo</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://127.0.0.1\JUPITER:49417;databaseName=db_biosis;sendTimeAsDateTime=false"/>
       <property name="javax.persistence.jdbc.password" value="asistencia"/>
@@ -32,6 +46,7 @@
       <property name="hibernate.show_sql" value="false"/>
     </properties>
   </persistence-unit>
+  <!--
   <persistence-unit name="rrhh-PU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>entidades.Empleado</class>
@@ -52,4 +67,5 @@
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
     </properties>
   </persistence-unit>
+  -->
 </persistence>

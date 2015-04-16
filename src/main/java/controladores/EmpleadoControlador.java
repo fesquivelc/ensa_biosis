@@ -5,7 +5,6 @@
  */
 package controladores;
 
-import dao.DAOMINEDU;
 import entidades.escalafon.Empleado;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +17,7 @@ import java.util.Map;
 public class EmpleadoControlador extends Controlador<Empleado> {
 
     public EmpleadoControlador() {
-        super(Empleado.class, new DAOMINEDU(Empleado.class));
+        super(Empleado.class);
     }
 
     public List<Empleado> buscarXPatron(String patron) {

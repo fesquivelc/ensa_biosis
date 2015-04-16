@@ -7,8 +7,6 @@ package vistas.dialogos;
 
 import controladores.UsuarioControlador;
 import dao.DAO;
-import dao.DAOBIOSTAR;
-import dao.DAOMINEDU;
 import entidades.Marcacion;
 import entidades.Usuario;
 import vistas.Principal;
@@ -306,22 +304,6 @@ public class DlgLogin extends javax.swing.JDialog {
             LOG.error(e.getMessage());
             error ++;
             mensaje += "LA CONEXION CON LA BD BIOSIS FALLA\n";
-        }
-        try {
-            DAOBIOSTAR dao2 = new DAOBIOSTAR(Marcacion.class);
-            dao2.getEntityManager();
-        } catch (Exception e) {
-            LOG.error(e.getMessage());
-            error++;
-            mensaje += "LA CONEXION CON LA BD BIOSTAR FALLA\n";
-        }
-        try {
-            DAOMINEDU dao3 = new DAOMINEDU(Empleado.class);
-            dao3.getEntityManager();
-        } catch (Exception e) {
-            LOG.error(e.getMessage());
-            error++;
-            mensaje += "LA CONEXION CON LA BD DE RRHH FALLA";
         }
         
         if(error > 0){

@@ -6,8 +6,6 @@
 package vistas;
 
 import dao.DAO;
-import dao.DAOBIOSTAR;
-import dao.DAOMINEDU;
 import entidades.Marcacion;
 import entidades.RolAcceso;
 import entidades.Usuario;
@@ -63,7 +61,6 @@ public class Principal extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-       iniciar();
     }
 
     /**
@@ -613,13 +610,6 @@ public class Principal extends javax.swing.JFrame {
             internal.setLocation((desktopSize.width - jInternalFrameSize.width) / 2,
                     (desktopSize.height - jInternalFrameSize.height) / 2);
         }
-    }
-    DAO dao;
-    DAOMINEDU dao3;
-
-    private void iniciar() {
-        DAOBIOSTAR dao2 = new DAOBIOSTAR(Marcacion.class);
-        dao2.getEntityManager();
     }
 
     private void empleados() {

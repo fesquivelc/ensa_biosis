@@ -5,7 +5,6 @@
  */
 package controladores;
 
-import dao.DAOBIOSTAR;
 import entidades.escalafon.Area;
 import entidades.Marcacion;
 import java.util.Date;
@@ -21,7 +20,7 @@ import org.apache.log4j.Logger;
 public class DepartamentoControlador extends Controlador<Area> {
 
     public DepartamentoControlador() {
-        super(Area.class, new DAOBIOSTAR(Area.class));
+        super(Area.class);
     }
 
     public List<Area> buscarXNombre(String patron){

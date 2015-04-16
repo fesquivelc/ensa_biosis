@@ -14,7 +14,6 @@ import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
 import controladores.MarcacionControlador;
 import entidades.escalafon.Area;
-import entidades.EmpleadoBiostar;
 import entidades.escalafon.Empleado;
 import entidades.escalafon.FichaLaboral;
 import java.awt.Component;

@@ -18,7 +18,6 @@ import vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
 import entidades.escalafon.Area;
-import entidades.EmpleadoBiostar;
 import entidades.escalafon.Empleado;
 import entidades.escalafon.FichaLaboral;
 import java.awt.Component;
@@ -702,14 +701,6 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         }
 
         return lista;
-    }
-    
-    private List<Integer> dniInteger(List<EmpleadoBiostar> empleados) {
-        List<Integer> dni = new ArrayList<>();
-        for (EmpleadoBiostar e : empleados) {
-            dni.add(e.getId());
-        }
-        return dni;
     }
 
     public void agregarEmpleado(Empleado empleado) {

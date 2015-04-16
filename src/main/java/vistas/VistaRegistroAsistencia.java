@@ -23,7 +23,6 @@ import controladores.EmpleadoControlador;
 import controladores.TCAnalisisControlador;
 import controladores.TCSistemaControlador;
 import entidades.escalafon.Area;
-import entidades.EmpleadoBiostar;
 import entidades.TCSistema;
 import entidades.escalafon.Empleado;
 import entidades.escalafon.FichaLaboral;
@@ -659,13 +658,6 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         return lista;
     }
     private final EmpleadoControlador ec = new EmpleadoControlador();
-    private List<Integer> dniInteger(List<EmpleadoBiostar> empleados) {
-        List<Integer> dni = new ArrayList<>();
-        for (EmpleadoBiostar e : empleados) {
-            dni.add(e.getId());
-        }
-        return dni;
-    }
 
     private void buscar() {
         Date fechaInicio = (Date) spFechaInicio.getValue();
