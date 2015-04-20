@@ -33,6 +33,7 @@ import com.personal.utiles.FechaUtil;
 import controladores.Controlador;
 import controladores.PermisoControlador;
 import controladores.TipoPermisoControlador;
+import entidades.Turno;
 import entidades.escalafon.Empleado;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -124,8 +125,11 @@ public class AnalisisAsistencia {
 
             //ANALIZAMOS POR HORARIO
             for (Horario horario : horarios) {
+                if(horario.getTipo() == 'A'){
+                    registros.addAll(analizarHorario(empleado, horario, partida, llegada));
+                }
 
-                registros.addAll(analizarHorario(empleado, horario, partida, llegada));
+                
             }
             if (!registros.isEmpty()) {
                 this.rac.guardarLote(registros);
@@ -214,14 +218,14 @@ public class AnalisisAsistencia {
                 registro.setEmpleado(empleado);
                 registro.setHorario(horario);
 
-                AsignacionPermiso permisoXFecha = this.apc.buscarXDia(empleado.getNroDocumento(), fInicio);
+                AsignacionPermiso permisoXFecha = this.apc.buscarXDia(empleado, fInicio);
 
                 if (permisoXFecha != null) {
                     //SE GUARDA EL REGISTRO COMO UN PERMISO
                     registro.setPermiso(permisoXFecha.getPermiso());
                     registro.setTipoAsistencia('P');
                 } else {
-                    Vacacion vacacion = this.vc.buscarXDia(empleado.getNroDocumento(), fInicio);
+                    Vacacion vacacion = this.vc.buscarXDia(empleado, fInicio);
 
                     if (vacacion != null) {
                         //SE GUARDA EL REGISTRO COMO VACACION
@@ -229,7 +233,8 @@ public class AnalisisAsistencia {
                         registro.setTipoAsistencia('V');
 
                     } else {
-                        boolean diaLaboral = isDiaLaboral(fInicio, horario);
+                        
+                        boolean diaLaboral = isDiaLaboral(fInicio, horario.getTurnoList().get(0));
                         if (diaLaboral) {
                             //TOMAMOS EN CUENTA QUE SEA FERIADO
                             Feriado feriado = this.fc.buscarXDia(fInicio);
@@ -245,7 +250,7 @@ public class AnalisisAsistencia {
                                     registro.setTipoAsistencia('P');
                                 } else {
                                     //SE PROCEDE AL ANALISIS DE LA JORNADA
-                                    registro = analizarJornada2(empleado, horario.getJornada(), fInicio, hInicio, fInicio, fFin, hFin);
+                                    registro = analizarJornada2(empleado, horario.getTurnoList().get(0).getJornada(), fInicio, hInicio, fInicio, fFin, hFin);
                                     if (registro != null) {
                                         registro.setHorario(horario);
                                     }
@@ -281,26 +286,26 @@ public class AnalisisAsistencia {
         return registros;
     }
 
-    private boolean isDiaLaboral(Date fInicio, Horario horario) {
+    private boolean isDiaLaboral(Date fInicio, Turno turno) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(fInicio);
         int nDia = cal.get(Calendar.DAY_OF_WEEK);
         //LOS DIAS VAN DESDE EL 1 AL 7 Y CUENTAN DESDE DOMINGO A SABADO
         switch (nDia) {
             case 1:
-                return horario.isDomingo();
+                return turno.isDomingo();
             case 2:
-                return horario.isLunes();
+                return turno.isLunes();
             case 3:
-                return horario.isMartes();
+                return turno.isMartes();
             case 4:
-                return horario.isMiercoles();
+                return turno.isMiercoles();
             case 5:
-                return horario.isJueves();
+                return turno.isJueves();
             case 6:
-                return horario.isViernes();
+                return turno.isViernes();
             case 7:
-                return horario.isSabado();
+                return turno.isSabado();
             default:
                 return false;
         }
@@ -353,7 +358,7 @@ public class AnalisisAsistencia {
             //ANALIZAMOS PERMISOS
 
 //            System.out.println("PERMISO - EMPLEADO, FECHA, HI, HF: "+empleado.getNroDocumento()+" - "+fecha+" - "+jornada.getTurnoHE()+" - "+jornada.getTurnoHS());
-            List<AsignacionPermiso> asignacionesPermiso = this.apc.obtenerPermisosXHora(empleado.getNroDocumento(), fecha, jornada.getTurnoHE(), jornada.getTurnoHS());
+            List<AsignacionPermiso> asignacionesPermiso = this.apc.obtenerPermisosXHora(empleado, fecha, jornada.getTurnoHE(), jornada.getTurnoHS());
 
 //            System.out.println("PERMISOS: "+asignacionesPermiso.size());
             BigDecimal tardanzaPermisos = BigDecimal.ZERO;

@@ -6,7 +6,7 @@
 package vistas.dialogos;
 
 import controladores.DepartamentoControlador;
-import entidades.escalafon.Area;
+import entidades.escalafon.Departamento;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +29,12 @@ public class DlgOficina extends javax.swing.JDialog {
      * Creates new form DlgOficina
      * @param padre
      */
-    private Area departamentoSeleccionado;
+    private Departamento departamentoSeleccionado;
     
     public DlgOficina(JInternalFrame padre) {
         super(JOptionPane.getFrameForComponent(padre), true);
         initComponents();
-        departamentoList = ObservableCollections.observableList(new ArrayList<Area>());
+        departamentoList = ObservableCollections.observableList(new ArrayList<Departamento>());
         bindeoSalvaje();
         buscar();
         this.setLocationRelativeTo(padre);
@@ -152,7 +152,7 @@ public class DlgOficina extends javax.swing.JDialog {
         }
     }
 
-    private final List<Area> departamentoList;
+    private final List<Departamento> departamentoList;
     private final DepartamentoControlador dc = new DepartamentoControlador();
     
     private void buscar() {
@@ -172,7 +172,7 @@ public class DlgOficina extends javax.swing.JDialog {
         bindeo.bind();
     }
     
-    public Area getSeleccionado(){
+    public Departamento getSeleccionado(){
         this.setVisible(true);
         return this.departamentoSeleccionado;
     }

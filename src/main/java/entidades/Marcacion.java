@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,9 +18,9 @@ import javax.persistence.TemporalType;
 @Table(name="v_marcaciones",schema = "biostar")
 public class Marcacion implements Serializable {
 
-    @Column(name="empleado_nombre")
-    @Basic
-    private String nombre;
+//    @Column(name="empleado_nombre")
+//    @Basic
+//    private String nombre;
     @Column(name="equipo_ip",nullable=false)
     @Basic
     private String equipo;
@@ -33,7 +34,7 @@ public class Marcacion implements Serializable {
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fecha;
-    @ManyToOne(targetEntity = Empleado.class)
+    @ManyToOne(targetEntity = Empleado.class,fetch = FetchType.EAGER)
     @JoinColumn(name = "empleado_nro_documento",referencedColumnName = "nro_documento")
     private Empleado empleado;
 
@@ -41,13 +42,13 @@ public class Marcacion implements Serializable {
 
     }
    
-    public String getNombre() {
-        return this.nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+//    public String getNombre() {
+//        return this.nombre;
+//    }
+//
+//    public void setNombre(String nombre) {
+//        this.nombre = nombre;
+//    }
    
     public String getEquipo() {
         return this.equipo;

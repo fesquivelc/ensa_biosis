@@ -17,7 +17,7 @@ import entidades.SaldoVacacional;
 import vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
-import entidades.escalafon.Area;
+import entidades.escalafon.Departamento;
 import entidades.escalafon.Empleado;
 import entidades.escalafon.FichaLaboral;
 import java.awt.Component;
@@ -290,7 +290,7 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         controles();
     }//GEN-LAST:event_radOficinaActionPerformed
 
-    private Area oficinaSeleccionada;
+    private Departamento oficinaSeleccionada;
     private void btnOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOficinaActionPerformed
         // TODO add your handling code here:
         DlgOficina oficinas = new DlgOficina(this);

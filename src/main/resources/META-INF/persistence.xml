@@ -24,7 +24,6 @@
     <class>entidades.TipoPermiso</class>
     <class>entidades.Usuario</class>
     <class>entidades.Vacacion</class>
-    <class>entidades.escalafon.Area</class>
     <class>entidades.escalafon.Empleado</class>
     <class>entidades.escalafon.FichaGeneral</class>
     <class>entidades.escalafon.FichaLaboral</class>
@@ -37,6 +36,10 @@
     <class>entidades.escalafon.TipoVia</class>
     <class>entidades.escalafon.TipoZona</class>
     <class>entidades.escalafon.Ubigeo</class>
+    <class>entidades.CambioTurno</class>
+    <class>entidades.CompraVacacion</class>
+    <class>entidades.Turno</class>
+    <class>entidades.escalafon.Departamento</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://127.0.0.1\JUPITER:49417;databaseName=db_biosis;sendTimeAsDateTime=false"/>
       <property name="javax.persistence.jdbc.password" value="asistencia"/>
@@ -44,6 +47,7 @@
       <property name="javax.persistence.jdbc.user" value="usuarioAsistencia"/>
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
       <property name="hibernate.show_sql" value="false"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
   <!--

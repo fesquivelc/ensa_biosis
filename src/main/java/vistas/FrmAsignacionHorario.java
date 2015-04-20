@@ -559,7 +559,7 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
         if (porGrupo) {
             cboGrupo.setSelectedItem(asignacion.getGrupoHorario());
         } else {
-            Empleado e = ec.buscarPorId(asignacion.getEmpleado());
+            Empleado e = asignacion.getEmpleado();
             txtEmpleado.setText(e.getPaterno() + " " + e.getMaterno() + " " + e.getNombre());
         }
     }

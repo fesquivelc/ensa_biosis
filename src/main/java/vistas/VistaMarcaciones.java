@@ -13,7 +13,7 @@ import vistas.modelos.MTMarcacion;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
 import controladores.EmpleadoControlador;
-import entidades.escalafon.Area;
+import entidades.escalafon.Departamento;
 import entidades.escalafon.Empleado;
 import entidades.escalafon.FichaLaboral;
 import java.io.File;
@@ -26,10 +26,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.jdesktop.observablecollections.ObservableCollections;
 import utiles.UsuarioActivo;
 import vistas.dialogos.DlgOficina;
@@ -45,6 +45,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
      */
     private List<Marcacion> lista;
     private MarcacionControlador mc;
+    private static final Logger LOG = Logger.getLogger(VistaMarcaciones.class.getName());
 
     public VistaMarcaciones() {
         initComponents();
@@ -473,12 +474,12 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         DlgOficina ofis = new DlgOficina(this);
         oficinaSeleccionada = ofis.getSeleccionado();
-        if(oficinaSeleccionada != null){
+        if (oficinaSeleccionada != null) {
             txtOficina.setText(oficinaSeleccionada.getNombre());
         }
     }//GEN-LAST:event_btnOficinaActionPerformed
 
-    private Area oficinaSeleccionada;
+    private Departamento oficinaSeleccionada;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnBuscar;
@@ -512,7 +513,8 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     private Empleado empleadoSeleccionado;
-    private Area departamentoSeleccionado;
+    private Departamento departamentoSeleccionado;
+
     private void bindeoSalvaje() {
         lista = ObservableCollections.observableList(new ArrayList<Marcacion>());
 
@@ -555,25 +557,34 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
 
         lista.clear();
 
-        lista.addAll(this.listar(this.obtenerDNIEntero(), fechaInicio, fechaFin, paginaActual, tamanioPagina));
+        List<Empleado> empleados = this.obtenerDNIEntero();
+        if (!empleados.isEmpty()) {
+            List<Marcacion> listado = this.listar(empleados, fechaInicio, fechaFin, paginaActual, tamanioPagina);
+            if (!listado.isEmpty()) {
+                lista.addAll(listado);
 
-        tblEmpleado.packAll();
+                tblEmpleado.packAll();
+            }
+        }
+
     }
 
     private List<Marcacion> listar(List<Empleado> empleados, Date fechaInicio, Date fechaFin, int pagina, int tamanio) {
         int total;
         if ((empleadoSeleccionado == null && radEmpleado.isSelected()) || (oficinaSeleccionada == null && radOficina.isSelected())) {
-            if(radFechas.isSelected()){
+            if (radFechas.isSelected()) {
                 total = mc.totalXFecha(fechaInicio, fechaFin);
-            }else{
-                total = mc.totalXFechaXHora(fechaInicio, (Date) spHoraInicio.getValue(),(Date) spHoraFin.getValue());
+            } else {
+                total = mc.totalXFechaXHora(fechaInicio, (Date) spHoraInicio.getValue(), (Date) spHoraFin.getValue());
             }
-            
+
         } else {
-            if(radFechas.isSelected()){
-                total = mc.totalXFecha(empleados,fechaInicio, fechaFin);
-            }else{
-                total = mc.totalXFechaXHora(empleados,fechaInicio, (Date) spHoraInicio.getValue(),(Date) spHoraFin.getValue());
+            if (radFechas.isSelected()) {
+                LOG.info("--> TOTAL X FECHA 1");
+                total = mc.totalXFecha(empleados, fechaInicio, fechaFin);
+            } else {
+                LOG.info("--> TOTAL X FECHA 2");
+                total = mc.totalXFechaXHora(empleados, fechaInicio, (Date) spHoraInicio.getValue(), (Date) spHoraFin.getValue());
             }
 //            total = mc.totalXEmpleadoXFecha(empleados, fechaInicio, fechaFin);
         }
@@ -596,27 +607,29 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
 
         } else {
             if (radFechas.isSelected()) {
+                LOG.info("--> buscarXFecha 1");
                 return this.mc.buscarXFecha(empleados, fechaInicio, fechaFin, (pagina - 1) * tamanio, tamanio);
             } else {
+                LOG.info("--> buscarXFecha 2");
                 return this.mc.buscarXFechaXHora(empleados, fechaInicio, (Date) spHoraInicio.getValue(), (Date) spHoraFin.getValue(), (pagina - 1) * tamanio, tamanio);
             }
 
         }
 
     }
-    
-    private List<Empleado> obtenerDNIEntero(){
-        List<Empleado> dnisEnteros = new ArrayList<>();
-        if(radEmpleado.isSelected() && empleadoSeleccionado != null){
-            
-            dnisEnteros.add(empleadoSeleccionado);
-        }else if(radOficina.isSelected() && oficinaSeleccionada != null){
+
+    private List<Empleado> obtenerDNIEntero() {
+        List<Empleado> listado = new ArrayList<>();
+        if (radEmpleado.isSelected() && empleadoSeleccionado != null) {
+
+            listado.add(empleadoSeleccionado);
+        } else if (radOficina.isSelected() && oficinaSeleccionada != null) {
             List<FichaLaboral> fichas = oficinaSeleccionada.getFichaLaboralList();
-            for(FichaLaboral f : fichas){
-                dnisEnteros.add(f.getEmpleado());
+            for (FichaLaboral f : fichas) {
+                listado.add(f.getEmpleado());
             }
         }
-        return dnisEnteros;
+        return listado;
     }
 
     private void siguiente() {
@@ -705,7 +718,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
                 try {
                     fichero.createNewFile();
                 } catch (IOException ex) {
-                    Logger.getLogger(VistaMarcaciones.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(VistaMarcaciones.class.getName()).log(Level.WARN, null, ex);
                 }
             }
 
@@ -726,19 +739,19 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
                 }
             }
             String[] linea = new String[5];
-            
-            for(Marcacion m : listado){
-                linea[0] = m.getNombre();
+
+            for (Marcacion m : listado) {
+                linea[0] = String.format("%s %s %s", m.getEmpleado().getPaterno(), m.getEmpleado().getMaterno(), m.getEmpleado().getNombre()) ;
                 linea[1] = dfFecha.format(m.getFecha());
                 linea[2] = dfHora.format(m.getHora());
                 linea[3] = m.getEquipo();
-                
+
                 writer.writeNext(linea, true);
             }
             writer.close();
-            
+
         } catch (IOException ex) {
-            Logger.getLogger(VistaMarcaciones.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VistaMarcaciones.class.getName()).log(Level.WARN, null, ex);
         }
     }
 

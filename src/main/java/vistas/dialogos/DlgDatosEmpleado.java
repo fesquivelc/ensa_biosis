@@ -11,6 +11,7 @@ import java.util.Date;
 import javax.swing.JDialog;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import org.apache.commons.beanutils.BeanUtils;
 
 /**
  *
@@ -370,6 +371,7 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
         txtRegimenLaboral.setText(empleado.getFichaLaboral().getRegimenLaboral().getNombre());
         dtFechaContrato.setDate(empleado.getFichaLaboral().getFechaInicio());
         txtCodigoModular.setText(empleado.getFichaLaboral().getCodigoTrabajador());
+        txtArea.setText(empleado.getFichaLaboral().getArea() == null ? "" : empleado.getFichaLaboral().getArea().getNombre());
         
     }
 }

@@ -8,6 +8,7 @@ package vistas.modelos;
 import controladores.EmpleadoControlador;
 import entidades.Marcacion;
 import com.personal.utiles.ModeloTabla;
+import entidades.escalafon.Empleado;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -20,43 +21,30 @@ public class MTMarcacion extends ModeloTabla<Marcacion> {
 
     private final DateFormat dtFecha;
     private final DateFormat dtHora;
-    private final EmpleadoControlador ec;
     
     public MTMarcacion(List<Marcacion> datos) {
         super(datos);
         this.nombreColumnas = new String[]{"Nro de documento", "Empleado", "Fecha", "Hora", "Ip de Equipo"};
         dtFecha = new SimpleDateFormat("dd/MM/yyyy");
         dtHora = new SimpleDateFormat("HH:mm:ss");
-        ec = new EmpleadoControlador();
     }
 
     public MTMarcacion(List<Marcacion> datos, String[] nombreColumnas) {
         super(datos, nombreColumnas);
         dtFecha = new SimpleDateFormat("dd/MM/yyyy");
         dtHora = new SimpleDateFormat("HH:mm:ss");
-        ec = new EmpleadoControlador();
     }
 
     @Override
     public Object getValorEn(int rowIndex, int columnIndex) {
         Marcacion marcacion = this.datos.get(rowIndex);
 //        Empleado e = ec.buscarPorId(marcacion.getEmpleado());
+        Empleado empleado = marcacion.getEmpleado();
         switch (columnIndex) {
             case 0:
-//                if (e != null) {
-//                    return e.getNroDocumento();
-//                } else {
-//                    return marcacion.getEmpleado();
-//                }
-                return marcacion.getEmpleado();
-
+                return empleado.getFichaLaboral().getCodigoTrabajador();
             case 1:
-//                if (e != null) {
-//                    return e.getApellidoPaterno() + " " + e.getApellidoMaterno() + " " + e.getNombre();
-//                } else {
-//                    return null;
-//                }
-                return marcacion.getNombre();
+                return String.format("%s %s %s", empleado.getPaterno(),empleado.getMaterno(),empleado.getNombre());
             case 2:
                 return dtFecha.format(marcacion.getFecha());
             case 3:

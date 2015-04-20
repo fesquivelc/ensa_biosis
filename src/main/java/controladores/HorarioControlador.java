@@ -6,6 +6,8 @@
 package controladores;
 
 import entidades.Horario;
+import entidades.Turno;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,6 +17,12 @@ public class HorarioControlador extends Controlador<Horario>{
 
     public HorarioControlador() {
         super(Horario.class);
+    }
+
+    @Override
+    public void prepararCrear() {
+        super.prepararCrear(); //To change body of generated methods, choose Tools | Templates.
+        this.getSeleccionado().setTurnoList(new ArrayList<Turno>());
     }
     
 }

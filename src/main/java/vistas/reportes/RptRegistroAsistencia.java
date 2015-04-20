@@ -13,7 +13,7 @@ import vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
 import controladores.MarcacionControlador;
-import entidades.escalafon.Area;
+import entidades.escalafon.Departamento;
 import entidades.escalafon.Empleado;
 import entidades.escalafon.FichaLaboral;
 import java.awt.Component;
@@ -435,7 +435,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnQuitarActionPerformed
 
-    private Area oficinaSeleccionada;
+    private Departamento oficinaSeleccionada;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
@@ -574,7 +574,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         if (radConsolidado.isSelected()) {
             reporte = "reportes/r_registro_asistencia_consolidado.jasper";
         } else if (radDetallado.isSelected()) {
-            reporte = "reportes/r_registro_asistencia_grupo_3.jasper";
+            reporte = "reportes/r_registro_asistencia_detallado_ensa.jasper";
         }
 
         int anio;
@@ -616,8 +616,8 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         parametros.put("rangoTitulo", rangoTitulo);
         parametros.put("rangoValor", rangoValor);
         parametros.put("mostrar_he", chkHFH.isSelected());
-        parametros.put("CONEXION_SUP", ec.getDao().getConexion());
-        parametros.put("CONEXION_BIOSTAR", mc.getDao().getConexion());
+//        parametros.put("CONEXION_SUP", ec.getDao().getConexion());
+//        parametros.put("CONEXION_BIOSTAR", mc.getDao().getConexion());
         
 
         reporteador.setConn(pc.getDao().getConexion());

@@ -16,11 +16,9 @@ import java.util.List;
  * @author fesquivelc
  */
 public class MTAsignacion extends ModeloTabla<AsignacionHorario>{
-    private EmpleadoControlador ec;
 
     public MTAsignacion(List<AsignacionHorario> datos, String[] nombreColumnas) {
         super(datos, nombreColumnas);
-        ec = new EmpleadoControlador();
     }
 
     @Override
@@ -29,28 +27,14 @@ public class MTAsignacion extends ModeloTabla<AsignacionHorario>{
         
         switch(columnIndex){
             case 0:
-                return seleccion.getHorario().getNombre();
-            case 1:
-                return seleccion.getHorario().getJornada().getNombre();
+                return seleccion.getHorario().getCodigo();
             case 2:
-                return seleccion.getHorario().isLunes();
+                return seleccion.getHorario().getNombre();
             case 3:
-                return seleccion.getHorario().isMartes();
-            case 4:
-                return seleccion.getHorario().isMiercoles();
-            case 5:
-                return seleccion.getHorario().isJueves();
-            case 6:
-                return seleccion.getHorario().isViernes();
-            case 7:
-                return seleccion.getHorario().isSabado();
-            case 8:
-                return seleccion.getHorario().isDomingo();
-            case 9:
                 if(seleccion.isPorGrupo()){
                     return seleccion.getGrupoHorario().getNombre();                    
                 }else{
-                    Empleado empleado = ec.buscarPorId(seleccion.getEmpleado());
+                    Empleado empleado = seleccion.getEmpleado();
                     if(empleado != null){
                         return empleado.getPaterno() + " " + empleado.getMaterno() + " " + empleado.getNombre();
                     }

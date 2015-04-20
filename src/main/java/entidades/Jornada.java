@@ -15,8 +15,11 @@ import javax.persistence.TemporalType;
 @Entity
 public class Jornada implements Serializable {
 
-    @OneToMany(fetch = FetchType.LAZY,targetEntity = Horario.class,mappedBy = "jornada")
-    private List<Horario> horarioList;
+//    @OneToMany(fetch = FetchType.LAZY,targetEntity = Horario.class,mappedBy = "jornada")
+//    private List<Horario> horarioList;
+    
+    @Column(name= "termina_dia_siguiente")
+    private boolean terminaDiaSiguiente;
     @Column(name="tardanza_turno_he",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Temporal(TemporalType.TIME)
     @Basic
@@ -24,7 +27,7 @@ public class Jornada implements Serializable {
     @Column(name="minutos_refrigerio",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private int minRefrigerio;
-    @Column(name="refrigerio_hs",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
+    @Column(name="refrigerio_hs",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Temporal(TemporalType.TIME)
     @Basic
     private Date refrigerioHS;
@@ -38,7 +41,7 @@ public class Jornada implements Serializable {
     @Column(unique=false,updatable=true,insertable=true,nullable=false,length=45,scale=0,precision=0)
     @Id
     private String codigo;
-    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Temporal(TemporalType.TIME)
     @Basic
     private Date refrigerioHE;
@@ -61,17 +64,28 @@ public class Jornada implements Serializable {
     @Temporal(TemporalType.TIME)
     @Basic
     private Date toleranciaRefrigerioHE;
+    //PERMITE DEFINIR SI ES UNA JORNADA ADMINISTRATIVA O TECNICA
+    @Column(name = "tipo")
+    private char tipo;
+
+    public boolean isTerminaDiaSiguiente() {
+        return terminaDiaSiguiente;
+    }
+
+    public void setTerminaDiaSiguiente(boolean terminaDiaSiguiente) {
+        this.terminaDiaSiguiente = terminaDiaSiguiente;
+    }
 
     public Jornada() {
 
     }
-   
-    public List<Horario> getHorarioList() {
-        return this.horarioList;
+
+    public char getTipo() {
+        return tipo;
     }
 
-    public void setHorarioList(List<Horario> horarioList) {
-        this.horarioList = horarioList;
+    public void setTipo(char tipo) {
+        this.tipo = tipo;
     }
    
     public Date getTardanzaHE() {

@@ -7,6 +7,7 @@ package vistas.modelos;
 
 import entidades.Horario;
 import com.personal.utiles.ModeloTabla;
+import entidades.Turno;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -27,32 +28,38 @@ public class MTHorarioRA extends ModeloTabla<Horario>{
     @Override
     public Object getValorEn(int rowIndex, int columnIndex) {
         Horario horario = this.datos.get(rowIndex);
-        switch(columnIndex){
+        if(horario.getTipo() == 'A'){
+            Turno turno = horario.getTurnoList().get(0);
+            switch(columnIndex){
             case 0:
-                return dfHora.format(horario.getJornada().getTurnoHE());
+                return dfHora.format(turno.getJornada().getTurnoHE());
             case 1:
-                return dfHora.format(horario.getJornada().getRefrigerioHS());
+                return dfHora.format(turno.getJornada().getRefrigerioHS());
             case 2:
-                return dfHora.format(horario.getJornada().getRefrigerioHE());
+                return dfHora.format(turno.getJornada().getRefrigerioHE());
             case 3:
-                return dfHora.format(horario.getJornada().getTurnoHS());
+                return dfHora.format(turno.getJornada().getTurnoHS());
             case 4:
-                return horario.isLunes();
+                return turno.isLunes();
             case 5:
-                return horario.isMartes();
+                return turno.isMartes();
             case 6:
-                return horario.isMiercoles();
+                return turno.isMiercoles();
             case 7:
-                return horario.isJueves();
+                return turno.isJueves();
             case 8:
-                return horario.isViernes();
+                return turno.isViernes();
             case 9:
-                return horario.isSabado();
+                return turno.isSabado();
             case 10:
-                return horario.isDomingo();
+                return turno.isDomingo();
             default:
                 return null;
         }
+        }else{
+            return null;
+        }
+        
     }
 
     @Override

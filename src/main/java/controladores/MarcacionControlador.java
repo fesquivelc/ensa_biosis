@@ -7,6 +7,7 @@ package controladores;
 
 import entidades.Marcacion;
 import entidades.escalafon.Empleado;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +36,7 @@ public class MarcacionControlador extends Controlador<Marcacion> {
 
     public List<Marcacion> buscarXFecha(Empleado empleado, Date fechaInicio, Date fechaFin, int desde, int tamanio) {
         String jpql = "SELECT m FROM Marcacion m WHERE m.empleado = :dni AND m.fecha BETWEEN :fechaInicio AND :fechaFin "
-                + "ORDER BY m.nombre,m.fecha,m.hora";
+                + "ORDER BY m.empleado.paterno,m.empleado.materno,m.empleado.nombre,m.fecha,m.hora";
         LOG.error("DOCUMENTO: " + empleado);
         Map<String, Object> mapa = new HashMap<>();
 
@@ -72,7 +73,7 @@ public class MarcacionControlador extends Controlador<Marcacion> {
 
     public List<Marcacion> buscarXFecha(Date fechaInicio, Date fechaFin, int desde, int tamanio) {
         String jpql = "SELECT m FROM Marcacion m WHERE m.fecha BETWEEN :fechaInicio AND :fechaFin "
-                + "ORDER BY m.nombre,m.fecha,m.hora";
+                + "ORDER BY m.empleado.paterno,m.empleado.materno,m.empleado.nombre,m.fecha,m.hora";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("fechaInicio", fechaInicio);
         mapa.put("fechaFin", fechaFin);
@@ -82,7 +83,7 @@ public class MarcacionControlador extends Controlador<Marcacion> {
 
     public List<Marcacion> buscarXFechaXHora(Date fechaInicio, Date horaInicio, Date horaFin, int desde, int tamanio) {
         String jpql = "SELECT m FROM Marcacion m WHERE m.fecha = :fechaInicio AND m.hora BETWEEN :horaInicio AND :horaFin "
-                + "ORDER BY m.nombre,m.fecha,m.hora";
+                + "ORDER BY m.empleado.paterno,m.empleado.materno,m.empleado.nombre,m.fecha,m.hora";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("fechaInicio", fechaInicio);
         mapa.put("horaInicio", horaInicio);
@@ -96,7 +97,7 @@ public class MarcacionControlador extends Controlador<Marcacion> {
     public int totalXEmpleadoXFecha(String dni, Date fechaInicio, Date fechaFin) {
         String jpql = "SELECT COUNT(m.id) FROM Marcacion m WHERE m.empleado = :dni AND m.fecha BETWEEN :fechaInicio AND :fechaFin";
         Long cont = (Long) this.getDao().getEntityManager().createQuery(jpql)
-                .setParameter("dni", Integer.parseInt(dni))
+                .setParameter("dni", dni)
                 .setParameter("fechaInicio", fechaInicio)
                 .setParameter("fechaFin", fechaFin).getSingleResult();
         int conteo = cont.intValue();
@@ -196,7 +197,7 @@ public class MarcacionControlador extends Controlador<Marcacion> {
 
     public List<Marcacion> buscarXFecha(List<Empleado> empleados, Date fechaInicio, Date fechaFin, int desde, int tamanio) {
         String jpql = "SELECT m FROM Marcacion m WHERE m.empleado IN :dni AND m.fecha BETWEEN :fechaInicio AND :fechaFin "
-                + "ORDER BY m.nombre,m.fecha,m.hora";
+                + "ORDER BY m.empleado.paterno,m.empleado.materno,m.empleado.nombre,m.fecha,m.hora";
         Map<String, Object> mapa = new HashMap<>();
 
         mapa.put("dni", empleados);
@@ -206,15 +207,15 @@ public class MarcacionControlador extends Controlador<Marcacion> {
         return marcaciones;
     }
 
-    public int totalXEmpleadoXFecha(List<Integer> empleados, Date fechaInicio, Date fechaFin) {
-        String jpql = "SELECT COUNT(m.id) FROM Marcacion m WHERE m.empleado IN :dni AND m.fecha BETWEEN :fechaInicio AND :fechaFin";
-        Long cont = (Long) this.getDao().getEntityManager().createQuery(jpql)
-                .setParameter("dni", empleados)
-                .setParameter("fechaInicio", fechaInicio)
-                .setParameter("fechaFin", fechaFin).getSingleResult();
-        int conteo = cont.intValue();
-        return conteo;
-    }
+//    public int totalXEmpleadoXFecha(List<Integer> empleados, Date fechaInicio, Date fechaFin) {
+//        String jpql = "SELECT COUNT(m.id) FROM Marcacion m WHERE m.empleado IN :dni AND m.fecha BETWEEN :fechaInicio AND :fechaFin";
+//        Long cont = (Long) this.getDao().getEntityManager().createQuery(jpql)
+//                .setParameter("dni", empleados)
+//                .setParameter("fechaInicio", fechaInicio)
+//                .setParameter("fechaFin", fechaFin).getSingleResult();
+//        int conteo = cont.intValue();
+//        return conteo;
+//    }
     public int totalXFechaXHora(Date fechaInicio, Date horaInicio, Date horaFin) {
         String jpql = "SELECT COUNT(m.id) FROM Marcacion m WHERE m.fecha = :fechaInicio AND m.hora BETWEEN :horaInicio AND :horaFin ";
         Map<String, Object> mapa = new HashMap<>();
@@ -247,5 +248,17 @@ public class MarcacionControlador extends Controlador<Marcacion> {
         mapa.put("horaF", horaFin);
         return this.getDao().contar(jpql, mapa);
     }
+    
+//    private List<String> getCodigo(List<Empleado> empleados){
+//        List<String> lista = new ArrayList<>();
+//        for(Empleado emp : empleados){
+//            lista.add(emp.getFichaLaboral().getCodigoTrabajador());
+//        }
+//        return lista;
+//    }
+//    
+//    private String getCodigo(Empleado empleados){        
+//        return empleados.getFichaLaboral().getCodigoTrabajador();
+//    }
 
 }

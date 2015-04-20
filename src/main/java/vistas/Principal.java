@@ -53,7 +53,7 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
 
-        File file = new File("img/fondo-minedu.jpg");
+        File file = new File("img/fondo-ensa.gif");
         ImagenFondo borde;
         try {
             borde = new ImagenFondo(ImageIO.read(file));
@@ -111,7 +111,7 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("SISTEMA DE CONTROL DE ASISTENCIA DE PERSONAL - BIOSIS MINEDU");
+        setTitle("SISTEMA DE CONTROL DE ASISTENCIA DE PERSONAL - BIOSIS ENSA");
         java.awt.GridBagLayout layout = new java.awt.GridBagLayout();
         layout.columnWidths = new int[] {0, 10, 0};
         layout.rowHeights = new int[] {0, 10, 0, 10, 0};

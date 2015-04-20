@@ -24,6 +24,7 @@ import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 import utiles.UsuarioActivo;
+import vistas.dialogos.DlgEmpleadoCRUD;
 
 /**
  *
@@ -62,6 +63,7 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblEmpleado = new org.jdesktop.swingx.JXTable();
         jPanel2 = new javax.swing.JPanel();
+        jButton5 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -125,6 +127,14 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         jPanel1.add(jScrollPane1, gridBagConstraints);
 
         jPanel2.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
+
+        jButton5.setText("NUEVO EMPLEADO");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton5);
 
         jButton1.setText("VER DATOS");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -236,7 +246,7 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1232, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -329,6 +339,12 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         imprimir(false);
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        DlgEmpleadoCRUD empleadoCRUD = new DlgEmpleadoCRUD(this);
+        empleadoCRUD.setVisible(true);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
@@ -341,6 +357,7 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -357,11 +374,11 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         JTableBinding binding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, lista, tblEmpleado);
 
         BeanProperty pNroDocumento = BeanProperty.create("nroDocumento");
-        BeanProperty pCodigoModular = BeanProperty.create("codigoModular");
-        BeanProperty pTipoDocumento = BeanProperty.create("tipoDocumento");
+        BeanProperty pCodigoModular = BeanProperty.create("fichaLaboral.codigoTrabajador");
+        BeanProperty pTipoDocumento = BeanProperty.create("tipoDocumento.abreviatura");
         BeanProperty pNombre = BeanProperty.create("nombre");
-        BeanProperty pApellidoPaterno = BeanProperty.create("apellidoPaterno");
-        BeanProperty pApellidoMaterno = BeanProperty.create("apellidoMaterno");
+        BeanProperty pApellidoPaterno = BeanProperty.create("paterno");
+        BeanProperty pApellidoMaterno = BeanProperty.create("materno");
 
         binding.addColumnBinding(pCodigoModular).setColumnName("Código modular").setEditable(false);
         binding.addColumnBinding(pNroDocumento).setColumnName("Nro. Documento").setEditable(false);

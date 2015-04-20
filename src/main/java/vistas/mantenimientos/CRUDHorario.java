@@ -7,20 +7,16 @@ package vistas.mantenimientos;
 
 import controladores.Controlador;
 import controladores.HorarioControlador;
-import controladores.JornadaControlador;
 import entidades.Horario;
 import entidades.Jornada;
 import vistas.dialogos.DlgJornada;
 import vistas.modelos.MTHorario;
-import vistas.modelos.MTJornada;
 import com.personal.utiles.FormularioUtil;
-import java.beans.PropertyVetoException;
+import entidades.Turno;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JSpinner;
 import javax.swing.text.DateFormatter;
 import org.jdesktop.observablecollections.ObservableCollections;
@@ -385,20 +381,26 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
             if (accion == Controlador.NUEVO) {
                 seleccionada.setCodigo(txtCodigo.getText());
             }
-            seleccionada.setNombre(txtNombre.getText());
-            seleccionada.setJornada(jornadaSeleccionada);
-            seleccionada.setLunes(chkLunes.isSelected());
-            seleccionada.setMartes(chkMartes.isSelected());
-            seleccionada.setMiercoles(chkMiercoles.isSelected());
-            seleccionada.setJueves(chkJueves.isSelected());
-            seleccionada.setViernes(chkViernes.isSelected());
-            seleccionada.setSabado(chkSabado.isSelected());
-            seleccionada.setDomingo(chkDomingo.isSelected());
-            seleccionada.setDocumento(txtDocumento.getText());
+            seleccionada.setNombre(txtNombre.getText());            
             seleccionada.setFechaInicio((Date)spFechaInicio.getValue());
             seleccionada.setFechaFin((Date)spFechaFin.getValue());
+            seleccionada.setDocumento(txtDocumento.getText());
+            seleccionada.setTipo('A');
             
-
+            Turno turnoAdministrativo = new Turno();
+            turnoAdministrativo.setTipo('S');
+            turnoAdministrativo.setHorario(seleccionada);
+            turnoAdministrativo.setJornada(jornadaSeleccionada);
+            turnoAdministrativo.setLunes(chkLunes.isSelected());
+            turnoAdministrativo.setMartes(chkMartes.isSelected());
+            turnoAdministrativo.setMiercoles(chkMiercoles.isSelected());
+            turnoAdministrativo.setJueves(chkJueves.isSelected());
+            turnoAdministrativo.setViernes(chkViernes.isSelected());
+            turnoAdministrativo.setSabado(chkSabado.isSelected());
+            turnoAdministrativo.setDomingo(chkDomingo.isSelected());
+            
+            seleccionada.getTurnoList().add(turnoAdministrativo);
+            
             if (horarioControlador.accion(accion)) {
                 FormularioUtil.mensajeExito(this, accion);
                 this.accion = 0;
@@ -516,7 +518,7 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
         horarioList = new ArrayList<>();
         horarioList = ObservableCollections.observableList(horarioList);
 
-        String[] columnas = {"Horario", "Jornada", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"};
+        String[] columnas = {"Codigo","Horario", ""};
 
         MTHorario mt = new MTHorario(horarioList, columnas);
         tblHorario.setModel(mt);
@@ -526,15 +528,15 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
     private void mostrar(Horario seleccionado) {
         txtDocumento.setText(seleccionado.getDocumento());
         txtCodigo.setText(seleccionado.getCodigo());
-        txtNombre.setText(seleccionado.getNombre());
-        txtJornada.setText(seleccionado.getJornada().getNombre());
-        chkLunes.setSelected(seleccionado.isLunes());
-        chkMartes.setSelected(seleccionado.isMartes());
-        chkMiercoles.setSelected(seleccionado.isMiercoles());
-        chkJueves.setSelected(seleccionado.isJueves());
-        chkViernes.setSelected(seleccionado.isViernes());
-        chkSabado.setSelected(seleccionado.isSabado());
-        chkDomingo.setSelected(seleccionado.isDomingo());
+        txtNombre.setText(seleccionado.getNombre());        
+        txtJornada.setText(seleccionado.getTurnoList().get(0).getJornada().getNombre());
+        chkLunes.setSelected(seleccionado.getTurnoList().get(0).isLunes());
+        chkMartes.setSelected(seleccionado.getTurnoList().get(0).isMartes());
+        chkMiercoles.setSelected(seleccionado.getTurnoList().get(0).isMiercoles());
+        chkJueves.setSelected(seleccionado.getTurnoList().get(0).isJueves());
+        chkViernes.setSelected(seleccionado.getTurnoList().get(0).isViernes());
+        chkSabado.setSelected(seleccionado.getTurnoList().get(0).isSabado());
+        chkDomingo.setSelected(seleccionado.getTurnoList().get(0).isDomingo());
         spFechaInicio.setValue(seleccionado.getFechaInicio());
         spFechaFin.setValue(seleccionado.getFechaFin());
     }

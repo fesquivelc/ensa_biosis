@@ -206,7 +206,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
-    <Property name="title" type="java.lang.String" value="SISTEMA DE CONTROL DE ASISTENCIA DE PERSONAL - BIOSIS MINEDU"/>
+    <Property name="title" type="java.lang.String" value="SISTEMA DE CONTROL DE ASISTENCIA DE PERSONAL - BIOSIS ENSA"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="menuBar"/>

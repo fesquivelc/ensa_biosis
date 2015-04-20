@@ -31,7 +31,7 @@ public class EmpleadoControlador extends Controlador<Empleado> {
     
     public List<Empleado> buscarXPatron(String patron, int desde, int tamanio) {
         String jpql = "SELECT e FROM Empleado e WHERE "
-                + "UPPER(CONCAT(nombre,paterno,materno)) LIKE CONCAT('%',UPPER(:patron),'%') OR e.nroDocumento = UPPER(:patron) OR e.codigoModular = UPPER(:patron)"
+                + "UPPER(CONCAT(nombre,paterno,materno)) LIKE CONCAT('%',UPPER(:patron),'%') OR e.nroDocumento = UPPER(:patron) OR e.fichaLaboral.codigoTrabajador = UPPER(:patron)"
                 + "ORDER BY e.paterno,e.materno,e.nombre";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("patron", patron);
@@ -40,7 +40,7 @@ public class EmpleadoControlador extends Controlador<Empleado> {
     
     public int totalXPatron(String patron){
         String jpql = "SELECT COUNT(e.nroDocumento) FROM Empleado e WHERE "
-                + "UPPER(CONCAT(e.nombre,' ',e.paterno,' ',e.materno)) LIKE CONCAT('%',UPPER(:patron),'%') OR e.nroDocumento = UPPER(:patron)  OR e.codigoModular = UPPER(:patron)";
+                + "UPPER(CONCAT(e.nombre,' ',e.paterno,' ',e.materno)) LIKE CONCAT('%',UPPER(:patron),'%') OR e.nroDocumento = UPPER(:patron)  OR e.fichaLaboral.codigoTrabajador = UPPER(:patron)";
         Long cont = (Long)this.getDao().getEntityManager().createQuery(jpql)
                 .setParameter("patron", patron).getSingleResult();
         int conteo = cont.intValue();
@@ -55,13 +55,7 @@ public class EmpleadoControlador extends Controlador<Empleado> {
         return this.getDao().buscar(jpql, mapa);
     }
     
-    public List<Empleado> buscarPorListaEnteros(List<Integer> lista){
-        String jpql = "SELECT e FROM Empleado e WHERE "
-                + "CAST(e.nroDocumento AS integer) IN :lista";
-        Map<String, Object> mapa = new HashMap<>();
-        mapa.put("lista", lista);
-        return this.getDao().buscar(jpql, mapa);
-    }
+    
 
     public Empleado buscarPorId(int id) {
         String jpql = "SELECT e FROM Empleado e WHERE "

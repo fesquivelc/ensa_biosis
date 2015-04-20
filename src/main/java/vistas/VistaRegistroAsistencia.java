@@ -22,7 +22,7 @@ import com.personal.utiles.FormularioUtil;
 import controladores.EmpleadoControlador;
 import controladores.TCAnalisisControlador;
 import controladores.TCSistemaControlador;
-import entidades.escalafon.Area;
+import entidades.escalafon.Departamento;
 import entidades.TCSistema;
 import entidades.escalafon.Empleado;
 import entidades.escalafon.FichaLaboral;
@@ -514,7 +514,7 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         controles();
     }//GEN-LAST:event_radPersonalizadoActionPerformed
 
-    private Area oficinaSeleccionada;
+    private Departamento oficinaSeleccionada;
     private void btnOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOficinaActionPerformed
         // TODO add your handling code here:
         DlgOficina oficinas = new DlgOficina(this);

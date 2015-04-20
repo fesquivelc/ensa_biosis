@@ -20,7 +20,7 @@ import com.personal.utiles.ReporteUtil;
 import controladores.HorarioControlador;
 import controladores.MarcacionControlador;
 import entidades.AsignacionHorario;
-import entidades.escalafon.Area;
+import entidades.escalafon.Departamento;
 import entidades.Horario;
 import entidades.Jornada;
 import entidades.Marcacion;
@@ -287,7 +287,7 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnOficinaActionPerformed
 
-    private Area oficinaSeleccionada;
+    private Departamento oficinaSeleccionada;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOficina;
@@ -412,7 +412,7 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
             
             
             
-            Jornada jornada = horarioSeleccionado.getJornada();
+            Jornada jornada = horarioSeleccionado.getTurnoList().get(0).getJornada();
 
             //SE ANALIZA PERSONA A PERSONA HASTA OBTENER UN LISTADO =D
             List<AsignacionHorario> asignaciones = horarioSeleccionado.getAsignacionHorarioList();

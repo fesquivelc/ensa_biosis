@@ -25,23 +25,11 @@ public class MTHorario extends ModeloTabla<Horario>{
         
         switch(columnIndex){
             case 0:
-                return horario.getNombre();
+                return horario.getCodigo();
             case 1:
-                return horario.getJornada().getNombre();
+                return horario.getNombre();
             case 2:
-                return horario.isLunes();
-            case 3:
-                return horario.isMartes();
-            case 4:
-                return horario.isMiercoles();
-            case 5:
-                return horario.isJueves();
-            case 6:
-                return horario.isViernes();
-            case 7:
-                return horario.isSabado();
-            case 8:
-                return horario.isDomingo();
+                return mostrarTipo(horario.getTipo());                            
             default:
                 return null;
         }
@@ -49,10 +37,17 @@ public class MTHorario extends ModeloTabla<Horario>{
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        if(columnIndex == 0 || columnIndex == 1){
-            return String.class;
-        }else{
-            return Boolean.class;
+        return String.class;
+    }
+
+    private String mostrarTipo(char tipo) {
+        switch(tipo){
+            case 'A':
+                return "ADMINISTRATIVO";
+            case 'T':
+                return "TÉCNICO";
+            default:
+                return "";
         }
     }
     

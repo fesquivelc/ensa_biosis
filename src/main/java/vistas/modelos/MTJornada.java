@@ -37,9 +37,9 @@ public class MTJornada extends ModeloTabla<Jornada>{
             case 1:
                 return dtHora.format(jornada.getTurnoHE());
             case 2:
-                return dtHora.format(jornada.getRefrigerioHS());
+                return jornada.getRefrigerioHS() == null ? null : dtHora.format(jornada.getRefrigerioHS());
             case 3:
-                return dtHora.format(jornada.getRefrigerioHE());
+                return jornada.getRefrigerioHE() == null ? null : dtHora.format(jornada.getRefrigerioHE());
             case 4:
                 return dtHora.format(jornada.getTurnoHS());
             default:

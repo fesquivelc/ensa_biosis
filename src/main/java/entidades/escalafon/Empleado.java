@@ -41,7 +41,7 @@ public class Empleado implements Serializable {
     @Column(name="paterno",nullable=false)
     @Basic
     private String paterno;
-    @OneToOne(fetch = FetchType.LAZY,targetEntity = FichaLaboral.class,mappedBy = "empleado")
+    @OneToOne(fetch = FetchType.EAGER,targetEntity = FichaLaboral.class,mappedBy = "empleado")
     private FichaLaboral fichaLaboral;
     @Column(name="fecha_nacimiento")
     @Temporal(TemporalType.DATE)

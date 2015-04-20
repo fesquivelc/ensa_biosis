@@ -58,8 +58,8 @@ public class DAO<T> {
             properties.put("javax.persistence.jdbc.driver", driver);
             properties.put("javax.persistence.jdbc.url", url);
             properties.put("javax.persistence.schema-generation.database.action", "none");
-            
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory(this.PU,properties);
+
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory(this.PU, properties);
             em = emf.createEntityManager();
         }
         return em;
@@ -93,11 +93,11 @@ public class DAO<T> {
         }
 
     }
-    
-    public boolean guardarLote(List<T> lote){
+
+    public boolean guardarLote(List<T> lote) {
         try {
             getEntityManager().getTransaction().begin();
-            for(T objeto : lote){
+            for (T objeto : lote) {
                 getEntityManager().persist(objeto);
             }
             getEntityManager().getTransaction().commit();
@@ -168,7 +168,7 @@ public class DAO<T> {
         }
 
     }
-    
+
     public int contar(String queryJPQL, Map<String, Object> parametros) {
         try {
             Query query = getEntityManager().createQuery(queryJPQL);
@@ -179,7 +179,7 @@ public class DAO<T> {
                 }
             }
 
-            Long conteo = (Long)query.getSingleResult();
+            Long conteo = (Long) query.getSingleResult();
 
             return conteo.intValue();
         } catch (Exception e) {
