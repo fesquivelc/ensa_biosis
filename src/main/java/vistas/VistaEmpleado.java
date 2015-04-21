@@ -386,6 +386,7 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         binding.addColumnBinding(pNombre).setColumnName("Nombre").setEditable(false);
         binding.addColumnBinding(pApellidoPaterno).setColumnName("Apellido paterno").setEditable(false);
         binding.addColumnBinding(pApellidoMaterno).setColumnName("Apellido materno").setEditable(false);
+        
 
         binding.bind();
     }

@@ -76,6 +76,7 @@ public class DAO<T> {
             }
         } catch (SQLException e) {
             LOG.error("ERROR " + e.getMessage());
+            em = null;
         }
         return connection;
 
@@ -89,6 +90,7 @@ public class DAO<T> {
             return true;
         } catch (Exception e) {
             LOG.error("ERROR EN EL GUARDADO: " + e.getLocalizedMessage() + " " + e.getMessage());
+            em = null;
             return false;
         }
 
@@ -104,6 +106,7 @@ public class DAO<T> {
             return true;
         } catch (Exception e) {
             LOG.error("ERROR EN EL GUARDADO POR LOTE: " + e.getLocalizedMessage() + " " + e.getMessage());
+            em = null;
             return false;
         }
     }
@@ -116,6 +119,7 @@ public class DAO<T> {
             return true;
         } catch (Exception e) {
             LOG.error("ERROR AL MODIFICAR: " + e.getLocalizedMessage() + " " + e.getMessage());
+            em = null;
             return false;
         }
 
@@ -129,6 +133,7 @@ public class DAO<T> {
             return true;
         } catch (Exception e) {
             LOG.error("ERROR AL ELIMINAR: " + e.getLocalizedMessage() + " " + e.getMessage());
+            em = null;
             return false;
         }
     }
@@ -164,6 +169,7 @@ public class DAO<T> {
             return lista;
         } catch (Exception e) {
             LOG.error("ERROR AL BUSCAR: " + e.getLocalizedMessage() + " " + e.getMessage());
+            em = null;
             return null;
         }
 
@@ -184,6 +190,7 @@ public class DAO<T> {
             return conteo.intValue();
         } catch (Exception e) {
             LOG.error("ERROR AL CONTAR: " + e.getLocalizedMessage() + " " + e.getMessage());
+            em = null;
             return 0;
         }
 

@@ -153,7 +153,7 @@ public class DlgOficina extends javax.swing.JDialog {
     }
 
     private final List<Departamento> departamentoList;
-    private final DepartamentoControlador dc = new DepartamentoControlador();
+    private final DepartamentoControlador dc = DepartamentoControlador.getInstance();
     
     private void buscar() {
         String patron = txtOficina.getText();

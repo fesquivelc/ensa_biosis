@@ -6,6 +6,8 @@
 package controladores;
 
 import entidades.escalafon.Empleado;
+import entidades.escalafon.FichaGeneral;
+import entidades.escalafon.FichaLaboral;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +21,22 @@ public class EmpleadoControlador extends Controlador<Empleado> {
     public EmpleadoControlador() {
         super(Empleado.class);
     }
+
+    @Override
+    public void prepararCrear() {
+        super.prepararCrear(); //To change body of generated methods, choose Tools | Templates.
+        FichaLaboral fichaLaboral = new FichaLaboral();
+        fichaLaboral.setEmpleado(this.getSeleccionado());
+        
+        FichaGeneral fichaGeneral = new FichaGeneral();
+        fichaGeneral.setEmpleado(this.getSeleccionado());
+        
+        this.getSeleccionado().setFichaLaboral(fichaLaboral);
+        this.getSeleccionado().setFichaGeneral(fichaGeneral);
+        
+    }
+    
+    
 
     public List<Empleado> buscarXPatron(String patron) {
         String jpql = "SELECT e FROM Empleado e WHERE "

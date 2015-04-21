@@ -6,23 +6,19 @@
 package controladores;
 
 import entidades.escalafon.Departamento;
-import entidades.Marcacion;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.Logger;
 
 /**
  *
  * @author fesquivelc
  */
-public class DepartamentoControlador extends Controlador<Departamento> {
-
-    public DepartamentoControlador() {
+public class DepartamentoControlador extends Controlador<Departamento>{
+    
+    private DepartamentoControlador() {
         super(Departamento.class);
     }
-
     public List<Departamento> buscarXNombre(String patron){
         String jpql = "SELECT d FROM Departamento d WHERE UPPER(d.nombre) LIKE CONCAT('%',UPPER(:patron),'%')";
         Map<String,Object> param = new HashMap<>();
@@ -30,5 +26,13 @@ public class DepartamentoControlador extends Controlador<Departamento> {
         
         return this.getDao().buscar(jpql, param);
     }
+    
+    public static DepartamentoControlador getInstance() {
+        return DepartamentoControladorHolder.INSTANCE;
+    }
+    
+    private static class DepartamentoControladorHolder {
 
+        private static final DepartamentoControlador INSTANCE = new DepartamentoControlador();
+    }
 }
