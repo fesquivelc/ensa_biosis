@@ -27,7 +27,7 @@ public class UbigeoControlador extends Controlador<Ubigeo>{
                 + "u.provincia LIKE CONCAT('%',:ubigeo,'%') OR "
                 + "u.distrito LIKE CONCAT('%',:ubigeo,'%')";
         Map<String, Object> map = new HashMap();
-        map.put("ubigeo", ubigeo);
+        map.put("ubigeo", ubigeo.trim().toUpperCase());
         
         return this.getDao().buscar(jpql, map);
     }

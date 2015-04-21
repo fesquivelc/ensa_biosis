@@ -23,7 +23,7 @@ public class NacionalidadControlador extends Controlador<Nacionalidad>{
     public List<Nacionalidad> buscarXDescripcion(String patron){
         String jpql = "SELECT n FROM Nacionalidad n WHERE n.descripcion LIKE CONCAT('%',:patron,'%')";
         Map<String, Object> map = new HashMap();
-        map.put("patron", patron);
+        map.put("patron", patron.trim().toUpperCase());
         return this.getDao().buscar(jpql, map);
     }
     

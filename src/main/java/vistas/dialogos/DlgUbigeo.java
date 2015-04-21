@@ -68,7 +68,7 @@ public class DlgUbigeo extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Buscar nacionalidad");
+        setTitle("Buscar ubigeo");
         setMinimumSize(new java.awt.Dimension(606, 400));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 

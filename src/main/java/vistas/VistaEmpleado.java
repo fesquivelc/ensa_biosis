@@ -6,6 +6,7 @@
 package vistas;
 
 import com.personal.utiles.ReporteUtil;
+import controladores.Controlador;
 import vistas.dialogos.DlgDatosEmpleado;
 import controladores.EmpleadoControlador;
 import controladores.MarcacionControlador;
@@ -64,6 +65,7 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         tblEmpleado = new org.jdesktop.swingx.JXTable();
         jPanel2 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -128,13 +130,21 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
 
         jPanel2.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
 
-        jButton5.setText("NUEVO EMPLEADO");
+        jButton5.setText("NUEVO");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
             }
         });
         jPanel2.add(jButton5);
+
+        jButton6.setText("EDITAR");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton6);
 
         jButton1.setText("VER DATOS");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -323,7 +333,7 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         int fila = tblEmpleado.getSelectedRow();
-        if(fila != -1){
+        if (fila != -1) {
             DlgMostrarHorarios dialogo = new DlgMostrarHorarios(this, this.lista.get(fila));
             dialogo.setVisible(true);
         }
@@ -341,9 +351,19 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        DlgEmpleadoCRUD empleadoCRUD = new DlgEmpleadoCRUD(this);
+        ec.prepararCrear();
+        DlgEmpleadoCRUD empleadoCRUD = new DlgEmpleadoCRUD(this, ec.getSeleccionado(), Controlador.NUEVO);
         empleadoCRUD.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        int fila = tblEmpleado.getSelectedRow();
+        if (fila != -1) {
+            DlgEmpleadoCRUD empleadoCRUD = new DlgEmpleadoCRUD(this, lista.get(fila), Controlador.MODIFICAR);
+            empleadoCRUD.setVisible(true);
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -358,6 +378,7 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -386,7 +407,6 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         binding.addColumnBinding(pNombre).setColumnName("Nombre").setEditable(false);
         binding.addColumnBinding(pApellidoPaterno).setColumnName("Apellido paterno").setEditable(false);
         binding.addColumnBinding(pApellidoMaterno).setColumnName("Apellido materno").setEditable(false);
-        
 
         binding.bind();
     }
@@ -396,7 +416,6 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
 //        lista.addAll(ec.buscarXPatron(txtBusqueda.getText()));
 //        tblEmpleado.packAll();
 //    }
-
     private int paginaActual = 1;
     private int totalPaginas = 0;
     private int tamanioPagina = 0;
@@ -476,14 +495,15 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
 
     private final ReporteUtil reporteUtil = new ReporteUtil();
     private final MarcacionControlador mc = new MarcacionControlador();
+
     private void imprimir(boolean enrolados) {
         String rutaReporte;
-        if(enrolados){
-             rutaReporte = "reportes/r_empleados_enrolados.jasper";
-        }else{
+        if (enrolados) {
+            rutaReporte = "reportes/r_empleados_enrolados.jasper";
+        } else {
             rutaReporte = "reportes/r_empleados_no_enrolados.jasper";
         }
-        
+
         File ficheroReporte = new File(rutaReporte);
         reporteUtil.setConn(mc.getDao().getConexion());
         Map<String, Object> mapa = new HashMap<>();

@@ -41,7 +41,7 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
         modeloHoraSpinner(spTardanzaHE);
         modeloHoraSpinner(spTurnoHS);
         modeloHoraSpinner(spToleranciaRefrigerioHE);
-        jornadaControlador = new JornadaControlador();
+        jornadaControlador = JornadaControlador.getInstance();
         bindeoSalvaje();
         accion = 0;
         this.controles(accion);

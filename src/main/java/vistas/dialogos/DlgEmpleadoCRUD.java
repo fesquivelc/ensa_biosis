@@ -5,16 +5,25 @@
  */
 package vistas.dialogos;
 
+import com.personal.utiles.FormularioUtil;
+import controladores.Controlador;
 import controladores.DepartamentoControlador;
 import controladores.EmpleadoControlador;
 import controladores.NivelEducativoControlador;
+import controladores.RegimenLaboralControlador;
+import controladores.SituacionTrabajadorControlador;
+import controladores.TipoContratoControlador;
 import controladores.TipoDocumentoControlador;
 import controladores.TipoViaControlador;
 import controladores.TipoZonaControlador;
 import entidades.escalafon.Departamento;
 import entidades.escalafon.Empleado;
+import entidades.escalafon.FichaGeneral;
 import entidades.escalafon.Nacionalidad;
 import entidades.escalafon.NivelEducativo;
+import entidades.escalafon.RegimenLaboral;
+import entidades.escalafon.SituacionTrabajador;
+import entidades.escalafon.TipoContrato;
 import entidades.escalafon.TipoDocumento;
 import entidades.escalafon.TipoVia;
 import entidades.escalafon.TipoZona;
@@ -40,13 +49,19 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private final EmpleadoControlador ec;
     private final JInternalFrame padre;
     private boolean agregar;
-    
+
     //CONTROLADORES
     private final TipoDocumentoControlador tdc = TipoDocumentoControlador.getInstance();
     private final DepartamentoControlador dc = DepartamentoControlador.getInstance();
     private final NivelEducativoControlador nec = NivelEducativoControlador.getInstance();
     private final TipoViaControlador tvc = TipoViaControlador.getInstance();
     private final TipoZonaControlador tzc = TipoZonaControlador.getInstance();
+    private final TipoContratoControlador tcc = TipoContratoControlador.getInstance();
+    private final RegimenLaboralControlador rlc = RegimenLaboralControlador.getInstance();
+    private final SituacionTrabajadorControlador stc = SituacionTrabajadorControlador.getInstance();
+
+    private final Empleado empleado;
+    private final int accion;
 
     public boolean isAgregar() {
         return agregar;
@@ -56,8 +71,10 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         this.agregar = agregar;
     }
 
-    public DlgEmpleadoCRUD(JInternalFrame parent) {
+    public DlgEmpleadoCRUD(JInternalFrame parent, Empleado empleado, int accion) {
         super(JOptionPane.getFrameForComponent(parent), true);
+        this.empleado = empleado;
+        this.accion = accion;
         padre = parent;
         initComponents();
         iniciar();
@@ -95,6 +112,8 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         txtNombres = new javax.swing.JTextField();
         dcFechaNacimiento = new com.toedter.calendar.JDateChooser();
+        jLabel23 = new javax.swing.JLabel();
+        txtNroDocumento = new javax.swing.JTextField();
         pnlGenerales = new javax.swing.JScrollPane();
         jPanel4 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
@@ -135,18 +154,24 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         cboSituacionEmpleado = new javax.swing.JComboBox();
 
         setTitle("DATOS DE EMPLEADO");
+        setResizable(false);
 
         jPanel3.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
 
         jButton1.setText("Guardar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jPanel3.add(jButton1);
 
         jButton2.setText("Cancelar");
         jPanel3.add(jButton2);
 
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
-        jPanel1Layout.columnWidths = new int[] {0, 0, 0, 0, 0};
-        jPanel1Layout.rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        jPanel1Layout.columnWidths = new int[] {0, 0, 0, 0, 0, 0, 0};
+        jPanel1Layout.rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         jPanel1.setLayout(jPanel1Layout);
 
         jPanel2.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
@@ -170,11 +195,12 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jLabel1, gridBagConstraints);
+
+        txtPaterno.setColumns(40);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(txtPaterno, gridBagConstraints);
@@ -182,7 +208,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         jLabel3.setText("Apellido paterno:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jLabel3, gridBagConstraints);
@@ -190,7 +216,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         jLabel4.setText("Apellido materno:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jLabel4, gridBagConstraints);
@@ -198,15 +224,16 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         jLabel5.setText("Género:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jLabel5, gridBagConstraints);
+
+        txtMaterno.setColumns(40);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(txtMaterno, gridBagConstraints);
@@ -222,7 +249,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         cboGenero.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MASCULINO", "FEMENINO" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(cboGenero, gridBagConstraints);
@@ -230,7 +257,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         jLabel7.setText("Fecha de nacimiento:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jLabel7, gridBagConstraints);
@@ -238,25 +265,42 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         jLabel8.setText("Nombres:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jLabel8, gridBagConstraints);
+
+        txtNombres.setColumns(40);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(txtNombres, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(dcFechaNacimiento, gridBagConstraints);
+
+        jLabel23.setText("Número de documento:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(jLabel23, gridBagConstraints);
+
+        txtNroDocumento.setColumns(15);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(txtNroDocumento, gridBagConstraints);
 
         jTabbedPane1.addTab("Datos personales", jPanel1);
 
@@ -562,12 +606,12 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 708, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 846, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -589,7 +633,12 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         ubigeoSeleccion = dlgUbi.getSeleccionado();
         mostrarUbigeo(ubigeoSeleccion);
     }//GEN-LAST:event_btnUbigeoActionPerformed
-    
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        guardar();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private Ubigeo ubigeoSeleccion;
     private Nacionalidad nacionalidadSeleccion;
     private Empleado empleadoSeleccionado;
@@ -625,6 +674,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -647,12 +697,12 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private javax.swing.JTextField txtMaterno;
     private javax.swing.JTextField txtNacionalidad;
     private javax.swing.JTextField txtNombres;
+    private javax.swing.JTextField txtNroDocumento;
     private javax.swing.JTextField txtPaterno;
     private javax.swing.JTextField txtTelefono1;
     private javax.swing.JTextField txtTelefono2;
     private javax.swing.JTextField txtUbigeo;
     // End of variables declaration//GEN-END:variables
-
 
 //    private void buscar() {
 //        lista.clear();
@@ -669,65 +719,160 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     }
 
     private void iniciar() {
+        FormularioUtil.activarComponente(this.dcFechaInicio, true);
+        FormularioUtil.activarComponente(this.dcFechaNacimiento, true);
+        FormularioUtil.activarComponente(this.dcFechaInicio, true);
+
         cboTipoDocumento.setModel(new DefaultComboBoxModel(tdc.buscarTodos().toArray()));
-        cboTipoDocumento.setRenderer(new DefaultListCellRenderer(){
+        cboTipoDocumento.setRenderer(new DefaultListCellRenderer() {
 
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                if(value instanceof TipoDocumento){
+                if (value instanceof TipoDocumento) {
                     value = ((TipoDocumento) value).getNombre();
                 }
                 return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
             }
-            
+
         });
-        
+
         cboOficina.setModel(new DefaultComboBoxModel(dc.buscarTodos().toArray()));
-        cboOficina.setRenderer(new DefaultListCellRenderer(){
+        cboOficina.setRenderer(new DefaultListCellRenderer() {
 
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                if(value instanceof Departamento){
-                    value = ((Departamento)value).getNombre();
+                if (value instanceof Departamento) {
+                    value = ((Departamento) value).getNombre();
                 }
                 return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
             }
-            
-        });        
-        
+
+        });
+
         cboNivelEducativo.setModel(new DefaultComboBoxModel(nec.buscarTodos().toArray()));
-        cboNivelEducativo.setRenderer(new DefaultListCellRenderer(){
+        cboNivelEducativo.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                value = value instanceof NivelEducativo ? ((NivelEducativo)value).getDescripcion() : value;
+                value = value instanceof NivelEducativo ? ((NivelEducativo) value).getDescripcion() : value;
                 return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
-            }            
+            }
         });
-        
+
         cboTipoVia.setModel(new DefaultComboBoxModel(tvc.buscarTodos().toArray()));
-        cboTipoVia.setRenderer(new DefaultListCellRenderer(){
+        cboTipoVia.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                value = value instanceof TipoVia ? ((TipoVia)value).getAbreviatura() : value;
+                value = value instanceof TipoVia ? ((TipoVia) value).getAbreviatura() : value;
                 return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
-            }            
+            }
         });
-        
+
         cboTipoZona.setModel(new DefaultComboBoxModel(tzc.buscarTodos().toArray()));
-        cboTipoZona.setRenderer(new DefaultListCellRenderer(){
+        cboTipoZona.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                value = value instanceof TipoZona ? ((TipoZona)value).getAbreviatura() : value;
+                value = value instanceof TipoZona ? ((TipoZona) value).getAbreviatura() : value;
                 return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
-            }            
+            }
         });
+
+        cboTipoContrato.setModel(new DefaultComboBoxModel(tcc.buscarTodos().toArray()));
+        cboTipoContrato.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                value = value instanceof TipoContrato ? ((TipoContrato) value).getDescripcion() : value;
+                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+
+        cboRegimenLaboral.setModel(new DefaultComboBoxModel(rlc.buscarTodos().toArray()));
+        cboRegimenLaboral.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                value = value instanceof RegimenLaboral ? ((RegimenLaboral) value).getNombre() : value;
+                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+
+        cboSituacionEmpleado.setModel(new DefaultComboBoxModel(stc.buscarTodos().toArray()));
+        cboSituacionEmpleado.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                value = value instanceof SituacionTrabajador ? ((SituacionTrabajador) value).getDescripcion() : value;
+                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+
+        if (this.accion == Controlador.MODIFICAR) {
+            mostrarDatos(this.empleado);
+        }
     }
 
     private void mostrarNacionalidad(Nacionalidad nacionalidadSeleccion) {
-        this.txtNacionalidad.setText(nacionalidadSeleccion == null ? "" :String.format("%s - %s", nacionalidadSeleccion.getCodigo(),nacionalidadSeleccion.getDescripcion()));
+        this.txtNacionalidad.setText(nacionalidadSeleccion == null ? "" : String.format("%s - %s", nacionalidadSeleccion.getCodigo(), nacionalidadSeleccion.getDescripcion()));
     }
 
     private void mostrarUbigeo(Ubigeo seleccionado) {
-        this.txtUbigeo.setText(seleccionado == null ? "" :String.format("%s / %s / %s", seleccionado.getDepartamento(), seleccionado.getProvincia(), seleccionado.getDistrito()));
+        this.txtUbigeo.setText(seleccionado == null ? "" : String.format("%s / %s / %s", seleccionado.getDepartamento(), seleccionado.getProvincia(), seleccionado.getDistrito()));
+    }
+
+    private void guardar() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void mostrarDatos(Empleado empleado) {
+        //DATOS PERSONALES
+        cboTipoDocumento.setSelectedItem(empleado.getTipoDocumento());
+        txtNroDocumento.setText(empleado.getNroDocumento());
+        txtNombres.setText(empleado.getNombre());
+        txtPaterno.setText(empleado.getPaterno());
+        txtMaterno.setText(empleado.getMaterno());
+        cboGenero.setSelectedIndex(empleado.getSexo() == 'M' ? 0 : 1);
+        dcFechaNacimiento.setDate(empleado.getFechaNacimiento());
+
+        //DATOS GENERALES
+        FichaGeneral general = empleado.getFcihaGeneral();
+
+        char sexo = general.getEstadoCivil();
+
+        switch (sexo) {
+            case 'C':
+                cboEstadoCivil.setSelectedIndex(0);
+                break;
+            case 'S':
+                cboEstadoCivil.setSelectedIndex(1);
+                break;
+            case 'V':
+                cboEstadoCivil.setSelectedIndex(2);
+                break;
+            case 'D':
+                cboEstadoCivil.setSelectedIndex(3);
+                break;
+        }
+
+        cboNivelEducativo.setSelectedItem(
+                general.getNivelEducativo() == null
+                        ? cboNivelEducativo.getSelectedItem()
+                        : general.getNivelEducativo()
+        );
+        
+        txtEmail.setText(general.getEmail() == null ? "" : general.getEmail());
+        
+        this.nacionalidadSeleccion = general.getNacionalidad();
+        mostrarNacionalidad(nacionalidadSeleccion);
+        
+        this.ubigeoSeleccion = general.getUbigeoResidencia();
+        mostrarUbigeo(ubigeoSeleccion);        
+        txtTelefono1.setText(general.getTelefono1());
+        txtTelefono2.setText(general.getTelefono2());
+        cboTipoVia.setSelectedItem(general.getTipoVia());
+        cboTipoZona.setSelectedItem(general.getTipoZona());
+        txtDireccion.setText(general.getDireccion());
+        
+        //DATOS FICHA LABORAL
+        
+        
+        
+
     }
 }

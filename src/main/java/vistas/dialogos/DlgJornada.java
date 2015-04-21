@@ -40,7 +40,7 @@ public class DlgJornada extends javax.swing.JDialog {
         modeloHoraSpinner(spTardanzaHE);
         modeloHoraSpinner(spTurnoHS);
         modeloHoraSpinner(spToleranciaRefrigerioHE);
-        jornadaControlador = new JornadaControlador();
+        jornadaControlador = JornadaControlador.getInstance();
         bindeoSalvaje();
         accion = 0;
         this.controles(accion);
@@ -484,6 +484,7 @@ public class DlgJornada extends javax.swing.JDialog {
             seleccionada.setToleranciaHE((Date) spToleranciaHE.getValue());
             seleccionada.setTurnoHE((Date) spTurnoHE.getValue());
             seleccionada.setTurnoHS((Date) spTurnoHS.getValue());
+            seleccionada.setTipo('A');
 
             if (jornadaControlador.accion(accion)) {
                 FormularioUtil.mensajeExito(this, accion);
