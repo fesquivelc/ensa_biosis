@@ -22,7 +22,7 @@ public class AsignacionPermisoControlador extends Controlador<AsignacionPermiso>
         super(AsignacionPermiso.class);
     }
 
-    public List<AsignacionPermiso> buscarXEmpleadoXFecha(String dni, Date fechaInicio, Date fechaFin, int desde, int tamanio) {
+    public List<AsignacionPermiso> buscarXEmpleadoXFecha(Empleado dni, Date fechaInicio, Date fechaFin, int desde, int tamanio) {
         String jpql = "SELECT a FROM AsignacionPermiso a WHERE a.empleado = :dni AND a.permiso.fechaInicio BETWEEN :fechaInicio AND :fechaFin ORDER BY a.permiso.fechaInicio";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("dni", dni);
@@ -56,7 +56,7 @@ public class AsignacionPermisoControlador extends Controlador<AsignacionPermiso>
         mapa.put("horaInicio", horaInicio);
         return this.getDao().buscar(jpl, mapa);
     }
-    public int contarXEmpleadoXFecha(String dni, Date fechaInicio, Date fechaFin) {
+    public int contarXEmpleadoXFecha(Empleado dni, Date fechaInicio, Date fechaFin) {
         String jpql = "SELECT COUNT(a.id) FROM AsignacionPermiso a WHERE a.empleado = :dni AND a.permiso.fechaInicio BETWEEN :fechaInicio AND :fechaFin";
         Long cont = (Long) this.getDao().getEntityManager().createQuery(jpql)
                 .setParameter("dni", dni)

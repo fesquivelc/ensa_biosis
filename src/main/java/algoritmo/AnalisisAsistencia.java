@@ -88,11 +88,11 @@ public class AnalisisAsistencia {
         if (partida == null) {
             partida = new TCAnalisis();
             TCSistema sistema = tcsc.buscarPorId("BIOSIS");
-            Date contrato = empleado.getFichaLaboral().getFechaInicio();
-            Date fechaCero = sistema.getFechaCero();
-
             
-            if (contrato.compareTo(fechaCero) < 0) {
+            Date fechaCero = sistema.getFechaCero();
+            Date contrato = empleado.getFichaLaboral().getFechaInicio() == null ? fechaCero : empleado.getFichaLaboral().getFechaInicio();
+            
+            if (contrato.compareTo(fechaCero) <= 0) {
                 partida.setFecha(fechaCero);
                 partida.setHora(sistema.getHoraCero());
             } else {
@@ -403,7 +403,7 @@ public class AnalisisAsistencia {
             if (detalleTurno.getHoraFin() != null) {
                 minExtra = tardanzaMin(detalleTurno.getHoraFin(), jornada.getTurnoHS());
                 if (minExtra.compareTo(BigDecimal.ZERO) > 0) {
-                    detalleTurno.setHoraFin(jornada.getTurnoHS());
+//                    detalleTurno.setHoraFin(jornada.getTurnoHS());
                     detalleTurno.setMinExtra(minExtra);
                     registroAsistencia.setMinExtra(minExtra);
                 }

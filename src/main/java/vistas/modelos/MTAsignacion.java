@@ -28,9 +28,9 @@ public class MTAsignacion extends ModeloTabla<AsignacionHorario>{
         switch(columnIndex){
             case 0:
                 return seleccion.getHorario().getCodigo();
-            case 2:
+            case 1:
                 return seleccion.getHorario().getNombre();
-            case 3:
+            case 2:
                 if(seleccion.isPorGrupo()){
                     return seleccion.getGrupoHorario().getNombre();                    
                 }else{
@@ -47,12 +47,7 @@ public class MTAsignacion extends ModeloTabla<AsignacionHorario>{
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        switch(columnIndex){
-            case 2: case 3: case 4: case 5: case 6: case 7: case 8:
-                return Boolean.class;
-            default:
-                return String.class;
-        }
+        return String.class;
     }
     
     

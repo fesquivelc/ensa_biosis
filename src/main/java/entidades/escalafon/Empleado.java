@@ -28,8 +28,8 @@ public class Empleado implements Serializable {
     @Column(name = "condicion")
     @Basic
     private char condicion = 'A';
-    @OneToOne(fetch = FetchType.LAZY, targetEntity = FichaGeneral.class, mappedBy = "empleado")
-    private FichaGeneral fcihaGeneral;
+//    @OneToOne(fetch = FetchType.LAZY, targetEntity = FichaGeneral.class, mappedBy = "empleado")
+//    private FichaGeneral fcihaGeneral;
     @Column(name = "materno", nullable = false)
     @Basic
     private String materno;
@@ -87,13 +87,13 @@ public class Empleado implements Serializable {
         this.condicion = condicion;
     }
 
-    public FichaGeneral getFcihaGeneral() {
-        return this.fcihaGeneral;
-    }
-
-    public void setFcihaGeneral(FichaGeneral fcihaGeneral) {
-        this.fcihaGeneral = fcihaGeneral;
-    }
+//    public FichaGeneral getFcihaGeneral() {
+//        return this.fcihaGeneral;
+//    }
+//
+//    public void setFcihaGeneral(FichaGeneral fcihaGeneral) {
+//        this.fcihaGeneral = fcihaGeneral;
+//    }
 
     public String getMaterno() {
         return this.materno;
@@ -142,4 +142,11 @@ public class Empleado implements Serializable {
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
+
+    @Override
+    public String toString() {
+        return "Empleado{" + "nroDocumento=" + nroDocumento + '}';
+    }
+    
+    
 }

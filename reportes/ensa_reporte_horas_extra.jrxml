@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ensa_reporte_permiso" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="11bf5e98-e34f-458a-b850-3dc43f02fa64">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fecha_inicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fecha_fin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     registro_asistencia."fecha" AS registro_asistencia_fecha,
+     detalle_registro_asistencia."hora_inicio" AS detalle_registro_asistencia_hora_inicio,
+     detalle_registro_asistencia."hora_fin" AS detalle_registro_asistencia_hora_fin,
+     ficha_laboral."codigo_trabajador" AS ficha_laboral_codigo_trabajador,
+     persona."paterno" AS persona_paterno,
+     persona."materno" AS persona_materno,
+     persona."nombres" AS persona_nombres,
+     autorizacion."numero" AS autorizacion_numero,
+     autorizacion."descripcion" AS autorizacion_descripcion,
+     detalle_registro_asistencia."minutos_extra" AS detalle_registro_asistencia_minutos_extra
+FROM
+     "dbo"."detalle_registro_asistencia" detalle_registro_asistencia INNER JOIN "dbo"."registro_asistencia" registro_asistencia ON detalle_registro_asistencia."registro_asistencia_id" = registro_asistencia."id"
+     INNER JOIN "personal"."persona" persona ON registro_asistencia."empleado_nro_documento" = persona."nro_documento"
+     INNER JOIN "dbo"."autorizacion" autorizacion ON registro_asistencia.empleado_nro_documento = autorizacion.empleado_nro_documento
+     AND persona."nro_documento" = autorizacion."empleado_nro_documento"
+     INNER JOIN "personal"."ficha_laboral" ficha_laboral ON persona."nro_documento" = ficha_laboral."persona_nro_documento"
+WHERE
+     detalle_registro_asistencia.orden = 0
+ AND detalle_registro_asistencia.minutos_extra > 0
+AND autorizacion.fecha = registro_asistencia.fecha
+ORDER BY
+     persona_paterno ASC,
+     persona_materno ASC,
+     persona_nombres ASC,
+     ficha_laboral_codigo_trabajador ASC,
+     detalle_registro_asistencia_hora_inicio ASC]]>
+	</queryString>
+	<field name="registro_asistencia_fecha" class="java.sql.Date"/>
+	<field name="detalle_registro_asistencia_hora_inicio" class="java.sql.Time"/>
+	<field name="detalle_registro_asistencia_hora_fin" class="java.sql.Time"/>
+	<field name="ficha_laboral_codigo_trabajador" class="java.lang.String"/>
+	<field name="persona_paterno" class="java.lang.String"/>
+	<field name="persona_materno" class="java.lang.String"/>
+	<field name="persona_nombres" class="java.lang.String"/>
+	<field name="autorizacion_numero" class="java.lang.String"/>
+	<field name="autorizacion_descripcion" class="java.lang.String"/>
+	<field name="detalle_registro_asistencia_minutos_extra" class="java.math.BigDecimal"/>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="263" y="0" width="74" height="20" backcolor="#FF9933" uuid="5383b009-0f86-4ed1-a69f-51eb2acc6bfe"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA REAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="337" y="0" width="60" height="20" backcolor="#FF9933" uuid="58638e58-070a-4c77-b2fe-d2e5333278fd"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[INICIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="397" y="0" width="60" height="20" backcolor="#FF9933" uuid="18ec5d76-5308-4a3a-a6bb-bccafdc928b8"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FIN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="457" y="0" width="55" height="20" backcolor="#FF9933" uuid="1e4f1766-906b-4e42-a867-09d53c9bda91"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIEMPO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="512" y="0" width="37" height="20" backcolor="#FF9933" uuid="62db2b50-f06c-4a20-9e9a-f802fca56ef8"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[MIN.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="549" y="0" width="51" height="20" backcolor="#FF9933" uuid="982004bd-30d1-40fa-8584-ea16a8f34834"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[HORAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="600" y="0" width="202" height="20" backcolor="#FF9933" uuid="d4ad8d77-aeb2-4634-b415-f37ca8c2a402"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[MOTIVO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="74" height="20" backcolor="#FF9933" uuid="03d7fa1b-f6dc-4b0b-ab63-411a95b85842"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CODIGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="74" y="0" width="189" height="20" backcolor="#FF9933" uuid="cbe1dc14-5d6c-438a-9be6-c44772a976aa"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[APELLIDOS Y NOMBRES]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField pattern="dd.MM.yyyy">
+				<reportElement x="263" y="0" width="74" height="20" uuid="83276dbf-5229-4f9e-b4da-20c558512cee"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{registro_asistencia_fecha}]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH:mm:ss">
+				<reportElement x="337" y="0" width="60" height="20" uuid="5f2a8eab-350f-4a25-b332-89bd2c3d8999"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{detalle_registro_asistencia_hora_inicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH:mm:ss">
+				<reportElement x="397" y="0" width="60" height="20" uuid="3afc4daa-3455-4898-9f95-9dd5843ae76e"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{detalle_registro_asistencia_hora_fin}]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH:mm">
+				<reportElement x="457" y="0" width="55" height="20" uuid="8942324f-d2a0-4fe1-947f-a154f5854d7f"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date(18000000+$F{detalle_registro_asistencia_minutos_extra}*60*1000)]]></textFieldExpression>
+			</textField>
+			<textField pattern="mm">
+				<reportElement x="512" y="0" width="37" height="20" uuid="f1cfd4a3-01fa-4bcb-8682-2723f2da0ec4"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date(18000000+$F{detalle_registro_asistencia_minutos_extra}*60*1000)]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH">
+				<reportElement x="549" y="0" width="51" height="20" uuid="82ad9ace-91be-4eb4-a41d-e57d823fb87b"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date(18000000+$F{detalle_registro_asistencia_minutos_extra}*60*1000)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="600" y="0" width="202" height="20" uuid="5c1f0e5c-e671-487b-aa32-cc6cca79e14a"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{autorizacion_descripcion}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd.MM.yyyy">
+				<reportElement x="0" y="0" width="74" height="20" uuid="99bfd9a1-9198-4824-b4e8-a2b11171a54f"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ficha_laboral_codigo_trabajador}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd.MM.yyyy">
+				<reportElement x="74" y="0" width="189" height="20" uuid="ac97d297-b0bf-430c-9413-bab3f73500b9"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[String.format("%s %s %s",$F{persona_paterno},$F{persona_materno},$F{persona_nombres})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

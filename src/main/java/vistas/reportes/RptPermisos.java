@@ -239,9 +239,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 0.1;
         pnlRango.add(cboMes, gridBagConstraints);
 
         cboPeriodo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -458,7 +456,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         int fila;
-        if((fila = tblTabla.getSelectedRow()) != -1){
+        if ((fila = tblTabla.getSelectedRow()) != -1) {
             empleadoList.remove(fila);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -530,7 +528,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         JComboBoxBinding bindGrupo = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, grupoList, cboGrupoHorario);
         JComboBoxBinding bindPeriodo = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo);
         JComboBoxBinding bindPeriodo2 = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo2);
-        
+
         bindeo.addBinding(bindPeriodo2);
         bindeo.addBinding(bindPeriodo);
         bindeo.addBinding(bindGrupo);
@@ -581,11 +579,11 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         List<String> listaTipo = obtenerTipos();
         List<Empleado> empleados = obtenerDNI();
         List<String> listaDNI = new ArrayList<>();
-        
-        for(Empleado e : empleados){
+
+        for (Empleado e : empleados) {
             listaDNI.add(e.getNroDocumento());
         }
-        
+
         Calendar cal = Calendar.getInstance();
 
         int anio;
@@ -617,10 +615,20 @@ public class RptPermisos extends javax.swing.JInternalFrame {
             fechaFin = cal.getTime();
             rangoValor = periodoList.get(cboPeriodo2.getSelectedIndex()).getAnio() + "";
         }
-
-        File archivo = new File(reporte);
-        System.out.println("archivo: "+archivo.getAbsolutePath());
         Map<String, Object> parametros = new HashMap<>();
+        String tipo;
+        if (radPermisoSinGoce.isSelected()) {
+            tipo = "S";
+            reporte = "reportes/ensa_reporte_permiso.jasper";
+            parametros.put("tipo", tipo);
+        } else if (radPermisoConGoce.isSelected()) {
+            tipo = "C";
+            reporte = "reportes/ensa_reporte_permiso.jasper";
+            parametros.put("tipo", tipo);
+        }
+        File archivo = new File(reporte);
+        System.out.println("archivo: " + archivo.getAbsolutePath());
+
         parametros.put("usuario", UsuarioActivo.getUsuario().getLogin());
         parametros.put("lista", listaDNI);
         parametros.put("listaTipo", listaTipo);
@@ -686,6 +694,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
     }
 
     private Departamento oficinaSeleccionada;
+
     private List<Empleado> obtenerDNI() {
 
         List<Empleado> lista = new ArrayList<>();

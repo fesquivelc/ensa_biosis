@@ -523,7 +523,7 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
         cboHorario.setRenderer(renderHorario);
         cboGrupo.setRenderer(renderGrupo);
 
-        String[] columnas = {"Horario", "Jornada", "L", "M", "M", "J", "V", "S", "D", "Asignado a"};
+        String[] columnas = {"Horario", "Jornada", "Asignado a"};
 
         MTAsignacion mt = new MTAsignacion(listado, columnas);
 
@@ -553,11 +553,13 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
 
         radEmpleado.setSelected(!porGrupo);
         radGrupoHorario.setSelected(porGrupo);
+        
 
         checkboxes();
 
         if (porGrupo) {
             cboGrupo.setSelectedItem(asignacion.getGrupoHorario());
+            txtEmpleado.setText("");
         } else {
             Empleado e = asignacion.getEmpleado();
             txtEmpleado.setText(e.getPaterno() + " " + e.getMaterno() + " " + e.getNombre());

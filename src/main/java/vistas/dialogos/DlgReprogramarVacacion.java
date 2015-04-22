@@ -158,7 +158,7 @@ public class DlgReprogramarVacacion extends javax.swing.JDialog {
         // TODO add your handling code here:
         int accion = Controlador.MODIFICAR;
         if (FormularioUtil.dialogoConfirmar(this, accion)) {
-            vacacion.setHayInterrupcion(true);
+            vacacion.setHayReprogramacion(true);
             vacacion.setFechaInterrupcion(dtInterrupcionDesde.getDate());
             vc.setSeleccionado(vacacion);
             if (vc.accion(accion)) {

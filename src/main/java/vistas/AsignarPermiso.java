@@ -1069,7 +1069,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         if (empleado == null) {
             total = ac.contarXFecha(fechaInicio, fechaFin);
         } else {
-            total = ac.contarXEmpleadoXFecha(empleado.getNroDocumento(), fechaInicio, fechaFin);
+            total = ac.contarXEmpleadoXFecha(empleado, fechaInicio, fechaFin);
         }
 
         if (total % tamanio == 0) {
@@ -1085,7 +1085,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         if (empleado == null) {
             return ac.buscarXFecha(fechaInicio, fechaFin, (pagina - 1) * tamanio, tamanio);
         } else {
-            return ac.buscarXEmpleadoXFecha(empleado.getNroDocumento(), fechaInicio, fechaFin, (pagina - 1) * tamanio, tamanio);
+            return ac.buscarXEmpleadoXFecha(empleado, fechaInicio, fechaFin, (pagina - 1) * tamanio, tamanio);
         }
 
     }
@@ -1326,7 +1326,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
     }
 
     private void opciones() {
-        FormularioUtil.activarComponente(dcFechaInicio, radFecha.isSelected() || radLote.isSelected());
+        FormularioUtil.activarComponente(dcFechaInicio, true);
         FormularioUtil.activarComponente(dcFechaFin, radFecha.isSelected() || radLote.isSelected());
         spHoraInicio.setEnabled(radHora.isSelected() || radLote.isSelected());
         spHoraFin.setEnabled(radHora.isSelected() || radLote.isSelected());

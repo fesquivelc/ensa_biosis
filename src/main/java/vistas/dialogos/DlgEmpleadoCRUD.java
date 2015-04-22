@@ -19,6 +19,7 @@ import controladores.TipoZonaControlador;
 import entidades.escalafon.Departamento;
 import entidades.escalafon.Empleado;
 import entidades.escalafon.FichaGeneral;
+import entidades.escalafon.FichaLaboral;
 import entidades.escalafon.Nacionalidad;
 import entidades.escalafon.NivelEducativo;
 import entidades.escalafon.RegimenLaboral;
@@ -831,7 +832,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         dcFechaNacimiento.setDate(empleado.getFechaNacimiento());
 
         //DATOS GENERALES
-        FichaGeneral general = empleado.getFcihaGeneral();
+        FichaGeneral general = empleado.getFichaGeneral();
 
         char sexo = general.getEstadoCivil();
 
@@ -870,9 +871,13 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         txtDireccion.setText(general.getDireccion());
         
         //DATOS FICHA LABORAL
-        
-        
-        
+        FichaLaboral laboral = empleado.getFichaLaboral();
+        cboOficina.setSelectedItem(laboral.getArea());
+        txtCodigoTrabajador.setText(laboral.getCodigoTrabajador() == null ? "" : laboral.getCodigoTrabajador());
+        cboTipoContrato.setSelectedItem(laboral.getTiṕoContrato());
+        cboRegimenLaboral.setSelectedItem(laboral.getRegimenLaboral());
+        dcFechaInicio.setDate(laboral.getFechaInicio());
+        cboSituacionEmpleado.setSelectedItem(laboral.getSituacionTrabajador());
 
     }
 }
