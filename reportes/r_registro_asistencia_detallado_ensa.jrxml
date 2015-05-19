@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_registro_asistencia_grupo_2" pageWidth="595" pageHeight="842" columnWidth="585" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" uuid="2351c35a-4e16-4c1c-aaf5-8e900d7ae54e">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_registro_asistencia_grupo_2" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="832" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" uuid="2351c35a-4e16-4c1c-aaf5-8e900d7ae54e">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="110"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="usuario" class="java.lang.String"/>
-	<parameter name="ruta" class="java.lang.String">
-		<defaultValueExpression><![CDATA["C:\\Users\\RyuujiMD\\Documents\\NetBeansProjects\\biosis-lite"]]></defaultValueExpression>
-	</parameter>
 	<parameter name="mostrar_he" class="java.lang.Boolean"/>
-	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\\Users\\RyuujiMD\\Documents\\NetBeansProjects\\biosis-lite\\reportes\\"]]></defaultValueExpression>
-	</parameter>
 	<parameter name="lista" class="java.util.List">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -125,7 +119,7 @@ ORDER BY paterno,materno,nombres,codigo,registro_asistencia.fecha ASC,detalle_re
 	<pageHeader>
 		<band height="77">
 			<staticText>
-				<reportElement x="0" y="0" width="322" height="30" forecolor="#666666" backcolor="#FFFFFF" uuid="c7fc26d9-5dcf-4cad-b084-87e2964bffdc"/>
+				<reportElement x="0" y="0" width="569" height="30" forecolor="#666666" backcolor="#FFFFFF" uuid="c7fc26d9-5dcf-4cad-b084-87e2964bffdc"/>
 				<box leftPadding="3"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Serif" size="16" isBold="true"/>
@@ -143,10 +137,6 @@ ORDER BY paterno,materno,nombres,codigo,registro_asistencia.fecha ASC,detalle_re
 					<textFieldExpression><![CDATA["Usuario: "+$P{usuario}]]></textFieldExpression>
 				</textField>
 			</frame>
-			<image>
-				<reportElement x="322" y="0" width="263" height="55" uuid="c9a80649-a4ae-47ea-bcfa-adc9288c07e5"/>
-				<imageExpression><![CDATA[$P{ruta}+"/reportes/logo.png"]]></imageExpression>
-			</image>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement isPrintRepeatedValues="false" x="0" y="30" width="116" height="25" forecolor="#666666" uuid="f09ed0e8-b25b-41c5-8f02-2f977616d088"/>
 				<box leftPadding="0" rightPadding="3">
@@ -450,7 +440,7 @@ ORDER BY paterno,materno,nombres,codigo,registro_asistencia.fecha ASC,detalle_re
 					<rightPen lineWidth="0.0" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Serif" size="6"/>
+					<font fontName="Serif" size="5"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{registro_asistencia_fecha}]]></textFieldExpression>
 			</textField>

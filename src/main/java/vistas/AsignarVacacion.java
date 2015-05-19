@@ -85,9 +85,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         jPanel3 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTabla = new org.jdesktop.swingx.JXTable();
@@ -160,25 +157,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
             }
         });
         jPanel3.add(btnModificar);
-
-        jButton6.setText("Compra");
-        jPanel3.add(jButton6);
-
-        jButton2.setText("Interrupción");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jButton2);
-
-        jButton5.setText("Reprogramar");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jButton5);
 
         jButton3.setText("Imprimir boleta");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -732,17 +710,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         this.actualizarControlesNavegacion();
     }//GEN-LAST:event_cboTamanioActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        int fila = tblTabla.getSelectedRow();
-        if (fila != -1) {
-            Vacacion vacacion = this.listado.get(fila);
-            DlgInterrupcionVacacion interrumpir = new DlgInterrupcionVacacion(this, vacacion);
-            interrumpir.setVisible(true);
-            this.actualizarTabla();
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         int fila = tblTabla.getSelectedRow();
@@ -760,16 +727,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private void txtEmpleadoSeleccionadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmpleadoSeleccionadoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmpleadoSeleccionadoActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-        int fila;
-        if((fila = tblTabla.getSelectedRow()) != -1){
-            DlgReprogramarVacacion repro = new DlgReprogramarVacacion(this, listado.get(fila));
-            repro.setVisible(true);
-        }
-        
-    }//GEN-LAST:event_jButton5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -790,11 +747,8 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private com.toedter.calendar.JDateChooser dcFechaInicio;
     private com.toedter.calendar.JDateChooser dcFechaInicio1;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

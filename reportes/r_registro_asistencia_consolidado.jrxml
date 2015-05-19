@@ -18,7 +18,6 @@
 	</parameter>
 	<parameter name="ruta" class="java.lang.String"/>
 	<parameter name="lista" class="java.util.List"/>
-	<parameter name="CONEXION_SUP" class="java.sql.Connection"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Users\\RyuujiMD\\Documents\\NetBeansProjects\\biosis-lite\\reportes\\"]]></defaultValueExpression>
 	</parameter>
@@ -65,10 +64,6 @@ $X{IN,registro_asistencia.empleado_nro_documento,lista} AND registro_asistencia.
 				</textElement>
 				<text><![CDATA[RESUMEN DE ASISTENCIA]]></text>
 			</staticText>
-			<image>
-				<reportElement x="322" y="0" width="233" height="52" uuid="13930c06-6956-4319-98ae-275191516703"/>
-				<imageExpression><![CDATA[$P{ruta}+"/reportes/logo.png"]]></imageExpression>
-			</image>
 			<textField>
 				<reportElement x="0" y="27" width="114" height="25" forecolor="#545454" backcolor="#545454" uuid="63bdbb4a-dc1b-478c-b0b3-48fd3b099c18"/>
 				<box leftPadding="0" rightPadding="5"/>
@@ -100,7 +95,7 @@ $X{IN,registro_asistencia.empleado_nro_documento,lista} AND registro_asistencia.
 				<subreportParameter name="empleado_nro_documento">
 					<subreportParameterExpression><![CDATA[$F{empleado_nro_documento}]]></subreportParameterExpression>
 				</subreportParameter>
-				<connectionExpression><![CDATA[$P{CONEXION_SUP}]]></connectionExpression>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_datos_empleado.jasper"]]></subreportExpression>
 			</subreport>
 		</band>

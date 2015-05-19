@@ -16,11 +16,6 @@
 	<parameter name="usuario" class="java.lang.String">
 		<defaultValueExpression><![CDATA["fesquivelc"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="ruta" class="java.lang.String"/>
-	<parameter name="CONEXION_EMPLEADOS" class="java.sql.Connection"/>
-	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\\Users\\RyuujiMD\\Documents\\NetBeansProjects\\biosis-lite\\reportes\\"]]></defaultValueExpression>
-	</parameter>
 	<parameter name="fechas" class="java.lang.String">
 		<defaultValueExpression><![CDATA[01/01/1990 - 02/01/1990]]></defaultValueExpression>
 	</parameter>
@@ -40,10 +35,18 @@
      asignacion_permiso.empleado_nro_documento AS empleado_nro_documento,
      tipo_permiso.nombre AS tipo_permiso_nombre,
      tipo_permiso.clase AS tipo_permiso_clase,
-permiso.documento as permiso_documento
+permiso.documento as permiso_documento,
+emp.paterno as emp_paterno,
+emp.materno as emp_materno,
+emp.nombres as emp_nombres,
+area.nombre as area_nombre
 FROM
-     Permiso permiso INNER JOIN asignacion_permiso asignacion_permiso ON permiso.id = asignacion_permiso.permiso_id
-     INNER JOIN tipo_permiso tipo_permiso ON permiso.tipo_permiso_codigo = tipo_permiso.codigo
+Permiso permiso
+INNER JOIN asignacion_permiso asignacion_permiso ON permiso.id = asignacion_permiso.permiso_id
+INNER JOIN personal.persona emp ON asignacion_permiso.empleado_nro_documento = emp.nro_documento
+INNER JOIN tipo_permiso tipo_permiso ON permiso.tipo_permiso_codigo = tipo_permiso.codigo
+INNER JOIN personal.ficha_laboral flab ON emp.nro_documento = flab.persona_nro_documento
+LEFT JOIN institucional.v_area area ON flab.area_codigo = area.codigo
 WHERE
 permiso.id = $P{permiso_id} AND asignacion_permiso.empleado_nro_documento = $P{empleado_nro_documento}]]>
 	</queryString>
@@ -53,6 +56,10 @@ permiso.id = $P{permiso_id} AND asignacion_permiso.empleado_nro_documento = $P{e
 	<field name="empleado_nro_documento" class="java.lang.String"/>
 	<field name="tipo_permiso_nombre" class="java.lang.String"/>
 	<field name="tipo_permiso_clase" class="java.lang.String"/>
+	<field name="emp_paterno" class="java.lang.String"/>
+	<field name="emp_materno" class="java.lang.String"/>
+	<field name="emp_nombres" class="java.lang.String"/>
+	<field name="area_nombre" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -69,17 +76,13 @@ permiso.id = $P{permiso_id} AND asignacion_permiso.empleado_nro_documento = $P{e
 				</textField>
 			</frame>
 			<staticText>
-				<reportElement style="Title" x="0" y="0" width="322" height="47" forecolor="#545454" uuid="3a4666ea-ca5c-4111-91ce-59fe595a3841"/>
+				<reportElement style="Title" x="0" y="0" width="553" height="47" forecolor="#545454" uuid="3a4666ea-ca5c-4111-91ce-59fe595a3841"/>
 				<box leftPadding="5"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="16" isBold="true"/>
 				</textElement>
-				<text><![CDATA[PAPELETA DE PERMISO]]></text>
+				<text><![CDATA[M.P. SAN MARCOS - PAPELETA DE PERMISO]]></text>
 			</staticText>
-			<image>
-				<reportElement x="322" y="0" width="233" height="47" uuid="13930c06-6956-4319-98ae-275191516703"/>
-				<imageExpression><![CDATA[$P{ruta}+"/reportes/logo.png"]]></imageExpression>
-			</image>
 		</band>
 	</title>
 	<pageHeader>
@@ -87,14 +90,6 @@ permiso.id = $P{permiso_id} AND asignacion_permiso.empleado_nro_documento = $P{e
 	</pageHeader>
 	<columnHeader>
 		<band height="327" splitType="Stretch">
-			<subreport>
-				<reportElement x="0" y="0" width="555" height="100" uuid="8b9501e0-93f0-4f45-a4f4-5d46c8a0f8ce"/>
-				<subreportParameter name="empleado_nro_documento">
-					<subreportParameterExpression><![CDATA[$F{empleado_nro_documento}]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{CONEXION_EMPLEADOS}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_datos_empleado.jasper"]]></subreportExpression>
-			</subreport>
 			<staticText>
 				<reportElement x="0" y="100" width="157" height="20" uuid="10fdbe5d-8a73-4bff-b142-f3b31e604548"/>
 				<textElement verticalAlignment="Middle">
@@ -190,7 +185,49 @@ permiso.id = $P{permiso_id} AND asignacion_permiso.empleado_nro_documento = $P{e
 				<textElement verticalAlignment="Top">
 					<font size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{permiso_documento}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{permiso_motivo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="29" width="157" height="20" uuid="0e595bae-91ef-4ce5-b0b9-139e6c5d8f28"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EMPLEADO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="157" y="29" width="398" height="20" uuid="0884438b-0956-44cb-9af7-bb2530c465c2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[String.format("%s %s %s",$F{emp_paterno},$F{emp_materno},$F{emp_nombres})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="9" width="157" height="20" uuid="d2a0ffd9-2a69-4f93-b3bf-c844fcde9eea"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DNI:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="157" y="9" width="398" height="20" uuid="af9eea5e-0340-4643-a9db-18a0294ca5b6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{empleado_nro_documento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="49" width="157" height="20" uuid="055c7413-281a-43f3-a0db-07be669f7fed"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ÁREA:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="157" y="49" width="398" height="20" uuid="6cb8357e-e002-4537-8cc6-8169523d1c6b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{area_nombre}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>

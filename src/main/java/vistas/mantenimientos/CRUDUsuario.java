@@ -497,7 +497,7 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
         BeanProperty pLogin = BeanProperty.create("login");
         BeanProperty pRol = BeanProperty.create("rol.nombre");
         BeanProperty pActivo = BeanProperty.create("activo");
-        BeanProperty pEmpleado = BeanProperty.create("empleado");
+        BeanProperty pEmpleado = BeanProperty.create("empleado.nombreCompleto");
 
         tablaBinding.addColumnBinding(pEmpleado).setColumnName("Nro de documento").setEditable(false).setColumnClass(String.class);
         tablaBinding.addColumnBinding(pLogin).setColumnName("Nombre de usuario").setEditable(false).setColumnClass(String.class);
@@ -514,7 +514,7 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
         chkActivo.setSelected(seleccionado.isActivo());
 
         chkCambiarContraseña.setSelected(seleccionado.isCambiarPassword());
-        empleadoSeleccionado = empleadoControlador.buscarPorId(seleccionado.getEmpleado());
+        empleadoSeleccionado = seleccionado.getEmpleado();
         if (empleadoSeleccionado != null) {
             txtEmpleado.setText(empleadoSeleccionado.getPaterno() + " " + empleadoSeleccionado.getMaterno() + " " + empleadoSeleccionado.getNombre());
         }

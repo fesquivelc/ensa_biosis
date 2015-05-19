@@ -5,7 +5,6 @@
  */
 package vistas.modelos;
 
-import controladores.EmpleadoControlador;
 import entidades.Marcacion;
 import com.personal.utiles.ModeloTabla;
 import entidades.escalafon.Empleado;
@@ -46,9 +45,9 @@ public class MTMarcacion extends ModeloTabla<Marcacion> {
             case 1:
                 return String.format("%s %s %s", empleado.getPaterno(),empleado.getMaterno(),empleado.getNombre());
             case 2:
-                return dtFecha.format(marcacion.getFecha());
+                return dtFecha.format(marcacion.getFechaHora());
             case 3:
-                return dtHora.format(marcacion.getHora());
+                return dtHora.format(marcacion.getFechaHora());
             case 4:
                 return marcacion.getEquipo();
             default:

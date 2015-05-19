@@ -128,7 +128,6 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         jPanel5 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        btnImprimirTodo = new javax.swing.JButton();
         opciones.add(radFecha);
         opciones.add(radHora);
         opciones.add(radLote);
@@ -600,14 +599,6 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         });
         jPanel5.add(btnCancelar);
 
-        btnImprimirTodo.setText("Imprimir todo");
-        btnImprimirTodo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnImprimirTodoActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnImprimirTodo);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -729,7 +720,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         if (fila != -1) {
             Permiso permiso = listado.get(fila).getPermiso();
             mostrar(permiso);
-            FormularioUtil.activarComponente(this.btnImprimirTodo, true);
+//            FormularioUtil.activarComponente(this.btnImprimirTodo, true);
         }
     }//GEN-LAST:event_tblTablaMouseReleased
 
@@ -835,17 +826,6 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void btnImprimirTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirTodoActionPerformed
-        // TODO add your handling code here:
-        int fila = this.tblTabla.getSelectedRow();
-        if (fila != -1) {
-//            List<AsignacionPermiso> lista = new ArrayList<>();
-            AsignacionPermiso asignacion = this.listado.get(fila);
-//            lista.add(asignacion);
-            imprimirBoleta(asignacion.getPermiso());
-        }
-    }//GEN-LAST:event_btnImprimirTodoActionPerformed
-
     private void tblEmpleadosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmpleadosMouseReleased
         // TODO add your handling code here:
         int fila;
@@ -880,7 +860,6 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnImprimirTodo;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevo;
@@ -1012,7 +991,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 
         FormularioUtil.activarComponente(this.pnlListado, !bandera);
         FormularioUtil.activarComponente(this.pnlDatos, bandera);
-        FormularioUtil.activarComponente(this.btnImprimirTodo, false);
+//        FormularioUtil.activarComponente(this.btnImprimirTodo, false);
 
         if (accion != Controlador.MODIFICAR) {
             FormularioUtil.limpiarComponente(this.pnlDatos);
@@ -1229,14 +1208,11 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 //        }
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("permiso_id", seleccionada.getPermiso().getId());
-        parametros.put("empleado_nro_documento", seleccionada.getEmpleado());
+        parametros.put("empleado_nro_documento", seleccionada.getEmpleado().getNroDocumento());
         parametros.put("tipoPermiso", tipoPermiso);
         parametros.put("conGoce", conGoce);
         System.out.println("NULL 1 ");
         parametros.put("usuario", UsuarioActivo.getUsuario().getLogin());
-        System.out.println("NULL 2 ");
-        parametros.put("CONEXION_EMPLEADOS", ec.getDao().getConexion());
-        System.out.println("NULL 3 ");
         parametros.put("fechas", fechas);
 
         reporteador.setConn(controlador.getDao().getConexion());

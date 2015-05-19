@@ -90,10 +90,8 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         grpSeleccion = new javax.swing.ButtonGroup();
         pnlOpciones = new javax.swing.JPanel();
         radTodo = new javax.swing.JRadioButton();
-        radPermisoConGoce = new javax.swing.JRadioButton();
         radLicencia = new javax.swing.JRadioButton();
         radComision = new javax.swing.JRadioButton();
-        radPermisoSinGoce = new javax.swing.JRadioButton();
         pnlRango = new javax.swing.JPanel();
         radPorFecha = new javax.swing.JRadioButton();
         radMes = new javax.swing.JRadioButton();
@@ -119,7 +117,6 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         jButton2 = new javax.swing.JButton();
         pnlTab = new javax.swing.JTabbedPane();
         grpTipoReporte.add(radTodo);
-        grpTipoReporte.add(radPermisoConGoce);
         grpTipoReporte.add(radLicencia);
         grpTipoReporte.add(radComision);
 
@@ -144,36 +141,22 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         radTodo.setText("Todo");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlOpciones.add(radTodo, gridBagConstraints);
-
-        radPermisoConGoce.setText("Permisos con goce");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
-        pnlOpciones.add(radPermisoConGoce, gridBagConstraints);
+        pnlOpciones.add(radTodo, gridBagConstraints);
 
         radLicencia.setText("Licencias");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlOpciones.add(radLicencia, gridBagConstraints);
 
         radComision.setText("Comisión de servicios");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlOpciones.add(radComision, gridBagConstraints);
-
-        radPermisoSinGoce.setText("Permisos sin goce");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlOpciones.add(radPermisoSinGoce, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -487,8 +470,6 @@ public class RptPermisos extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton radLicencia;
     private javax.swing.JRadioButton radMes;
     private javax.swing.JRadioButton radOficina;
-    private javax.swing.JRadioButton radPermisoConGoce;
-    private javax.swing.JRadioButton radPermisoSinGoce;
     private javax.swing.JRadioButton radPersonalizado;
     private javax.swing.JRadioButton radPorFecha;
     private javax.swing.JRadioButton radTodo;
@@ -617,15 +598,15 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         }
         Map<String, Object> parametros = new HashMap<>();
         String tipo;
-        if (radPermisoSinGoce.isSelected()) {
-            tipo = "S";
-            reporte = "reportes/ensa_reporte_permiso.jasper";
-            parametros.put("tipo", tipo);
-        } else if (radPermisoConGoce.isSelected()) {
-            tipo = "C";
-            reporte = "reportes/ensa_reporte_permiso.jasper";
-            parametros.put("tipo", tipo);
-        }
+//        if (radPermisoSinGoce.isSelected()) {
+//            tipo = "S";
+//            reporte = "reportes/ensa_reporte_permiso.jasper";
+//            parametros.put("tipo", tipo);
+//        } else if (radPermisoConGoce.isSelected()) {
+//            tipo = "C";
+//            reporte = "reportes/ensa_reporte_permiso.jasper";
+//            parametros.put("tipo", tipo);
+//        }
         File archivo = new File(reporte);
         System.out.println("archivo: " + archivo.getAbsolutePath());
 
@@ -663,9 +644,11 @@ public class RptPermisos extends javax.swing.JInternalFrame {
             tipos.add("P");
             tipos.add("L");
             tipos.add("C");
-        } else if (radPermisoConGoce.isSelected()) {
-            tipos.add("P");
-        } else if (radLicencia.isSelected()) {
+        } 
+//        else if (radPermisoConGoce.isSelected()) {
+//            tipos.add("P");
+//        }
+        else if (radLicencia.isSelected()) {
             tipos.add("L");
         } else if (radComision.isSelected()) {
             tipos.add("C");

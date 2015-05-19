@@ -26,20 +26,31 @@ public class Marcacion implements Serializable {
     private String equipo;
     @Id
     private Long id;
-    @Column(nullable=false)
-    @Temporal(TemporalType.TIME)
-    @Basic
-    private Date hora;
-    @Column(nullable=false)
-    @Temporal(TemporalType.DATE)
-    @Basic
-    private Date fecha;
+//    @Column(nullable=false)
+//    @Temporal(TemporalType.TIME)
+//    @Basic
+//    private Date hora;
+//    @Column(nullable=false)
+//    @Temporal(TemporalType.DATE)
+//    @Basic
+//    private Date fecha;
+    @Column(name = "fecha_hora")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaHora;
     @ManyToOne(targetEntity = Empleado.class,fetch = FetchType.EAGER)
     @JoinColumn(name = "empleado_nro_documento",referencedColumnName = "nro_documento")
     private Empleado empleado;
 
     public Marcacion() {
 
+    }
+
+    public Date getFechaHora() {
+        return fechaHora;
+    }
+
+    public void setFechaHora(Date fechaHora) {
+        this.fechaHora = fechaHora;
     }
    
 //    public String getNombre() {
@@ -65,22 +76,22 @@ public class Marcacion implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-   
-    public Date getHora() {
-        return this.hora;
-    }
-
-    public void setHora(Date hora) {
-        this.hora = hora;
-    }
-   
-    public Date getFecha() {
-        return this.fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
+//   
+//    public Date getHora() {
+//        return this.hora;
+//    }
+//
+//    public void setHora(Date hora) {
+//        this.hora = hora;
+//    }
+//   
+//    public Date getFecha() {
+//        return this.fecha;
+//    }
+//
+//    public void setFecha(Date fecha) {
+//        this.fecha = fecha;
+//    }
 
     public Empleado getEmpleado() {
         return empleado;

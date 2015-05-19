@@ -160,13 +160,13 @@ public class DlgCambiarPassword extends javax.swing.JDialog {
         String newPwd = new String(txtNuevoPass.getPassword());
         String repNewPwd = new String(txtRepNuevoPass.getPassword());
         
-        Usuario up = uc.login(UsuarioActivo.getUsuario().getLogin(), Encriptador.encrypt(actPwd));
+        Usuario up = uc.login(UsuarioActivo.getUsuario().getLogin(), actPwd);
         
-        if(newPwd.length() < 8 || repNewPwd.length() < 8){
-            mensaje += "> El password debe tener como mínimo 8 caracteres\n";
-            errores++;
-        }
-        if(newPwd.equals(repNewPwd)){
+//        if(newPwd.length() < 8 || repNewPwd.length() < 8){
+//            mensaje += "> El password debe tener como mínimo 8 caracteres\n";
+//            errores++;
+//        }
+        if(!newPwd.equals(repNewPwd)){
             mensaje += "> No ha repetido correctamente la contraseña\n";
             errores++;
         }
@@ -174,7 +174,10 @@ public class DlgCambiarPassword extends javax.swing.JDialog {
             mensaje += "> Escriba correctamente su contraseña actual\n";
             errores++;
         }
-        JOptionPane.showMessageDialog(this, mensaje, "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
+        if(errores > 0){
+            JOptionPane.showMessageDialog(this, mensaje, "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
+        }
+        
         return errores != 0;
     }
 }

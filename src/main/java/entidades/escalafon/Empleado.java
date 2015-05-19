@@ -50,6 +50,10 @@ public class Empleado implements Serializable {
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fechaNacimiento;
+    
+    public String getNombreCompleto(){
+        return String.format("%s %s %s", this.paterno, this.materno, this.nombre);
+    }
 
     public Empleado() {
 
@@ -145,7 +149,7 @@ public class Empleado implements Serializable {
 
     @Override
     public String toString() {
-        return "Empleado{" + "nroDocumento=" + nroDocumento + '}';
+        return nombre +" " +paterno+" " + materno+" ("+nroDocumento + ")";
     }
     
     

@@ -81,6 +81,10 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         iniciar();
         ec = new EmpleadoControlador();
         agregar = true;
+        ec.setSeleccionado(empleado);
+        if (this.accion == Controlador.MODIFICAR) {
+            this.mostrarDatos(empleado);
+        }
         this.setLocationRelativeTo(parent);
     }
 
@@ -98,7 +102,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
+        pnlEmpleado = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         pnlNavegacion = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -173,21 +177,21 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
         jPanel1Layout.columnWidths = new int[] {0, 0, 0, 0, 0, 0, 0};
         jPanel1Layout.rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        jPanel1.setLayout(jPanel1Layout);
+        pnlEmpleado.setLayout(jPanel1Layout);
 
         jPanel2.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 5;
-        jPanel1.add(jPanel2, gridBagConstraints);
+        pnlEmpleado.add(jPanel2, gridBagConstraints);
 
         pnlNavegacion.setLayout(new java.awt.GridLayout(1, 0, 2, 0));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 5;
-        jPanel1.add(pnlNavegacion, gridBagConstraints);
+        pnlEmpleado.add(pnlNavegacion, gridBagConstraints);
 
         jLabel1.setText("Tipo documento:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -195,7 +199,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jLabel1, gridBagConstraints);
+        pnlEmpleado.add(jLabel1, gridBagConstraints);
 
         txtPaterno.setColumns(40);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -204,7 +208,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(txtPaterno, gridBagConstraints);
+        pnlEmpleado.add(txtPaterno, gridBagConstraints);
 
         jLabel3.setText("Apellido paterno:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -212,7 +216,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jLabel3, gridBagConstraints);
+        pnlEmpleado.add(jLabel3, gridBagConstraints);
 
         jLabel4.setText("Apellido materno:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -220,7 +224,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jLabel4, gridBagConstraints);
+        pnlEmpleado.add(jLabel4, gridBagConstraints);
 
         jLabel5.setText("Género:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -228,7 +232,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jLabel5, gridBagConstraints);
+        pnlEmpleado.add(jLabel5, gridBagConstraints);
 
         txtMaterno.setColumns(40);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -237,7 +241,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(txtMaterno, gridBagConstraints);
+        pnlEmpleado.add(txtMaterno, gridBagConstraints);
 
         cboTipoDocumento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -245,7 +249,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(cboTipoDocumento, gridBagConstraints);
+        pnlEmpleado.add(cboTipoDocumento, gridBagConstraints);
 
         cboGenero.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MASCULINO", "FEMENINO" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -253,7 +257,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(cboGenero, gridBagConstraints);
+        pnlEmpleado.add(cboGenero, gridBagConstraints);
 
         jLabel7.setText("Fecha de nacimiento:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -261,7 +265,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jLabel7, gridBagConstraints);
+        pnlEmpleado.add(jLabel7, gridBagConstraints);
 
         jLabel8.setText("Nombres:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -269,7 +273,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jLabel8, gridBagConstraints);
+        pnlEmpleado.add(jLabel8, gridBagConstraints);
 
         txtNombres.setColumns(40);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -279,13 +283,13 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(txtNombres, gridBagConstraints);
+        pnlEmpleado.add(txtNombres, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(dcFechaNacimiento, gridBagConstraints);
+        pnlEmpleado.add(dcFechaNacimiento, gridBagConstraints);
 
         jLabel23.setText("Número de documento:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -293,7 +297,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jLabel23, gridBagConstraints);
+        pnlEmpleado.add(jLabel23, gridBagConstraints);
 
         txtNroDocumento.setColumns(15);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -301,9 +305,9 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(txtNroDocumento, gridBagConstraints);
+        pnlEmpleado.add(txtNroDocumento, gridBagConstraints);
 
-        jTabbedPane1.addTab("Datos personales", jPanel1);
+        jTabbedPane1.addTab("Datos personales", pnlEmpleado);
 
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
@@ -683,12 +687,12 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JPanel pnlEmpleado;
     private javax.swing.JScrollPane pnlGenerales;
     private javax.swing.JScrollPane pnlLaborales;
     private javax.swing.JPanel pnlNavegacion;
@@ -818,7 +822,52 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     }
 
     private void guardar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (FormularioUtil.dialogoConfirmar(this, accion)) {
+            if (this.accion == Controlador.NUEVO) {
+                empleado.setNroDocumento(txtNroDocumento.getText());
+            }
+            
+            FormularioUtil.convertirMayusculas(pnlLaborales);
+            FormularioUtil.convertirMayusculas(pnlEmpleado);
+            FormularioUtil.convertirMayusculas(pnlGenerales);
+            
+            empleado.setCondicion('A');
+            empleado.setFechaNacimiento(dcFechaNacimiento.getDate());
+            empleado.setMaterno(txtMaterno.getText());
+            empleado.setPaterno(txtPaterno.getText());
+            empleado.setNombre(txtNombres.getText());
+            empleado.setSexo(cboGenero.getSelectedItem().toString().charAt(1));
+            empleado.setTipoDocumento((TipoDocumento) cboTipoDocumento.getSelectedItem());
+
+            FichaGeneral fgen = empleado.getFichaGeneral();
+            fgen.setDireccion(txtDireccion.getText());
+            fgen.setEmail(txtEmail.getText().toLowerCase());
+            fgen.setEstadoCivil(cboEstadoCivil.getSelectedItem().toString().charAt(1));
+            fgen.setNacionalidad(nacionalidadSeleccion);
+            fgen.setNivelEducativo((NivelEducativo) cboNivelEducativo.getSelectedItem());
+            fgen.setTelefono1(txtTelefono1.getText());
+            fgen.setTelefono2(txtTelefono2.getText());
+            fgen.setTipoVia((TipoVia) cboTipoVia.getSelectedItem());
+            fgen.setTipoZona((TipoZona) cboTipoZona.getSelectedItem());
+            fgen.setUbigeoResidencia(ubigeoSeleccion);
+
+            FichaLaboral flab = empleado.getFichaLaboral();
+            flab.setArea((Departamento) this.cboOficina.getSelectedItem());
+            flab.setCodigoTrabajador(txtCodigoTrabajador.getText());
+            flab.setFechaInicio(dcFechaInicio.getDate());
+            flab.setRegimenLaboral((RegimenLaboral) cboRegimenLaboral.getSelectedItem());
+            flab.setSituacionTrabajador((SituacionTrabajador) cboSituacionEmpleado.getSelectedItem());
+            flab.setTipoContrato((TipoContrato) cboTipoContrato.getSelectedItem());
+
+            if (ec.accion(accion)) {
+                
+                FormularioUtil.mensajeExito(this, accion);
+                this.dispose();
+            } else {
+                FormularioUtil.mensajeError(this, accion);
+            }
+        }
+
     }
 
     private void mostrarDatos(Empleado empleado) {
@@ -856,25 +905,25 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
                         ? cboNivelEducativo.getSelectedItem()
                         : general.getNivelEducativo()
         );
-        
+
         txtEmail.setText(general.getEmail() == null ? "" : general.getEmail());
-        
+
         this.nacionalidadSeleccion = general.getNacionalidad();
         mostrarNacionalidad(nacionalidadSeleccion);
-        
+
         this.ubigeoSeleccion = general.getUbigeoResidencia();
-        mostrarUbigeo(ubigeoSeleccion);        
+        mostrarUbigeo(ubigeoSeleccion);
         txtTelefono1.setText(general.getTelefono1());
         txtTelefono2.setText(general.getTelefono2());
         cboTipoVia.setSelectedItem(general.getTipoVia());
         cboTipoZona.setSelectedItem(general.getTipoZona());
         txtDireccion.setText(general.getDireccion());
-        
+
         //DATOS FICHA LABORAL
         FichaLaboral laboral = empleado.getFichaLaboral();
         cboOficina.setSelectedItem(laboral.getArea());
         txtCodigoTrabajador.setText(laboral.getCodigoTrabajador() == null ? "" : laboral.getCodigoTrabajador());
-        cboTipoContrato.setSelectedItem(laboral.getTiṕoContrato());
+        cboTipoContrato.setSelectedItem(laboral.getTipoContrato());
         cboRegimenLaboral.setSelectedItem(laboral.getRegimenLaboral());
         dcFechaInicio.setDate(laboral.getFechaInicio());
         cboSituacionEmpleado.setSelectedItem(laboral.getSituacionTrabajador());

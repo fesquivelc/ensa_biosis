@@ -5,8 +5,6 @@
  */
 package vistas;
 
-import dao.DAO;
-import entidades.Marcacion;
 import entidades.RolAcceso;
 import entidades.Usuario;
 import vistas.dialogos.DlgCambiarPassword;
@@ -53,14 +51,14 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
 
-        File file = new File("img/fondo-ensa.gif");
-        ImagenFondo borde;
-        try {
-            borde = new ImagenFondo(ImageIO.read(file));
-            this.desktopPane.setBorder(borde);
-        } catch (IOException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        File file = new File("img/fondo-ensa.gif");
+//        ImagenFondo borde;
+//        try {
+//            borde = new ImagenFondo(ImageIO.read(file));
+//            this.desktopPane.setBorder(borde);
+//        } catch (IOException ex) {
+//            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     /**
@@ -98,12 +96,10 @@ public class Principal extends javax.swing.JFrame {
         mnuTiposPermiso = new javax.swing.JMenuItem();
         mnuAsignarPermiso = new javax.swing.JMenuItem();
         mnuAsignarVacaciones = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
         mnuReportes = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
         mnuConfiguracion = new javax.swing.JMenu();
         mnuPeriodos = new javax.swing.JMenuItem();
         mnuControlUsuario = new javax.swing.JMenuItem();
@@ -112,7 +108,7 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("SISTEMA DE CONTROL DE ASISTENCIA DE PERSONAL - BIOSIS ENSA");
+        setTitle("SISTEMA DE CONTROL DE ASISTENCIA DE PERSONAL - BIOSIS - SAN MARCOS");
         java.awt.GridBagLayout layout = new java.awt.GridBagLayout();
         layout.columnWidths = new int[] {0, 10, 0};
         layout.rowHeights = new int[] {0, 10, 0, 10, 0};
@@ -313,14 +309,6 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuPermiso.add(mnuAsignarVacaciones);
 
-        jMenuItem6.setText("Autorización horas extra");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
-            }
-        });
-        mnuPermiso.add(jMenuItem6);
-
         menuBar.add(mnuPermiso);
 
         mnuReportes.setText("Reportes");
@@ -348,14 +336,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         mnuReportes.add(jMenuItem3);
-
-        jMenuItem4.setText("Reporte de faltas y tardanzas en el día");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
-            }
-        });
-        mnuReportes.add(jMenuItem4);
 
         menuBar.add(mnuReportes);
 
@@ -538,21 +518,10 @@ public class Principal extends javax.swing.JFrame {
         passwd.setVisible(true);
     }//GEN-LAST:event_mnuCambiarPasswdActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        // TODO add your handling code here:
-        RptTardanzasFaltas tyf = new RptTardanzasFaltas();
-        agregarAPanel(tyf, true);
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
-
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
         agregarAPanel(new EjecutarSQL(),true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
-
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        // TODO add your handling code here:
-        agregarAPanel(new AsignarAutorizacion(), true);
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -565,9 +534,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblJuvitec;

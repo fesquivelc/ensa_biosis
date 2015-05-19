@@ -16,13 +16,9 @@
 	<parameter name="usuario" class="java.lang.String">
 		<defaultValueExpression><![CDATA["fesquivelc"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="ruta" class="java.lang.String"/>
 	<parameter name="lista" class="java.util.List"/>
-	<parameter name="CONEXION_EMPLEADOS" class="java.sql.Connection"/>
 	<parameter name="periodo_anio" class="java.lang.Integer"/>
-	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\\Users\\RyuujiMD\\Documents\\NetBeansProjects\\biosis-lite\\reportes\\"]]></defaultValueExpression>
-	</parameter>
+	<parameter name="ruta" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT
      saldo_vacacional.dias_restantes AS dias_restantes,
@@ -32,9 +28,17 @@
      saldo_vacacional.domingo AS domingo,
      saldo_vacacional.fecha_desde AS fecha_desde,
      saldo_vacacional.fecha_hasta AS fecha_hasta,
-saldo_vacacional.empleado_nro_documento AS empleado_nro_documento
+saldo_vacacional.empleado_nro_documento AS empleado_nro_documento,
+pers.nro_documento AS pers_nro_documento,
+pers.paterno as pers_paterno,
+pers.materno as pers_materno,
+pers.nombres as pers_nombres,
+area.nombre as area_nombre
 FROM
-     saldo_vacacional saldo_vacacional
+saldo_vacacional saldo_vacacional
+INNER JOIN personal.persona pers ON saldo_vacacional.empleado_nro_documento = pers.nro_documento
+INNER JOIN personal.ficha_laboral flab ON pers.nro_documento = flab.persona_nro_documento
+LEFT JOIN institucional.v_area area ON flab.area_codigo = area.codigo
 WHERE saldo_vacacional.periodo_anio = $P{periodo_anio} AND $X{IN,empleado_nro_documento,lista}]]>
 	</queryString>
 	<field name="dias_restantes" class="java.lang.Integer"/>
@@ -42,9 +46,14 @@ WHERE saldo_vacacional.periodo_anio = $P{periodo_anio} AND $X{IN,empleado_nro_do
 	<field name="lunes_viernes" class="java.lang.Integer"/>
 	<field name="sabado" class="java.lang.Integer"/>
 	<field name="domingo" class="java.lang.Integer"/>
-	<field name="fecha_desde" class="java.sql.Date"/>
-	<field name="fecha_hasta" class="java.sql.Date"/>
+	<field name="fecha_desde" class="java.sql.Timestamp"/>
+	<field name="fecha_hasta" class="java.sql.Timestamp"/>
 	<field name="empleado_nro_documento" class="java.lang.String"/>
+	<field name="pers_nro_documento" class="java.lang.String"/>
+	<field name="pers_paterno" class="java.lang.String"/>
+	<field name="pers_materno" class="java.lang.String"/>
+	<field name="pers_nombres" class="java.lang.String"/>
+	<field name="area_nombre" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -63,36 +72,66 @@ WHERE saldo_vacacional.periodo_anio = $P{periodo_anio} AND $X{IN,empleado_nro_do
 					<textFieldExpression><![CDATA["Usuario: "+$P{usuario}]]></textFieldExpression>
 				</textField>
 			</frame>
-			<image>
-				<reportElement x="322" y="0" width="233" height="47" uuid="13930c06-6956-4319-98ae-275191516703"/>
-				<imageExpression><![CDATA[$P{ruta}+"/reportes/logo.png"]]></imageExpression>
-			</image>
-			<textField>
-				<reportElement x="0" y="0" width="322" height="52" forecolor="#545454" uuid="5ac85be4-bbfd-409b-a4e8-91f6b378ce29"/>
+			<staticText>
+				<reportElement style="Title" x="0" y="0" width="555" height="47" forecolor="#545454" uuid="37cf5a13-fea2-44c8-979e-d7a1e8b26c6f"/>
 				<box leftPadding="5"/>
 				<textElement verticalAlignment="Middle">
-					<font size="16" isBold="true"/>
+					<font fontName="SansSerif" size="16" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["REPORTE DE VACACIONES"]]></textFieldExpression>
-			</textField>
+				<text><![CDATA[M.P. SAN MARCOS - REPORTE DE VACACIONES]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="100" splitType="Stretch">
-			<subreport>
-				<reportElement x="0" y="0" width="555" height="100" uuid="bd91f346-0a84-4a4f-a957-20a78f05a7ec"/>
-				<subreportParameter name="empleado_nro_documento">
-					<subreportParameterExpression><![CDATA[$F{empleado_nro_documento}]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{CONEXION_EMPLEADOS}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_datos_empleado.jasper"]]></subreportExpression>
-			</subreport>
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="1" uuid="25e03c4f-5988-4f92-89d3-f672827e8098"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineColor="#999999"/>
 				</graphicElement>
 			</line>
+			<textField>
+				<reportElement x="157" y="41" width="398" height="20" uuid="48884f94-3371-4721-8851-32c96fb6d529"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{area_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="1" width="398" height="20" uuid="58a30c09-658a-43fa-8889-ba357a602916"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pers_nro_documento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="21" width="398" height="20" uuid="1e439339-74b9-46b3-9d9a-d4b77ac07ab4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[String.format("%s %s %s",$F{pers_paterno},$F{pers_materno},$F{pers_nombres})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="1" width="157" height="20" uuid="84e57a63-da67-4363-80e7-e3d1215cfb50"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DNI:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="41" width="157" height="20" uuid="825966cc-1003-49eb-b70e-35e63286b241"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ÁREA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="21" width="157" height="20" uuid="e2a250ce-f15d-4928-afe2-52ddeed3deb9"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EMPLEADO:]]></text>
+			</staticText>
 		</band>
 		<band height="314">
 			<staticText>

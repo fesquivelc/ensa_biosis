@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_permisos_licencia_comision" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55865ced-10c9-4375-a77d-07d9f5f8916b">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="49"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -18,10 +18,6 @@
 	</parameter>
 	<parameter name="ruta" class="java.lang.String"/>
 	<parameter name="lista" class="java.util.List"/>
-	<parameter name="CONEXION_EMPLEADOS" class="java.sql.Connection"/>
-	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\\Users\\RyuujiMD\\Documents\\NetBeansProjects\\biosis-lite\\reportes\\"]]></defaultValueExpression>
-	</parameter>
 	<parameter name="listaTipo" class="java.util.List">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -60,10 +56,6 @@ WHERE $X{IN,empleado_nro_documento,lista} AND $X{IN,tipo_permiso.clase,listaTipo
 					<textFieldExpression><![CDATA["Usuario: "+$P{usuario}]]></textFieldExpression>
 				</textField>
 			</frame>
-			<image>
-				<reportElement x="322" y="0" width="233" height="47" uuid="13930c06-6956-4319-98ae-275191516703"/>
-				<imageExpression><![CDATA[$P{ruta}+"/reportes/logo.png"]]></imageExpression>
-			</image>
 			<textField>
 				<reportElement x="0" y="0" width="322" height="22" forecolor="#545454" uuid="5ac85be4-bbfd-409b-a4e8-91f6b378ce29"/>
 				<box leftPadding="5"/>
@@ -97,7 +89,7 @@ WHERE $X{IN,empleado_nro_documento,lista} AND $X{IN,tipo_permiso.clase,listaTipo
 				<subreportParameter name="empleado_nro_documento">
 					<subreportParameterExpression><![CDATA[$F{empleado_nro_documento}]]></subreportParameterExpression>
 				</subreportParameter>
-				<connectionExpression><![CDATA[$P{CONEXION_EMPLEADOS}]]></connectionExpression>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_datos_empleado.jasper"]]></subreportExpression>
 			</subreport>
 		</band>

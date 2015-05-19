@@ -523,17 +523,6 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         tblEmpleado.setModel(mt);
     }
 
-//    private void buscar() {
-//        lista.clear();
-//        Date fechaInicio = (Date) spFechaInicio.getValue();
-//        Date fechaFin = (Date) spFechaFin.getValue();
-//        if (empleadoSeleccionado == null) {
-//            lista.addAll(mc.buscarXFecha(fechaInicio, fechaFin));
-//        } else {
-//            lista.addAll(mc.buscarXFecha(empleadoSeleccionado.getNroDocumento(), fechaInicio, fechaFin));
-//        }
-//        tblEmpleado.packAll();
-//    }
     private void inicializar() {
         FormularioUtil.modeloSpinnerFechaHora(this.spHoraInicio, "HH:mm");
         FormularioUtil.modeloSpinnerFechaHora(this.spHoraFin, "HH:mm");
@@ -687,7 +676,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
 
     private final EmpleadoControlador ec = new EmpleadoControlador();
     private final ReporteUtil rUtil = new ReporteUtil();
-    private final DateFormat dfFecha = new SimpleDateFormat("dd/MM/yyyy");
+    private final DateFormat dfFecha = new SimpleDateFormat("dd.MM.yyyy");
     private final DateFormat dfHora = new SimpleDateFormat("HH:mm:ss");
 
     private void imprimir() {
@@ -741,10 +730,11 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
             String[] linea = new String[5];
 
             for (Marcacion m : listado) {
-                linea[0] = String.format("%s %s %s", m.getEmpleado().getPaterno(), m.getEmpleado().getMaterno(), m.getEmpleado().getNombre()) ;
-                linea[1] = dfFecha.format(m.getFecha());
-                linea[2] = dfHora.format(m.getHora());
-                linea[3] = m.getEquipo();
+                linea[0] = String.format("%s", m.getEmpleado().getNroDocumento()) ;
+                linea[1] = String.format("%s %s %s", m.getEmpleado().getPaterno(), m.getEmpleado().getMaterno(), m.getEmpleado().getNombre()) ;
+                linea[2] = dfFecha.format(m.getFechaHora());
+                linea[3] = dfHora.format(m.getFechaHora());
+                linea[4] = m.getEquipo();
 
                 writer.writeNext(linea, true);
             }

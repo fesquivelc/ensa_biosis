@@ -5,9 +5,9 @@
  */
 package controladores;
 
+import com.personal.utiles.FechaUtil;
 import entidades.Marcacion;
 import entidades.escalafon.Empleado;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,74 +20,68 @@ import org.apache.log4j.Logger;
  */
 public class MarcacionControlador extends Controlador<Marcacion> {
 
+    private final Date horaFinal;
+
     public MarcacionControlador() {
         super(Marcacion.class);
-    }
-
-    public List<Marcacion> buscarXFecha(String dni, Date fechaInicio, Date fechaFin) {
-        String jpql = "SELECT m FROM Marcacion m WHERE CONCAT(:ceros,m.empleado) = :dni AND m.fecha BETWEEN :fechaInicio AND :fechaFin";
-        Map<String, Object> mapa = new HashMap<>();
-        mapa.put("dni", dni);
-        mapa.put("fechaInicio", fechaInicio);
-        mapa.put("fechaFin", fechaFin);
-        mapa.put("ceros", this.ceros(dni));
-        return this.getDao().buscar(jpql, mapa);
+        horaFinal = new Date(104399000);
     }
 
     public List<Marcacion> buscarXFecha(Empleado empleado, Date fechaInicio, Date fechaFin, int desde, int tamanio) {
-        String jpql = "SELECT m FROM Marcacion m WHERE m.empleado = :dni AND m.fecha BETWEEN :fechaInicio AND :fechaFin "
-                + "ORDER BY m.empleado.paterno,m.empleado.materno,m.empleado.nombre,m.fecha,m.hora";
+        String jpql = "SELECT m FROM Marcacion m WHERE m.empleado = :dni AND m.fechaHora BETWEEN :fechaInicio AND :fechaFin "
+                + "ORDER BY m.empleado.paterno,m.empleado.materno,m.empleado.nombre,m.fechaHora";
         LOG.error("DOCUMENTO: " + empleado);
         Map<String, Object> mapa = new HashMap<>();
 
         mapa.put("dni", empleado);
-        mapa.put("fechaInicio", fechaInicio);
-        mapa.put("fechaFin", fechaFin);
+        mapa.put("fechaInicio", FechaUtil.soloFecha(fechaInicio));
+        mapa.put("fechaFin", FechaUtil.unirFechaHora(fechaFin, horaFinal));
         List<Marcacion> marcaciones = this.getDao().buscar(jpql, mapa, desde, tamanio);
         return marcaciones;
     }
 
     public List<Marcacion> buscarXFecha(Date fechaInicio, Date fechaFin) {
-        String jpql = "SELECT m FROM Marcacion m WHERE m.fecha BETWEEN :fechaInicio AND :fechaFin";
+        String jpql = "SELECT m FROM Marcacion m WHERE m.fechaHora BETWEEN :fechaInicio AND :fechaFin";
         Map<String, Object> mapa = new HashMap<>();
-        mapa.put("fechaInicio", fechaInicio);
-        mapa.put("fechaFin", fechaFin);
+        mapa.put("fechaInicio", FechaUtil.soloFecha(fechaInicio));
+        mapa.put("fechaFin", FechaUtil.unirFechaHora(fechaFin, horaFinal));
         return this.getDao().buscar(jpql, mapa);
     }
 
     public List<Marcacion> buscarXFecha(Date fecha) {
-        String jpql = "SELECT m FROM Marcacion m WHERE m.fecha = :fecha";
+        String jpql = "SELECT m FROM Marcacion m WHERE m.fechaHora BETWEEN :fechaInicio AND :fechaFin";
         Map<String, Object> mapa = new HashMap<>();
-        mapa.put("fecha", fecha);
+        mapa.put("fechaInicio", FechaUtil.soloFecha(fecha));
+        mapa.put("fechaFin", FechaUtil.unirFechaHora(fecha, horaFinal));
         return this.getDao().buscar(jpql, mapa);
     }
 
     public List<Marcacion> buscarXFecha(Empleado empleado, Date fecha) {
-        String jpql = "SELECT m FROM Marcacion m WHERE m.empleado = :dni AND m.fecha = :fecha ORDER BY m.hora ASC";
+        String jpql = "SELECT m FROM Marcacion m WHERE m.empleado = :dni AND m.fechaHora BETWEEN :fechaInicio AND :fechaFin ORDER BY m.fechaHora ASC";
         Map<String, Object> mapa = new HashMap<>();
-        mapa.put("fecha", fecha);
+        mapa.put("fechaInicio", FechaUtil.soloFecha(fecha));
+        mapa.put("fechaFin", FechaUtil.unirFechaHora(fecha, horaFinal));
         mapa.put("dni", empleado);
 //        mapa.put("ceros", this.ceros(dni));
         return this.getDao().buscar(jpql, mapa);
     }
 
     public List<Marcacion> buscarXFecha(Date fechaInicio, Date fechaFin, int desde, int tamanio) {
-        String jpql = "SELECT m FROM Marcacion m WHERE m.fecha BETWEEN :fechaInicio AND :fechaFin "
-                + "ORDER BY m.empleado.paterno,m.empleado.materno,m.empleado.nombre,m.fecha,m.hora";
+        String jpql = "SELECT m FROM Marcacion m WHERE m.fechaHora BETWEEN :fechaInicio AND :fechaFin "
+                + "ORDER BY m.empleado.paterno,m.empleado.materno,m.empleado.nombre,m.fechaHora";
         Map<String, Object> mapa = new HashMap<>();
-        mapa.put("fechaInicio", fechaInicio);
-        mapa.put("fechaFin", fechaFin);
+        mapa.put("fechaInicio", FechaUtil.soloFecha(fechaInicio));
+        mapa.put("fechaFin", FechaUtil.unirFechaHora(fechaFin, horaFinal));
         List<Marcacion> lista = this.getDao().buscar(jpql, mapa, desde, tamanio);
         return lista;
     }
 
     public List<Marcacion> buscarXFechaXHora(Date fechaInicio, Date horaInicio, Date horaFin, int desde, int tamanio) {
-        String jpql = "SELECT m FROM Marcacion m WHERE m.fecha = :fechaInicio AND m.hora BETWEEN :horaInicio AND :horaFin "
-                + "ORDER BY m.empleado.paterno,m.empleado.materno,m.empleado.nombre,m.fecha,m.hora";
+        String jpql = "SELECT m FROM Marcacion m WHERE m.fechaHora BETWEEN :fechaInicio AND :fechaFin "
+                + "ORDER BY m.empleado.paterno,m.empleado.materno,m.empleado.nombre,m.fechaHora";
         Map<String, Object> mapa = new HashMap<>();
-        mapa.put("fechaInicio", fechaInicio);
-        mapa.put("horaInicio", horaInicio);
-        mapa.put("horaFin", horaFin);
+        mapa.put("fechaInicio", FechaUtil.unirFechaHora(fechaInicio, horaInicio));
+        mapa.put("fechaFin", FechaUtil.unirFechaHora(fechaInicio, horaFin));
         List<Marcacion> lista = this.getDao().buscar(jpql, mapa, desde, tamanio);
         return lista;
     }
@@ -95,49 +89,32 @@ public class MarcacionControlador extends Controlador<Marcacion> {
     private static final Logger LOG = Logger.getLogger(MarcacionControlador.class.getName());
 
     public int totalXEmpleadoXFecha(String dni, Date fechaInicio, Date fechaFin) {
-        String jpql = "SELECT COUNT(m.id) FROM Marcacion m WHERE m.empleado = :dni AND m.fecha BETWEEN :fechaInicio AND :fechaFin";
+        String jpql = "SELECT COUNT(m.id) FROM Marcacion m WHERE m.empleado = :dni AND m.fechaHora BETWEEN :fechaInicio AND :fechaFin";
         Long cont = (Long) this.getDao().getEntityManager().createQuery(jpql)
                 .setParameter("dni", dni)
-                .setParameter("fechaInicio", fechaInicio)
-                .setParameter("fechaFin", fechaFin).getSingleResult();
+                .setParameter("fechaInicio", FechaUtil.soloFecha(fechaInicio))
+                .setParameter("fechaFin", FechaUtil.unirFechaHora(fechaFin, horaFinal)).getSingleResult();
         int conteo = cont.intValue();
         return conteo;
     }
 
     public int totalXFecha(Date fechaInicio, Date fechaFin) {
-        String jpql = "SELECT COUNT(m.id) FROM Marcacion m WHERE m.fecha BETWEEN :fechaInicio AND :fechaFin ";
+        String jpql = "SELECT COUNT(m.id) FROM Marcacion m WHERE m.fechaHora BETWEEN :fechaInicio AND :fechaFin ";
         Map<String, Object> mapa = new HashMap<>();
-        mapa.put("fechaInicio", fechaInicio);
-        mapa.put("fechaFin", fechaFin);
+        mapa.put("fechaInicio", FechaUtil.soloFecha(fechaInicio));
+        mapa.put("fechaFin", FechaUtil.unirFechaHora(fechaFin, horaFinal));
         return this.getDao().contar(jpql, mapa);
-    }
-
-    private String ceros(String dni) {
-        String ceros = "";
-        int nDNI = Integer.parseInt(dni);
-        System.out.println("DNI: " + dni);
-        int tamanio1 = dni.length();
-        int tamanio2 = (nDNI + "").length();
-
-        for (int i = 1; i <= tamanio1 - tamanio2; i++) {
-            ceros += "0";
-        }
-//        System.out.println("CEROS: "+ceros);
-        System.out.println("CEROS: " + ceros);
-        return ceros;
     }
 
     public Marcacion buscarXFechaXhora(Empleado empleado, Date fecha, Date horaI, Date horaF) {
         String jpql = "SELECT m FROM Marcacion m WHERE "
                 + "m.empleado = :dni "
-                + "AND m.fecha = :fecha "
-                + "AND m.hora BETWEEN :horaI AND :horaF "
-                + "ORDER BY m.hora ASC";
+                + "AND m.fechaHora BETWEEN :fechaInicio AND :fechaFin "
+                + "ORDER BY m.fechaHora ASC";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("dni", empleado);
-        mapa.put("fecha", fecha);
-        mapa.put("horaI", horaI);
-        mapa.put("horaF", horaF);
+        mapa.put("fechaInicio", FechaUtil.unirFechaHora(fecha, horaI));
+        mapa.put("fechaFin", FechaUtil.unirFechaHora(fecha, horaF));
         List<Marcacion> marcaciones = this.getDao().buscar(jpql, mapa, -1, 1);
 
         if (marcaciones.isEmpty()) {
@@ -146,119 +123,93 @@ public class MarcacionControlador extends Controlador<Marcacion> {
             return marcaciones.get(0);
         }
     }
-
-    public List<Object[]> buscarEmpleadosXEvento(int evento, boolean dentro) {
-        String sql = "SELECT u.sUserID,CONVERT(varchar,u.sUserName),CONVERT (varchar,dep.sName) FROM TB_USER u LEFT JOIN TB_USER_DEPT dep on u.nDepartmentIdn = dep.nDepartmentIdn WHERE u.sUserID";
-        if (dentro) {
-            sql += " IN ";
-        } else {
-            sql += " NOT IN ";
-        }
-        sql += "(SELECT "
-                + "TB_USER.sUserID "
-                + "FROM TB_EVENT_LOG "
-                + "INNER JOIN TB_USER ON TB_EVENT_LOG.nUserID = TB_USER.nUserIdn "
-                + "WHERE TB_EVENT_LOG.nEventIdn = :evento)";
-        sql += " ORDER BY u.sUserID,u.sUserName";
-        System.out.println("SQL: " + sql);
-        List<Object[]> lista = this.getDao().getEntityManager().createNativeQuery(sql).setParameter("evento", evento).getResultList();
-        return lista;
-    }
+//
+//    public List<Object[]> buscarEmpleadosXEvento(int evento, boolean dentro) {
+//        String sql = "SELECT u.sUserID,CONVERT(varchar,u.sUserName),CONVERT (varchar,dep.sName) FROM TB_USER u LEFT JOIN TB_USER_DEPT dep on u.nDepartmentIdn = dep.nDepartmentIdn WHERE u.sUserID";
+//        if (dentro) {
+//            sql += " IN ";
+//        } else {
+//            sql += " NOT IN ";
+//        }
+//        sql += "(SELECT "
+//                + "TB_USER.sUserID "
+//                + "FROM TB_EVENT_LOG "
+//                + "INNER JOIN TB_USER ON TB_EVENT_LOG.nUserID = TB_USER.nUserIdn "
+//                + "WHERE TB_EVENT_LOG.nEventIdn = :evento)";
+//        sql += " ORDER BY u.sUserID,u.sUserName";
+//        System.out.println("SQL: " + sql);
+//        List<Object[]> lista = this.getDao().getEntityManager().createNativeQuery(sql).setParameter("evento", evento).getResultList();
+//        return lista;
+//    }
 
     public List<Marcacion> buscarXFechaXHora(Empleado empleado, Date fechaInicio, Date horaInicio, Date horaFin, int desde, int tamanio) {
         String jpql = "SELECT m FROM Marcacion m WHERE "
                 + "m.empleado = :dni "
-                + "AND m.fecha = :fecha "
-                + "AND m.hora BETWEEN :horaI AND :horaF "
-                + "ORDER BY m.hora ASC";
+                + "AND m.fechaHora BETWEEN :fechaInicio AND :fechaFin "
+                + "ORDER BY m.fechaHora ASC";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("dni", empleado);
-        mapa.put("fecha", fechaInicio);
-        mapa.put("horaI", horaInicio);
-        mapa.put("horaF", horaFin);
+        mapa.put("fechaInicio", FechaUtil.unirFechaHora(fechaInicio, horaInicio));
+        mapa.put("fechaFin", FechaUtil.unirFechaHora(fechaInicio, horaFin));
         List<Marcacion> marcaciones = this.getDao().buscar(jpql, mapa, desde, tamanio);
         return marcaciones;
     }
-    
+
     public List<Marcacion> buscarXFechaXHora(List<Empleado> empleados, Date fechaInicio, Date horaInicio, Date horaFin, int desde, int tamanio) {
         String jpql = "SELECT m FROM Marcacion m WHERE "
                 + "m.empleado IN :dni "
-                + "AND m.fecha = :fecha "
-                + "AND m.hora BETWEEN :horaI AND :horaF "
-                + "ORDER BY m.hora ASC";
+                + "AND m.fechaHora BETWEEN :fechaInicio AND :fechaFin "
+                + "ORDER BY m.fechaHora ASC";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("dni", empleados);
-        mapa.put("fecha", fechaInicio);
-        mapa.put("horaI", horaInicio);
-        mapa.put("horaF", horaFin);
+        mapa.put("fechaInicio", FechaUtil.unirFechaHora(fechaInicio, horaInicio));
+        mapa.put("fechaFin", FechaUtil.unirFechaHora(fechaInicio, horaFin));
         List<Marcacion> marcaciones = this.getDao().buscar(jpql, mapa, desde, tamanio);
         return marcaciones;
     }
 
     public List<Marcacion> buscarXFecha(List<Empleado> empleados, Date fechaInicio, Date fechaFin, int desde, int tamanio) {
-        String jpql = "SELECT m FROM Marcacion m WHERE m.empleado IN :dni AND m.fecha BETWEEN :fechaInicio AND :fechaFin "
-                + "ORDER BY m.empleado.paterno,m.empleado.materno,m.empleado.nombre,m.fecha,m.hora";
+        String jpql = "SELECT m FROM Marcacion m WHERE m.empleado IN :dni AND m.fechaHora BETWEEN :fechaInicio AND :fechaFin "
+                + "ORDER BY m.empleado.paterno,m.empleado.materno,m.empleado.nombre,m.fechaHora";
         Map<String, Object> mapa = new HashMap<>();
 
         mapa.put("dni", empleados);
-        mapa.put("fechaInicio", fechaInicio);
-        mapa.put("fechaFin", fechaFin);
+        mapa.put("fechaInicio", FechaUtil.soloFecha(fechaInicio));
+        Date fechaFinUnida = FechaUtil.unirFechaHora(fechaFin, horaFinal);
+        mapa.put("fechaFin", fechaFinUnida);
+        LOG.info(String.format("FECHA INICIO: %s - FECHA FIN: %s", fechaInicio, fechaFinUnida));
         List<Marcacion> marcaciones = this.getDao().buscar(jpql, mapa, desde, tamanio);
         return marcaciones;
     }
 
-//    public int totalXEmpleadoXFecha(List<Integer> empleados, Date fechaInicio, Date fechaFin) {
-//        String jpql = "SELECT COUNT(m.id) FROM Marcacion m WHERE m.empleado IN :dni AND m.fecha BETWEEN :fechaInicio AND :fechaFin";
-//        Long cont = (Long) this.getDao().getEntityManager().createQuery(jpql)
-//                .setParameter("dni", empleados)
-//                .setParameter("fechaInicio", fechaInicio)
-//                .setParameter("fechaFin", fechaFin).getSingleResult();
-//        int conteo = cont.intValue();
-//        return conteo;
-//    }
     public int totalXFechaXHora(Date fechaInicio, Date horaInicio, Date horaFin) {
-        String jpql = "SELECT COUNT(m.id) FROM Marcacion m WHERE m.fecha = :fechaInicio AND m.hora BETWEEN :horaInicio AND :horaFin ";
+        String jpql = "SELECT COUNT(m.id) FROM Marcacion m WHERE m.fechaHora BETWEEN :fechaInicio AND :fechaFin ";
         Map<String, Object> mapa = new HashMap<>();
-        mapa.put("fechaInicio", fechaInicio);
-        mapa.put("horaInicio", horaInicio);
-        mapa.put("horaFin", horaFin);
+        mapa.put("fechaInicio", FechaUtil.unirFechaHora(fechaInicio, horaInicio));
+        mapa.put("fechaFin", FechaUtil.unirFechaHora(fechaInicio, horaFin));
         return this.getDao().contar(jpql, mapa);
     }
 
     public int totalXFecha(List<Empleado> empleados, Date fechaInicio, Date fechaFin) {
         String jpql;
-        jpql = "SELECT COUNT(m.id) FROM Marcacion m WHERE m.empleado IN :dni AND m.fecha BETWEEN :fechaInicio AND :fechaFin ";
+        jpql = "SELECT COUNT(m.id) FROM Marcacion m WHERE m.empleado IN :dni AND m.fechaHora BETWEEN :fechaInicio AND :fechaFin ";
         Map<String, Object> mapa = new HashMap<>();
 
         mapa.put("dni", empleados);
-        mapa.put("fechaInicio", fechaInicio);
-        mapa.put("fechaFin", fechaFin);
+        mapa.put("fechaInicio", FechaUtil.soloFecha(fechaInicio));
+        mapa.put("fechaFin", FechaUtil.unirFechaHora(fechaFin, horaFinal));
         return this.getDao().contar(jpql, mapa);
     }
 
     public int totalXFechaXHora(List<Empleado> empleados, Date fechaInicio, Date horaInicio, Date horaFin) {
         String jpql = "SELECT COUNT(m.id) FROM Marcacion m WHERE "
                 + "m.empleado IN :dni "
-                + "AND m.fecha = :fecha "
-                + "AND m.hora BETWEEN :horaI AND :horaF ";
+                + "AND m.fechaHora BETWEEN :fechaInicio AND :fechaFin ";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("dni", empleados);
-        mapa.put("fecha", fechaInicio);
-        mapa.put("horaI", horaInicio);
-        mapa.put("horaF", horaFin);
+        mapa.put("fechaInicio", FechaUtil.unirFechaHora(fechaInicio, horaInicio));
+        mapa.put("fechaFin", FechaUtil.unirFechaHora(fechaInicio, horaFin));
         return this.getDao().contar(jpql, mapa);
     }
-    
-//    private List<String> getCodigo(List<Empleado> empleados){
-//        List<String> lista = new ArrayList<>();
-//        for(Empleado emp : empleados){
-//            lista.add(emp.getFichaLaboral().getCodigoTrabajador());
-//        }
-//        return lista;
-//    }
-//    
-//    private String getCodigo(Empleado empleados){        
-//        return empleados.getFichaLaboral().getCodigoTrabajador();
-//    }
 
 }

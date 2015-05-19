@@ -13,7 +13,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name="v_area",schema = "institucional")
 public class Departamento implements Serializable {
-
     @Column(name="nombre")
     @Basic
     private String nombre;

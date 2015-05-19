@@ -7,11 +7,9 @@ package vistas.dialogos;
 
 import controladores.UsuarioControlador;
 import dao.DAO;
-import entidades.Marcacion;
 import entidades.Usuario;
 import vistas.Principal;
 import com.personal.utiles.FormularioUtil;
-import entidades.escalafon.Empleado;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -32,7 +30,7 @@ public class DlgLogin extends javax.swing.JDialog {
         super(parent, modal);
         uc = new UsuarioControlador();
         initComponents();
-        FormularioUtil.imagenALabel("reportes/logo.png", lblLogo);
+//        FormularioUtil.imagenALabel("reportes/logo.png", lblLogo);
         iniciar();
         this.setLocationRelativeTo(null);
     }
@@ -108,7 +106,7 @@ public class DlgLogin extends javax.swing.JDialog {
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("BIOSIS - ENSA");
+        jLabel4.setText("BIOSIS - SAN MARCOS");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;

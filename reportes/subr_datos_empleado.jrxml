@@ -6,94 +6,66 @@
 	<parameter name="empleado_nro_documento" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT
-     CODIGO_MODULAR AS codigo_modular,
-     NRO_DOCUMENTO AS v_empleado_nro_documento,
-     PATERNO AS v_empleado_apellido_paterno,
-     MATERNO AS v_empleado_apellido_materno,
-     NOMBRES AS v_empleado_nombre,
-     TIPO_DOCUMENTO AS v_empleado_tipo_documento
+pers.nro_documento as pers_nro_documento,
+pers.paterno as pers_paterno,
+pers.materno as pers_materno,
+pers.nombres as pers_nombres,
+area.nombre as area_nombre
 FROM
-     v_empleados2
+personal.persona pers
+INNER JOIN personal.ficha_laboral flab ON pers.nro_documento = flab.persona_nro_documento
+LEFT JOIN institucional.v_area area ON flab.area_codigo = area.codigo
 WHERE
-     NRO_DOCUMENTO = $P{empleado_nro_documento}]]>
+pers.nro_documento = $P{empleado_nro_documento}]]>
 	</queryString>
-	<field name="codigo_modular" class="java.lang.String"/>
-	<field name="v_empleado_nro_documento" class="java.lang.String"/>
-	<field name="v_empleado_apellido_paterno" class="java.lang.String"/>
-	<field name="v_empleado_apellido_materno" class="java.lang.String"/>
-	<field name="v_empleado_nombre" class="java.lang.String"/>
-	<field name="v_empleado_tipo_documento" class="java.lang.String"/>
+	<field name="pers_nro_documento" class="java.lang.String"/>
+	<field name="pers_paterno" class="java.lang.String"/>
+	<field name="pers_materno" class="java.lang.String"/>
+	<field name="pers_nombres" class="java.lang.String"/>
+	<field name="area_nombre" class="java.lang.String"/>
 	<detail>
 		<band height="100" splitType="Stretch">
-			<textField>
-				<reportElement x="157" y="20" width="398" height="20" uuid="185bdefd-7e97-4e07-a6ee-a0fbbea5ee51"/>
-				<textElement verticalAlignment="Middle">
-					<font size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{v_empleado_tipo_documento} + " / " +$F{v_empleado_nro_documento}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="157" y="40" width="398" height="20" uuid="3c0f1f6e-6994-473d-9f8f-0d13d7b0e6f6"/>
-				<textElement verticalAlignment="Middle">
-					<font size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{v_empleado_apellido_paterno}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="157" y="60" width="398" height="20" uuid="83b9647c-2542-4ba2-974f-0c4a281eb495"/>
-				<textElement verticalAlignment="Middle">
-					<font size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{v_empleado_apellido_materno}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="157" y="80" width="398" height="20" uuid="91b55707-0465-4a67-9852-a4684919ec63"/>
-				<textElement verticalAlignment="Middle">
-					<font size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{v_empleado_nombre}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="157" y="0" width="398" height="20" uuid="d4416060-1751-44d3-bdf2-bba69d772b10"/>
-				<textElement verticalAlignment="Middle">
-					<font size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{codigo_modular}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="0" y="0" width="157" height="20" uuid="b3c7718b-6a54-40bd-b41e-e85f24d34937"/>
+				<reportElement x="0" y="20" width="157" height="20" uuid="b8566f8f-5f1f-4735-9838-e744f1eba20a"/>
 				<textElement verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[CÓDIGO MODULAR:]]></text>
+				<text><![CDATA[EMPLEADO:]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="157" y="20" width="398" height="20" uuid="66c22722-213d-47df-810d-8f05620a8ca7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[String.format("%s %s %s",$F{pers_paterno},$F{pers_materno},$F{pers_nombres})]]></textFieldExpression>
+			</textField>
 			<staticText>
-				<reportElement x="0" y="20" width="157" height="20" uuid="f264a416-9d6e-4e4a-a2fe-1e6e08c8a634"/>
+				<reportElement x="0" y="0" width="157" height="20" uuid="b7c82389-a06e-48cf-b5d6-77cb74ff951c"/>
 				<textElement verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[NRO. DE DOCUMENTO:]]></text>
+				<text><![CDATA[DNI:]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="157" y="0" width="398" height="20" uuid="62fc9d66-3596-4d15-b118-c3819ccbc66e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pers_nro_documento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="40" width="398" height="20" uuid="d5d034a5-1e47-451d-82cc-aad370dd489d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{area_nombre}]]></textFieldExpression>
+			</textField>
 			<staticText>
-				<reportElement x="0" y="40" width="157" height="20" uuid="05950281-9681-4007-b68f-b276d74ead99"/>
+				<reportElement x="0" y="40" width="157" height="20" uuid="09af35c0-0772-40ca-af7d-fd94136d8272"/>
 				<textElement verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[AP. PATERNO:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="60" width="157" height="20" uuid="b8ec38f1-267a-4b19-bf1d-a40ec2dd715e"/>
-				<textElement verticalAlignment="Middle">
-					<font size="11" isBold="true"/>
-				</textElement>
-				<text><![CDATA[AP. MATERNO:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="80" width="157" height="20" uuid="0cd5ec7c-e354-4816-b3a5-4dff202f94bc"/>
-				<textElement verticalAlignment="Middle">
-					<font size="11" isBold="true"/>
-				</textElement>
-				<text><![CDATA[NOMBRES:]]></text>
+				<text><![CDATA[ÁREA:]]></text>
 			</staticText>
 		</band>
 	</detail>

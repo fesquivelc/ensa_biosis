@@ -283,6 +283,7 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         lblBusqueda.setBusy(true);
+        paginaActual = 1;
         buscar();
         actualizarControlesNavegacion();
         lblBusqueda.setBusy(false);
@@ -354,6 +355,11 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         ec.prepararCrear();
         DlgEmpleadoCRUD empleadoCRUD = new DlgEmpleadoCRUD(this, ec.getSeleccionado(), Controlador.NUEVO);
         empleadoCRUD.setVisible(true);
+
+        paginaActual = 1;
+        buscar();
+        actualizarControlesNavegacion();
+
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -362,6 +368,10 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         if (fila != -1) {
             DlgEmpleadoCRUD empleadoCRUD = new DlgEmpleadoCRUD(this, lista.get(fila), Controlador.MODIFICAR);
             empleadoCRUD.setVisible(true);
+
+            paginaActual = 1;
+            buscar();
+            actualizarControlesNavegacion();
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
