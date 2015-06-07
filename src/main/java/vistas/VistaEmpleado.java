@@ -12,7 +12,6 @@ import controladores.EmpleadoControlador;
 import controladores.MarcacionControlador;
 import entidades.escalafon.Empleado;
 import java.io.File;
-import vistas.dialogos.DlgMostrarHorarios;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,7 +66,6 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         pnlNavegacion = new javax.swing.JPanel();
@@ -153,14 +151,6 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
             }
         });
         jPanel2.add(jButton1);
-
-        jButton2.setText("VER HORARIOS");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jButton2);
 
         jButton3.setText("VER EMPLEADOS ENROLADOS");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -331,15 +321,6 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         this.actualizarControlesNavegacion();
     }//GEN-LAST:event_cboTamanioActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        int fila = tblEmpleado.getSelectedRow();
-        if (fila != -1) {
-            DlgMostrarHorarios dialogo = new DlgMostrarHorarios(this, this.lista.get(fila));
-            dialogo.setVisible(true);
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         imprimir(true);
@@ -384,7 +365,6 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnUltimo;
     private javax.swing.JComboBox cboTamanio;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;

@@ -5,7 +5,9 @@
  */
 package controladores;
 
+import entidades.DetalleJornada;
 import entidades.Jornada;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +21,14 @@ public class JornadaControlador extends Controlador<Jornada>{
     private JornadaControlador() {
         super(Jornada.class);
     }
+
+    @Override
+    public void prepararCrear() {        
+        super.prepararCrear(); //To change body of generated methods, choose Tools | Templates.
+        this.getSeleccionado().setDetalleJornadaList(new  ArrayList<DetalleJornada>());
+    }
+    
+    
     
     public List<Jornada> buscarXTipo(char tipo){
         String jpql = "SELECT j FROM Jornada j WHERE j.tipo = :tipo";

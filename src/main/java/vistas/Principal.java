@@ -37,7 +37,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JInternalFrame;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import utiles.UsuarioActivo;
-import vistas.reportes.RptTardanzasFaltas;
 
 /**
  *
@@ -90,6 +89,7 @@ public class Principal extends javax.swing.JFrame {
         mnuHorario = new javax.swing.JMenu();
         mnuJornada = new javax.swing.JMenuItem();
         mnuHorarios = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         mnuGruposHorario = new javax.swing.JMenuItem();
         mnuAsignarHorario = new javax.swing.JMenuItem();
         mnuPermiso = new javax.swing.JMenu();
@@ -264,6 +264,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         mnuHorario.add(mnuHorarios);
+
+        jMenuItem4.setText("Horario rotativo");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        mnuHorario.add(jMenuItem4);
 
         mnuGruposHorario.setText("Grupos horario");
         mnuGruposHorario.addActionListener(new java.awt.event.ActionListener() {
@@ -523,6 +531,11 @@ public class Principal extends javax.swing.JFrame {
         agregarAPanel(new EjecutarSQL(),true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        agregarAPanel(new HorarioRotativo(),true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAsignarPermiso;
@@ -534,6 +547,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;

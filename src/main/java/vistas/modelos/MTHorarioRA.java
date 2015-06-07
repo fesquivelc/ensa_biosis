@@ -31,14 +31,14 @@ public class MTHorarioRA extends ModeloTabla<Horario>{
         if(horario.getTipo() == 'A'){
             Turno turno = horario.getTurnoList().get(0);
             switch(columnIndex){
-            case 0:
-                return dfHora.format(turno.getJornada().getTurnoHE());
-            case 1:
-                return dfHora.format(turno.getJornada().getRefrigerioHS());
-            case 2:
-                return dfHora.format(turno.getJornada().getRefrigerioHE());
-            case 3:
-                return dfHora.format(turno.getJornada().getTurnoHS());
+//            case 0:
+//                return dfHora.format(turno.getJornada().getTurnoHE());
+//            case 1:
+//                return dfHora.format(turno.getJornada().getRefrigerioHS());
+//            case 2:
+//                return dfHora.format(turno.getJornada().getRefrigerioHE());
+//            case 3:
+//                return dfHora.format(turno.getJornada().getTurnoHS());
             case 4:
                 return turno.isLunes();
             case 5:

@@ -16,47 +16,58 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="detalle_registro_asistencia")
+@Table(name = "detalle_registro_asistencia")
 public class DetalleRegistroAsistencia implements Serializable {
 
-    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
+    @Column(unique = false, updatable = true, insertable = true, nullable = true, length = 255, scale = 0, precision = 0)
     @Basic
     private int orden;
-    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
+    @Column(unique = false, updatable = true, insertable = true, nullable = true, length = 255, scale = 0, precision = 0)
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name="minutos_extra",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
+    @Column(name = "minutos_extra", unique = false, updatable = true, insertable = true, nullable = true, length = 255, scale = 0, precision = 0)
     @Basic
     private BigDecimal minExtra;
-    @Column(name="minutos_tardanza",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
+    @Column(name = "minutos_tardanza", unique = false, updatable = true, insertable = true, nullable = true, length = 255, scale = 0, precision = 0)
     @Basic
     private BigDecimal minTardanza;
-    @ManyToOne(optional=true,targetEntity = Permiso.class)
-    @JoinColumn(name="permiso_id",referencedColumnName="id",insertable=true,nullable=true,unique=false,updatable=true)
+    @ManyToOne(optional = true, targetEntity = Permiso.class)
+    @JoinColumn(name = "permiso_id", referencedColumnName = "id", insertable = true, nullable = true, unique = false, updatable = true)
     private Permiso permiso;
-    @Column(name="hora_inicio",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
+    @Column(name = "hora_inicio", unique = false, updatable = true, insertable = true, nullable = true, length = 255, scale = 0, precision = 0)
     @Temporal(TemporalType.TIME)
     @Basic
     private Date horaInicio;
-    @Column(name="hora_fin",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
+    @Column(name = "hora_fin", unique = false, updatable = true, insertable = true, nullable = true, length = 255, scale = 0, precision = 0)
     @Temporal(TemporalType.TIME)
     @Basic
     private Date horaFin;
-    @Column(name="tipo_registro",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
+    @Column(name = "tipo_registro", unique = false, updatable = true, insertable = true, nullable = false, length = 255, scale = 0, precision = 0)
     @Basic
     private char tipoRegistro;
-    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
+    @Column(unique = false, updatable = true, insertable = true, nullable = false, length = 255, scale = 0, precision = 0)
     @Basic
     private char resultado;
-    @ManyToOne(optional=false,targetEntity = RegistroAsistencia.class)
-    @JoinColumn(name="registro_asistencia_id",referencedColumnName="id",insertable=true,nullable=false,unique=false,updatable=true)
+    @ManyToOne(optional = false, targetEntity = RegistroAsistencia.class)
+    @JoinColumn(name = "registro_asistencia_id", referencedColumnName = "id", insertable = true, nullable = false, unique = false, updatable = true)
     private RegistroAsistencia registroAsistencia;
+    @ManyToOne(targetEntity = DetalleJornada.class, optional = false)
+    @JoinColumn(name = "dtjorn_id", referencedColumnName = "dtjorn_id")
+    private DetalleJornada detalleJornada;
+
+    public DetalleJornada getDetalleJornada() {
+        return detalleJornada;
+    }
+
+    public void setDetalleJornada(DetalleJornada detalleJornada) {
+        this.detalleJornada = detalleJornada;
+    }
 
     public DetalleRegistroAsistencia() {
 
     }
-   
+
     public int getOrden() {
         return this.orden;
     }
@@ -64,7 +75,7 @@ public class DetalleRegistroAsistencia implements Serializable {
     public void setOrden(int orden) {
         this.orden = orden;
     }
-   
+
     public Long getId() {
         return this.id;
     }
@@ -72,7 +83,7 @@ public class DetalleRegistroAsistencia implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-   
+
     public BigDecimal getMinExtra() {
         return this.minExtra;
     }
@@ -80,7 +91,7 @@ public class DetalleRegistroAsistencia implements Serializable {
     public void setMinExtra(BigDecimal minExtra) {
         this.minExtra = minExtra;
     }
-   
+
     public BigDecimal getMinTardanza() {
         return this.minTardanza;
     }
@@ -88,7 +99,7 @@ public class DetalleRegistroAsistencia implements Serializable {
     public void setMinTardanza(BigDecimal minTardanza) {
         this.minTardanza = minTardanza;
     }
-   
+
     public Permiso getPermiso() {
         return this.permiso;
     }
@@ -96,7 +107,7 @@ public class DetalleRegistroAsistencia implements Serializable {
     public void setPermiso(Permiso permiso) {
         this.permiso = permiso;
     }
-   
+
     public Date getHoraInicio() {
         return this.horaInicio;
     }
@@ -104,7 +115,7 @@ public class DetalleRegistroAsistencia implements Serializable {
     public void setHoraInicio(Date horaInicio) {
         this.horaInicio = horaInicio;
     }
-   
+
     public Date getHoraFin() {
         return this.horaFin;
     }
@@ -112,7 +123,7 @@ public class DetalleRegistroAsistencia implements Serializable {
     public void setHoraFin(Date horaFin) {
         this.horaFin = horaFin;
     }
-   
+
     public char getTipoRegistro() {
         return this.tipoRegistro;
     }
@@ -120,7 +131,7 @@ public class DetalleRegistroAsistencia implements Serializable {
     public void setTipoRegistro(char tipoRegistro) {
         this.tipoRegistro = tipoRegistro;
     }
-   
+
     public char getResultado() {
         return this.resultado;
     }
@@ -128,7 +139,7 @@ public class DetalleRegistroAsistencia implements Serializable {
     public void setResultado(char resultado) {
         this.resultado = resultado;
     }
-   
+
     public RegistroAsistencia getRegistroAsistencia() {
         return this.registroAsistencia;
     }

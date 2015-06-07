@@ -33,15 +33,11 @@ public class MTJornada extends ModeloTabla<Jornada>{
         
         switch(columnIndex){
             case 0:
-                return jornada.getNombre();
+                return jornada.getCodigo();
             case 1:
-                return dtHora.format(jornada.getTurnoHE());
+                return jornada.getNombre();
             case 2:
-                return jornada.getRefrigerioHS() == null ? null : dtHora.format(jornada.getRefrigerioHS());
-            case 3:
-                return jornada.getRefrigerioHE() == null ? null : dtHora.format(jornada.getRefrigerioHE());
-            case 4:
-                return dtHora.format(jornada.getTurnoHS());
+                return jornada.getDescripcion();
             default:
                 return null;
         }

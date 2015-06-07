@@ -749,19 +749,19 @@ public class AsignarAutorizacion extends javax.swing.JInternalFrame {
     }
     
     private void mostrarTurnos(){
-        if(dcFechaInicio.getDate() != null && empleadoSeleccionado != null){
-            List<Turno> turnos = tc.buscarXEmpleado(empleadoSeleccionado);
-            cboTurno.setModel(new DefaultComboBoxModel(turnos.toArray()));      
-            cboTurno.setRenderer(new DefaultListCellRenderer(){
-
-                @Override
-                public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                    value = value instanceof Turno ? ((Turno)value).getJornada().getNombre() : value;
-                    return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
-                }
-            
-            });
-        }
+//        if(dcFechaInicio.getDate() != null && empleadoSeleccionado != null){
+//            List<Turno> turnos = tc.buscarXEmpleado(empleadoSeleccionado);
+//            cboTurno.setModel(new DefaultComboBoxModel(turnos.toArray()));      
+//            cboTurno.setRenderer(new DefaultListCellRenderer(){
+//
+//                @Override
+//                public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+//                    value = value instanceof Turno ? ((Turno)value).getJornada().getNombre() : value;
+//                    return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
+//                }
+//            
+//            });
+//        }
     }
     
     private void actualizarTabla() {

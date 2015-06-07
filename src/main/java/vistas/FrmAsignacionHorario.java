@@ -80,13 +80,15 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         cboHorario = new javax.swing.JComboBox();
-        btnVerHorario = new javax.swing.JButton();
         radEmpleado = new javax.swing.JRadioButton();
         radGrupoHorario = new javax.swing.JRadioButton();
         txtEmpleado = new javax.swing.JTextField();
         btnEmpleado = new javax.swing.JButton();
         cboGrupo = new javax.swing.JComboBox();
-        btnVerGrupoHorario = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        dcFechaInicio = new com.toedter.calendar.JDateChooser();
+        dcFechaFin = new com.toedter.calendar.JDateChooser();
         jPanel5 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -164,7 +166,7 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
 
         java.awt.GridBagLayout jPanel4Layout = new java.awt.GridBagLayout();
         jPanel4Layout.columnWidths = new int[] {0, 6, 0, 6, 0};
-        jPanel4Layout.rowHeights = new int[] {0, 6, 0, 6, 0};
+        jPanel4Layout.rowHeights = new int[] {0, 6, 0, 6, 0, 6, 0, 6, 0};
         jPanel4.setLayout(jPanel4Layout);
 
         jLabel1.setText("Horario:");
@@ -182,12 +184,6 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
         jPanel4.add(cboHorario, gridBagConstraints);
-
-        btnVerHorario.setText("Ver");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 0;
-        jPanel4.add(btnVerHorario, gridBagConstraints);
 
         radEmpleado.setText("Empleado:");
         radEmpleado.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -251,16 +247,33 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(cboGrupo, gridBagConstraints);
 
-        btnVerGrupoHorario.setText("Ver");
-        btnVerGrupoHorario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVerGrupoHorarioActionPerformed(evt);
-            }
-        });
+        jLabel2.setText("Fecha de inicio:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 4;
-        jPanel4.add(btnVerGrupoHorario, gridBagConstraints);
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel4.add(jLabel2, gridBagConstraints);
+
+        jLabel3.setText("Fecha de fin:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel4.add(jLabel3, gridBagConstraints);
+
+        dcFechaInicio.setDateFormatString("dd/MM/yyyy");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel4.add(dcFechaInicio, gridBagConstraints);
+
+        dcFechaFin.setDateFormatString("dd/MM/yyyy");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel4.add(dcFechaFin, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -334,14 +347,13 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
             accion = Controlador.ELIMINAR;
             if (FormularioUtil.dialogoConfirmar(this, accion)) {
                 controlador.setSeleccionado(this.listado.get(fila));
-                if(controlador.accion(accion)){
+                if (controlador.accion(accion)) {
                     FormularioUtil.mensajeExito(this, accion);
                     accion = 0;
                     this.controles(accion);
                     this.checkboxes();
                 }
-                
-                
+
             }
         }
 
@@ -361,6 +373,8 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
                 seleccionada.setEmpleado(empleadoSeleccionado);
             }
 
+            seleccionada.setFechaInicio(dcFechaInicio.getDate());
+            seleccionada.setFechaFin(dcFechaFin.getDate());
             seleccionada.setPorGrupo(radGrupoHorario.isSelected());
 
             if (controlador.accion(accion)) {
@@ -420,17 +434,6 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnEmpleadoActionPerformed
 
-    private void btnVerGrupoHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerGrupoHorarioActionPerformed
-        // TODO add your handling code here:
-        int grupo = this.cboGrupo.getSelectedIndex();
-        if (grupo != -1) {
-            grupoSeleccionado = grupoList.get(grupo);
-            DlgVerIntegrantes integrantes = new DlgVerIntegrantes(this, grupoSeleccionado);
-            integrantes.setVisible(true);
-        }
-
-    }//GEN-LAST:event_btnVerGrupoHorarioActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
@@ -439,12 +442,14 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnModificar1;
     private javax.swing.JButton btnNuevo;
-    private javax.swing.JButton btnVerGrupoHorario;
-    private javax.swing.JButton btnVerHorario;
     private javax.swing.JComboBox cboGrupo;
     private javax.swing.JComboBox cboHorario;
+    private com.toedter.calendar.JDateChooser dcFechaFin;
+    private com.toedter.calendar.JDateChooser dcFechaInicio;
     private javax.swing.ButtonGroup grupoEOG;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
@@ -553,7 +558,6 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
 
         radEmpleado.setSelected(!porGrupo);
         radGrupoHorario.setSelected(porGrupo);
-        
 
         checkboxes();
 
@@ -564,5 +568,8 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
             Empleado e = asignacion.getEmpleado();
             txtEmpleado.setText(e.getPaterno() + " " + e.getMaterno() + " " + e.getNombre());
         }
+        
+        dcFechaInicio.setDate(asignacion.getFechaInicio());
+        dcFechaFin.setDate(asignacion.getFechaFin());
     }
 }

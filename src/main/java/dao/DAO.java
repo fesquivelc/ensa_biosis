@@ -87,6 +87,7 @@ public class DAO<T> {
             getEntityManager().getTransaction().begin();
             getEntityManager().persist(objeto);
             getEntityManager().getTransaction().commit();
+            getEntityManager().clear();
             return true;
         } catch (Exception e) {
             LOG.error("ERROR EN EL GUARDADO: " + e.getLocalizedMessage() + " " + e.getMessage());

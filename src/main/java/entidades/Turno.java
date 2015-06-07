@@ -41,8 +41,8 @@ public class Turno implements Serializable {
     
     //POR SI LA GESTION DEL HORARIO SEA POR FECHAS
     @Temporal(TemporalType.DATE)
-    @Column(name = "fecha")
-    private Date fecha;
+    @Column(name = "fecha_inicio")
+    private Date fechaInicio;
     @Temporal(TemporalType.DATE)
     @Column(name = "fecha_fin")
     private Date fechaFin;
@@ -103,12 +103,12 @@ public class Turno implements Serializable {
         this.tipo = tipo;
     }
 
-    public Date getFecha() {
-        return fecha;
+    public Date getFechaInicio() {
+        return fechaInicio;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
     }
 
     public boolean isDomingo() {

@@ -29,7 +29,7 @@ public class FichaLaboral implements Serializable {
     @JoinColumn(name="tipo_contrato_codigo",referencedColumnName="codigo")
     private TipoContrato tipoContrato;
     @ManyToOne(targetEntity = Departamento.class)
-    @JoinColumn(name="area_codigo",referencedColumnName="codigo",nullable=false)
+    @JoinColumn(name="area_codigo",referencedColumnName="area_id",nullable=false)
     private Departamento area;
     @ManyToOne(targetEntity = SituacionTrabajador.class)
     @JoinColumn(name="situacion_trabajador_codigo",referencedColumnName="codigo")
@@ -41,9 +41,21 @@ public class FichaLaboral implements Serializable {
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fechaInicio;
+    @Column(name="fecha_cese", nullable = true)
+    @Temporal(TemporalType.DATE)
+    @Basic
+    private Date fechaCese;
     @ManyToOne(targetEntity = RegimenLaboral.class)
     @JoinColumn(name="regimen_laboral_codigo",referencedColumnName="codigo")
     private RegimenLaboral regimenLaboral;
+
+    public Date getFechaCese() {
+        return fechaCese;
+    }
+
+    public void setFechaCese(Date fechaCese) {
+        this.fechaCese = fechaCese;
+    }
 
     public FichaLaboral() {
 

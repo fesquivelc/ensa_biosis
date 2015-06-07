@@ -157,6 +157,8 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         jLabel22 = new javax.swing.JLabel();
         txtCodigoTrabajador = new javax.swing.JTextField();
         cboSituacionEmpleado = new javax.swing.JComboBox();
+        jLabel24 = new javax.swing.JLabel();
+        dcFechaCese = new com.toedter.calendar.JDateChooser();
 
         setTitle("DATOS DE EMPLEADO");
         setResizable(false);
@@ -566,6 +568,8 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(cboRegimenLaboral, gridBagConstraints);
+
+        dcFechaInicio.setDateFormatString("dd/MM/yyyy");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -576,7 +580,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         jLabel22.setText("Situación empleado:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(jLabel22, gridBagConstraints);
@@ -594,10 +598,26 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         cboSituacionEmpleado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(cboSituacionEmpleado, gridBagConstraints);
+
+        jLabel24.setText("Fecha de cese:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel5.add(jLabel24, gridBagConstraints);
+
+        dcFechaCese.setDateFormatString("dd/MM/yyyy");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel5.add(dcFechaCese, gridBagConstraints);
 
         pnlLaborales.setViewportView(jPanel5);
 
@@ -660,6 +680,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private javax.swing.JComboBox cboTipoDocumento;
     private javax.swing.JComboBox cboTipoVia;
     private javax.swing.JComboBox cboTipoZona;
+    private com.toedter.calendar.JDateChooser dcFechaCese;
     private com.toedter.calendar.JDateChooser dcFechaInicio;
     private com.toedter.calendar.JDateChooser dcFechaNacimiento;
     private javax.swing.JButton jButton1;
@@ -680,6 +701,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -855,6 +877,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
             flab.setArea((Departamento) this.cboOficina.getSelectedItem());
             flab.setCodigoTrabajador(txtCodigoTrabajador.getText());
             flab.setFechaInicio(dcFechaInicio.getDate());
+            flab.setFechaInicio(dcFechaCese.getDate());
             flab.setRegimenLaboral((RegimenLaboral) cboRegimenLaboral.getSelectedItem());
             flab.setSituacionTrabajador((SituacionTrabajador) cboSituacionEmpleado.getSelectedItem());
             flab.setTipoContrato((TipoContrato) cboTipoContrato.getSelectedItem());
@@ -926,6 +949,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         cboTipoContrato.setSelectedItem(laboral.getTipoContrato());
         cboRegimenLaboral.setSelectedItem(laboral.getRegimenLaboral());
         dcFechaInicio.setDate(laboral.getFechaInicio());
+        dcFechaCese.setDate(laboral.getFechaCese());
         cboSituacionEmpleado.setSelectedItem(laboral.getSituacionTrabajador());
 
     }

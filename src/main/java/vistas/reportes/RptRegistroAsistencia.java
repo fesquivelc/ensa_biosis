@@ -11,7 +11,6 @@ import entidades.Periodo;
 import vistas.dialogos.DlgEmpleado;
 import vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
-import com.personal.utiles.ReporteUtil;
 import controladores.MarcacionControlador;
 import entidades.escalafon.Departamento;
 import entidades.escalafon.Empleado;
@@ -37,6 +36,10 @@ import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 import utiles.UsuarioActivo;
 import vistas.dialogos.DlgOficina;
+import com.personal.utiles.ReporteUtil;
+import com.personal.utiles.ReporteUtil.Formato;
+import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRParameter;
 
 /**
  *
@@ -104,6 +107,11 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         btnOficina = new javax.swing.JButton();
         pnlBotones = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
+        pnlReporte = new javax.swing.JPanel();
+        pnlExportar = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        cboExportarFormato = new javax.swing.JComboBox();
+        jButton1 = new javax.swing.JButton();
         pnlTab = new javax.swing.JTabbedPane();
         grpTipoReporte.add(radConsolidado);
         grpTipoReporte.add(radDetallado);
@@ -358,14 +366,47 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         getContentPane().add(pnlBotones, gridBagConstraints);
+
+        pnlReporte.setLayout(new java.awt.GridBagLayout());
+
+        pnlExportar.setLayout(new javax.swing.BoxLayout(pnlExportar, javax.swing.BoxLayout.LINE_AXIS));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setText("Elegir formato:");
+        pnlExportar.add(jLabel1);
+
+        cboExportarFormato.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cboExportarFormato.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PDF (*.pdf)", "Excel 2007 - 2013 (*.xlsx)", "Excel 97 - 2003 (*.xls)", "CSV (*.csv)", "DBF (*.dbf)" }));
+        pnlExportar.add(cboExportarFormato);
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton1.setText("Exportar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        pnlExportar.add(jButton1);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        pnlReporte.add(pnlExportar, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.6;
+        gridBagConstraints.weighty = 0.2;
+        pnlReporte.add(pnlTab, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 6;
+        gridBagConstraints.gridheight = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.5;
-        gridBagConstraints.weighty = 0.1;
-        getContentPane().add(pnlTab, gridBagConstraints);
+        gridBagConstraints.weightx = 0.2;
+        getContentPane().add(pnlReporte, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -430,10 +471,24 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
     private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
         // TODO add your handling code here:
         int fila;
-        if((fila = tblTabla.getSelectedRow()) != -1){
+        if ((fila = tblTabla.getSelectedRow()) != -1) {
             empleadoList.remove(fila);
         }
     }//GEN-LAST:event_btnQuitarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Formato formato = obtenerFormato();
+        String ruta;
+        ruta = FormularioUtil.guardarFichero(this, "Seleccione el destino donde guardará el resporte");
+        System.out.println("RUTA ENVIADA: "+ruta);
+        if (ruta.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un destino correcto", "Mensaje del sistema", JOptionPane.WARNING_MESSAGE);
+        } else {
+            exportar(formato, ruta);
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private Departamento oficinaSeleccionada;
 
@@ -441,6 +496,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnOficina;
     private javax.swing.JButton btnQuitar;
+    private javax.swing.JComboBox cboExportarFormato;
     private javax.swing.JComboBox cboGrupoHorario;
     private com.toedter.calendar.JMonthChooser cboMes;
     private javax.swing.JComboBox cboPeriodo;
@@ -451,12 +507,16 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
     private javax.swing.ButtonGroup grpRango;
     private javax.swing.ButtonGroup grpSeleccion;
     private javax.swing.ButtonGroup grpTipoReporte;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnlBotones;
     private javax.swing.JPanel pnlEmpleados;
+    private javax.swing.JPanel pnlExportar;
     private javax.swing.JPanel pnlOpciones;
     private javax.swing.JPanel pnlRango;
+    private javax.swing.JPanel pnlReporte;
     private javax.swing.JTabbedPane pnlTab;
     private javax.swing.JRadioButton radAnio;
     private javax.swing.JRadioButton radConsolidado;
@@ -496,7 +556,6 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         FormularioUtil.activarComponente(tblTabla, radPersonalizado.isSelected());
         FormularioUtil.activarComponente(btnAgregar, radPersonalizado.isSelected());
         FormularioUtil.activarComponente(btnQuitar, radPersonalizado.isSelected());
-        
 
         FormularioUtil.activarComponente(btnOficina, radOficina.isSelected());
     }
@@ -554,29 +613,89 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
 
     private void imprimir() {
 
-        Calendar cal = Calendar.getInstance();
-
-        String usuario = UsuarioActivo.getUsuario().getLogin();
-
-
-        List<Empleado> empleados = obtenerDNI();
-        
-        List<String> dnis = new ArrayList<>();
-        
-        for(Empleado e : empleados){
-            dnis.add(e.getNroDocumento());
-        }
-
-        analisis.analizarEmpleados(empleados);
-
+//        Calendar cal = Calendar.getInstance();
+//
+//        String usuario = UsuarioActivo.getUsuario().getLogin();
+//
+//
+//        List<Empleado> empleados = obtenerDNI();
+//        
+//        List<String> dnis = new ArrayList<>();
+//        
+//        for(Empleado e : empleados){
+//            dnis.add(e.getNroDocumento());
+//        }
+//
+//        analisis.analizarEmpleados(empleados);
         String reporte = "";
 
         if (radConsolidado.isSelected()) {
             reporte = "reportes/r_registro_asistencia_consolidado.jasper";
         } else if (radDetallado.isSelected()) {
-            reporte = "reportes/r_registro_asistencia_detallado_ensa.jasper";
+            reporte = "reportes/r_registro_asistencia_detallado_sm.jasper";
+        }
+//
+//        int anio;
+//        int mes;
+//        Date fechaInicio = new Date();
+//        Date fechaFin = new Date();
+//        String rangoTitulo = "";
+//        String rangoValor = "";
+//        if (radPorFecha.isSelected()) {
+//            rangoTitulo = "ENTRE: ";
+//            fechaInicio = dcFechaInicio.getDate();
+//            fechaFin = dcFechaFin.getDate();
+//            rangoValor = dfFecha.format(fechaInicio) + " - " + dfFecha.format(fechaFin);
+//        } else if (radMes.isSelected()) {
+//            rangoTitulo = "MES: ";
+//            anio = periodoList.get(cboPeriodo1.getSelectedIndex()).getAnio();
+//            mes = cboMes.getMonth();
+//            cal.set(anio, mes, 1);
+//            fechaInicio = cal.getTime();
+//            cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+//            fechaFin = cal.getTime();
+//            rangoValor = (cboMes.getMonth() + 1) + " / " + anio;
+//        } else if (radAnio.isSelected()) {
+//            rangoTitulo = "AÑO: ";
+//            anio = periodoList.get(cboPeriodo.getSelectedIndex()).getAnio();
+//            cal.set(anio, 0, 1);
+//            fechaInicio = cal.getTime();
+//            cal.set(anio, 11, 31);
+//            fechaFin = cal.getTime();
+//            rangoValor = periodoList.get(cboPeriodo.getSelectedIndex()).getAnio() + "";
+//        }
+
+        File archivo = new File(reporte);
+        Map<String, Object> parametros = this.obtenerParametros();
+//        parametros.put("CONEXION_SUP", ec.getDao().getConexion());
+//        parametros.put("CONEXION_BIOSTAR", mc.getDao().getConexion());
+
+        reporteador.setConn(pc.getDao().getConexion());
+        Component report = reporteador.obtenerReporte(archivo, parametros);
+        report.getParent().add(new JButton("HOLI"));
+
+//        if(bandera){
+        pnlTab.removeTabAt(0);
+//        }
+        pnlTab.add("Vista previa", report);
+        bandera = true;
+
+    }
+
+    private Map<String, Object> obtenerParametros() {
+        Calendar cal = Calendar.getInstance();
+
+        String usuario = UsuarioActivo.getUsuario().getLogin();
+
+        List<Empleado> empleados = obtenerDNI();
+
+        List<String> dnis = new ArrayList<>();
+
+        for (Empleado e : empleados) {
+            dnis.add(e.getNroDocumento());
         }
 
+        analisis.analizarEmpleados(empleados);
         int anio;
         int mes;
         Date fechaInicio = new Date();
@@ -607,7 +726,6 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
             rangoValor = periodoList.get(cboPeriodo.getSelectedIndex()).getAnio() + "";
         }
 
-        File archivo = new File(reporte);
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("usuario", usuario);
         parametros.put("lista", dnis);
@@ -616,20 +734,8 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         parametros.put("rangoTitulo", rangoTitulo);
         parametros.put("rangoValor", rangoValor);
         parametros.put("mostrar_he", chkHFH.isSelected());
-//        parametros.put("CONEXION_SUP", ec.getDao().getConexion());
-//        parametros.put("CONEXION_BIOSTAR", mc.getDao().getConexion());
-        
 
-        reporteador.setConn(pc.getDao().getConexion());
-        Component report = reporteador.obtenerReporte(archivo, parametros);
-        report.getParent().add(new JButton("HOLI"));
-
-//        if(bandera){
-        pnlTab.removeTabAt(0);
-//        }
-        pnlTab.add("Vista previa", report);
-        bandera = true;
-
+        return parametros;
     }
 
     boolean bandera = false;
@@ -670,5 +776,40 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         if (seleccionado != -1) {
             grupoSeleccionado = this.grupoList.get(seleccionado);
         }
+    }
+
+    private Formato obtenerFormato() {
+        int seleccionado = cboExportarFormato.getSelectedIndex();
+
+        switch (seleccionado) {
+            case 0:
+                return Formato.PDF;
+            case 1:
+                return Formato.XLSX;
+            case 2:
+                return Formato.XLS;
+            case 3:
+                return Formato.CSV;
+            case 4:
+                return Formato.DBF;
+            default:
+                return null;
+        }
+    }
+
+    private void exportar(Formato formato, String ruta) {
+        String reporte = "";
+        if (radConsolidado.isSelected()) {
+            reporte = "reportes/r_registro_asistencia_consolidado.jasper";
+        } else if (radDetallado.isSelected()) {
+            reporte = "reportes/r_registro_asistencia_detallado_sm.jasper";
+        }
+        File archivo = new File(reporte);
+        Map<String, Object> parametros = this.obtenerParametros();
+        if(formato != Formato.PDF){
+            parametros.put("MOSTRAR_TITULO", false);
+        }        
+        reporteador.setConn(pc.getDao().getConexion());
+        reporteador.exportarReporte(archivo, parametros, formato, ruta);
     }
 }

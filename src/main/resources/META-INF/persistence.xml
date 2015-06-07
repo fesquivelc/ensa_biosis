@@ -40,6 +40,7 @@
     <class>entidades.CompraVacacion</class>
     <class>entidades.Turno</class>
     <class>entidades.escalafon.Departamento</class>
+    <class>entidades.DetalleJornada</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://127.0.0.1\JUPITER:49417;databaseName=db_biosis;sendTimeAsDateTime=false"/>
       <property name="javax.persistence.jdbc.password" value="asistencia"/>
@@ -72,4 +73,15 @@
     </properties>
   </persistence-unit>
   -->
+  <persistence-unit name="biostar-PU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>entidades.biostar.Evento</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://127.0.0.1\MSS2005EX;databaseName=BDreloj"/>
+      <property name="javax.persistence.jdbc.password" value="Elhacker12"/>
+      <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+      <property name="javax.persistence.jdbc.user" value="sa"/>
+      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+    </properties>
+  </persistence-unit>
 </persistence>

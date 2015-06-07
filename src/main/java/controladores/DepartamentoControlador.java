@@ -27,6 +27,11 @@ public class DepartamentoControlador extends Controlador<Departamento>{
         return this.getDao().buscar(jpql, param);
     }
     
+    public List<Departamento> buscarXJerarquia(){
+        String jpql = "SELECT d FROM Departamento d WHERE d.departamento IS NULL";                
+        return this.getDao().buscar(jpql);
+    }
+    
     public static DepartamentoControlador getInstance() {
         return DepartamentoControladorHolder.INSTANCE;
     }

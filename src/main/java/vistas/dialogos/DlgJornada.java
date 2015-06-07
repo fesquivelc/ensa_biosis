@@ -32,14 +32,14 @@ public class DlgJornada extends javax.swing.JDialog {
         super(JOptionPane.getFrameForComponent(parent), true);
         initComponents();
         this.setLocationRelativeTo(parent);
-        modeloHoraSpinner(spTurnoHE);
-        modeloHoraSpinner(spDesdeHE);
-        modeloHoraSpinner(spToleranciaHE);
-        modeloHoraSpinner(spRefrigerioHS);
-        modeloHoraSpinner(spRefrigerioHE);
-        modeloHoraSpinner(spTardanzaHE);
-        modeloHoraSpinner(spTurnoHS);
-        modeloHoraSpinner(spToleranciaRefrigerioHE);
+//        modeloHoraSpinner(spTurnoHE);
+//        modeloHoraSpinner(spDesdeHE);
+//        modeloHoraSpinner(spToleranciaHE);
+//        modeloHoraSpinner(spRefrigerioHS);
+//        modeloHoraSpinner(spRefrigerioHE);
+//        modeloHoraSpinner(spTardanzaHE);
+//        modeloHoraSpinner(spTurnoHS);
+//        modeloHoraSpinner(spToleranciaRefrigerioHE);
         jornadaControlador = JornadaControlador.getInstance();
         bindeoSalvaje();
         accion = 0;
@@ -63,30 +63,13 @@ public class DlgJornada extends javax.swing.JDialog {
         tblJornadas = new org.jdesktop.swingx.JXTable();
         pnlDatosJornada = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        spTurnoHE = new javax.swing.JSpinner();
-        jLabel2 = new javax.swing.JLabel();
-        spToleranciaRefrigerioHE = new javax.swing.JSpinner();
-        jLabel3 = new javax.swing.JLabel();
-        spDesdeHE = new javax.swing.JSpinner();
-        jLabel4 = new javax.swing.JLabel();
-        spToleranciaHE = new javax.swing.JSpinner();
-        jLabel5 = new javax.swing.JLabel();
-        spTardanzaHE = new javax.swing.JSpinner();
-        jLabel6 = new javax.swing.JLabel();
-        spTurnoHS = new javax.swing.JSpinner();
-        jLabel7 = new javax.swing.JLabel();
-        spRefrigerioHS = new javax.swing.JSpinner();
-        jLabel8 = new javax.swing.JLabel();
-        spRefrigerioHE = new javax.swing.JSpinner();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
-        spMinutosRefrigerio = new javax.swing.JSpinner();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        chkRefrigerioEspecial = new javax.swing.JCheckBox();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtDescripcion = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -129,158 +112,6 @@ public class DlgJornada extends javax.swing.JDialog {
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setText("Hora de entrada (HH:mm):");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(jLabel1, gridBagConstraints);
-
-        spTurnoHE.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.MINUTE));
-        spTurnoHE.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                spTurnoHEStateChanged(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(spTurnoHE, gridBagConstraints);
-
-        jLabel2.setText("Tolerancia de entrada de refrigerio (HH:mm):");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 16;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(jLabel2, gridBagConstraints);
-
-        spToleranciaRefrigerioHE.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.MINUTE));
-        spToleranciaRefrigerioHE.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                spToleranciaRefrigerioHEStateChanged(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 16;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(spToleranciaRefrigerioHE, gridBagConstraints);
-
-        jLabel3.setText("Marcar desde (HH:mm):");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(jLabel3, gridBagConstraints);
-
-        spDesdeHE.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.MINUTE));
-        spDesdeHE.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                spDesdeHEStateChanged(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(spDesdeHE, gridBagConstraints);
-
-        jLabel4.setText("Tolerancia de entrada (HH:mm):");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(jLabel4, gridBagConstraints);
-
-        spToleranciaHE.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.MINUTE));
-        spToleranciaHE.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                spToleranciaHEStateChanged(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(spToleranciaHE, gridBagConstraints);
-
-        jLabel5.setText("Tolerancia de tardanza (HH:mm):");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(jLabel5, gridBagConstraints);
-
-        spTardanzaHE.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.MINUTE));
-        spTardanzaHE.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                spTardanzaHEStateChanged(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(spTardanzaHE, gridBagConstraints);
-
-        jLabel6.setText("Hora de salida (HH:mm):");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 18;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(jLabel6, gridBagConstraints);
-
-        spTurnoHS.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.MINUTE));
-        spTurnoHS.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                spTurnoHSStateChanged(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 18;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(spTurnoHS, gridBagConstraints);
-
-        jLabel7.setText("Hora de salida a refrigerio (HH:mm):");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 12;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(jLabel7, gridBagConstraints);
-
-        spRefrigerioHS.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.MINUTE));
-        spRefrigerioHS.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                spRefrigerioHSStateChanged(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 12;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(spRefrigerioHS, gridBagConstraints);
-
-        jLabel8.setText("Hora de entrada de refrigerio (HH:mm):");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 14;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(jLabel8, gridBagConstraints);
-
-        spRefrigerioHE.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.MINUTE));
-        spRefrigerioHE.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                spRefrigerioHEStateChanged(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 14;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(spRefrigerioHE, gridBagConstraints);
-
         jLabel9.setText("Código:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -291,58 +122,37 @@ public class DlgJornada extends javax.swing.JDialog {
         jLabel10.setText("Nombre:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel10, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         jPanel1.add(txtCodigo, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         jPanel1.add(txtNombre, gridBagConstraints);
 
-        spMinutosRefrigerio.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(15), Integer.valueOf(15), null, Integer.valueOf(1)));
-        spMinutosRefrigerio.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                spMinutosRefrigerioStateChanged(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 22;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(spMinutosRefrigerio, gridBagConstraints);
-
-        jLabel12.setText("Minutos de refrigerio:");
+        jLabel1.setText("Descripción");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 22;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(jLabel12, gridBagConstraints);
+        gridBagConstraints.gridy = 2;
+        jPanel1.add(jLabel1, gridBagConstraints);
 
-        jLabel11.setText("¿Refrigerio en intervalo?");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 20;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(jLabel11, gridBagConstraints);
+        txtDescripcion.setColumns(20);
+        txtDescripcion.setRows(5);
+        jScrollPane2.setViewportView(txtDescripcion);
 
-        chkRefrigerioEspecial.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkRefrigerioEspecialActionPerformed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 20;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(chkRefrigerioEspecial, gridBagConstraints);
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel1.add(jScrollPane2, gridBagConstraints);
 
         jPanel2.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
 
@@ -432,41 +242,6 @@ public class DlgJornada extends javax.swing.JDialog {
         return jornadaSeleccionada;
     }
 
-    private void spTurnoHEStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spTurnoHEStateChanged
-        // TODO add your handling code here:
-        Date hora = (Date) spTurnoHE.getValue();
-
-        System.out.println("HORA: " + hora.toString());
-    }//GEN-LAST:event_spTurnoHEStateChanged
-
-    private void spToleranciaRefrigerioHEStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spToleranciaRefrigerioHEStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_spToleranciaRefrigerioHEStateChanged
-
-    private void spDesdeHEStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spDesdeHEStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_spDesdeHEStateChanged
-
-    private void spToleranciaHEStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spToleranciaHEStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_spToleranciaHEStateChanged
-
-    private void spTardanzaHEStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spTardanzaHEStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_spTardanzaHEStateChanged
-
-    private void spTurnoHSStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spTurnoHSStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_spTurnoHSStateChanged
-
-    private void spRefrigerioHSStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spRefrigerioHSStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_spRefrigerioHSStateChanged
-
-    private void spRefrigerioHEStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spRefrigerioHEStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_spRefrigerioHEStateChanged
-
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
         if (FormularioUtil.dialogoConfirmar(this, accion)) {
@@ -476,14 +251,14 @@ public class DlgJornada extends javax.swing.JDialog {
                 seleccionada.setCodigo(txtCodigo.getText());
             }
             seleccionada.setNombre(txtNombre.getText());
-            seleccionada.setDesdeHE((Date) spDesdeHE.getValue());
-            seleccionada.setRefrigerioHS((Date) spRefrigerioHS.getValue());
-            seleccionada.setRefrigerioHE((Date) spRefrigerioHE.getValue());
-            seleccionada.setTardanzaHE((Date) spTardanzaHE.getValue());
-            seleccionada.setToleranciaRefrigerioHE((Date) spToleranciaRefrigerioHE.getValue());
-            seleccionada.setToleranciaHE((Date) spToleranciaHE.getValue());
-            seleccionada.setTurnoHE((Date) spTurnoHE.getValue());
-            seleccionada.setTurnoHS((Date) spTurnoHS.getValue());
+//            seleccionada.setDesdeHE((Date) spDesdeHE.getValue());
+//            seleccionada.setRefrigerioHS((Date) spRefrigerioHS.getValue());
+//            seleccionada.setRefrigerioHE((Date) spRefrigerioHE.getValue());
+//            seleccionada.setTardanzaHE((Date) spTardanzaHE.getValue());
+//            seleccionada.setToleranciaRefrigerioHE((Date) spToleranciaRefrigerioHE.getValue());
+//            seleccionada.setToleranciaHE((Date) spToleranciaHE.getValue());
+//            seleccionada.setTurnoHE((Date) spTurnoHE.getValue());
+//            seleccionada.setTurnoHS((Date) spTurnoHS.getValue());
             seleccionada.setTipo('A');
 
             if (jornadaControlador.accion(accion)) {
@@ -500,15 +275,6 @@ public class DlgJornada extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void spMinutosRefrigerioStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spMinutosRefrigerioStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_spMinutosRefrigerioStateChanged
-
-    private void chkRefrigerioEspecialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkRefrigerioEspecialActionPerformed
-        // TODO add your handling code here:
-        checkbox();
-    }//GEN-LAST:event_chkRefrigerioEspecialActionPerformed
-
     private int accion;
     private final JornadaControlador jornadaControlador;
     private List<Jornada> jornadaList;
@@ -518,36 +284,19 @@ public class DlgJornada extends javax.swing.JDialog {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
-    private javax.swing.JCheckBox chkRefrigerioEspecial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel pnlDatosJornada;
     private javax.swing.JPanel pnlListado;
-    private javax.swing.JSpinner spDesdeHE;
-    private javax.swing.JSpinner spMinutosRefrigerio;
-    private javax.swing.JSpinner spRefrigerioHE;
-    private javax.swing.JSpinner spRefrigerioHS;
-    private javax.swing.JSpinner spTardanzaHE;
-    private javax.swing.JSpinner spToleranciaHE;
-    private javax.swing.JSpinner spToleranciaRefrigerioHE;
-    private javax.swing.JSpinner spTurnoHE;
-    private javax.swing.JSpinner spTurnoHS;
     private org.jdesktop.swingx.JXTable tblJornadas;
     private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextArea txtDescripcion;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 
@@ -598,19 +347,20 @@ public class DlgJornada extends javax.swing.JDialog {
     private void mostrar(Jornada seleccionado) {
         txtCodigo.setText(seleccionado.getCodigo());
         txtNombre.setText(seleccionado.getNombre());
-        spDesdeHE.setValue(seleccionado.getDesdeHE());
-        spRefrigerioHS.setValue(seleccionado.getRefrigerioHS());
-        spRefrigerioHE.setValue(seleccionado.getRefrigerioHE());
-        spTardanzaHE.setValue(seleccionado.getTardanzaHE());
-        if(seleccionado.isRefrigerioEspecial()){
-            spMinutosRefrigerio.setValue(seleccionado.getMinRefrigerio());
-        }else{
-            spToleranciaRefrigerioHE.setValue(seleccionado.getToleranciaRefrigerioHE());
-        }
+        txtDescripcion.setText(seleccionado.getDescripcion());
+//        spDesdeHE.setValue(seleccionado.getDesdeHE());
+//        spRefrigerioHS.setValue(seleccionado.getRefrigerioHS());
+//        spRefrigerioHE.setValue(seleccionado.getRefrigerioHE());
+//        spTardanzaHE.setValue(seleccionado.getTardanzaHE());
+//        if(seleccionado.isRefrigerioEspecial()){
+//            spMinutosRefrigerio.setValue(seleccionado.getMinRefrigerio());
+//        }else{
+//            spToleranciaRefrigerioHE.setValue(seleccionado.getToleranciaRefrigerioHE());
+//        }
         
-        spToleranciaHE.setValue(seleccionado.getToleranciaHE());
-        spTurnoHE.setValue(seleccionado.getTurnoHE());
-        spTurnoHS.setValue(seleccionado.getTurnoHS());
+//        spToleranciaHE.setValue(seleccionado.getToleranciaHE());
+//        spTurnoHE.setValue(seleccionado.getTurnoHE());
+//        spTurnoHS.setValue(seleccionado.getTurnoHS());
     }
 
     private void actualizarTabla() {
@@ -618,10 +368,10 @@ public class DlgJornada extends javax.swing.JDialog {
         jornadaList.addAll(jornadaControlador.buscarTodos());
     }
 
-    private void checkbox() {
-        if (accion != 0) {
-            FormularioUtil.activarComponente(spToleranciaRefrigerioHE, !chkRefrigerioEspecial.isSelected());
-            FormularioUtil.activarComponente(spMinutosRefrigerio, chkRefrigerioEspecial.isSelected());
-        }
-    }
+//    private void checkbox() {
+//        if (accion != 0) {
+//            FormularioUtil.activarComponente(spToleranciaRefrigerioHE, !chkRefrigerioEspecial.isSelected());
+//            FormularioUtil.activarComponente(spMinutosRefrigerio, chkRefrigerioEspecial.isSelected());
+//        }
+//    }
 }

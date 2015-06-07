@@ -33,6 +33,9 @@ public class RegistroAsistencia implements Serializable {
     @ManyToOne(optional = true, targetEntity = Horario.class)
     @JoinColumn(name = "horario_codigo", referencedColumnName = "codigo", insertable = true, nullable = true, unique = false, updatable = true)
     private Horario horario;
+    @ManyToOne(optional = true, targetEntity = Jornada.class)
+    @JoinColumn(name = "jornada_codigo",referencedColumnName = "codigo")
+    private Jornada jornada;
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, targetEntity = DetalleRegistroAsistencia.class, mappedBy = "registroAsistencia")
     private List<DetalleRegistroAsistencia> detalleRegistroAsistenciaList;
     @Column(unique = false, updatable = true, insertable = true, nullable = false, length = 255, scale = 0, precision = 0)
@@ -67,12 +70,27 @@ public class RegistroAsistencia implements Serializable {
     @JoinColumn(name = "vacacion_id", referencedColumnName = "id", insertable = true, nullable = true, unique = false, updatable = true)
     private Vacacion vacacion;
 
+    @Override
+    public String toString() {
+        return "--------------------------------------\nRegistroAsistencia{" + "minCompensados=" + minCompensados + ", minTardanza=" + minTardanza + ", horario=" + horario + ", jornada=" + jornada + ", detalleRegistroAsistenciaList=" + detalleRegistroAsistenciaList + ", fecha=" + fecha + ", empleado=" + empleado + ", tipoAsistencia=" + tipoAsistencia + ", id=" + id + ", permiso=" + permiso + ", feriado=" + feriado + ", compensacion=" + compensacion + ", minTrabajados=" + minTrabajados + ", minExtra=" + minExtra + ", vacacion=" + vacacion + "}\n------------------------------------------------";
+    }
+    
+    
+
     public RegistroAsistencia() {
 
     }
 
     public BigDecimal getMinExtra() {
         return minExtra;
+    }
+
+    public Jornada getJornada() {
+        return jornada;
+    }
+
+    public void setJornada(Jornada jornada) {
+        this.jornada = jornada;
     }
 
     public void setMinExtra(BigDecimal minExtra) {

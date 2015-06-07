@@ -123,6 +123,24 @@ public class MarcacionControlador extends Controlador<Marcacion> {
             return marcaciones.get(0);
         }
     }
+    
+    public Marcacion buscarXFechaXhora(Empleado empleado, Date fechaInicio, Date fechaFin, Date horaInicio, Date horaFin) {
+        String jpql = "SELECT m FROM Marcacion m WHERE "
+                + "m.empleado = :dni "
+                + "AND m.fechaHora BETWEEN :fechaInicio AND :fechaFin "
+                + "ORDER BY m.fechaHora ASC";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("dni", empleado);
+        mapa.put("fechaInicio", FechaUtil.unirFechaHora(fechaInicio, horaInicio));
+        mapa.put("fechaFin", FechaUtil.unirFechaHora(fechaFin, horaFin));
+        List<Marcacion> marcaciones = this.getDao().buscar(jpql, mapa, -1, 1);
+
+        if (marcaciones.isEmpty()) {
+            return null;
+        } else {
+            return marcaciones.get(0);
+        }
+    }
 //
 //    public List<Object[]> buscarEmpleadosXEvento(int evento, boolean dentro) {
 //        String sql = "SELECT u.sUserID,CONVERT(varchar,u.sUserName),CONVERT (varchar,dep.sName) FROM TB_USER u LEFT JOIN TB_USER_DEPT dep on u.nDepartmentIdn = dep.nDepartmentIdn WHERE u.sUserID";

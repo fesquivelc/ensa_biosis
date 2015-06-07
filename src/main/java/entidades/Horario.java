@@ -24,19 +24,19 @@ public class Horario implements Serializable {
     @Id
     private String codigo;
 
-    @Column(name="fecha_fin",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
-    @Temporal(TemporalType.DATE)
-    @Basic
-    private Date fechaFin;
+//    @Column(name="fecha_fin",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
+//    @Temporal(TemporalType.DATE)
+//    @Basic
+//    private Date fechaFin;
     @Column(name="documento",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private String documento;
     @OneToMany(fetch = FetchType.LAZY,targetEntity = AsignacionHorario.class,mappedBy = "horario")
     private List<AsignacionHorario> asignacionHorarioList;
-    @Column(name="fecha_inicio",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
-    @Temporal(TemporalType.DATE)
-    @Basic
-    private Date fechaInicio;
+//    @Column(name="fecha_inicio",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
+//    @Temporal(TemporalType.DATE)
+//    @Basic
+//    private Date fechaInicio;
     //EL TIPO DE HORARIO PUEDE SER T = TECNICO O A = ADMINISTRATIVO / TECNICO ADMINISTRATIVO
     @Column(name = "tipo")
     private char tipo;
@@ -77,14 +77,6 @@ public class Horario implements Serializable {
         this.codigo = codigo;
     }
    
-    public Date getFechaFin() {
-        return this.fechaFin;
-    }
-
-    public void setFechaFin(Date fechaFin) {
-        this.fechaFin = fechaFin;
-    }
-   
     public String getDocumento() {
         return this.documento;
     }
@@ -99,13 +91,5 @@ public class Horario implements Serializable {
 
     public void setAsignacionHorarioList(List<AsignacionHorario> asignacionHorarioList) {
         this.asignacionHorarioList = asignacionHorarioList;
-    }
-   
-    public Date getFechaInicio() {
-        return this.fechaInicio;
-    }
-
-    public void setFechaInicio(Date fechaInicio) {
-        this.fechaInicio = fechaInicio;
     }
 }

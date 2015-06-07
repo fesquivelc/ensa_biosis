@@ -40,8 +40,8 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
         horarioControlador = new HorarioControlador();
         bindeoSalvaje();
         accion = 0;
-        FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
-        FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
+//        FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
+//        FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
         this.controles(accion);
     }
 
@@ -75,10 +75,6 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
         chkDomingo = new javax.swing.JCheckBox();
         jLabel2 = new javax.swing.JLabel();
         txtDocumento = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        spFechaInicio = new javax.swing.JSpinner();
-        spFechaFin = new javax.swing.JSpinner();
         jPanel2 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -100,7 +96,7 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
 
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
         jPanel1Layout.columnWidths = new int[] {0, 5, 0, 5, 0};
-        jPanel1Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        jPanel1Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel1.setLayout(jPanel1Layout);
 
         jLabel1.setText("Jornada:");
@@ -113,7 +109,7 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
         jLabel3.setText("Días laborales:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel3, gridBagConstraints);
 
@@ -187,7 +183,7 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -206,34 +202,6 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.1;
         jPanel1.add(txtDocumento, gridBagConstraints);
-
-        jLabel4.setText("Fecha de inicio:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(jLabel4, gridBagConstraints);
-
-        jLabel5.setText("Fecha de fin:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(jLabel5, gridBagConstraints);
-
-        spFechaInicio.setModel(new javax.swing.SpinnerDateModel());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(spFechaInicio, gridBagConstraints);
-
-        spFechaFin.setModel(new javax.swing.SpinnerDateModel());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(spFechaFin, gridBagConstraints);
 
         jPanel2.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
 
@@ -271,7 +239,7 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
             .addGroup(pnlDatosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -382,8 +350,8 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
                 seleccionada.setCodigo(txtCodigo.getText());
             }
             seleccionada.setNombre(txtNombre.getText());            
-            seleccionada.setFechaInicio((Date)spFechaInicio.getValue());
-            seleccionada.setFechaFin((Date)spFechaFin.getValue());
+//            seleccionada.setFechaInicio((Date)spFechaInicio.getValue());
+//            seleccionada.setFechaFin((Date)spFechaFin.getValue());
             seleccionada.setDocumento(txtDocumento.getText());
             seleccionada.setTipo('A');
             
@@ -460,8 +428,6 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -470,8 +436,6 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnlDatos;
     private javax.swing.JPanel pnlListado;
-    private javax.swing.JSpinner spFechaFin;
-    private javax.swing.JSpinner spFechaInicio;
     private org.jdesktop.swingx.JXTable tblHorario;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtDocumento;
@@ -537,8 +501,8 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
         chkViernes.setSelected(seleccionado.getTurnoList().get(0).isViernes());
         chkSabado.setSelected(seleccionado.getTurnoList().get(0).isSabado());
         chkDomingo.setSelected(seleccionado.getTurnoList().get(0).isDomingo());
-        spFechaInicio.setValue(seleccionado.getFechaInicio());
-        spFechaFin.setValue(seleccionado.getFechaFin());
+//        spFechaInicio.setValue(seleccionado.getFechaInicio());
+//        spFechaFin.setValue(seleccionado.getFechaFin());
     }
 
     private void actualizarTabla() {
