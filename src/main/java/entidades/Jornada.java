@@ -6,6 +6,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -30,7 +31,7 @@ public class Jornada implements Serializable {
     @Column(name = "descripcion")
     private String descripcion;
     
-    @OneToMany(targetEntity = DetalleJornada.class, mappedBy = "jornada",orphanRemoval = true,cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = DetalleJornada.class, mappedBy = "jornada",orphanRemoval = true,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<DetalleJornada> detalleJornadaList;
 
     public List<DetalleJornada> getDetalleJornadaList() {

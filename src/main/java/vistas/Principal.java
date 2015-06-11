@@ -37,6 +37,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JInternalFrame;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import utiles.UsuarioActivo;
+import vistas.mantenimientos.CRUDAreaSede;
 
 /**
  *
@@ -102,6 +103,7 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         mnuConfiguracion = new javax.swing.JMenu();
         mnuPeriodos = new javax.swing.JMenuItem();
+        mnuSedesAreas = new javax.swing.JMenuItem();
         mnuControlUsuario = new javax.swing.JMenuItem();
         mnuConfiguracionBD = new javax.swing.JMenuItem();
         mnuCambiarPasswd = new javax.swing.JMenuItem();
@@ -135,6 +137,7 @@ public class Principal extends javax.swing.JFrame {
         pnlBotnesLayout.rowHeights = new int[] {0};
         pnlBotnes.setLayout(pnlBotnesLayout);
 
+        btnEmpleados.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         btnEmpleados.setText("Empleados");
         btnEmpleados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,6 +149,7 @@ public class Principal extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         pnlBotnes.add(btnEmpleados, gridBagConstraints);
 
+        btnMarcaciones.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         btnMarcaciones.setText("Marcaciones");
         btnMarcaciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -157,6 +161,7 @@ public class Principal extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         pnlBotnes.add(btnMarcaciones, gridBagConstraints);
 
+        btnAsignarPermiso.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         btnAsignarPermiso.setText("Asignar permisos");
         btnAsignarPermiso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -168,6 +173,7 @@ public class Principal extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         pnlBotnes.add(btnAsignarPermiso, gridBagConstraints);
 
+        btnHorarios.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         btnHorarios.setText("Horarios");
         btnHorarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -179,6 +185,7 @@ public class Principal extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         pnlBotnes.add(btnHorarios, gridBagConstraints);
 
+        btnRegistroAsistencia.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         btnRegistroAsistencia.setText("Registro de asistencia");
         btnRegistroAsistencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -215,7 +222,9 @@ public class Principal extends javax.swing.JFrame {
 
         mnuMarcaciones.setMnemonic('e');
         mnuMarcaciones.setText("Empleados");
+        mnuMarcaciones.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
 
+        mnuVerEmpleados.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         mnuVerEmpleados.setMnemonic('t');
         mnuVerEmpleados.setText("Ver empleados");
         mnuVerEmpleados.addActionListener(new java.awt.event.ActionListener() {
@@ -225,6 +234,7 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuMarcaciones.add(mnuVerEmpleados);
 
+        mnuMarcacionesSinProcesar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         mnuMarcacionesSinProcesar.setText("Marcaciones sin procesar");
         mnuMarcacionesSinProcesar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -233,6 +243,7 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuMarcaciones.add(mnuMarcacionesSinProcesar);
 
+        mnuSalir.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         mnuSalir.setMnemonic('x');
         mnuSalir.setText("Salir");
         mnuSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -246,7 +257,9 @@ public class Principal extends javax.swing.JFrame {
 
         mnuHorario.setMnemonic('f');
         mnuHorario.setText("Horarios");
+        mnuHorario.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
 
+        mnuJornada.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         mnuJornada.setMnemonic('o');
         mnuJornada.setText("Jornadas");
         mnuJornada.addActionListener(new java.awt.event.ActionListener() {
@@ -256,6 +269,7 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuHorario.add(mnuJornada);
 
+        mnuHorarios.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         mnuHorarios.setMnemonic('s');
         mnuHorarios.setText("Horarios");
         mnuHorarios.addActionListener(new java.awt.event.ActionListener() {
@@ -265,6 +279,7 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuHorario.add(mnuHorarios);
 
+        jMenuItem4.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jMenuItem4.setText("Horario rotativo");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -273,6 +288,7 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuHorario.add(jMenuItem4);
 
+        mnuGruposHorario.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         mnuGruposHorario.setText("Grupos horario");
         mnuGruposHorario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -281,6 +297,7 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuHorario.add(mnuGruposHorario);
 
+        mnuAsignarHorario.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         mnuAsignarHorario.setText("Asignar horario");
         mnuAsignarHorario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -292,7 +309,9 @@ public class Principal extends javax.swing.JFrame {
         menuBar.add(mnuHorario);
 
         mnuPermiso.setText("Permisos");
+        mnuPermiso.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
 
+        mnuTiposPermiso.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         mnuTiposPermiso.setText("Tipos de permiso");
         mnuTiposPermiso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -301,6 +320,7 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuPermiso.add(mnuTiposPermiso);
 
+        mnuAsignarPermiso.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         mnuAsignarPermiso.setText("Asignar permiso");
         mnuAsignarPermiso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -309,6 +329,7 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuPermiso.add(mnuAsignarPermiso);
 
+        mnuAsignarVacaciones.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         mnuAsignarVacaciones.setText("Asignar vacaciones");
         mnuAsignarVacaciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -320,7 +341,9 @@ public class Principal extends javax.swing.JFrame {
         menuBar.add(mnuPermiso);
 
         mnuReportes.setText("Reportes");
+        mnuReportes.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
 
+        jMenuItem1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jMenuItem1.setText("Reportes de asistencia");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -329,6 +352,7 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuReportes.add(jMenuItem1);
 
+        jMenuItem2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jMenuItem2.setText("Reportes de permisos / licencias / comisiones de servicio");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -337,6 +361,7 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuReportes.add(jMenuItem2);
 
+        jMenuItem3.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jMenuItem3.setText("Reportes de vacaciones");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -349,7 +374,9 @@ public class Principal extends javax.swing.JFrame {
 
         mnuConfiguracion.setMnemonic('h');
         mnuConfiguracion.setText("Configuración");
+        mnuConfiguracion.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
 
+        mnuPeriodos.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         mnuPeriodos.setMnemonic('a');
         mnuPeriodos.setText("Períodos");
         mnuPeriodos.addActionListener(new java.awt.event.ActionListener() {
@@ -359,6 +386,16 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuConfiguracion.add(mnuPeriodos);
 
+        mnuSedesAreas.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        mnuSedesAreas.setText("Sedes y áreas");
+        mnuSedesAreas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuSedesAreasActionPerformed(evt);
+            }
+        });
+        mnuConfiguracion.add(mnuSedesAreas);
+
+        mnuControlUsuario.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         mnuControlUsuario.setText("Control de usuarios");
         mnuControlUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -367,6 +404,7 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuConfiguracion.add(mnuControlUsuario);
 
+        mnuConfiguracionBD.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         mnuConfiguracionBD.setText("Configuración de BD");
         mnuConfiguracionBD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -375,6 +413,7 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuConfiguracion.add(mnuConfiguracionBD);
 
+        mnuCambiarPasswd.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         mnuCambiarPasswd.setText("Cambiar contraseña");
         mnuCambiarPasswd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -383,6 +422,7 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuConfiguracion.add(mnuCambiarPasswd);
 
+        jMenuItem5.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jMenuItem5.setText("Ejecutar SQL");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -536,6 +576,12 @@ public class Principal extends javax.swing.JFrame {
         agregarAPanel(new HorarioRotativo(),true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void mnuSedesAreasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSedesAreasActionPerformed
+        // TODO add your handling code here:
+        CRUDAreaSede sedesAreas = new CRUDAreaSede();
+        agregarAPanel(sedesAreas, true);
+    }//GEN-LAST:event_mnuSedesAreasActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAsignarPermiso;
@@ -571,6 +617,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu mnuPermiso;
     private javax.swing.JMenu mnuReportes;
     private javax.swing.JMenuItem mnuSalir;
+    private javax.swing.JMenuItem mnuSedesAreas;
     private javax.swing.JMenuItem mnuTiposPermiso;
     private javax.swing.JMenuItem mnuVerEmpleados;
     private javax.swing.JPanel pnlBotnes;

@@ -132,6 +132,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlOpciones.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo de reporte"));
         pnlOpciones.setLayout(new java.awt.GridBagLayout());
 
+        radConsolidado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         radConsolidado.setSelected(true);
         radConsolidado.setText("Reporte resumen");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -139,6 +140,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 0.1;
         pnlOpciones.add(radConsolidado, gridBagConstraints);
 
+        radDetallado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         radDetallado.setText("Reporte detallado");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -146,6 +148,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlOpciones.add(radDetallado, gridBagConstraints);
 
+        chkHFH.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         chkHFH.setText("Mostrar H.F.T.");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -162,6 +165,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlRango.setBorder(javax.swing.BorderFactory.createTitledBorder("Rango"));
         pnlRango.setLayout(new java.awt.GridBagLayout());
 
+        radPorFecha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         radPorFecha.setSelected(true);
         radPorFecha.setText("Por fechas:");
         radPorFecha.addActionListener(new java.awt.event.ActionListener() {
@@ -173,6 +177,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlRango.add(radPorFecha, gridBagConstraints);
 
+        radMes.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         radMes.setText("Por mes:");
         radMes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -185,6 +190,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlRango.add(radMes, gridBagConstraints);
 
+        radAnio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         radAnio.setText("Por año:");
         radAnio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -202,6 +208,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlRango.add(cboMes, gridBagConstraints);
 
+        cboPeriodo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         cboPeriodo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -210,6 +217,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlRango.add(cboPeriodo, gridBagConstraints);
 
+        cboPeriodo1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         cboPeriodo1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -240,6 +248,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlEmpleados.setBorder(javax.swing.BorderFactory.createTitledBorder("Selección de empleados"));
         pnlEmpleados.setLayout(new java.awt.GridBagLayout());
 
+        radGrupo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         radGrupo.setText("Por grupo horario:");
         radGrupo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -250,6 +259,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlEmpleados.add(radGrupo, gridBagConstraints);
 
+        radPersonalizado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         radPersonalizado.setSelected(true);
         radPersonalizado.setText("Personalizado:");
         radPersonalizado.addActionListener(new java.awt.event.ActionListener() {
@@ -263,6 +273,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlEmpleados.add(radPersonalizado, gridBagConstraints);
 
+        cboGrupoHorario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         cboGrupoHorario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cboGrupoHorario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -273,6 +284,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlEmpleados.add(cboGrupoHorario, gridBagConstraints);
 
+        tblTabla.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jScrollPane1.setViewportView(tblTabla);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -308,6 +320,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         pnlEmpleados.add(btnQuitar, gridBagConstraints);
 
+        radOficina.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         radOficina.setText("Por oficina:");
         radOficina.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -321,6 +334,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlEmpleados.add(radOficina, gridBagConstraints);
 
         txtOficina.setEditable(false);
+        txtOficina.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -350,6 +364,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
 
         pnlBotones.setLayout(new java.awt.GridBagLayout());
 
+        jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton2.setText("GENERAR REPORTE");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

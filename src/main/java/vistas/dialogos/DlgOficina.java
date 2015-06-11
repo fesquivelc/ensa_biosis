@@ -7,17 +7,17 @@ package vistas.dialogos;
 
 import controladores.DepartamentoControlador;
 import entidades.escalafon.Departamento;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
-import org.jdesktop.beansbinding.AutoBinding;
-import org.jdesktop.beansbinding.BeanProperty;
-import org.jdesktop.beansbinding.BindingGroup;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeCellRenderer;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreeNode;
 import org.jdesktop.observablecollections.ObservableCollections;
-import org.jdesktop.swingbinding.JTableBinding;
-import org.jdesktop.swingbinding.SwingBindings;
+import vistas.renders.RenderArea;
 
 /**
  *
@@ -27,16 +27,17 @@ public class DlgOficina extends javax.swing.JDialog {
 
     /**
      * Creates new form DlgOficina
+     *
      * @param padre
      */
     private Departamento departamentoSeleccionado;
-    
+
     public DlgOficina(JInternalFrame padre) {
         super(JOptionPane.getFrameForComponent(padre), true);
         initComponents();
-        departamentoList = ObservableCollections.observableList(new ArrayList<Departamento>());
+//        departamentoList = ObservableCollections.observableList(new ArrayList<Departamento>());
         bindeoSalvaje();
-        buscar();
+//        buscar();
         this.setLocationRelativeTo(padre);
     }
 
@@ -50,130 +51,173 @@ public class DlgOficina extends javax.swing.JDialog {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jLabel1 = new javax.swing.JLabel();
-        txtOficina = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblTabla = new org.jdesktop.swingx.JXTable();
         jPanel1 = new javax.swing.JPanel();
+        pnlSeleccion = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        trAreas = new javax.swing.JTree();
+        jPanel2 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(606, 400));
-        getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setText("Oficina / Departamento / Área:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        getContentPane().add(jLabel1, gridBagConstraints);
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
-        txtOficina.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtOficinaKeyReleased(evt);
+        pnlSeleccion.setBorder(javax.swing.BorderFactory.createTitledBorder("Selección de área o sede"));
+        pnlSeleccion.setLayout(new java.awt.GridBagLayout());
+
+        trAreas.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        trAreas.setRowHeight(30);
+        trAreas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                trAreasMouseReleased(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 0.2;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        getContentPane().add(txtOficina, gridBagConstraints);
+        jScrollPane1.setViewportView(trAreas);
 
-        jButton1.setText("Buscar");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.2;
+        pnlSeleccion.add(jScrollPane1, gridBagConstraints);
+
+        jPanel2.setLayout(new java.awt.GridLayout());
+
+        jButton1.setText("Seleccionar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        getContentPane().add(jButton1, gridBagConstraints);
+        jPanel2.add(jButton1);
 
-        tblTabla.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tblTablaMouseReleased(evt);
+        jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
-        jScrollPane1.setViewportView(tblTabla);
+        jPanel2.add(jButton2);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        getContentPane().add(jScrollPane1, gridBagConstraints);
+        pnlSeleccion.add(jPanel2, new java.awt.GridBagConstraints());
 
-        jPanel1.setLayout(new java.awt.GridLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        getContentPane().add(jPanel1, gridBagConstraints);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(120, 671, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pnlSeleccion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlSeleccion, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tblTablaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTablaMouseReleased
+    private void trAreasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_trAreasMouseReleased
         // TODO add your handling code here:
-        if(evt.getClickCount() == 2){
-            seleccionar();
-        }
-    }//GEN-LAST:event_tblTablaMouseReleased
+
+    }//GEN-LAST:event_trAreasMouseReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        buscar();
+        DefaultMutableTreeNode nodo = (DefaultMutableTreeNode) trAreas.getLastSelectedPathComponent();
+        if (nodo != null) {
+            Object elemento = nodo.getUserObject();
+            if (elemento instanceof Departamento) {
+                this.departamentoSeleccionado = (Departamento) elemento;
+                this.dispose();
+//            mostrar((Departamento)elemento);
+            }
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void txtOficinaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOficinaKeyReleased
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            buscar();
-        }
-    }//GEN-LAST:event_txtOficinaKeyReleased
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private org.jdesktop.swingx.JXTable tblTabla;
-    private javax.swing.JTextField txtOficina;
+    private javax.swing.JPanel pnlSeleccion;
+    private javax.swing.JTree trAreas;
     // End of variables declaration//GEN-END:variables
 
-    private void seleccionar() {
-        int fila;
-        if((fila = tblTabla.getSelectedRow()) != -1){
-            departamentoSeleccionado = departamentoList.get(fila);
-            this.dispose();
+//    private void seleccionar() {
+//        int fila;
+//        if((fila = tblTabla.getSelectedRow()) != -1){
+//            departamentoSeleccionado = departamentoList.get(fila);
+//            this.dispose();
+//        }
+//    }
+//    private final List<Departamento> departamentoList;
+//    private final DepartamentoControlador dc = DepartamentoControlador.getInstance();
+//    private void buscar() {
+//        String patron = txtOficina.getText();
+//        departamentoList.clear();
+//        departamentoList.addAll(dc.buscarXNombre(patron));
+//        tblTabla.packAll();
+//    }
+    public Departamento getSeleccionado() {
+        this.setVisible(true);
+        return this.departamentoSeleccionado;
+    }
+    private TreeModel modeloDepartamento;
+    private TreeCellRenderer renderDepartamento;
+    private DepartamentoControlador depc = DepartamentoControlador.getInstance();
+
+    private void bindeoSalvaje() {
+        TreeNode nodoPrincipal = new DefaultMutableTreeNode("SEDES Y ÁREAS");
+        modeloDepartamento = new DefaultTreeModel(nodoPrincipal);
+        renderDepartamento = new RenderArea();
+        trAreas.setModel(modeloDepartamento);
+
+        trAreas.setCellRenderer(renderDepartamento);
+        List<Departamento> departamentos = depc.buscarXJerarquia();
+        System.out.println("DEPARTAMENTOS JERARQUIA: " + departamentos.size());
+        llenarArbol((DefaultTreeModel) modeloDepartamento, departamentos, (DefaultMutableTreeNode) nodoPrincipal);
+
+        for (int i = 0; i < trAreas.getRowCount(); i++) {
+            trAreas.expandRow(i);
+        }
+//        actualizarArbol();
+    }
+
+    private void llenarArbol(DefaultTreeModel modelo, List listado, DefaultMutableTreeNode padre) {
+        for (Object elemento : listado) {
+            DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(elemento);
+            modelo.insertNodeInto(nodo, padre, padre.getChildCount());
+            if (elemento instanceof Departamento) {
+                List<Departamento> deps = ((Departamento) elemento).getDepartamentoList();
+                if (!deps.isEmpty()) {
+                    llenarArbol(modelo, deps, nodo);
+                }
+            }
         }
     }
 
-    private final List<Departamento> departamentoList;
-    private final DepartamentoControlador dc = DepartamentoControlador.getInstance();
-    
-    private void buscar() {
-        String patron = txtOficina.getText();
-        departamentoList.clear();
-        departamentoList.addAll(dc.buscarXNombre(patron));
-        tblTabla.packAll();
-    }
+    private void expandirTodo() {
 
-    private void bindeoSalvaje() {
-        BindingGroup bindeo = new BindingGroup();
-        JTableBinding tablaOficinaBind = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, departamentoList, tblTabla);
-        BeanProperty pNombre = BeanProperty.create("nombre");
-        tablaOficinaBind.addColumnBinding(pNombre).setColumnClass(String.class).setColumnName("Oficina").setEditable(false);
-        
-        bindeo.addBinding(tablaOficinaBind);
-        bindeo.bind();
-    }
-    
-    public Departamento getSeleccionado(){
-        this.setVisible(true);
-        return this.departamentoSeleccionado;
     }
 }

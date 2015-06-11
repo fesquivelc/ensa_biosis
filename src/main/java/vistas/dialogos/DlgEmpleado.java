@@ -14,6 +14,7 @@ import vistas.reportes.RptPermisos;
 import vistas.reportes.RptRegistroAsistencia;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JDialog;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
@@ -35,7 +36,7 @@ public class DlgEmpleado extends javax.swing.JDialog {
      */
     private List<Empleado> lista;
     private final EmpleadoControlador ec;
-    private final JInternalFrame padre;
+    private final JInternalFrame padre;    
     private boolean agregar;
 
     public boolean isAgregar() {
@@ -50,6 +51,18 @@ public class DlgEmpleado extends javax.swing.JDialog {
         super(JOptionPane.getFrameForComponent(parent), true);
         padre = parent;
         initComponents();
+        ec = new EmpleadoControlador();
+        bindeoSalvaje();
+        buscar();
+        actualizarControlesNavegacion();
+        agregar = true;
+        this.setLocationRelativeTo(parent);
+    }
+    
+    public DlgEmpleado(JDialog parent) {
+        super(parent, true);
+        initComponents();
+        padre = null;
         ec = new EmpleadoControlador();
         bindeoSalvaje();
         buscar();

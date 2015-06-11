@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_registro_asistencia_grupo_2" pageWidth="595" pageHeight="842" columnWidth="585" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" uuid="2351c35a-4e16-4c1c-aaf5-8e900d7ae54e">
 	<property name="ireport.zoom" value="4.0"/>
-	<property name="ireport.x" value="147"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="usuario" class="java.lang.String"/>
 	<parameter name="mostrar_he" class="java.lang.Boolean"/>
@@ -121,7 +121,7 @@ ORDER BY paterno,materno,nombres,codigo,registro_asistencia.fecha ASC,dtjorn_ent
 				<reportElement x="0" y="0" width="585" height="30" forecolor="#666666" backcolor="#FFFFFF" uuid="c7fc26d9-5dcf-4cad-b084-87e2964bffdc"/>
 				<box leftPadding="3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" size="14" isBold="true"/>
+					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[REPORTE DE ASISTENCIA DETALLADO]]></text>
 			</staticText>
@@ -135,7 +135,7 @@ ORDER BY paterno,materno,nombres,codigo,registro_asistencia.fecha ASC,dtjorn_ent
 					<rightPen lineWidth="0.0" lineColor="#000000"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Serif" size="14" isBold="true"/>
+					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[String.format("%s %s",$P{rangoTitulo},$P{rangoValor})]]></textFieldExpression>
 			</textField>
@@ -151,7 +151,7 @@ ORDER BY paterno,materno,nombres,codigo,registro_asistencia.fecha ASC,dtjorn_ent
 					<reportElement x="373" y="0" width="212" height="20" forecolor="#CCCCCC" uuid="17a2b085-6ebe-4931-a179-7e36baf072cd"/>
 					<box rightPadding="3"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Serif" size="7" isBold="true"/>
+						<font fontName="SansSerif" size="7" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Usuario: "+$P{usuario}]]></textFieldExpression>
 				</textField>
@@ -160,7 +160,7 @@ ORDER BY paterno,materno,nombres,codigo,registro_asistencia.fecha ASC,dtjorn_ent
 				<reportElement x="0" y="61" width="74" height="20" forecolor="#CCCCCC" uuid="9ccbe8de-bde3-42bc-b204-a6ae44f8273d"/>
 				<box leftPadding="3"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Serif" size="7" isBold="true"/>
+					<font fontName="SansSerif" size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fecha y hora de imp:]]></text>
 			</staticText>
@@ -168,7 +168,7 @@ ORDER BY paterno,materno,nombres,codigo,registro_asistencia.fecha ASC,dtjorn_ent
 				<reportElement x="74" y="61" width="169" height="20" forecolor="#CCCCCC" uuid="7317a692-9371-400b-974f-884471f869db"/>
 				<box leftPadding="3"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Serif" size="7" isBold="true"/>
+					<font fontName="SansSerif" size="7" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
@@ -186,7 +186,7 @@ ORDER BY paterno,materno,nombres,codigo,registro_asistencia.fecha ASC,dtjorn_ent
 					<rightPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" size="7" isBold="true"/>
+					<font fontName="SansSerif" size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[FECHA]]></text>
 			</staticText>
@@ -200,7 +200,7 @@ ORDER BY paterno,materno,nombres,codigo,registro_asistencia.fecha ASC,dtjorn_ent
 					<rightPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" size="7" isBold="true"/>
+					<font fontName="SansSerif" size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[REG. ENT.]]></text>
 			</staticText>
@@ -214,7 +214,7 @@ ORDER BY paterno,materno,nombres,codigo,registro_asistencia.fecha ASC,dtjorn_ent
 					<rightPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" size="7" isBold="true"/>
+					<font fontName="SansSerif" size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[REG. SALIDA]]></text>
 			</staticText>
@@ -228,7 +228,7 @@ ORDER BY paterno,materno,nombres,codigo,registro_asistencia.fecha ASC,dtjorn_ent
 					<rightPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" size="7" isBold="true"/>
+					<font fontName="SansSerif" size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TARD.]]></text>
 			</staticText>
@@ -244,7 +244,7 @@ ORDER BY paterno,materno,nombres,codigo,registro_asistencia.fecha ASC,dtjorn_ent
 					<rightPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" size="7" isBold="true"/>
+					<font fontName="SansSerif" size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[EXTRA]]></text>
 			</staticText>
@@ -258,7 +258,7 @@ ORDER BY paterno,materno,nombres,codigo,registro_asistencia.fecha ASC,dtjorn_ent
 					<rightPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" size="7" isBold="true"/>
+					<font fontName="SansSerif" size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ASISTENCIA]]></text>
 			</staticText>
@@ -272,7 +272,7 @@ ORDER BY paterno,materno,nombres,codigo,registro_asistencia.fecha ASC,dtjorn_ent
 					<rightPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" size="7" isBold="true"/>
+					<font fontName="SansSerif" size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[DNI / C.E.]]></text>
 			</staticText>
@@ -286,7 +286,7 @@ ORDER BY paterno,materno,nombres,codigo,registro_asistencia.fecha ASC,dtjorn_ent
 					<rightPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" size="7" isBold="true"/>
+					<font fontName="SansSerif" size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[APELLIDOS Y NOMBRES]]></text>
 			</staticText>
@@ -300,7 +300,7 @@ ORDER BY paterno,materno,nombres,codigo,registro_asistencia.fecha ASC,dtjorn_ent
 					<rightPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" size="7" isBold="true"/>
+					<font fontName="SansSerif" size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[JORNADA]]></text>
 			</staticText>
@@ -323,7 +323,7 @@ ORDER BY paterno,materno,nombres,codigo,registro_asistencia.fecha ASC,dtjorn_ent
 					<rightPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{detalle_registro_asistencia_hora_inicio} == null ?
 "N.M." : new SimpleDateFormat("HH:mm:ss").format($F{detalle_registro_asistencia_hora_inicio})]]></textFieldExpression>
@@ -343,7 +343,7 @@ ORDER BY paterno,materno,nombres,codigo,registro_asistencia.fecha ASC,dtjorn_ent
 					<rightPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{detalle_registro_asistencia_hora_fin} == null ?
 "N.M." : new SimpleDateFormat("HH:mm:ss").format($F{detalle_registro_asistencia_hora_fin})]]></textFieldExpression>
@@ -358,7 +358,7 @@ ORDER BY paterno,materno,nombres,codigo,registro_asistencia.fecha ASC,dtjorn_ent
 					<rightPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{detalle_registro_asistencia_minutos_tardanza}]]></textFieldExpression>
 			</textField>
@@ -372,7 +372,7 @@ ORDER BY paterno,materno,nombres,codigo,registro_asistencia.fecha ASC,dtjorn_ent
 					<rightPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[String.format("%s - %s",
 new SimpleDateFormat("HH:mm").format($F{dtjorn_entrada}),
@@ -390,7 +390,7 @@ new SimpleDateFormat("HH:mm").format($F{dtjorn_salida}))]]></textFieldExpression
 					<rightPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{detalle_registro_minutos_extra}]]></textFieldExpression>
 			</textField>
@@ -404,7 +404,7 @@ new SimpleDateFormat("HH:mm").format($F{dtjorn_salida}))]]></textFieldExpression
 					<rightPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{registro_asistencia_fecha}]]></textFieldExpression>
 			</textField>
@@ -418,7 +418,7 @@ new SimpleDateFormat("HH:mm").format($F{dtjorn_salida}))]]></textFieldExpression
 					<rightPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tipo_asistencia}.equals("F")
 ? "FALTA" : $F{tipo_asistencia}.equals("R")
@@ -437,7 +437,7 @@ new SimpleDateFormat("HH:mm").format($F{dtjorn_salida}))]]></textFieldExpression
 					<rightPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{registro_asistencia_empleado_nro_documento}]]></textFieldExpression>
 			</textField>
@@ -451,7 +451,7 @@ new SimpleDateFormat("HH:mm").format($F{dtjorn_salida}))]]></textFieldExpression
 					<rightPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[String.format("%s %s %s",$F{paterno},$F{materno},$F{nombres})]]></textFieldExpression>
 			</textField>
@@ -463,14 +463,14 @@ new SimpleDateFormat("HH:mm").format($F{dtjorn_salida}))]]></textFieldExpression
 			<textField>
 				<reportElement x="461" y="0" width="80" height="13" uuid="419a91e0-cc74-4990-ade6-30e85d516d23"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement x="541" y="0" width="40" height="13" uuid="e7f15102-f5d7-4344-b337-781a558c428d"/>
 				<textElement verticalAlignment="Middle">
-					<font size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>

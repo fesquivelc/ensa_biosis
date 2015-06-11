@@ -7,13 +7,16 @@ package vistas.dialogos;
 
 import controladores.JornadaControlador;
 import controladores.TurnoControlador;
+import entidades.DetalleJornada;
 import entidades.Jornada;
-import java.awt.Component;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
+import entidades.Turno;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.tree.TreePath;
+import org.jdesktop.swingx.renderer.IconValue;
+import vistas.modelos.MTRJornada;
 
 /**
  *
@@ -23,18 +26,20 @@ public class DlgTurno extends javax.swing.JDialog {
 
     /**
      * Creates new form DlgImportarDNI
+     *
      * @param padre
      * @param modal
      */
-    private final JornadaControlador jc = JornadaControlador.getInstance();
-    private final TurnoControlador tc = TurnoControlador.getInstance();
-    
+    private final JornadaControlador jc;
+    private final TurnoControlador tc;
+
     public DlgTurno(JInternalFrame padre) {
         super(JOptionPane.getFrameForComponent(padre), true);
-        
+        jc = JornadaControlador.getInstance();
+        tc = TurnoControlador.getInstance();
         initComponents();
         iniciar();
-        
+
         this.setLocationRelativeTo(padre);
     }
 
@@ -48,77 +53,116 @@ public class DlgTurno extends javax.swing.JDialog {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
+        pnlJornada = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        trtblJornada = new org.jdesktop.swingx.JXTreeTable(new MTRJornada(jc.buscarTodos()));
+        pnlDias = new javax.swing.JPanel();
+        chkLunes = new javax.swing.JCheckBox();
+        chkMartes = new javax.swing.JCheckBox();
+        chkMiercoles = new javax.swing.JCheckBox();
+        chkJueves = new javax.swing.JCheckBox();
+        chkViernes = new javax.swing.JCheckBox();
+        chkSabado = new javax.swing.JCheckBox();
+        chkDomingo = new javax.swing.JCheckBox();
+        pnlBotones = new javax.swing.JPanel();
+        btnAgregar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        btnAceptar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        txtDias = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        cboJornada = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Importar empleados");
 
-        jPanel1.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
+        java.awt.GridBagLayout jPanel2Layout = new java.awt.GridBagLayout();
+        jPanel2Layout.columnWidths = new int[] {0, 7, 0};
+        jPanel2Layout.rowHeights = new int[] {0, 5, 0};
+        jPanel2.setLayout(jPanel2Layout);
 
-        jPanel2.setLayout(new java.awt.GridBagLayout());
+        pnlJornada.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Seleccione la jornada", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 14))); // NOI18N
+        pnlJornada.setLayout(new java.awt.GridBagLayout());
 
+        trtblJornada.setRootVisible(false);
+        trtblJornada.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        trtblJornada.setRowHeight(30);
+        jScrollPane1.setViewportView(trtblJornada);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        pnlJornada.add(jScrollPane1, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.2;
+        gridBagConstraints.weighty = 0.1;
+        jPanel2.add(pnlJornada, gridBagConstraints);
+
+        pnlDias.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Seleccione los días laborales", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 14))); // NOI18N
+        pnlDias.setLayout(new java.awt.GridLayout(0, 1));
+
+        chkLunes.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        chkLunes.setText("Lunes");
+        pnlDias.add(chkLunes);
+
+        chkMartes.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        chkMartes.setText("Martes");
+        pnlDias.add(chkMartes);
+
+        chkMiercoles.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        chkMiercoles.setText("Miércoles");
+        pnlDias.add(chkMiercoles);
+
+        chkJueves.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        chkJueves.setText("Jueves");
+        pnlDias.add(chkJueves);
+
+        chkViernes.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        chkViernes.setText("Viernes");
+        pnlDias.add(chkViernes);
+
+        chkSabado.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        chkSabado.setText("Sábado");
+        pnlDias.add(chkSabado);
+
+        chkDomingo.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        chkDomingo.setText("Domingo");
+        pnlDias.add(chkDomingo);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
+        gridBagConstraints.weightx = 0.1;
+        jPanel2.add(pnlDias, gridBagConstraints);
+
+        pnlBotones.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
+
+        btnAgregar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        btnAgregar.setText("Agregar detalle");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
+        pnlBotones.add(btnAgregar);
+
+        btnCancelar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(btnCancelar, gridBagConstraints);
+        pnlBotones.add(btnCancelar);
 
-        btnAceptar.setText("Aceptar");
-        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAceptarActionPerformed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(btnAceptar, gridBagConstraints);
-
-        jLabel1.setText("Jornada:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(jLabel1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(txtDias, gridBagConstraints);
-
-        jLabel2.setText("Días:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(jLabel2, gridBagConstraints);
-
-        cboJornada.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(cboJornada, gridBagConstraints);
+        gridBagConstraints.gridwidth = 3;
+        jPanel2.add(pnlBotones, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -126,33 +170,51 @@ public class DlgTurno extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE)
+                .addGap(5, 5, 5))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        // TODO add your handling code here:
+        int fila = trtblJornada.getSelectedRow();
+        TreePath treePath = trtblJornada.getPathForRow(fila);
+        Object elemento = treePath.getLastPathComponent();
+        Jornada jornada = null;
+        if(elemento instanceof Jornada){
+            jornada = ((Jornada)elemento);            
+        }else if(elemento instanceof DetalleJornada){
+            jornada = ((DetalleJornada)elemento).getJornada();
+        }
+        if(jornada != null){
+            Turno turno = new Turno();
+            turno.setJornada(jornada);
+            turno.setLunes(chkLunes.isSelected());
+            turno.setMartes(chkMartes.isSelected());
+            turno.setMiercoles(chkMiercoles.isSelected());
+            turno.setJueves(chkJueves.isSelected());
+            turno.setViernes(chkViernes.isSelected());
+            turno.setSabado(chkSabado.isSelected());
+            turno.setDomingo(chkDomingo.isSelected());
+            this.turnoSeleccionado = turno;
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
+        this.turnoSeleccionado = null;
+        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
-
-    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        
-    }//GEN-LAST:event_btnAceptarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -197,16 +259,23 @@ public class DlgTurno extends javax.swing.JDialog {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAceptar;
+    private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JComboBox cboJornada;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JCheckBox chkDomingo;
+    private javax.swing.JCheckBox chkJueves;
+    private javax.swing.JCheckBox chkLunes;
+    private javax.swing.JCheckBox chkMartes;
+    private javax.swing.JCheckBox chkMiercoles;
+    private javax.swing.JCheckBox chkSabado;
+    private javax.swing.JCheckBox chkViernes;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField txtDias;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel pnlBotones;
+    private javax.swing.JPanel pnlDias;
+    private javax.swing.JPanel pnlJornada;
+    private org.jdesktop.swingx.JXTreeTable trtblJornada;
     // End of variables declaration//GEN-END:variables
-
+    private Turno turnoSeleccionado;
 //    public List<String> obtenerDNI() {
 //        this.setVisible(true);
 //        return dnis;
@@ -226,17 +295,29 @@ public class DlgTurno extends javax.swing.JDialog {
 //            Logger.getLogger(DlgTurno.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //    }
+    private MTRJornada modeloJornada;
 
     private void iniciar() {
-        cboJornada.setModel(new DefaultComboBoxModel(jc.buscarXTipo('T').toArray()));
-        cboJornada.setRenderer(new DefaultListCellRenderer(){
+        ImageIcon iconoJornada = new ImageIcon("iconos/icon_jornada.png");
+        IconValue iv = new IconValue() {
+            ImageIcon iconoJornada = new ImageIcon("iconos/icon_jornada.png");
             @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                value = value instanceof Jornada ? ((Jornada)value).getNombre() : value;
-                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
+            public Icon getIcon(Object nodo) {
+                if(nodo instanceof Jornada){
+                    return iconoJornada;
+                }else{
+                    return null;
+                }
             }
-            
-        });
+        };
 
+        trtblJornada.setClosedIcon(iconoJornada);                        
+        trtblJornada.setOpenIcon(iconoJornada);               
+        trtblJornada.packAll();
+    }
+    
+    public Turno getSeleccionado(){
+        this.setVisible(true);
+        return this.turnoSeleccionado;
     }
 }

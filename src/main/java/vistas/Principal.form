@@ -10,10 +10,16 @@
           <Properties>
             <Property name="mnemonic" type="int" value="101"/>
             <Property name="text" type="java.lang.String" value="Empleados"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="SansSerif" size="14" style="0"/>
+            </Property>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mnuVerEmpleados">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="14" style="0"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="116"/>
                 <Property name="text" type="java.lang.String" value="Ver empleados"/>
               </Properties>
@@ -23,6 +29,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuMarcacionesSinProcesar">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="14" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Marcaciones sin procesar"/>
               </Properties>
               <Events>
@@ -31,6 +40,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuSalir">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="14" style="0"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="120"/>
                 <Property name="text" type="java.lang.String" value="Salir"/>
               </Properties>
@@ -44,10 +56,16 @@
           <Properties>
             <Property name="mnemonic" type="int" value="102"/>
             <Property name="text" type="java.lang.String" value="Horarios"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="SansSerif" size="14" style="0"/>
+            </Property>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mnuJornada">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="14" style="0"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="111"/>
                 <Property name="text" type="java.lang.String" value="Jornadas"/>
               </Properties>
@@ -57,6 +75,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuHorarios">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="14" style="0"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="115"/>
                 <Property name="text" type="java.lang.String" value="Horarios"/>
               </Properties>
@@ -66,6 +87,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="14" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Horario rotativo"/>
               </Properties>
               <Events>
@@ -74,6 +98,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuGruposHorario">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="14" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Grupos horario"/>
               </Properties>
               <Events>
@@ -82,6 +109,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuAsignarHorario">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="14" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Asignar horario"/>
               </Properties>
               <Events>
@@ -93,10 +123,16 @@
         <Menu class="javax.swing.JMenu" name="mnuPermiso">
           <Properties>
             <Property name="text" type="java.lang.String" value="Permisos"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="SansSerif" size="14" style="0"/>
+            </Property>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mnuTiposPermiso">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="14" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Tipos de permiso"/>
               </Properties>
               <Events>
@@ -105,6 +141,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuAsignarPermiso">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="14" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Asignar permiso"/>
               </Properties>
               <Events>
@@ -113,6 +152,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuAsignarVacaciones">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="14" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Asignar vacaciones"/>
               </Properties>
               <Events>
@@ -124,10 +166,16 @@
         <Menu class="javax.swing.JMenu" name="mnuReportes">
           <Properties>
             <Property name="text" type="java.lang.String" value="Reportes"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="SansSerif" size="14" style="0"/>
+            </Property>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="14" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Reportes de asistencia"/>
               </Properties>
               <Events>
@@ -136,6 +184,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="14" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Reportes de permisos / licencias / comisiones de servicio"/>
               </Properties>
               <Events>
@@ -144,6 +195,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="14" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Reportes de vacaciones"/>
               </Properties>
               <Events>
@@ -156,10 +210,16 @@
           <Properties>
             <Property name="mnemonic" type="int" value="104"/>
             <Property name="text" type="java.lang.String" value="Configuraci&#xf3;n"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="SansSerif" size="14" style="0"/>
+            </Property>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mnuPeriodos">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="14" style="0"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="97"/>
                 <Property name="text" type="java.lang.String" value="Per&#xed;odos"/>
               </Properties>
@@ -167,8 +227,22 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuPeriodosActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuSedesAreas">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Sedes y &#xe1;reas"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuSedesAreasActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuControlUsuario">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="14" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Control de usuarios"/>
               </Properties>
               <Events>
@@ -177,6 +251,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuConfiguracionBD">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="14" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Configuraci&#xf3;n de BD"/>
               </Properties>
               <Events>
@@ -185,6 +262,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuCambiarPasswd">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="14" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Cambiar contrase&#xf1;a"/>
               </Properties>
               <Events>
@@ -193,6 +273,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem5">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="14" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Ejecutar SQL"/>
               </Properties>
               <Events>
@@ -258,6 +341,9 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="btnEmpleados">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="SansSerif" size="14" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Empleados"/>
           </Properties>
           <Events>
@@ -271,6 +357,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnMarcaciones">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="SansSerif" size="14" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Marcaciones"/>
           </Properties>
           <Events>
@@ -284,6 +373,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnAsignarPermiso">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="SansSerif" size="14" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Asignar permisos"/>
           </Properties>
           <Events>
@@ -297,6 +389,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnHorarios">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="SansSerif" size="14" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Horarios"/>
           </Properties>
           <Events>
@@ -310,6 +405,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnRegistroAsistencia">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="SansSerif" size="14" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Registro de asistencia"/>
           </Properties>
           <Events>

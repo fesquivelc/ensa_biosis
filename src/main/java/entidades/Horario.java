@@ -15,7 +15,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 public class Horario implements Serializable {
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,targetEntity = Turno.class,mappedBy = "horario")
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,targetEntity = Turno.class,mappedBy = "horario",orphanRemoval = true)
     private List<Turno> turnoList;
     @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
@@ -31,7 +31,7 @@ public class Horario implements Serializable {
     @Column(name="documento",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private String documento;
-    @OneToMany(fetch = FetchType.LAZY,targetEntity = AsignacionHorario.class,mappedBy = "horario")
+    @OneToMany(fetch = FetchType.LAZY,targetEntity = AsignacionHorario.class,mappedBy = "horario",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<AsignacionHorario> asignacionHorarioList;
 //    @Column(name="fecha_inicio",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
 //    @Temporal(TemporalType.DATE)
@@ -40,7 +40,7 @@ public class Horario implements Serializable {
     //EL TIPO DE HORARIO PUEDE SER T = TECNICO O A = ADMINISTRATIVO / TECNICO ADMINISTRATIVO
     @Column(name = "tipo")
     private char tipo;
-
+    
     public List<Turno> getTurnoList() {
         return turnoList;
     }

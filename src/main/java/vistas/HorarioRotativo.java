@@ -12,15 +12,25 @@ import entidades.Jornada;
 import vistas.modelos.MTHorario;
 import com.personal.utiles.FormularioUtil;
 import entidades.AsignacionHorario;
+import entidades.GrupoHorario;
 import entidades.Turno;
+import entidades.escalafon.Departamento;
+import entidades.escalafon.Empleado;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.swing.JSpinner;
 import javax.swing.text.DateFormatter;
 import org.jdesktop.observablecollections.ObservableCollections;
+import vistas.dialogos.DlgAsignarHorario;
+import vistas.dialogos.DlgEmpleado;
+import vistas.dialogos.DlgOficina;
+import vistas.dialogos.DlgTurno;
+import vistas.modelos.MCFiltro;
+import vistas.modelos.MCFiltro.TipoFiltro;
 import vistas.modelos.MTAsignacionHorarioHR;
 import vistas.modelos.MTDetalleHorarioHR;
+import vistas.renders.RenderFiltro;
 
 /**
  *
@@ -57,6 +67,7 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        grpOpcion = new javax.swing.ButtonGroup();
         pnlListado = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
@@ -77,10 +88,22 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
         pnlAsignadoA = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblAsignacion = new org.jdesktop.swingx.JXTable();
+        pnlAccionAsignado = new javax.swing.JPanel();
+        btnAsignar = new javax.swing.JButton();
+        btnAsignar1 = new javax.swing.JButton();
         pnlJornadas = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblDetalleHorario = new org.jdesktop.swingx.JXTable();
+        pnlAccionAsignado1 = new javax.swing.JPanel();
+        btnAsignar2 = new javax.swing.JButton();
+        btnAsignar3 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        onlBusqueda = new javax.swing.JPanel();
+        chkFiltrar = new javax.swing.JCheckBox();
+        cboTipoFiltro = new javax.swing.JComboBox();
+        txtBusqueda = new javax.swing.JTextField();
+        btnDialogo = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -88,11 +111,15 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
         setTitle("Mantenimiento Horario");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder("Horarios"));
-        pnlListado.setLayout(new java.awt.GridBagLayout());
+        pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Horarios", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 12))); // NOI18N
+        java.awt.GridBagLayout pnlListadoLayout = new java.awt.GridBagLayout();
+        pnlListadoLayout.columnWidths = new int[] {0};
+        pnlListadoLayout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0};
+        pnlListado.setLayout(pnlListadoLayout);
 
         jPanel4.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
 
+        btnNuevo.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         btnNuevo.setText("Nuevo");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,6 +128,7 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
         });
         jPanel4.add(btnNuevo);
 
+        btnModificar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         btnModificar.setText("Modificar");
         btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,6 +137,7 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
         });
         jPanel4.add(btnModificar);
 
+        btnEliminar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,9 +148,12 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 4;
         pnlListado.add(jPanel4, gridBagConstraints);
 
+        tblHorario.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        tblHorario.setRowHeight(25);
+        tblHorario.getTableHeader().setReorderingAllowed(false);
         tblHorario.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tblHorarioMouseReleased(evt);
@@ -130,12 +162,14 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tblHorario);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
         pnlListado.add(jScrollPane1, gridBagConstraints);
 
-        pnlDatos.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de horario"));
+        pnlDatos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos de horario", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 12))); // NOI18N
         pnlDatos.setLayout(new java.awt.GridBagLayout());
 
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
@@ -143,6 +177,7 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
         jPanel1Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel1.setLayout(jPanel1Layout);
 
+        jLabel9.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel9.setText("Código:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -150,12 +185,15 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel9, gridBagConstraints);
 
+        jLabel10.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel10.setText("Nombre:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel10, gridBagConstraints);
+
+        txtCodigo.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -163,6 +201,8 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         jPanel1.add(txtCodigo, gridBagConstraints);
+
+        txtNombre.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
@@ -180,12 +220,15 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jPanel3, gridBagConstraints);
 
+        jLabel2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel2.setText("Documento de creación:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel2, gridBagConstraints);
+
+        txtDocumento.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
@@ -196,9 +239,12 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
 
         pnlDetalle.setLayout(new java.awt.GridBagLayout());
 
-        pnlAsignadoA.setBorder(javax.swing.BorderFactory.createTitledBorder("Asignado a"));
+        pnlAsignadoA.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Asignado a", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 12))); // NOI18N
         pnlAsignadoA.setLayout(new java.awt.GridBagLayout());
 
+        tblAsignacion.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        tblAsignacion.setRowHeight(25);
+        tblAsignacion.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tblAsignacion);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -207,15 +253,36 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
         gridBagConstraints.weighty = 0.1;
         pnlAsignadoA.add(jScrollPane2, gridBagConstraints);
 
+        btnAsignar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        btnAsignar.setText("Asignar a un empleado o grupo");
+        btnAsignar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAsignarActionPerformed(evt);
+            }
+        });
+        pnlAccionAsignado.add(btnAsignar);
+
+        btnAsignar1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        btnAsignar1.setText("Eliminar asignación");
+        pnlAccionAsignado.add(btnAsignar1);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        pnlAsignadoA.add(pnlAccionAsignado, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
         pnlDetalle.add(pnlAsignadoA, gridBagConstraints);
 
-        pnlJornadas.setBorder(javax.swing.BorderFactory.createTitledBorder("Detalle del horario"));
+        pnlJornadas.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Detalle del horario", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 12))); // NOI18N
         pnlJornadas.setLayout(new java.awt.GridBagLayout());
 
+        tblDetalleHorario.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        tblDetalleHorario.setRowHeight(25);
+        tblDetalleHorario.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(tblDetalleHorario);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -223,6 +290,24 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
         pnlJornadas.add(jScrollPane3, gridBagConstraints);
+
+        btnAsignar2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        btnAsignar2.setText("Agregar detalles");
+        btnAsignar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAsignar2ActionPerformed(evt);
+            }
+        });
+        pnlAccionAsignado1.add(btnAsignar2);
+
+        btnAsignar3.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        btnAsignar3.setText("Eliminar detalles");
+        pnlAccionAsignado1.add(btnAsignar3);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        pnlJornadas.add(pnlAccionAsignado1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -260,10 +345,79 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 0.1;
         pnlListado.add(pnlDatos, gridBagConstraints);
+
+        java.awt.GridBagLayout onlBusquedaLayout = new java.awt.GridBagLayout();
+        onlBusquedaLayout.columnWidths = new int[] {0, 7, 0, 7, 0, 7, 0, 7, 0};
+        onlBusquedaLayout.rowHeights = new int[] {0};
+        onlBusqueda.setLayout(onlBusquedaLayout);
+
+        chkFiltrar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        chkFiltrar.setText("Filtrar por:");
+        chkFiltrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkFiltrarActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        onlBusqueda.add(chkFiltrar, gridBagConstraints);
+
+        cboTipoFiltro.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        cboTipoFiltro.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboTipoFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboTipoFiltroActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        onlBusqueda.add(cboTipoFiltro, gridBagConstraints);
+
+        txtBusqueda.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        onlBusqueda.add(txtBusqueda, gridBagConstraints);
+
+        btnDialogo.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        btnDialogo.setText("...");
+        btnDialogo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDialogoActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 0;
+        onlBusqueda.add(btnDialogo, gridBagConstraints);
+
+        jButton2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jButton2.setText("Mostrar horarios asignados");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 0;
+        onlBusqueda.add(jButton2, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.1;
+        pnlListado.add(onlBusqueda, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -309,16 +463,108 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         int fila = tblHorario.getSelectedRow();
         if (fila != -1) {
-            mostrar(horarioList.get(fila));
+            this.horarioSeleccionado = horarioList.get(fila);
+            mostrar(this.horarioSeleccionado);
         }
 
     }//GEN-LAST:event_tblHorarioMouseReleased
 
+    private void chkFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkFiltrarActionPerformed
+        // TODO add your handling code here:
+        checkFiltro();
+    }//GEN-LAST:event_chkFiltrarActionPerformed
+
+    private void btnDialogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDialogoActionPerformed
+        // TODO add your handling code here:
+        TipoFiltro filtro = (TipoFiltro) mcFiltro.getSelectedItem();
+        switch (filtro) {
+            case POR_EMPLEADO:
+                DlgEmpleado empleados = new DlgEmpleado(this);
+                empleadoSeleccionado = empleados.getSeleccionado();
+                txtBusqueda.setText(empleadoSeleccionado == null ? "" : empleadoSeleccionado.getNombreCompleto());
+                break;
+            case POR_OFICINA:
+                DlgOficina oficinas = new DlgOficina(this);
+                this.departamentoSeleccionado = oficinas.getSeleccionado();
+                txtBusqueda.setText(departamentoSeleccionado == null ? "" : departamentoSeleccionado.getNombre());
+                break;
+            case POR_GRUPO_HORARIO:
+                break;
+        }
+    }//GEN-LAST:event_btnDialogoActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        List<Horario> listado = new ArrayList<>();
+        if (chkFiltrar.isSelected()) {
+            TipoFiltro filtro = (TipoFiltro) mcFiltro.getSelectedItem();
+            switch (filtro) {
+                case POR_EMPLEADO:
+                    if(empleadoSeleccionado != null ){
+                        listado = horarioControlador.buscarXEmpleado(empleadoSeleccionado);
+                    }                    
+                    break;
+                case POR_OFICINA:
+                    if(departamentoSeleccionado != null){
+                        listado = horarioControlador.buscarXDepartamento(departamentoSeleccionado);
+                    }
+                    break;
+                case POR_GRUPO_HORARIO:
+                    break;
+            }
+        } else {
+            listado = horarioControlador.buscarTodos();
+        }
+        
+        actualizarTabla(listado);
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void cboTipoFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTipoFiltroActionPerformed
+        // TODO add your handling code here:
+        txtBusqueda.setText("");
+        this.empleadoSeleccionado = null;
+        this.departamentoSeleccionado = null;
+        this.grupoHorarioSeleccionado = null;
+    }//GEN-LAST:event_cboTipoFiltroActionPerformed
+
+    private void btnAsignar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignar2ActionPerformed
+        // TODO add your handling code here:
+        DlgTurno turnos = new DlgTurno(this);
+        Turno turno = turnos.getSeleccionado();
+        if(turno != null){
+            turno.setHorario(this.horarioSeleccionado);
+            this.detalleHorarioList.add(turno);
+            this.horarioControlador.getSeleccionado().getTurnoList().add(turno);
+        }
+    }//GEN-LAST:event_btnAsignar2ActionPerformed
+
+    private void btnAsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarActionPerformed
+        // TODO add your handling code here:
+//        DlgAsignacionHorario empleadoGrupo = new DlgAsignacionHorario(this);
+        DlgAsignarHorario asignar = new DlgAsignarHorario(this, true);
+        AsignacionHorario asignacion = asignar.getSeleccion();
+        if(asignacion != null){
+            asignacion.setHorario(this.horarioControlador.getSeleccionado());
+            this.horarioControlador.getSeleccionado().getAsignacionHorarioList().add(asignacion);
+            this.asignacionHorarioList.add(asignacion);
+        }
+    }//GEN-LAST:event_btnAsignarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAsignar;
+    private javax.swing.JButton btnAsignar1;
+    private javax.swing.JButton btnAsignar2;
+    private javax.swing.JButton btnAsignar3;
+    private javax.swing.JButton btnDialogo;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JComboBox cboTipoFiltro;
+    private javax.swing.JCheckBox chkFiltrar;
+    private javax.swing.ButtonGroup grpOpcion;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel9;
@@ -329,6 +575,9 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JPanel onlBusqueda;
+    private javax.swing.JPanel pnlAccionAsignado;
+    private javax.swing.JPanel pnlAccionAsignado1;
     private javax.swing.JPanel pnlAsignadoA;
     private javax.swing.JPanel pnlDatos;
     private javax.swing.JPanel pnlDetalle;
@@ -337,10 +586,16 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
     private org.jdesktop.swingx.JXTable tblAsignacion;
     private org.jdesktop.swingx.JXTable tblDetalleHorario;
     private org.jdesktop.swingx.JXTable tblHorario;
+    private javax.swing.JTextField txtBusqueda;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtDocumento;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
+
+    private Empleado empleadoSeleccionado;
+    private Departamento departamentoSeleccionado;
+    private GrupoHorario grupoHorarioSeleccionado;
+    private Horario horarioSeleccionado;
 
     private void modeloHoraSpinner(JSpinner spinner) {
         JSpinner.DateEditor editor = new JSpinner.DateEditor(spinner, "HH:mm");
@@ -371,22 +626,31 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
         FormularioUtil.activarComponente(this.pnlDatos, bandera);
         FormularioUtil.activarComponente(this.tblAsignacion, true);
         FormularioUtil.activarComponente(this.tblDetalleHorario, true);
+        FormularioUtil.activarComponente(this.txtBusqueda, false);
 
         if (accion != Controlador.MODIFICAR) {
             FormularioUtil.limpiarComponente(this.pnlDatos);
         }
 
+        checkFiltro();
+
     }
 
     private List<AsignacionHorario> asignacionHorarioList;
     private List<Turno> detalleHorarioList;
+    private MCFiltro mcFiltro;
+
     private void bindeoSalvaje() {
         horarioList = new ArrayList<>();
         asignacionHorarioList = ObservableCollections.observableList(new ArrayList<AsignacionHorario>());
         detalleHorarioList = ObservableCollections.observableList(new ArrayList<Turno>());
         horarioList = ObservableCollections.observableList(horarioList);
 
-        String[] columnas = {"Codigo","Horario", ""};
+        mcFiltro = new MCFiltro();
+        cboTipoFiltro.setModel(mcFiltro);
+        cboTipoFiltro.setRenderer(new RenderFiltro());
+
+        String[] columnas = {"Codigo", "Horario", ""};
 
         MTHorario mt = new MTHorario(horarioList, columnas);
         MTDetalleHorarioHR mtdh = new MTDetalleHorarioHR(detalleHorarioList);
@@ -394,28 +658,41 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
         tblHorario.setModel(mt);
         tblAsignacion.setModel(mtah);
         tblDetalleHorario.setModel(mtdh);
+
         actualizarTabla();
     }
 
     private void mostrar(Horario seleccionado) {
         txtDocumento.setText(seleccionado.getDocumento());
         txtCodigo.setText(seleccionado.getCodigo());
-        txtNombre.setText(seleccionado.getNombre());  
-        
+        txtNombre.setText(seleccionado.getNombre());
+
         this.asignacionHorarioList.clear();
         this.asignacionHorarioList.addAll(seleccionado.getAsignacionHorarioList());
         this.tblAsignacion.packAll();
-        
+
         this.detalleHorarioList.clear();
         this.detalleHorarioList.addAll(seleccionado.getTurnoList());
         this.tblDetalleHorario.packAll();
-        
+
 //        spFechaFin.setValue(seleccionado.getFechaFin());
     }
 
     private void actualizarTabla() {
-        horarioList.clear();
+        horarioList.clear();        
         horarioList.addAll(horarioControlador.buscarTodos());
         tblHorario.packAll();
+    }
+    private void actualizarTabla(List<Horario> horarios) {
+        horarioList.clear();
+        this.asignacionHorarioList.clear();
+        this.detalleHorarioList.clear();
+        horarioList.addAll(horarios);
+        tblHorario.packAll();
+    }
+
+    private void checkFiltro() {
+        FormularioUtil.activarComponente(cboTipoFiltro, chkFiltrar.isSelected());
+        FormularioUtil.activarComponente(btnDialogo, chkFiltrar.isSelected());
     }
 }

@@ -1,7 +1,9 @@
 package entidades.escalafon;
 
+import entidades.DetalleGrupoHorario;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -50,6 +53,19 @@ public class Empleado implements Serializable {
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fechaNacimiento;
+    
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = DetalleGrupoHorario.class,mappedBy = "empleado")
+    private List<DetalleGrupoHorario> detalleGrupoHorarioList;
+
+    public List<DetalleGrupoHorario> getDetalleGrupoHorarioList() {
+        return detalleGrupoHorarioList;
+    }
+
+    public void setDetalleGrupoHorarioList(List<DetalleGrupoHorario> detalleGrupoHorarioList) {
+        this.detalleGrupoHorarioList = detalleGrupoHorarioList;
+    }
+    
+    
     
     public String getNombreCompleto(){
         return String.format("%s %s %s", this.paterno, this.materno, this.nombre);
