@@ -58,6 +58,16 @@ public class Empleado implements Serializable {
     
     @OneToMany(fetch = FetchType.LAZY, targetEntity = DetalleGrupoHorario.class,mappedBy = "empleado")
     private List<DetalleGrupoHorario> detalleGrupoHorarioList;
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = AreaEmpleado.class,mappedBy = "empleado")
+    private List<AreaEmpleado> areaEmpleadoList;
+
+    public List<AreaEmpleado> getAreaEmpleadoList() {
+        return areaEmpleadoList;
+    }
+
+    public void setAreaEmpleadoList(List<AreaEmpleado> areaEmpleadoList) {
+        this.areaEmpleadoList = areaEmpleadoList;
+    }
 
     public List<Contrato> getContratoList() {
         return contratoList;
