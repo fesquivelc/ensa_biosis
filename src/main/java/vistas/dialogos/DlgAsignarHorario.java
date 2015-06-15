@@ -6,10 +6,15 @@
 package vistas.dialogos;
 
 import com.personal.utiles.FormularioUtil;
+import controladores.GrupoHorarioControlador;
 import entidades.AsignacionHorario;
 import entidades.GrupoHorario;
 import entidades.escalafon.Empleado;
+import java.awt.Component;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JInternalFrame;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 /**
@@ -26,6 +31,7 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
     public DlgAsignarHorario(JInternalFrame parent, boolean modal) {
         super(JOptionPane.getFrameForComponent(parent), modal);
         initComponents();
+        inicializar();
     }
 
     /**
@@ -81,6 +87,7 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
         jPanel1.add(jLabel4, gridBagConstraints);
 
         radEmpleado.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        radEmpleado.setSelected(true);
         radEmpleado.setText("Empleado:");
         radEmpleado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,7 +115,6 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
 
         txtEmpleado.setEditable(false);
         txtEmpleado.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        txtEmpleado.setText("jTextField1");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -208,6 +214,9 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
         // TODO add your handling code here:
         DlgEmpleado empleados = new DlgEmpleado(this);
         this.empleadoSeleccionado = empleados.getSeleccionado();
+        if(this.empleadoSeleccionado != null){
+            txtEmpleado.setText(this.empleadoSeleccionado.getNombreCompleto());
+        }
     }//GEN-LAST:event_btnEmpleadoActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -224,6 +233,8 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
         asignacion.setFechaFin(dcFechaFin.getDate());
         
         this.asignacionHorarioSeleccionado = asignacion;
+        
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -245,6 +256,7 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
     private Empleado empleadoSeleccionado;
     private GrupoHorario grupoHorarioSeleccionado;
     private AsignacionHorario asignacionHorarioSeleccionado;
+    private GrupoHorarioControlador grphorc = new GrupoHorarioControlador();
     
     private void checkbox(){
         FormularioUtil.activarComponente(btnEmpleado, radEmpleado.isSelected());
@@ -254,5 +266,20 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
     public AsignacionHorario getSeleccion(){
         this.setVisible(true);
         return this.asignacionHorarioSeleccionado;
+    }
+
+    private void inicializar() {
+        cboGrupoHorario.setModel(new DefaultComboBoxModel(grphorc.buscarTodos().toArray()));
+        cboGrupoHorario.setRenderer(new DefaultListCellRenderer(){
+
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                if(value instanceof GrupoHorario){
+                    value = ((GrupoHorario)value).getNombre();
+                }
+                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            }
+            
+        });
     }
 }

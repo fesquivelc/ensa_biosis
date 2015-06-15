@@ -11,6 +11,8 @@ import entidades.Periodo;
 import vistas.dialogos.DlgEmpleado;
 import vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
+import com.personal.utiles.ReporteUtil;
+import com.personal.utiles.ReporteUtil.Formato;
 import controladores.MarcacionControlador;
 import entidades.escalafon.Departamento;
 import entidades.escalafon.Empleado;
@@ -36,10 +38,7 @@ import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 import utiles.UsuarioActivo;
 import vistas.dialogos.DlgOficina;
-import com.personal.utiles.ReporteUtil;
-import com.personal.utiles.ReporteUtil.Formato;
 import javax.swing.JOptionPane;
-import net.sf.jasperreports.engine.JRParameter;
 
 /**
  *

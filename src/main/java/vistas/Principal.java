@@ -676,7 +676,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     private void registroAsistencia() {
-        VistaRegistroAsistencia registroAsistencia = new VistaRegistroAsistencia();
+        FrmReporteAsistencia registroAsistencia = new FrmReporteAsistencia();
         agregarAPanel(registroAsistencia, true);
     }
 

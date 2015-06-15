@@ -601,8 +601,8 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         MTMarcacion mtMarcacion = new MTMarcacion(marcacionList);
         tblMarcacionesDia.setModel(mtMarcacion);
 
-        MTDetalleRegistroAsistencia mtDetalleRegistro = new MTDetalleRegistroAsistencia(detalleRegistroAsistenciaList);
-        tblDetalleAsistencia.setModel(mtDetalleRegistro);
+//        MTDetalleRegistroAsistencia mtDetalleRegistro = new MTDetalleRegistroAsistencia(detalleRegistroAsistenciaList);
+//        tblDetalleAsistencia.setModel(mtDetalleRegistro);
 
         MTHorarioRA mtHorario = new MTHorarioRA(horarioList);
         tblHorario.setModel(mtHorario);

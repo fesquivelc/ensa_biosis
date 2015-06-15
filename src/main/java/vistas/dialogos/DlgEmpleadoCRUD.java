@@ -16,6 +16,7 @@ import controladores.TipoContratoControlador;
 import controladores.TipoDocumentoControlador;
 import controladores.TipoViaControlador;
 import controladores.TipoZonaControlador;
+import entidades.escalafon.Contrato;
 import entidades.escalafon.Departamento;
 import entidades.escalafon.Empleado;
 import entidades.escalafon.FichaGeneral;
@@ -847,12 +848,16 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         if (FormularioUtil.dialogoConfirmar(this, accion)) {
             if (this.accion == Controlador.NUEVO) {
                 empleado.setNroDocumento(txtNroDocumento.getText());
+                
+                Contrato contrato = new Contrato();
+                contrato.setEmpleado(empleado);
+                empleado.getContratoList().add(contrato);
             }
-            
+
             FormularioUtil.convertirMayusculas(pnlLaborales);
             FormularioUtil.convertirMayusculas(pnlEmpleado);
             FormularioUtil.convertirMayusculas(pnlGenerales);
-            
+
             empleado.setCondicion('A');
             empleado.setFechaNacimiento(dcFechaNacimiento.getDate());
             empleado.setMaterno(txtMaterno.getText());
@@ -873,17 +878,20 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
             fgen.setTipoZona((TipoZona) cboTipoZona.getSelectedItem());
             fgen.setUbigeoResidencia(ubigeoSeleccion);
 
-            FichaLaboral flab = empleado.getFichaLaboral();
+            //DATOS DE CONTRATO
+            Contrato contrato = empleado.getContratoList().get(0);
+            contrato.setRegimenLaboral((RegimenLaboral)cboRegimenLaboral.getSelectedItem());
+            contrato.setTipoContrato((TipoContrato)cboTipoContrato.getSelectedItem());
+            contrato.setFechaInicio(dcFechaInicio.getDate());
+            contrato.setFechaFin(dcFechaCese.getDate());
+            
+            FichaLaboral flab = empleado.getFichaLaboral();                        
             flab.setArea((Departamento) this.cboOficina.getSelectedItem());
             flab.setCodigoTrabajador(txtCodigoTrabajador.getText());
-            flab.setFechaInicio(dcFechaInicio.getDate());
-            flab.setFechaInicio(dcFechaCese.getDate());
-            flab.setRegimenLaboral((RegimenLaboral) cboRegimenLaboral.getSelectedItem());
             flab.setSituacionTrabajador((SituacionTrabajador) cboSituacionEmpleado.getSelectedItem());
-            flab.setTipoContrato((TipoContrato) cboTipoContrato.getSelectedItem());
 
             if (ec.accion(accion)) {
-                
+
                 FormularioUtil.mensajeExito(this, accion);
                 this.dispose();
             } else {
@@ -944,12 +952,23 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
 
         //DATOS FICHA LABORAL
         FichaLaboral laboral = empleado.getFichaLaboral();
+
+        //DATOS DE CONTRATO
+        List<Contrato> contratos = empleado.getContratoList();
+        if (contratos.isEmpty()) {
+            cboTipoContrato.setSelectedItem(null);
+            cboRegimenLaboral.setSelectedItem(null);
+            dcFechaInicio.setDate(null);
+            dcFechaCese.setDate(null);
+        }else{
+            Contrato contrato = contratos.get(0);
+            cboTipoContrato.setSelectedItem(contrato.getTipoContrato());
+            cboRegimenLaboral.setSelectedItem(contrato.getRegimenLaboral());
+            dcFechaInicio.setDate(contrato.getFechaInicio());
+            dcFechaCese.setDate(contrato.getFechaFin());
+        }
         cboOficina.setSelectedItem(laboral.getArea());
         txtCodigoTrabajador.setText(laboral.getCodigoTrabajador() == null ? "" : laboral.getCodigoTrabajador());
-        cboTipoContrato.setSelectedItem(laboral.getTipoContrato());
-        cboRegimenLaboral.setSelectedItem(laboral.getRegimenLaboral());
-        dcFechaInicio.setDate(laboral.getFechaInicio());
-        dcFechaCese.setDate(laboral.getFechaCese());
         cboSituacionEmpleado.setSelectedItem(laboral.getSituacionTrabajador());
 
     }

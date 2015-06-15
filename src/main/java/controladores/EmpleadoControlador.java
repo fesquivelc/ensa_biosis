@@ -5,9 +5,11 @@
  */
 package controladores;
 
+import entidades.escalafon.Contrato;
 import entidades.escalafon.Empleado;
 import entidades.escalafon.FichaGeneral;
 import entidades.escalafon.FichaLaboral;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +33,7 @@ public class EmpleadoControlador extends Controlador<Empleado> {
         FichaGeneral fichaGeneral = new FichaGeneral();
         fichaGeneral.setEmpleado(this.getSeleccionado());
         
+        this.getSeleccionado().setContratoList(new ArrayList<Contrato>());
         this.getSeleccionado().setFichaLaboral(fichaLaboral);
         this.getSeleccionado().setFichaGeneral(fichaGeneral);
         

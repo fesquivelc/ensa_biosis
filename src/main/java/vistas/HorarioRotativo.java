@@ -98,6 +98,9 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
         btnAsignar2 = new javax.swing.JButton();
         btnAsignar3 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        pnlBotones = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         onlBusqueda = new javax.swing.JPanel();
         chkFiltrar = new javax.swing.JCheckBox();
         cboTipoFiltro = new javax.swing.JComboBox();
@@ -343,6 +346,24 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 18, 0);
         pnlDatos.add(jPanel2, gridBagConstraints);
 
+        jButton1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jButton1.setText("GUARDAR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        pnlBotones.add(jButton1);
+
+        jButton3.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jButton3.setText("CANCELAR");
+        pnlBotones.add(jButton3);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        pnlDatos.add(pnlBotones, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -534,6 +555,7 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
         Turno turno = turnos.getSeleccionado();
         if(turno != null){
             turno.setHorario(this.horarioSeleccionado);
+            turno.setHorario(this.horarioControlador.getSeleccionado());
             this.detalleHorarioList.add(turno);
             this.horarioControlador.getSeleccionado().getTurnoList().add(turno);
         }
@@ -551,6 +573,23 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnAsignarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        if(FormularioUtil.dialogoConfirmar(this, accion)){
+            Horario horario = this.horarioControlador.getSeleccionado();
+            horario.setCodigo(this.txtCodigo.getText());
+            horario.setDocumento(this.txtDocumento.getText());
+            horario.setNombre(this.txtNombre.getText());
+            
+            if(this.horarioControlador.accion(accion)){
+                FormularioUtil.mensajeExito(this, accion);
+                this.accion = 0;
+                this.controles(accion);
+                this.actualizarTabla();
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAsignar;
@@ -564,7 +603,9 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox cboTipoFiltro;
     private javax.swing.JCheckBox chkFiltrar;
     private javax.swing.ButtonGroup grpOpcion;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel9;
@@ -579,6 +620,7 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlAccionAsignado;
     private javax.swing.JPanel pnlAccionAsignado1;
     private javax.swing.JPanel pnlAsignadoA;
+    private javax.swing.JPanel pnlBotones;
     private javax.swing.JPanel pnlDatos;
     private javax.swing.JPanel pnlDetalle;
     private javax.swing.JPanel pnlJornadas;

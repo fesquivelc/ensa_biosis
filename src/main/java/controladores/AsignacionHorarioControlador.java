@@ -11,6 +11,7 @@ import entidades.GrupoHorario;
 import entidades.Horario;
 import entidades.escalafon.Empleado;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,11 +45,23 @@ public class AsignacionHorarioControlador extends Controlador<AsignacionHorario>
     }
     
     public List<AsignacionHorario> buscarXEmpleado(Empleado empleado){
-        String jpql = "SELECT a FROM AsignacionHorario a WHERE "
-                + "a.empleado = :empleado OR "
+        String jpql = "SELECT a FROM AsignacionHorario a WHERE "                
+                + "a.empleado = :empleado OR "                
                 + "EXISTS(SELECT d FROM DetalleGrupoHorario d WHERE d.empleado = :empleado AND d.grupoHorario = a.grupoHorario)";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("empleado", empleado);
+        return this.getDao().buscar(jpql, mapa);
+    }
+    
+    public List<AsignacionHorario> buscarXEmpleado(Empleado empleado, Date fechaInicio, Date fechaFin){
+        String jpql = "SELECT a FROM AsignacionHorario a WHERE "                
+                + "(a.fechaInicio BETWEEN :fechaInicio AND :fechaFin OR :fechaInicio BETWEEN a.fechaInicio AND a.fechaFin) AND "
+                + "(a.empleado = :empleado OR "
+                + "EXISTS(SELECT d FROM DetalleGrupoHorario d WHERE d.empleado = :empleado AND d.grupoHorario = a.grupoHorario))";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("empleado", empleado);
+        mapa.put("fechaInicio", fechaInicio);
+        mapa.put("fechaFin", fechaFin);
         return this.getDao().buscar(jpql, mapa);
     }
     

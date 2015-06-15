@@ -7,6 +7,7 @@ package vistas.modelos;
 
 import entidades.DetalleRegistroAsistencia;
 import com.personal.utiles.ModeloTabla;
+import entidades.reportes.RptAsistenciaDetallado;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -16,41 +17,34 @@ import java.util.List;
  *
  * @author RyuujiMD
  */
-public class MTDetalleRegistroAsistencia extends ModeloTabla<DetalleRegistroAsistencia>{
+public class MTDetalleRegistroAsistencia extends ModeloTabla<RptAsistenciaDetallado>{
+    private final DateFormat dfFecha = new SimpleDateFormat("dd.MM.yyyy");
     private final DateFormat dfHora = new SimpleDateFormat("HH:mm:ss");
-    public MTDetalleRegistroAsistencia(List<DetalleRegistroAsistencia> datos) {
+    public MTDetalleRegistroAsistencia(List<RptAsistenciaDetallado> datos) {
         super(datos);
-        this.nombreColumnas = new String[]{"Tipo","Inicio","Fin","Tardanza",""};
+        this.nombreColumnas = new String[]{"IND","NRO DOCUMENTO","EMPLEADO","ÁREA","FECHA","TIPO","H. ENTRADA","H. SALIDA"};
     }
+    
+    
 
     @Override
     public Object getValorEn(int rowIndex, int columnIndex) {
-        DetalleRegistroAsistencia detalle = this.datos.get(rowIndex);
+        RptAsistenciaDetallado detalle = this.datos.get(rowIndex);
         switch(columnIndex){
-            case 0:
-                return tipo(detalle.getTipoRegistro());
             case 1:
-                if(detalle.getHoraInicio() == null){
-                    return "FALTA";
-                }else{
-                    return dfHora.format(detalle.getHoraInicio());
-                }
-                
+                return detalle.getEmpleado().getNroDocumento();
             case 2:
-                if(detalle.getHoraFin() == null){
-                    return "FALTA";
-                }else{
-                    return dfHora.format(detalle.getHoraFin());
-                }
+                return detalle.getEmpleado().getNombreCompleto();                
             case 3:
-                if(detalle.getResultado() != 'F'){
-                    return detalle.getMinTardanza();
-                }
+                return detalle.getEmpleado().getFichaLaboral().getArea();
             case 4:
-                if(detalle.getTipoRegistro() == 'P'){
-                    return detalle.getPermiso().getTipoPermiso().getNombre();
-                }
-                
+                return dfFecha.format(detalle.getFecha());
+            case 5:
+                return this.resultado(detalle.getTipoAsistencia());
+            case 6:
+                return dfHora.format(detalle.getInicio());
+            case 7:
+                return dfHora.format(detalle.getFin());                
             default:
                 return "";
             
@@ -81,26 +75,25 @@ public class MTDetalleRegistroAsistencia extends ModeloTabla<DetalleRegistroAsis
         }
     }
     
-    public String resultado(char r){
-        switch(r){
+    public String resultado(String r){
+        switch(r.charAt(0)){
+            case 'V':
+                return "VACACIÓN";
+            case 'P':
+                return "PERMISO";
+            case 'E':
+                return "FERIADO";
             case 'T':
                 return "TARDANZA";
             case 'R':
                 return "REGULAR";
             case 'F':
-                return "FALTA";
+                return "FALTA INJ.";
+            case 'O':
+                return "OBSERVACIÓN";
             default:
                 return "";
         }
-    }
-
-    @Override
-    public Class<?> getColumnClass(int columnIndex) {
-        if(columnIndex == 3){
-            return BigDecimal.class;
-        }else{
-            return String.class;
-        }
-    }
+    }   
     
 }

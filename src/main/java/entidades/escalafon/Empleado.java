@@ -49,6 +49,8 @@ public class Empleado implements Serializable {
     private FichaLaboral fichaLaboral;
     @OneToOne(fetch = FetchType.LAZY, targetEntity = FichaGeneral.class, mappedBy = "empleado",cascade = CascadeType.ALL)
     private FichaGeneral fichaGeneral;
+    @OneToMany(targetEntity = Contrato.class,mappedBy = "empleado",cascade = CascadeType.ALL)
+    private List<Contrato> contratoList;
     @Column(name = "fecha_nacimiento")
     @Temporal(TemporalType.DATE)
     @Basic
@@ -56,6 +58,14 @@ public class Empleado implements Serializable {
     
     @OneToMany(fetch = FetchType.LAZY, targetEntity = DetalleGrupoHorario.class,mappedBy = "empleado")
     private List<DetalleGrupoHorario> detalleGrupoHorarioList;
+
+    public List<Contrato> getContratoList() {
+        return contratoList;
+    }
+
+    public void setContratoList(List<Contrato> contratoList) {
+        this.contratoList = contratoList;
+    }        
 
     public List<DetalleGrupoHorario> getDetalleGrupoHorarioList() {
         return detalleGrupoHorarioList;
