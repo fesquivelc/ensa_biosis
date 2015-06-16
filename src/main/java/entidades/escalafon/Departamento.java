@@ -107,4 +107,10 @@ public class Departamento implements Serializable {
         this.nombre = nombre;
     }
 
+    @Override
+    public String toString() {
+        return nombre;
+    }
+
+    
 }

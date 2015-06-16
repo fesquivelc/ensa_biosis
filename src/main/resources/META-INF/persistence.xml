@@ -42,10 +42,10 @@
     <class>entidades.escalafon.Departamento</class>
     <class>entidades.DetalleJornada</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://127.0.0.1\JUPITER:49417;databaseName=db_biosis;sendTimeAsDateTime=false"/>
-      <property name="javax.persistence.jdbc.password" value="asistencia"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://192.168.0.101\JUPITER;databaseName=ensa_biosis_final;sendTimeAsDateTime=false"/>
+      <property name="javax.persistence.jdbc.password" value="Elhacker12"/>
       <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
-      <property name="javax.persistence.jdbc.user" value="usuarioAsistencia"/>
+      <property name="javax.persistence.jdbc.user" value="sa"/>
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
       <property name="hibernate.show_sql" value="false"/>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>

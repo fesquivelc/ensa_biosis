@@ -8,6 +8,8 @@ package vistas.dialogos;
 import com.personal.utiles.FormularioUtil;
 import controladores.Controlador;
 import controladores.DepartamentoControlador;
+import controladores.AreaEmpleadoControlador;
+import controladores.ContratoControlador;
 import controladores.EmpleadoControlador;
 import controladores.NivelEducativoControlador;
 import controladores.RegimenLaboralControlador;
@@ -16,9 +18,10 @@ import controladores.TipoContratoControlador;
 import controladores.TipoDocumentoControlador;
 import controladores.TipoViaControlador;
 import controladores.TipoZonaControlador;
-import entidades.escalafon.Contrato;
 import entidades.escalafon.Departamento;
 import entidades.escalafon.Empleado;
+import entidades.escalafon.AreaEmpleado;
+import entidades.escalafon.Contrato;
 import entidades.escalafon.FichaGeneral;
 import entidades.escalafon.FichaLaboral;
 import entidades.escalafon.Nacionalidad;
@@ -31,12 +34,21 @@ import entidades.escalafon.TipoVia;
 import entidades.escalafon.TipoZona;
 import entidades.escalafon.Ubigeo;
 import java.awt.Component;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JInternalFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.observablecollections.ObservableCollections;
+import org.jdesktop.swingbinding.JTableBinding;
+import org.jdesktop.swingbinding.SwingBindings;
 
 /**
  *
@@ -47,7 +59,9 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     /**
      * Creates new form VistaEmpleado
      */
-    private List<Empleado> lista;
+    private List<AreaEmpleado> lista;
+    private List<Contrato> lista2;
+
     private final EmpleadoControlador ec;
     private final JInternalFrame padre;
     private boolean agregar;
@@ -62,8 +76,13 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private final RegimenLaboralControlador rlc = RegimenLaboralControlador.getInstance();
     private final SituacionTrabajadorControlador stc = SituacionTrabajadorControlador.getInstance();
 
+    private final AreaEmpleadoControlador ea = new AreaEmpleadoControlador();
+    private final ContratoControlador cc = new ContratoControlador();
+
     private final Empleado empleado;
     private final int accion;
+
+    private int accionT = 0;
 
     public boolean isAgregar() {
         return agregar;
@@ -87,6 +106,11 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
             this.mostrarDatos(empleado);
         }
         this.setLocationRelativeTo(parent);
+        listarArea();
+        listarContratos();
+
+        FormularioUtil.activarComponente(panelDatosC, false);
+        FormularioUtil.activarComponente(panelDatosA, false);
     }
 
     /**
@@ -146,20 +170,44 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         cboTipoZona = new javax.swing.JComboBox();
         pnlLaborales = new javax.swing.JScrollPane();
         jPanel5 = new javax.swing.JPanel();
-        cboOficina = new javax.swing.JComboBox();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
+        pnlContrato = new javax.swing.JPanel();
+        panelTblC = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblContratos = new javax.swing.JTable();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        panelDatosC = new javax.swing.JPanel();
+        jLabel24 = new javax.swing.JLabel();
+        txtCodigoTrabajador = new javax.swing.JTextField();
+        jLabel25 = new javax.swing.JLabel();
         cboTipoContrato = new javax.swing.JComboBox();
         cboRegimenLaboral = new javax.swing.JComboBox();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
         dcFechaInicio = new com.toedter.calendar.JDateChooser();
+        btnAgregarC = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jLabel31 = new javax.swing.JLabel();
+        dcFechaFin = new com.toedter.calendar.JDateChooser();
+        btnModDatosC = new javax.swing.JButton();
+        pnlArea = new javax.swing.JPanel();
+        panelTblA = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblAreas = new javax.swing.JTable();
+        jButton10 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        panelDatosA = new javax.swing.JPanel();
+        jLabel21 = new javax.swing.JLabel();
+        txtArea = new javax.swing.JTextField();
+        jButton5 = new javax.swing.JButton();
         jLabel22 = new javax.swing.JLabel();
-        txtCodigoTrabajador = new javax.swing.JTextField();
-        cboSituacionEmpleado = new javax.swing.JComboBox();
-        jLabel24 = new javax.swing.JLabel();
-        dcFechaCese = new com.toedter.calendar.JDateChooser();
+        dtFechaInicio = new com.toedter.calendar.JDateChooser();
+        jLabel30 = new javax.swing.JLabel();
+        dtFechaFin = new com.toedter.calendar.JDateChooser();
+        btnAgregarA = new javax.swing.JButton();
+        jButton13 = new javax.swing.JButton();
+        btnModAreasA = new javax.swing.JButton();
 
         setTitle("DATOS DE EMPLEADO");
         setResizable(false);
@@ -175,6 +223,11 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         jPanel3.add(jButton1);
 
         jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel3.add(jButton2);
 
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
@@ -506,119 +559,393 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
 
         jTabbedPane1.addTab("Datos generales", pnlGenerales);
 
-        jPanel5.setLayout(new java.awt.GridBagLayout());
+        jTabbedPane2.setTabPlacement(javax.swing.JTabbedPane.LEFT);
 
-        cboOficina.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(cboOficina, gridBagConstraints);
+        panelTblC.setBorder(javax.swing.BorderFactory.createTitledBorder("Contratos"));
 
-        jLabel17.setText("Código de planilla:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(jLabel17, gridBagConstraints);
+        tblContratos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblContratos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tblContratosMouseReleased(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblContratos);
 
-        jLabel18.setText("Tipo de contrato:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(jLabel18, gridBagConstraints);
+        jButton6.setText("Nuevo");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
-        jLabel19.setText("Área u oficina:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(jLabel19, gridBagConstraints);
+        jButton7.setText("Editar");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
-        jLabel20.setText("Fecha de inicio:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(jLabel20, gridBagConstraints);
+        javax.swing.GroupLayout panelTblCLayout = new javax.swing.GroupLayout(panelTblC);
+        panelTblC.setLayout(panelTblCLayout);
+        panelTblCLayout.setHorizontalGroup(
+            panelTblCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelTblCLayout.createSequentialGroup()
+                .addGroup(panelTblCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelTblCLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelTblCLayout.createSequentialGroup()
+                        .addGap(177, 177, 177)
+                        .addComponent(jButton6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton7)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelTblCLayout.setVerticalGroup(
+            panelTblCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTblCLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelTblCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton6)
+                    .addComponent(jButton7)))
+        );
 
-        jLabel21.setText("Régimen laboral:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(jLabel21, gridBagConstraints);
+        panelDatosC.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
 
-        cboTipoContrato.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(cboTipoContrato, gridBagConstraints);
-
-        cboRegimenLaboral.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(cboRegimenLaboral, gridBagConstraints);
-
-        dcFechaInicio.setDateFormatString("dd/MM/yyyy");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(dcFechaInicio, gridBagConstraints);
-
-        jLabel22.setText("Situación empleado:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(jLabel22, gridBagConstraints);
+        jLabel24.setText("Código de planilla:");
 
         txtCodigoTrabajador.setColumns(9);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(txtCodigoTrabajador, gridBagConstraints);
 
-        cboSituacionEmpleado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(cboSituacionEmpleado, gridBagConstraints);
+        jLabel25.setText("Tipo de contrato:");
 
-        jLabel24.setText("Fecha de cese:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(jLabel24, gridBagConstraints);
+        cboTipoContrato.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        dcFechaCese.setDateFormatString("dd/MM/yyyy");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(dcFechaCese, gridBagConstraints);
+        cboRegimenLaboral.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel28.setText("Régimen laboral:");
+
+        jLabel27.setText("Fecha de inicio:");
+
+        btnAgregarC.setText("Agregar");
+        btnAgregarC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarCActionPerformed(evt);
+            }
+        });
+
+        jButton9.setText("Cancelar");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        jLabel31.setText("Fecha de fin:");
+
+        btnModDatosC.setText("Modificar");
+        btnModDatosC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModDatosCActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelDatosCLayout = new javax.swing.GroupLayout(panelDatosC);
+        panelDatosC.setLayout(panelDatosCLayout);
+        panelDatosCLayout.setHorizontalGroup(
+            panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDatosCLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelDatosCLayout.createSequentialGroup()
+                        .addGroup(panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelDatosCLayout.createSequentialGroup()
+                                .addComponent(jLabel25)
+                                .addGap(23, 23, 23)
+                                .addComponent(cboTipoContrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelDatosCLayout.createSequentialGroup()
+                                .addComponent(jLabel28)
+                                .addGap(26, 26, 26)
+                                .addComponent(cboRegimenLaboral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDatosCLayout.createSequentialGroup()
+                        .addGroup(panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel27)
+                            .addComponent(jLabel31))
+                        .addGap(32, 32, 32)
+                        .addGroup(panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(dcFechaInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dcFechaFin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(panelDatosCLayout.createSequentialGroup()
+                        .addComponent(jLabel24)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtCodigoTrabajador, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(panelDatosCLayout.createSequentialGroup()
+                        .addComponent(btnAgregarC, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnModDatosC)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        panelDatosCLayout.setVerticalGroup(
+            panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDatosCLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelDatosCLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel24))
+                    .addComponent(txtCodigoTrabajador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelDatosCLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel25))
+                    .addComponent(cboTipoContrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelDatosCLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel28))
+                    .addComponent(cboRegimenLaboral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelDatosCLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel27))
+                    .addComponent(dcFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(dcFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE)
+                .addGroup(panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAgregarC)
+                    .addComponent(jButton9)
+                    .addComponent(btnModDatosC)))
+        );
+
+        javax.swing.GroupLayout pnlContratoLayout = new javax.swing.GroupLayout(pnlContrato);
+        pnlContrato.setLayout(pnlContratoLayout);
+        pnlContratoLayout.setHorizontalGroup(
+            pnlContratoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlContratoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelTblC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addComponent(panelDatosC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        pnlContratoLayout.setVerticalGroup(
+            pnlContratoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlContratoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlContratoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelTblC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelDatosC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        jTabbedPane2.addTab("Contrato", pnlContrato);
+
+        panelTblA.setBorder(javax.swing.BorderFactory.createTitledBorder("Historial de Áreas"));
+
+        tblAreas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblAreas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tblAreasMouseReleased(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblAreas);
+
+        jButton10.setText("Nuevo");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jButton11.setText("Editar");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelTblALayout = new javax.swing.GroupLayout(panelTblA);
+        panelTblA.setLayout(panelTblALayout);
+        panelTblALayout.setHorizontalGroup(
+            panelTblALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelTblALayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(panelTblALayout.createSequentialGroup()
+                .addGap(177, 177, 177)
+                .addComponent(jButton10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton11)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelTblALayout.setVerticalGroup(
+            panelTblALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTblALayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelTblALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton10)
+                    .addComponent(jButton11)))
+        );
+
+        panelDatosA.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
+
+        jLabel21.setText("Area: ");
+
+        jButton5.setText("...");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jLabel22.setText("Fecha Inicio: ");
+
+        jLabel30.setText("Fecha Fin: ");
+
+        btnAgregarA.setText("Agregar");
+        btnAgregarA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarAActionPerformed(evt);
+            }
+        });
+
+        jButton13.setText("Cancelar");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+
+        btnModAreasA.setText("Modificar");
+        btnModAreasA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModAreasAActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelDatosALayout = new javax.swing.GroupLayout(panelDatosA);
+        panelDatosA.setLayout(panelDatosALayout);
+        panelDatosALayout.setHorizontalGroup(
+            panelDatosALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDatosALayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelDatosALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel21)
+                    .addGroup(panelDatosALayout.createSequentialGroup()
+                        .addGroup(panelDatosALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtArea, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelDatosALayout.createSequentialGroup()
+                                .addGroup(panelDatosALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel22)
+                                    .addComponent(jLabel30))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panelDatosALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(dtFechaFin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(dtFechaInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5))
+                    .addGroup(panelDatosALayout.createSequentialGroup()
+                        .addComponent(btnAgregarA, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnModAreasA)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelDatosALayout.setVerticalGroup(
+            panelDatosALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDatosALayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel21)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelDatosALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelDatosALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(dtFechaInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelDatosALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(dtFechaFin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 207, Short.MAX_VALUE)
+                .addGroup(panelDatosALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAgregarA)
+                    .addComponent(jButton13)
+                    .addComponent(btnModAreasA))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout pnlAreaLayout = new javax.swing.GroupLayout(pnlArea);
+        pnlArea.setLayout(pnlAreaLayout);
+        pnlAreaLayout.setHorizontalGroup(
+            pnlAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAreaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelTblA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(panelDatosA, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlAreaLayout.setVerticalGroup(
+            pnlAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAreaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelTblA, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelDatosA, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        jTabbedPane2.addTab("Area", pnlArea);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane2)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 80, Short.MAX_VALUE))
+        );
 
         pnlLaborales.setViewportView(jPanel5);
 
@@ -632,12 +959,12 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 846, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 873, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -665,27 +992,229 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         guardar();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    Contrato contratosG;
+    List<Contrato> listaContratosG = new ArrayList();
+
+    private void btnAgregarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCActionPerformed
+        // TODO add your handling code here:
+        
+
+        contratosG.setEmpleado(empleado);
+        contratosG.setFechaInicio(dcFechaInicio.getDate());
+        contratosG.setFechaFin(dcFechaFin.getDate());
+        contratosG.setTipoContrato((TipoContrato) cboTipoContrato.getSelectedItem());
+        contratosG.setRegimenLaboral((RegimenLaboral) cboRegimenLaboral.getSelectedItem());
+
+        listaContratosG.add(contratosG);
+        lista2.add(contratosG);
+
+        FormularioUtil.activarComponente(this.panelDatosC, false);
+    }//GEN-LAST:event_btnAgregarCActionPerformed
+    AreaEmpleado areaF;
+    List<AreaEmpleado> listaAreaEmpleadoG = new ArrayList();
+
+    private void btnAgregarAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarAActionPerformed
+        // TODO add your handling code here:
+
+        
+
+        areaF.setEmpleado(empleado);
+        areaF.setFechaInicio(dtFechaInicio.getDate());
+        areaF.setFechaFin(dtFechaFin.getDate());
+
+        listaAreaEmpleadoG.add(areaF);
+        lista.add(areaF);
+
+        FormularioUtil.activarComponente(this.panelDatosA, false);
+    }//GEN-LAST:event_btnAgregarAActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        DlgAreaBusqueda areaBusqueda = new DlgAreaBusqueda(this);
+
+//        areaBusqueda.setVisible(true);
+        areaF.setDepartamento(areaBusqueda.getArea());
+        if (areaF.getDepartamento() != null) {
+            this.txtArea.setText(this.areaF.getDepartamento().getNombre().toUpperCase());
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        contratosG = new Contrato();
+        FormularioUtil.activarComponente(this.panelDatosC, true);
+        btnModDatosC.setEnabled(false);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+        areaF = new AreaEmpleado();
+        FormularioUtil.activarComponente(this.panelDatosA, true);
+        btnModAreasA.setEnabled(false);
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        
+        
+        accionT = Controlador.MODIFICAR;
+
+        int fila = this.tblContratos.getSelectedRow();
+        if (fila != -1) {
+            FormularioUtil.activarComponente(panelDatosC, true);
+            btnAgregarC.setEnabled(false);
+            FormularioUtil.activarComponente(panelTblC, false);
+
+            cc.setSeleccionado(lista2.get(fila));
+            Contrato cont = cc.getSeleccionado();
+            cboRegimenLaboral.setSelectedItem(cont.getRegimenLaboral());
+            cboTipoContrato.setSelectedItem(cont.getTipoContrato());
+            dcFechaInicio.setDate(cont.getFechaInicio());
+            dcFechaFin.setDate(cont.getFechaFin());
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un elemento de la tabla", "Mensaje del Sistema", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+    Contrato contratoMOD;
+    private void tblContratosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblContratosMouseReleased
+        // TODO add your handling code here:
+
+        if (evt.getClickCount() == 1) {
+
+            int fila = tblContratos.getSelectedRow();
+            this.contratoMOD = lista2.get(fila);
+
+            cboRegimenLaboral.setSelectedItem(contratoMOD.getRegimenLaboral());
+            cboTipoContrato.setSelectedItem(contratoMOD.getTipoContrato());
+            dcFechaInicio.setDate(contratoMOD.getFechaInicio());
+            dcFechaFin.setDate(contratoMOD.getFechaFin());
+
+        }
+    }//GEN-LAST:event_tblContratosMouseReleased
+
+    private void btnModDatosCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModDatosCActionPerformed
+        // TODO add your handling code here:
+
+        Contrato contratoCambio = cc.getSeleccionado();
+        
+        contratoCambio.setEmpleado(empleado);
+        contratoCambio.setFechaInicio(dcFechaInicio.getDate());
+        contratoCambio.setFechaFin(dcFechaFin.getDate());
+        contratoCambio.setTipoContrato((TipoContrato) cboTipoContrato.getSelectedItem());
+        contratoCambio.setRegimenLaboral((RegimenLaboral) cboRegimenLaboral.getSelectedItem());
+        
+        cc.setSeleccionado(contratoCambio);
+        
+        cc.accion(accionT);
+        FormularioUtil.activarComponente(this.panelDatosC, false);
+    }//GEN-LAST:event_btnModDatosCActionPerformed
+
+    private void btnModAreasAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModAreasAActionPerformed
+        // TODO add your handling code here:
+        AreaEmpleado empleadoAreaCambio = ea.getSeleccionado();
+        
+        empleadoAreaCambio.setEmpleado(empleado);
+        empleadoAreaCambio.setFechaInicio(dtFechaInicio.getDate());
+        empleadoAreaCambio.setFechaFin(dtFechaFin.getDate());
+        
+        ea.setSeleccionado(empleadoAreaCambio);
+        
+        ea.accion(accionT);
+        FormularioUtil.activarComponente(this.panelDatosA, false);
+    }//GEN-LAST:event_btnModAreasAActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        // TODO add your handling code here:
+
+        FormularioUtil.limpiarComponente(panelDatosA);
+        FormularioUtil.activarComponente(panelDatosA, false);
+        FormularioUtil.activarComponente(panelTblA, true);
+    }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        listaAreaEmpleadoG.clear();
+        listaContratosG.clear();
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+        FormularioUtil.limpiarComponente(panelDatosC);
+        FormularioUtil.activarComponente(panelDatosC, false);
+        FormularioUtil.activarComponente(panelTblC, true);
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+        
+        
+        accionT = Controlador.MODIFICAR;
+
+        int fila = this.tblAreas.getSelectedRow();
+        if (fila != -1) {
+            FormularioUtil.activarComponente(panelDatosA, true);
+            btnAgregarA.setEnabled(false);
+            FormularioUtil.activarComponente(panelTblA, false);
+
+            ea.setSeleccionado(lista.get(fila));
+            AreaEmpleado areaEmpleados = ea.getSeleccionado();
+            
+            txtArea.setText(areaEmpleados.getDepartamento().getNombre());
+            dcFechaInicio.setDate(areaEmpleados.getFechaInicio());
+            dcFechaFin.setDate(areaEmpleados.getFechaFin());
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un elemento de la tabla", "Mensaje del Sistema", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    AreaEmpleado areaEmpMOD;
+    private void tblAreasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAreasMouseReleased
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 1) {
+
+            int fila = tblAreas.getSelectedRow();
+            this.areaEmpMOD = lista.get(fila);
+
+            txtArea.setText(areaEmpMOD.getDepartamento().getNombre());
+            dtFechaInicio.setDate(areaEmpMOD.getFechaInicio());
+            dtFechaFin.setDate(areaEmpMOD.getFechaFin());
+
+        }
+    }//GEN-LAST:event_tblAreasMouseReleased
+
     private Ubigeo ubigeoSeleccion;
     private Nacionalidad nacionalidadSeleccion;
     private Empleado empleadoSeleccionado;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarA;
+    private javax.swing.JButton btnAgregarC;
+    private javax.swing.JButton btnModAreasA;
+    private javax.swing.JButton btnModDatosC;
     private javax.swing.JButton btnNacionalidad;
     private javax.swing.JButton btnUbigeo;
     private javax.swing.JComboBox cboEstadoCivil;
     private javax.swing.JComboBox cboGenero;
     private javax.swing.JComboBox cboNivelEducativo;
-    private javax.swing.JComboBox cboOficina;
     private javax.swing.JComboBox cboRegimenLaboral;
-    private javax.swing.JComboBox cboSituacionEmpleado;
     private javax.swing.JComboBox cboTipoContrato;
     private javax.swing.JComboBox cboTipoDocumento;
     private javax.swing.JComboBox cboTipoVia;
     private javax.swing.JComboBox cboTipoZona;
-    private com.toedter.calendar.JDateChooser dcFechaCese;
+    private com.toedter.calendar.JDateChooser dcFechaFin;
     private com.toedter.calendar.JDateChooser dcFechaInicio;
     private com.toedter.calendar.JDateChooser dcFechaNacimiento;
+    private com.toedter.calendar.JDateChooser dtFechaFin;
+    private com.toedter.calendar.JDateChooser dtFechaInicio;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -694,16 +1223,17 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -714,11 +1244,23 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JPanel panelDatosA;
+    private javax.swing.JPanel panelDatosC;
+    private javax.swing.JPanel panelTblA;
+    private javax.swing.JPanel panelTblC;
+    private javax.swing.JPanel pnlArea;
+    private javax.swing.JPanel pnlContrato;
     private javax.swing.JPanel pnlEmpleado;
     private javax.swing.JScrollPane pnlGenerales;
     private javax.swing.JScrollPane pnlLaborales;
     private javax.swing.JPanel pnlNavegacion;
+    private javax.swing.JTable tblAreas;
+    private javax.swing.JTable tblContratos;
+    private javax.swing.JTextField txtArea;
     private javax.swing.JTextField txtCodigoTrabajador;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtEmail;
@@ -764,19 +1306,18 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
 
         });
 
-        cboOficina.setModel(new DefaultComboBoxModel(dc.buscarTodos().toArray()));
-        cboOficina.setRenderer(new DefaultListCellRenderer() {
-
-            @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                if (value instanceof Departamento) {
-                    value = ((Departamento) value).getNombre();
-                }
-                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
-            }
-
-        });
-
+//        cboOficina.setModel(new DefaultComboBoxModel(dc.buscarTodos().toArray()));
+//        cboOficina.setRenderer(new DefaultListCellRenderer() {
+//
+//            @Override
+//            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+//                if (value instanceof Departamento) {
+//                    value = ((Departamento) value).getNombre();
+//                }
+//                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
+//            }
+//
+//        });
         cboNivelEducativo.setModel(new DefaultComboBoxModel(nec.buscarTodos().toArray()));
         cboNivelEducativo.setRenderer(new DefaultListCellRenderer() {
             @Override
@@ -822,15 +1363,14 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
             }
         });
 
-        cboSituacionEmpleado.setModel(new DefaultComboBoxModel(stc.buscarTodos().toArray()));
-        cboSituacionEmpleado.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                value = value instanceof SituacionTrabajador ? ((SituacionTrabajador) value).getDescripcion() : value;
-                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
-            }
-        });
-
+//        cboSituacionEmpleado.setModel(new DefaultComboBoxModel(stc.buscarTodos().toArray()));
+//        cboSituacionEmpleado.setRenderer(new DefaultListCellRenderer() {
+//            @Override
+//            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+//                value = value instanceof SituacionTrabajador ? ((SituacionTrabajador) value).getDescripcion() : value;
+//                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
+//            }
+//        });
         if (this.accion == Controlador.MODIFICAR) {
             mostrarDatos(this.empleado);
         }
@@ -848,10 +1388,6 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         if (FormularioUtil.dialogoConfirmar(this, accion)) {
             if (this.accion == Controlador.NUEVO) {
                 empleado.setNroDocumento(txtNroDocumento.getText());
-                
-                Contrato contrato = new Contrato();
-                contrato.setEmpleado(empleado);
-                empleado.getContratoList().add(contrato);
             }
 
             FormularioUtil.convertirMayusculas(pnlLaborales);
@@ -878,20 +1414,32 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
             fgen.setTipoZona((TipoZona) cboTipoZona.getSelectedItem());
             fgen.setUbigeoResidencia(ubigeoSeleccion);
 
-            //DATOS DE CONTRATO
-            Contrato contrato = empleado.getContratoList().get(0);
-            contrato.setRegimenLaboral((RegimenLaboral)cboRegimenLaboral.getSelectedItem());
-            contrato.setTipoContrato((TipoContrato)cboTipoContrato.getSelectedItem());
-            contrato.setFechaInicio(dcFechaInicio.getDate());
-            contrato.setFechaFin(dcFechaCese.getDate());
-            
-            FichaLaboral flab = empleado.getFichaLaboral();                        
-            flab.setArea((Departamento) this.cboOficina.getSelectedItem());
-            flab.setCodigoTrabajador(txtCodigoTrabajador.getText());
-            flab.setSituacionTrabajador((SituacionTrabajador) cboSituacionEmpleado.getSelectedItem());
+            FichaLaboral flab = empleado.getFichaLaboral();
+//            flab.setArea((Departamento) this.cboOficina.getSelectedItem());
+//            flab.setCodigoTrabajador(txtCodigoTrabajador.getText());
+//            flab.setFechaInicio(dcFechaInicio.getDate());
+//            flab.setRegimenLaboral((RegimenLaboral) cboRegimenLaboral.getSelectedItem());
+//            flab.setSituacionTrabajador((SituacionTrabajador) cboSituacionEmpleado.getSelectedItem());
+//            flab.setTipoContrato((TipoContrato) cboTipoContrato.getSelectedItem());
+
+            if (!listaAreaEmpleadoG.isEmpty()) {
+                System.out.println("EL TAMAÑO DE AREAS ES: " + listaAreaEmpleadoG.size());
+                for (AreaEmpleado listas : listaAreaEmpleadoG) {
+                    ea.setSeleccionado(listas);
+
+                    ea.accion(accion);
+                }
+            }
+
+            if (!listaContratosG.isEmpty()) {
+                System.out.println("EL TAMAÑO DE CONTRATOS ES: " + listaContratosG.size());
+                for (Contrato listas2 : listaContratosG) {
+                    cc.setSeleccionado(listas2);
+                    cc.accion(accion);
+                }
+            }
 
             if (ec.accion(accion)) {
-
                 FormularioUtil.mensajeExito(this, accion);
                 this.dispose();
             } else {
@@ -952,24 +1500,52 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
 
         //DATOS FICHA LABORAL
         FichaLaboral laboral = empleado.getFichaLaboral();
-
-        //DATOS DE CONTRATO
-        List<Contrato> contratos = empleado.getContratoList();
-        if (contratos.isEmpty()) {
-            cboTipoContrato.setSelectedItem(null);
-            cboRegimenLaboral.setSelectedItem(null);
-            dcFechaInicio.setDate(null);
-            dcFechaCese.setDate(null);
-        }else{
-            Contrato contrato = contratos.get(0);
-            cboTipoContrato.setSelectedItem(contrato.getTipoContrato());
-            cboRegimenLaboral.setSelectedItem(contrato.getRegimenLaboral());
-            dcFechaInicio.setDate(contrato.getFechaInicio());
-            dcFechaCese.setDate(contrato.getFechaFin());
-        }
-        cboOficina.setSelectedItem(laboral.getArea());
+//        cboOficina.setSelectedItem(laboral.getArea());
         txtCodigoTrabajador.setText(laboral.getCodigoTrabajador() == null ? "" : laboral.getCodigoTrabajador());
-        cboSituacionEmpleado.setSelectedItem(laboral.getSituacionTrabajador());
+        cboTipoContrato.setSelectedItem(laboral.getTipoContrato());
+        cboRegimenLaboral.setSelectedItem(laboral.getRegimenLaboral());
+        dcFechaInicio.setDate(laboral.getFechaInicio());
+//        cboSituacionEmpleado.setSelectedItem(laboral.getSituacionTrabajador());
 
+    }
+
+    private void listarArea() {
+        lista = this.ea.buscarXNombrexFechaASC(empleado);
+        lista = ObservableCollections.observableList(lista);
+
+        JTableBinding binding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, lista, tblAreas);
+
+        BeanProperty bEmpleado = BeanProperty.create("empleado");
+        BeanProperty bFechaInicio = BeanProperty.create("fechaInicio");
+        BeanProperty bFechaFin = BeanProperty.create("fechaFin");
+        BeanProperty bArea = BeanProperty.create("departamento");
+
+        binding.addColumnBinding(bEmpleado).setColumnName("EMPLEADO").setEditable(false);
+        binding.addColumnBinding(bFechaInicio).setColumnName("FECHA INICIO").setEditable(false);
+        binding.addColumnBinding(bFechaFin).setColumnName("FECHA FIN").setEditable(false);
+        binding.addColumnBinding(bArea).setColumnName("AREA").setEditable(false);
+
+        binding.bind();
+    }
+
+    private void listarContratos() {
+        lista2 = this.cc.buscarXNombrexFechaASC(empleado);
+        lista2 = ObservableCollections.observableList(lista2);
+
+        JTableBinding binding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, lista2, tblContratos);
+
+        BeanProperty bEmpleado = BeanProperty.create("empleado");
+        BeanProperty bFechaInicio = BeanProperty.create("fechaInicio");
+        BeanProperty bFechaFin = BeanProperty.create("fechaFin");
+        BeanProperty bTipoContrato = BeanProperty.create("tipoContrato");
+        BeanProperty bRegimenLaboral = BeanProperty.create("regimenLaboral");
+
+        binding.addColumnBinding(bEmpleado).setColumnName("EMPLEADO").setEditable(false);
+        binding.addColumnBinding(bFechaInicio).setColumnName("FECHA INICIO").setEditable(false);
+        binding.addColumnBinding(bFechaFin).setColumnName("FECHA FIN").setEditable(false);
+        binding.addColumnBinding(bTipoContrato).setColumnName("TIPO").setEditable(false);
+        binding.addColumnBinding(bRegimenLaboral).setColumnName("REGIMEN").setEditable(false);
+
+        binding.bind();
     }
 }

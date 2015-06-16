@@ -37,4 +37,11 @@ public class TipoContrato implements Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
+    @Override
+    public String toString() {
+        return descripcion;
+    }
+    
+    
 }
