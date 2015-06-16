@@ -59,8 +59,14 @@ public class DAO<T> {
             properties.put("javax.persistence.jdbc.url", url);
             properties.put("javax.persistence.schema-generation.database.action", "none");
 
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory(this.PU, properties);
-            em = emf.createEntityManager();
+            
+            try {
+                EntityManagerFactory emf = Persistence.createEntityManagerFactory(this.PU, properties);
+                em = emf.createEntityManager();
+            } catch (Exception e) {
+                System.out.println("EM: "+e.getCause().getMessage()+" "+e.getMessage());
+            }
+            
         }
         return em;
     }

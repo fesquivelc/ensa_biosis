@@ -5,10 +5,8 @@
  */
 package vistas.modelos;
 
-import entidades.DetalleRegistroAsistencia;
 import com.personal.utiles.ModeloTabla;
 import entidades.reportes.RptAsistenciaDetallado;
-import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;

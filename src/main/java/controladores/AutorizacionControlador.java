@@ -6,6 +6,7 @@
 package controladores;
 
 import entidades.Autorizacion;
+import entidades.DetalleJornada;
 import entidades.escalafon.Empleado;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,6 +25,25 @@ public class AutorizacionControlador extends Controlador<Autorizacion>{
     
     public static AutorizacionControlador getInstance() {
         return AutorizacionControladorHolder.INSTANCE;
+    }
+    
+    public Autorizacion buscarXDetalleJornadaXFecha(Empleado empleado, DetalleJornada detalleJornada, Date fecha){
+        String jpql = "SELECT a FROM Autorizacion a WHERE "
+                + "a.tipo = 'H' AND "
+                + "a.empleado = :empleado AND "
+                + "a.detalleJornada = :detalleJornada AND "
+                + "a.fecha = :fecha";
+        Map<String, Object> variables = new HashMap();
+        variables.put("empleado", empleado);
+        variables.put("detalleJornada", detalleJornada);
+        variables.put("fecha", fecha);
+        
+        List<Autorizacion> autorizacionList = this.getDao().buscar(jpql, variables);
+        if(autorizacionList.isEmpty()){
+            return null;
+        }else{
+            return autorizacionList.get(0);
+        }
     }
 
     public int contarXFecha(Date fechaInicio, Date fechaFin) {

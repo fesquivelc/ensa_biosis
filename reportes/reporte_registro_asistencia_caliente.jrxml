@@ -31,8 +31,6 @@
 	<field name="tipoAsistencia" class="java.lang.String"/>
 	<field name="inicio" class="java.util.Date"/>
 	<field name="fin" class="java.util.Date"/>
-	<field name="entrada2" class="java.util.Date"/>
-	<field name="salida2" class="java.util.Date"/>
 	<field name="regimenLaboral" class="java.lang.String"/>
 	<field name="categoriaRemunerativa" class="java.lang.String"/>
 	<field name="minutosTardanza" class="java.lang.Integer"/>

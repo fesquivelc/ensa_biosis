@@ -97,6 +97,7 @@ public class Principal extends javax.swing.JFrame {
         mnuTiposPermiso = new javax.swing.JMenuItem();
         mnuAsignarPermiso = new javax.swing.JMenuItem();
         mnuAsignarVacaciones = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         mnuReportes = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -337,6 +338,15 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         mnuPermiso.add(mnuAsignarVacaciones);
+
+        jMenuItem6.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jMenuItem6.setText("Autorizar horas extra");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        mnuPermiso.add(jMenuItem6);
 
         menuBar.add(mnuPermiso);
 
@@ -582,6 +592,12 @@ public class Principal extends javax.swing.JFrame {
         agregarAPanel(sedesAreas, true);
     }//GEN-LAST:event_mnuSedesAreasActionPerformed
 
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        AsignarAutorizacion autorizacion = new AsignarAutorizacion();
+        agregarAPanel(autorizacion, true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAsignarPermiso;
@@ -595,6 +611,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblJuvitec;

@@ -37,7 +37,7 @@ public class AreaEmpleado implements Serializable {
     @ManyToOne(targetEntity = Departamento.class, optional = false)
     @JoinColumn(name = "area_id", referencedColumnName = "area_id")
     private Departamento departamento;
-    @ManyToOne(targetEntity = Departamento.class, optional = false)
+    @ManyToOne(targetEntity = Empleado.class, optional = false)
     @JoinColumn(name = "pers_nro_documento", referencedColumnName = "nro_documento")
     private Empleado empleado;
 

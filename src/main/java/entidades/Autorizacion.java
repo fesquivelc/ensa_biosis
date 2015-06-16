@@ -10,6 +10,8 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,34 +26,45 @@ import javax.persistence.Temporal;
 @Table(name = "autorizacion")
 public class Autorizacion implements Serializable {
     @Id
-    @Column(name = "numero")
-    private String numero;
+    @Column(name = "aut_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(name = "aut_documento_referencia",nullable = true)
+    private String documentoReferencia;
     
     @ManyToOne(targetEntity = Empleado.class)
-    @JoinColumn(name = "empleado_nro_documento",referencedColumnName = "nro_documento")
+    @JoinColumn(name = "pers_nro_documento",referencedColumnName = "nro_documento")
     private Empleado empleado;
     
-    @ManyToOne(targetEntity = Turno.class)
-    @JoinColumn(name = "turno_id",referencedColumnName = "id")
-    private Turno turno;
+    @ManyToOne(targetEntity = DetalleJornada.class)
+    @JoinColumn(name = "dtjorn_id",referencedColumnName = "dtjorn_id")
+    private DetalleJornada detalleJornada;
     
     //PUEDE SER H = HORAS EXTRA, FLEXIBLE A OTROS TIPOS DE AUTORIZACION
-    @Column(name = "tipo")
-    private char tipo;
+    @Column(name = "aut_tipo")
+    private char tipo = 'E';
     
-    @Column(name = "fecha")
+    @Column(name = "aut_fecha")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fecha;
     
-    @Column(name = "descripcion")
-    private String motivo;
+    @Column(name = "aut_motivo")
+    private String motivo;    
 
-    public String getNumero() {
-        return numero;
+    public Long getId() {
+        return id;
     }
 
-    public void setNumero(String numero) {
-        this.numero = numero;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDocumentoReferencia() {
+        return documentoReferencia;
+    }
+
+    public void setDocumentoReferencia(String documentoReferencia) {
+        this.documentoReferencia = documentoReferencia;
     }
 
     public Empleado getEmpleado() {
@@ -62,12 +75,12 @@ public class Autorizacion implements Serializable {
         this.empleado = empleado;
     }
 
-    public Turno getTurno() {
-        return turno;
+    public DetalleJornada getDetalleJornada() {
+        return detalleJornada;
     }
 
-    public void setTurno(Turno turno) {
-        this.turno = turno;
+    public void setDetalleJornada(DetalleJornada detalleJornada) {
+        this.detalleJornada = detalleJornada;
     }
 
     public char getTipo() {
@@ -93,6 +106,7 @@ public class Autorizacion implements Serializable {
     public void setMotivo(String motivo) {
         this.motivo = motivo;
     }
+
     
     
 }

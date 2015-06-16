@@ -41,6 +41,9 @@
     <class>entidades.Turno</class>
     <class>entidades.escalafon.Departamento</class>
     <class>entidades.DetalleJornada</class>
+    <class>entidades.Autorizacion</class>
+    <class>entidades.escalafon.AreaEmpleado</class>
+    <class>entidades.escalafon.Contrato</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://127.0.0.1\JUPITER:49417;databaseName=db_biosis;sendTimeAsDateTime=false"/>
       <property name="javax.persistence.jdbc.password" value="asistencia"/>

@@ -6,6 +6,8 @@
 package entidades.reportes;
 
 import entidades.AsignacionHorario;
+import entidades.Autorizacion;
+import entidades.DetalleJornada;
 import entidades.Feriado;
 import entidades.Permiso;
 import entidades.escalafon.Empleado;
@@ -22,13 +24,54 @@ public class RptAsistenciaDetallado {
     private String tipoDetalle;
     private Date inicio;
     private Date fin;
-    private Date entrada2;
-    private Date salida2;
     private String regimenLaboral;
     private String categoriaRemunerativa;
-    private int minutosTardanza;
-    private int minutosExtra;
+    private Integer minutosTardanza;
+    private Integer minutosExtra;
+    private DetalleJornada detalleJornada;
+    private boolean minutosExtraAutorizado;
+    private Autorizacion autorizacionExtra;
     private Date fecha;
+
+    public Integer getMinutosTardanza() {
+        return minutosTardanza;
+    }
+
+    public void setMinutosTardanza(Integer minutosTardanza) {
+        this.minutosTardanza = minutosTardanza;
+    }
+
+    public Integer getMinutosExtra() {
+        return minutosExtra;
+    }
+
+    public void setMinutosExtra(Integer minutosExtra) {
+        this.minutosExtra = minutosExtra;
+    }
+
+    public Autorizacion getAutorizacionExtra() {
+        return autorizacionExtra;
+    }
+
+    public void setAutorizacionExtra(Autorizacion autorizacionExtra) {
+        this.autorizacionExtra = autorizacionExtra;
+    }
+
+    public DetalleJornada getDetalleJornada() {
+        return detalleJornada;
+    }
+
+    public void setDetalleJornada(DetalleJornada detalleJornada) {
+        this.detalleJornada = detalleJornada;
+    }
+
+    public boolean isMinutosExtraAutorizado() {
+        return minutosExtraAutorizado;
+    }
+
+    public void setMinutosExtraAutorizado(boolean minutosExtraAutorizado) {
+        this.minutosExtraAutorizado = minutosExtraAutorizado;
+    }
 
     public String getTipoDetalle() {
         return tipoDetalle;
@@ -122,22 +165,6 @@ public class RptAsistenciaDetallado {
         this.fin = fin;
     }
 
-    public Date getEntrada2() {
-        return entrada2;
-    }
-
-    public void setEntrada2(Date entrada2) {
-        this.entrada2 = entrada2;
-    }
-
-    public Date getSalida2() {
-        return salida2;
-    }
-
-    public void setSalida2(Date salida2) {
-        this.salida2 = salida2;
-    }
-
     public String getRegimenLaboral() {
         return regimenLaboral;
     }
@@ -154,16 +181,8 @@ public class RptAsistenciaDetallado {
         this.categoriaRemunerativa = categoriaRemunerativa;
     }
 
-    public int getMinutosTardanza() {
-        return minutosTardanza;
-    }
-
     public void setMinutosTardanza(int minutosTardanza) {
         this.minutosTardanza = minutosTardanza;
-    }
-
-    public int getMinutosExtra() {
-        return minutosExtra;
     }
 
     public void setMinutosExtra(int minutosExtra) {

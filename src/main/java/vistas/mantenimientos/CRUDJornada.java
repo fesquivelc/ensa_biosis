@@ -421,9 +421,6 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
         if (detalle != null) {
             detalle.setJornada(this.jornadaControlador.getSeleccionado());
             this.detalleJornadaList.add(detalle);
-            for(DetalleJornada dtjorn : this.jornadaControlador.getSeleccionado().getDetalleJornadaList()){
-                System.out.println("DTJORN: "+dtjorn.getEntrada());
-            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -434,9 +431,6 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
             DetalleJornada dtJornada = this.detalleJornadaList.get(fila);
             DlgDetalleJornada dlgDetalle = new DlgDetalleJornada(this, true);
             dlgDetalle.setDetalleJornada(dtJornada);
-            for(DetalleJornada dt : this.detalleJornadaList){
-                System.out.println("DETALLES: "+dt.getEntrada());
-            }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
