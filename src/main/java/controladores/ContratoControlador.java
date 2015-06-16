@@ -16,22 +16,22 @@ import java.util.Map;
  *
  * @author RyuujiMD
  */
-public class ContratoControlador extends Controlador<Contrato>{
-    
+public class ContratoControlador extends Controlador<Contrato> {
+
     private ContratoControlador() {
         super(Contrato.class);
     }
-    
+
     public static ContratoControlador getInstance() {
         return ContratoControladorHolder.INSTANCE;
     }
-    
+
     private static class ContratoControladorHolder {
 
         private static final ContratoControlador INSTANCE = new ContratoControlador();
     }
-    
-    public List<Contrato> obtenerContratosXFechas(Empleado empleado, Date fechaInicio, Date fechaFin){
+
+    public List<Contrato> obtenerContratosXFechas(Empleado empleado, Date fechaInicio, Date fechaFin) {
         String jpql = "SELECT c FROM Contrato c "
                 + "WHERE "
                 + "c.empleado = :empleado AND ("
@@ -39,11 +39,21 @@ public class ContratoControlador extends Controlador<Contrato>{
                 + "OR (c.fechaInicio <= :fechaFin AND (:fechaFin <= c.fechaFin OR c.fechaFin IS NULL))"
                 + ") "
                 + "ORDER BY c.fechaInicio";
-        Map<String,Object> variables = new HashMap();
+        Map<String, Object> variables = new HashMap();
         variables.put("empleado", empleado);
         variables.put("fechaInicio", fechaInicio);
         variables.put("fechaFin", fechaFin);
-        
+
         return this.getDao().buscar(jpql, variables);
+    }
+
+    public List<Contrato> buscarXNombrexFechaASC(Empleado empleado) {
+        String jpql = "SELECT c FROM Contrato c WHERE c.empleado = :empleado "
+                + " ORDER BY c.fechaInicio ASC";
+
+        Map<String, Object> param = new HashMap<>();
+        param.put("empleado", empleado);
+
+        return this.getDao().buscar(jpql, param);
     }
 }
