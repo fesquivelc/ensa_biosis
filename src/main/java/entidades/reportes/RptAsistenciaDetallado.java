@@ -10,6 +10,7 @@ import entidades.Autorizacion;
 import entidades.DetalleJornada;
 import entidades.Feriado;
 import entidades.Permiso;
+import entidades.Vacacion;
 import entidades.escalafon.Empleado;
 import entidades.sisgedo.Salida;
 import java.util.Date;
@@ -85,7 +86,16 @@ public class RptAsistenciaDetallado{
     private AsignacionHorario asignacionHorario;
     private Feriado feriado;
     private Permiso permiso;
+    private Vacacion vacacion;
     private Salida salida;
+
+    public Vacacion getVacacion() {
+        return vacacion;
+    }
+
+    public void setVacacion(Vacacion vacacion) {
+        this.vacacion = vacacion;
+    }
 
     public Empleado getEmpleado() {
         return empleado;

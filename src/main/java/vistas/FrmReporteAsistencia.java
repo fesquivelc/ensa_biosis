@@ -80,6 +80,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         jButton3 = new javax.swing.JButton();
         pnlResumen = new javax.swing.JPanel();
 
+        setClosable(true);
         setTitle("REPORTE DE ASISTENCIA");
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
@@ -276,6 +277,11 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
 
         btnReportePermisos.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
         btnReportePermisos.setText("Reporte de permisos");
+        btnReportePermisos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportePermisosActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -305,6 +311,11 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
 
         jButton3.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
         jButton3.setText("Reporte de horas extra");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
@@ -404,6 +415,17 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnFiltroActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void btnReportePermisosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportePermisosActionPerformed
+        // TODO add your handling code here:
+        File reporte = new File("reportes/ensa_sap_reporte_permiso.jasper");
+        Map<String, Object> parametros = new HashMap();
+        reporteador.verReporte(filtrar(asistenciaDetalladoList), reporte, parametros, null);
+    }//GEN-LAST:event_btnReportePermisosActionPerformed
+
     private final ReporteUtil reporteador = new ReporteUtil();
     private Empleado empleadoSeleccionado;
     private Departamento departamentoSeleccionado;
@@ -469,14 +491,19 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
                     }
                     break;
                 case 2:
-                    if (registro.getMinutosExtra() > 0 && registro.isMinutosExtraAutorizado()) {
-                        filtroList.add(registro);
+                    if (registro.getMinutosExtra() != null) {
+                        if (registro.getMinutosExtra() > 0 && registro.isMinutosExtraAutorizado()) {
+                            filtroList.add(registro);
+                        }
                     }
                     break;
                 case 3:
-                    if (registro.getMinutosExtra() > 0 && !registro.isMinutosExtraAutorizado()) {
-                        filtroList.add(registro);
+                    if (registro.getMinutosExtra() != null) {
+                        if (registro.getMinutosExtra() > 0 && !registro.isMinutosExtraAutorizado()) {
+                            filtroList.add(registro);
+                        }
                     }
+
                     break;
                 case 4:
                     if (registro.getTipoAsistencia().equals("F")) {

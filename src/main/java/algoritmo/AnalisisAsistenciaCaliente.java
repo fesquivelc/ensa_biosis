@@ -15,14 +15,15 @@ import controladores.FeriadoControlador;
 import controladores.HorarioControlador;
 import controladores.MarcacionControlador;
 import controladores.PermisoControlador;
+import controladores.VacacionControlador;
 import entidades.AsignacionHorario;
-import entidades.AsignacionPermiso;
 import entidades.Autorizacion;
 import entidades.DetalleJornada;
 import entidades.Feriado;
 import entidades.Marcacion;
 import entidades.Permiso;
 import entidades.Turno;
+import entidades.Vacacion;
 import entidades.escalafon.Contrato;
 import entidades.escalafon.Empleado;
 import entidades.reportes.RptAsistenciaDetallado;
@@ -46,6 +47,7 @@ public class AnalisisAsistenciaCaliente {
     private final ContratoControlador contc = ContratoControlador.getInstance();
     private final AutorizacionControlador autc = AutorizacionControlador.getInstance();
     private final AsignacionPermisoControlador asgpermc = new AsignacionPermisoControlador();
+    private final VacacionControlador vacc = new VacacionControlador();
 
     public List<RptAsistenciaDetallado> analisisDetallado(Date fechaInicio, Date fechaFin, List<Empleado> empleados) {
         List<RptAsistenciaDetallado> asistenciaDetalladaList = new ArrayList<>();
@@ -95,62 +97,80 @@ public class AnalisisAsistenciaCaliente {
 
     private List<RptAsistenciaDetallado> analizarTurno(Empleado empleado, Contrato contrato, AsignacionHorario asignacionHorario, Turno turno, Date fecha) {
         List<RptAsistenciaDetallado> asistenciaDetalladoList = new ArrayList<>();
-        Feriado feriado = ferc.buscarXDia(fecha);
+
         RptAsistenciaDetallado asistenciaDetalle;
-        if (feriado != null) {
+        Vacacion vacacion = vacc.buscarXDia(empleado, fecha);
+        if (vacacion != null) {
             asistenciaDetalle = new RptAsistenciaDetallado();
-            asistenciaDetalle.setTipoAsistencia("E");
-            asistenciaDetalle.setMotivo(feriado.getNombre());
+            asistenciaDetalle.setTipoAsistencia("V");
+            asistenciaDetalle.setMotivo(vacacion.getDocumento());
             asistenciaDetalle.setFecha(fecha);
-            asistenciaDetalle.setFeriado(feriado);
+            asistenciaDetalle.setVacacion(vacacion);
             asistenciaDetalle.setEmpleado(empleado);
             asistenciaDetalladoList.add(asistenciaDetalle);
             return asistenciaDetalladoList;
-
         } else {
-            if (isDiaLaboral(fecha, turno)) {
-                List<DetalleJornada> detalleJornadaList = dtjornc.buscarXJornada(turno.getJornada());
-
-                char asistenciaResultado = 'R';
-                int tardanzaTotal = 0;
-                int extraTotal = 0;
-                int conteo = 1;
-                for (DetalleJornada detalle : detalleJornadaList) {
-                    System.out.println("FECHA ENTRADA SALIDA " + fecha + " " + detalle.getEntrada() + " " + detalle.getSalida());
-                    List<Permiso> permisoList = permc.buscarXEmpleadoXFechaEntreHora(empleado, fecha, detalle.getEntradaDesde(), detalle.getSalida());
-                    System.out.println("PERMISOS: " + permisoList.size());
-                    for (Permiso permiso : permisoList) {
-                        if (permiso.getHoraInicio().compareTo(detalle.getEntradaDesde()) >= 0 && permiso.getHoraFin().compareTo(detalle.getSalidaHasta()) <= 0) {
-                            System.out.println("PERMISO LIST");
-                            RptAsistenciaDetallado asistenciaPermiso = analizarPermiso(empleado, contrato, permiso, detalle, fecha);
-                            asistenciaDetalladoList.add(asistenciaPermiso);
-                        }
-
-                    }
-
-                    RptAsistenciaDetallado asistencia = analizarDetalle(empleado, contrato, detalle, fecha);
-                    asistencia.setRegimenLaboral(null);
-                    asistenciaDetalladoList.add(asistencia);
-
-                    char detalleResultado = asistencia.getTipoAsistencia().charAt(0);
-                    if (asistenciaResultado == 'R' && detalleResultado == 'R') {
-                        asistenciaResultado = 'R';
-                    } else if (asistenciaResultado == 'F' || detalleResultado == 'F') {
-                        asistenciaResultado = 'F';
-                    } else if (asistenciaResultado == 'T' || detalleResultado == 'T') {
-                        asistenciaResultado = 'T';
-                    }
-
-                    tardanzaTotal += asistencia.getMinutosTardanza();
-                    extraTotal += asistencia.getMinutosExtra();
-                }//FIN DEL FOR
-
+            Feriado feriado = ferc.buscarXDia(fecha);
+            if (feriado != null) {
+                asistenciaDetalle = new RptAsistenciaDetallado();
+                asistenciaDetalle.setTipoAsistencia("E");
+                asistenciaDetalle.setMotivo(feriado.getNombre());
+                asistenciaDetalle.setFecha(fecha);
+                asistenciaDetalle.setFeriado(feriado);
+                asistenciaDetalle.setEmpleado(empleado);
+                asistenciaDetalladoList.add(asistenciaDetalle);
                 return asistenciaDetalladoList;
 
             } else {
-                return null;
+                if (isDiaLaboral(fecha, turno)) {
+
+                    List<DetalleJornada> detalleJornadaList = dtjornc.buscarXJornada(turno.getJornada());
+
+                    char asistenciaResultado = 'R';
+                    int tardanzaTotal = 0;
+                    int extraTotal = 0;
+                    int conteo = 1;
+                    for (DetalleJornada detalle : detalleJornadaList) {
+                        System.out.println("FECHA ENTRADA SALIDA " + fecha + " " + detalle.getEntrada() + " " + detalle.getSalida());
+                        List<Permiso> permisoList = permc.buscarXEmpleadoXFechaEntreHora(empleado, fecha, detalle.getEntradaDesde(), detalle.getSalida());
+                        System.out.println("PERMISOS: " + permisoList.size());
+                        for (Permiso permiso : permisoList) {
+                            if (permiso.getHoraInicio().compareTo(detalle.getEntradaDesde()) >= 0 && permiso.getHoraFin().compareTo(detalle.getSalidaHasta()) <= 0) {
+                                System.out.println("PERMISO LIST");
+                                RptAsistenciaDetallado asistenciaPermiso = analizarPermiso(empleado, contrato, permiso, detalle, fecha);
+                                asistenciaDetalladoList.add(asistenciaPermiso);
+                            }
+
+                        }
+
+                        RptAsistenciaDetallado asistencia = analizarDetalle(empleado, contrato, detalle, fecha);
+                        asistencia.setRegimenLaboral(null);
+                        asistenciaDetalladoList.add(asistencia);
+
+                        char detalleResultado = asistencia.getTipoAsistencia().charAt(0);
+                        if (asistenciaResultado == 'R' && detalleResultado == 'R') {
+                            asistenciaResultado = 'R';
+                        } else if (asistenciaResultado == 'F' || detalleResultado == 'F') {
+                            asistenciaResultado = 'F';
+                        } else if (asistenciaResultado == 'T' || detalleResultado == 'T') {
+                            asistenciaResultado = 'T';
+                        }
+
+                        if (!asistencia.getTipoAsistencia().equals("F")) {
+                            tardanzaTotal += asistencia.getMinutosTardanza();
+                            extraTotal += asistencia.getMinutosExtra();
+                        }
+
+                    }//FIN DEL FOR
+
+                    return asistenciaDetalladoList;
+
+                } else {
+                    return null;
+                }
             }
         }
+
     }
 
     private boolean isDiaLaboral(Date fecha, Turno turno) {

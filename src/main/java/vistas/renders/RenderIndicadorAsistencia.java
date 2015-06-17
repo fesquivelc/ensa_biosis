@@ -31,10 +31,20 @@ public class RenderIndicadorAsistencia extends JLabel implements TableCellRender
             if (valor.equals("R")) {
                 this.label.setBackground(Color.GREEN);
                 this.label.setForeground(Color.GREEN);
-            } else if (valor.equals("P")) {
+            } 
+            else if (valor.equals("P")) {
                 this.label.setBackground(Color.MAGENTA);
                 this.label.setForeground(Color.MAGENTA);
-            } else {
+            } 
+            else if (valor.equals("F")) {
+                this.label.setBackground(Color.RED);
+                this.label.setForeground(Color.RED);
+            } 
+            else if (valor.equals("T")) {
+                this.label.setBackground(Color.YELLOW);
+                this.label.setForeground(Color.YELLOW);
+            } 
+            else {
                 this.label.setForeground(Color.BLACK);
                 this.label.setBackground(Color.BLACK);
             }

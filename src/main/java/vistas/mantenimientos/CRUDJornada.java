@@ -140,7 +140,8 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 0.1;
         jPanel1.add(jScrollPane2, gridBagConstraints);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Detalle"));
@@ -190,7 +191,7 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 0.1;
+        gridBagConstraints.weighty = 0.4;
         jPanel1.add(jPanel3, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -515,7 +516,7 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
 
         BindingGroup bg = new BindingGroup();
 
-        String[] columnas = {"Codigoe", "Nombre", "Descripción"};
+        String[] columnas = {"Codigo", "Nombre", "Descripción"};
 
         MTDetalleJornada mtDetalleJornada = new MTDetalleJornada(detalleJornadaList);
         MTJornada mt = new MTJornada(jornadaList, columnas);

@@ -48,13 +48,18 @@ public class MTDetalleRegistroAsistencia extends ModeloTabla<RptAsistenciaDetall
                     return null;
                 }
             case 7:
-                return String.format("%s - %s", dfHora.format(detalle.getDetalleJornada().getEntrada()), dfHora.format(detalle.getDetalleJornada().getSalida()));
+                if(detalle.getDetalleJornada() != null){
+                    return String.format("%s - %s", dfHora.format(detalle.getDetalleJornada().getEntrada()), dfHora.format(detalle.getDetalleJornada().getSalida()));
+                }else{
+                    return null;
+                }
+                
             case 8:
-                return dfHora.format(detalle.getInicio());
+                return detalle.getInicio() == null ? null : dfHora.format(detalle.getInicio());
             case 9:
                 return detalle.getMinutosTardanza();
             case 10:
-                return dfHora.format(detalle.getFin());
+                return detalle.getFin() == null ? null : dfHora.format(detalle.getFin());
             case 11:
                 return detalle.getMinutosExtra();
             default:
