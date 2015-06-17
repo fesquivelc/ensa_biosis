@@ -338,6 +338,9 @@
                                 </Property>
                                 <Property name="text" type="java.lang.String" value="Eliminar asignaci&#xf3;n"/>
                               </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAsignar1ActionPerformed"/>
+                              </Events>
                             </Component>
                           </SubComponents>
                         </Container>

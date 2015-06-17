@@ -18,7 +18,7 @@ import java.util.Date;
  *
  * @author RyuujiMD
  */
-public class RptAsistenciaDetallado {
+public class RptAsistenciaDetallado{
     private String motivo;
     private String tipoAsistencia;
     private String tipoDetalle;
@@ -189,4 +189,10 @@ public class RptAsistenciaDetallado {
         this.minutosExtra = minutosExtra;
     }
 
+    @Override
+    public String toString() {
+        return "RptAsistenciaDetallado{" + "tipoAsistencia=" + tipoAsistencia + ", tipoDetalle=" + tipoDetalle + ", inicio=" + inicio + ", fin=" + fin + ", detalleJornada=" + detalleJornada + ", fecha=" + fecha + '}';
+    }
+
+    
 }

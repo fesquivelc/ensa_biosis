@@ -238,7 +238,7 @@ public class AnalisisAsistenciaCaliente {
 
         asistenciaDetalle.setInicio(entradaResultado != 'F' ? entradaMarcacion.getFechaHora() : null);
         asistenciaDetalle.setFin(salidaResultado != 'F' ? salidaMarcacion.getFechaHora() : null);
-
+        asistenciaDetalle.setDetalleJornada(detalle);
         asistenciaDetalle.setTipoAsistencia(detalleResultado + "");
         asistenciaDetalle.setMinutosExtra(detalleResultado != 'F' ? salidaExtra : null);
         asistenciaDetalle.setMinutosTardanza(detalleResultado != 'F' ? entradaTardanza : null);
@@ -279,6 +279,7 @@ public class AnalisisAsistenciaCaliente {
         asistenciaPermiso.setEmpleado(empleado);
         asistenciaPermiso.setFecha(fecha);
         asistenciaPermiso.setPermiso(permiso);
+        asistenciaPermiso.setDetalleJornada(detalle);
         asistenciaPermiso.setRegimenLaboral(contrato.getRegimenLaboral() == null ? "" : contrato.getRegimenLaboral().getNombre());
         return asistenciaPermiso;
     }

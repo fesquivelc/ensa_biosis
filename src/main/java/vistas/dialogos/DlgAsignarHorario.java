@@ -11,6 +11,7 @@ import entidades.AsignacionHorario;
 import entidades.GrupoHorario;
 import entidades.escalafon.Empleado;
 import java.awt.Component;
+import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JInternalFrame;
@@ -32,6 +33,7 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
         super(JOptionPane.getFrameForComponent(parent), modal);
         initComponents();
         inicializar();
+        this.setLocationRelativeTo(parent);
     }
 
     /**
@@ -135,6 +137,8 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(dcFechaInicio, gridBagConstraints);
 
@@ -143,6 +147,8 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(dcFechaFin, gridBagConstraints);
 
@@ -171,6 +177,11 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
 
         jButton3.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jButton3.setText("Cancelar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         pnlBotones.add(jButton3);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -236,6 +247,11 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
         
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEmpleado;
@@ -270,6 +286,8 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
 
     private void inicializar() {
         cboGrupoHorario.setModel(new DefaultComboBoxModel(grphorc.buscarTodos().toArray()));
+        dcFechaInicio.setDate(new Date());
+        dcFechaFin.setDate(new Date());
         cboGrupoHorario.setRenderer(new DefaultListCellRenderer(){
 
             @Override
@@ -281,5 +299,6 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
             }
             
         });
+        checkbox();
     }
 }

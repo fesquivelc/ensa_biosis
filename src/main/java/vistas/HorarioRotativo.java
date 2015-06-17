@@ -267,6 +267,11 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
 
         btnAsignar1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         btnAsignar1.setText("Eliminar asignación");
+        btnAsignar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAsignar1ActionPerformed(evt);
+            }
+        });
         pnlAccionAsignado.add(btnAsignar1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -589,6 +594,16 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnAsignar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignar1ActionPerformed
+        // TODO add your handling code here:
+        int fila = tblAsignacion.getSelectedRow();
+        if(fila != -1){
+            AsignacionHorario asignacion = this.asignacionHorarioList.get(fila);
+            this.horarioControlador.getSeleccionado().getAsignacionHorarioList().remove(asignacion);
+            this.asignacionHorarioList.remove(asignacion);
+        }
+    }//GEN-LAST:event_btnAsignar1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

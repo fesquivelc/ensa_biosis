@@ -38,6 +38,18 @@ public class Departamento implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Departamento.class, optional = true)
     @JoinColumn(name = "area_superior_id", referencedColumnName = "area_id")
     private Departamento departamento;
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = AreaEmpleado.class,mappedBy = "departamento")
+    private List<AreaEmpleado> areaEmpleadoList;
+
+    public List<AreaEmpleado> getAreaEmpleadoList() {
+        return areaEmpleadoList;
+    }
+
+    public void setAreaEmpleadoList(List<AreaEmpleado> areaEmpleadoList) {
+        this.areaEmpleadoList = areaEmpleadoList;
+    }
+
+    
 
     public String getDescripcion() {
         return descripcion;

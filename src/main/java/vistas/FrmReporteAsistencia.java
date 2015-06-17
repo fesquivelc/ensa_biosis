@@ -5,6 +5,26 @@
  */
 package vistas;
 
+import algoritmo.AnalisisAsistenciaCaliente;
+import com.personal.utiles.ReporteUtil;
+import entidades.escalafon.AreaEmpleado;
+import entidades.escalafon.Departamento;
+import entidades.escalafon.Empleado;
+import entidades.reportes.RptAsistenciaDetallado;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.jdesktop.observablecollections.ObservableCollections;
+import utiles.DetalleReporteAsistenciaComparator;
+import vistas.dialogos.DlgEmpleado;
+import vistas.dialogos.DlgOficina;
+import vistas.modelos.MCFiltro;
+import vistas.modelos.MTDetalleRegistroAsistencia;
+import vistas.renders.RenderIndicadorAsistencia;
+
 /**
  *
  * @author RyuujiMD
@@ -16,6 +36,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
      */
     public FrmReporteAsistencia() {
         initComponents();
+        inicializar();
     }
 
     /**
@@ -50,9 +71,13 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         pnlDetalleVacacion = new javax.swing.JPanel();
         pnlDetalleHorario = new javax.swing.JPanel();
         pnlDetalleMarcacion = new javax.swing.JPanel();
-        btnImprimirDetalle = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblDetalle = new org.jdesktop.swingx.JXTable();
+        pnlImprimirSAP = new javax.swing.JPanel();
+        btnReportePermisos = new javax.swing.JButton();
+        btnImprimirDetalle = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         pnlResumen = new javax.swing.JPanel();
 
         setTitle("REPORTE DE ASISTENCIA");
@@ -123,6 +148,11 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
 
         btnFiltro.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         btnFiltro.setText("...");
+        btnFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltroActionPerformed(evt);
+            }
+        });
         pnlFiltro.add(btnFiltro, new java.awt.GridBagConstraints());
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -135,15 +165,21 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         pnlBusqueda.add(pnlFiltro, gridBagConstraints);
 
         cboTipoAsistencia.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        cboTipoAsistencia.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "TODO", "ASISTENCIA REGULAR", "MINUTOS EXTRA", "FALTA INJUSTIFICADA", "PERMISOS CON GOCE", "PERMISOS SIN GOCE", "VACACIONES" }));
+        cboTipoAsistencia.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "TODO", "ASISTENCIA REGULAR", "MINUTOS EXTRA AUTORIZADOS", "MINUTOS EXTRA NO AUTORIZADOS", "FALTA INJUSTIFICADA", "PERMISOS CON GOCE", "PERMISOS SIN GOCE", "VACACIONES" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlBusqueda.add(cboTipoAsistencia, gridBagConstraints);
 
         jButton1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jButton1.setText("Procesar reporte");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -153,7 +189,6 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
         jPanel1.add(pnlBusqueda, gridBagConstraints);
 
         tabReportes.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
@@ -171,7 +206,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         );
         pnlDetallePermisoLayout.setVerticalGroup(
             pnlDetallePermisoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 141, Short.MAX_VALUE)
+            .addGap(0, 127, Short.MAX_VALUE)
         );
 
         tabDetalles.addTab("Detalle del permiso", pnlDetallePermiso);
@@ -184,7 +219,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         );
         pnlDetalleVacacionLayout.setVerticalGroup(
             pnlDetalleVacacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 141, Short.MAX_VALUE)
+            .addGap(0, 127, Short.MAX_VALUE)
         );
 
         tabDetalles.addTab("Detalle de vacación", pnlDetalleVacacion);
@@ -197,7 +232,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         );
         pnlDetalleHorarioLayout.setVerticalGroup(
             pnlDetalleHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 141, Short.MAX_VALUE)
+            .addGap(0, 127, Short.MAX_VALUE)
         );
 
         tabDetalles.addTab("Detalle del horario", pnlDetalleHorario);
@@ -210,7 +245,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         );
         pnlDetalleMarcacionLayout.setVerticalGroup(
             pnlDetalleMarcacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 141, Short.MAX_VALUE)
+            .addGap(0, 127, Short.MAX_VALUE)
         );
 
         tabDetalles.addTab("Marcaciones en el día", pnlDetalleMarcacion);
@@ -223,21 +258,63 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.weighty = 0.2;
         pnlDetallado.add(tabDetalles, gridBagConstraints);
 
-        btnImprimirDetalle.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        btnImprimirDetalle.setText("Imprimir reporte");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlDetallado.add(btnImprimirDetalle, gridBagConstraints);
-
+        tblDetalle.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        tblDetalle.setGridColor(new java.awt.Color(102, 102, 102));
+        tblDetalle.setRowHeight(27);
         jScrollPane1.setViewportView(tblDetalle);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.2;
+        gridBagConstraints.weighty = 0.4;
         pnlDetallado.add(jScrollPane1, gridBagConstraints);
+
+        java.awt.GridBagLayout pnlImprimirSAPLayout = new java.awt.GridBagLayout();
+        pnlImprimirSAPLayout.columnWidths = new int[] {0, 8, 0, 8, 0, 8, 0};
+        pnlImprimirSAPLayout.rowHeights = new int[] {0};
+        pnlImprimirSAP.setLayout(pnlImprimirSAPLayout);
+
+        btnReportePermisos.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
+        btnReportePermisos.setText("Reporte de permisos");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        pnlImprimirSAP.add(btnReportePermisos, gridBagConstraints);
+
+        btnImprimirDetalle.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
+        btnImprimirDetalle.setText("Reporte general");
+        btnImprimirDetalle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirDetalleActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        pnlImprimirSAP.add(btnImprimirDetalle, gridBagConstraints);
+
+        jButton2.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
+        jButton2.setText("Reporte de vacaciones");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        pnlImprimirSAP.add(jButton2, gridBagConstraints);
+
+        jButton3.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
+        jButton3.setText("Reporte de horas extra");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        pnlImprimirSAP.add(jButton3, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        pnlDetallado.add(pnlImprimirSAP, gridBagConstraints);
 
         tabReportes.addTab("Reporte detallado", pnlDetallado);
 
@@ -273,15 +350,79 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnImprimirDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirDetalleActionPerformed
+        // TODO add your handling code here:
+        File reporte = new File("reportes/reporte_registro_asistencia_caliente.jasper");
+        Map<String, Object> parametros = new HashMap();
+        reporteador.verReporte(this.asistenciaDetalladoList, reporte, parametros, null);
+    }//GEN-LAST:event_btnImprimirDetalleActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        List<Empleado> empleadosAnalisis = new ArrayList<>();
+//        MCFiltro.TipoFiltro filtro = (MCFiltro.TipoFiltro) mcFiltro.getSelectedItem();
+        if (empleadoSeleccionado != null) {
+            empleadosAnalisis.add(empleadoSeleccionado);
+        } else if (departamentoSeleccionado != null) {
+            List<AreaEmpleado> areaEmpleadoList = departamentoSeleccionado.getAreaEmpleadoList();
+            for (AreaEmpleado areaEmpleado : areaEmpleadoList) {
+                empleadosAnalisis.add(areaEmpleado.getEmpleado());
+            }
+        }
+        this.asistenciaDetalladoList.clear();
+        if (!empleadosAnalisis.isEmpty()) {
+            List<RptAsistenciaDetallado> reporte = analisis.analisisDetallado(dcFechaInicio.getDate(), dcFechaFin.getDate(), empleadosAnalisis);
+            if (!reporte.isEmpty()) {
+                if (cboTipoAsistencia.getSelectedIndex() > 0) {
+                    reporte = this.filtrar(reporte);
+                }
+
+                Collections.sort(reporte, comparador);
+                this.asistenciaDetalladoList.addAll(reporte);
+                this.tblDetalle.packAll();
+            }
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltroActionPerformed
+        // TODO add your handling code here:
+        MCFiltro.TipoFiltro filtro = (MCFiltro.TipoFiltro) mcFiltro.getSelectedItem();
+        switch (filtro) {
+            case POR_EMPLEADO:
+                DlgEmpleado empleados = new DlgEmpleado(this);
+                empleadoSeleccionado = empleados.getSeleccionado();
+                txtBusqueda.setText(empleadoSeleccionado == null ? "" : empleadoSeleccionado.getNombreCompleto());
+                break;
+            case POR_OFICINA:
+                DlgOficina oficinas = new DlgOficina(this);
+                this.departamentoSeleccionado = oficinas.getSeleccionado();
+                txtBusqueda.setText(departamentoSeleccionado == null ? "" : departamentoSeleccionado.getNombre());
+                break;
+            case POR_GRUPO_HORARIO:
+                break;
+        }
+    }//GEN-LAST:event_btnFiltroActionPerformed
+
+    private final ReporteUtil reporteador = new ReporteUtil();
+    private Empleado empleadoSeleccionado;
+    private Departamento departamentoSeleccionado;
+    private MCFiltro mcFiltro = new MCFiltro();
+    private final AnalisisAsistenciaCaliente analisis = new AnalisisAsistenciaCaliente();
+    private List<RptAsistenciaDetallado> asistenciaDetalladoList;
+    private MTDetalleRegistroAsistencia mtdra;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFiltro;
     private javax.swing.JButton btnImprimirDetalle;
+    private javax.swing.JButton btnReportePermisos;
     private javax.swing.JComboBox cboFiltro;
     private javax.swing.JComboBox cboTipoAsistencia;
     private com.toedter.calendar.JDateChooser dcFechaFin;
     private com.toedter.calendar.JDateChooser dcFechaInicio;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -296,10 +437,73 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlDetalleVacacion;
     private javax.swing.JPanel pnlFechas;
     private javax.swing.JPanel pnlFiltro;
+    private javax.swing.JPanel pnlImprimirSAP;
     private javax.swing.JPanel pnlResumen;
     private javax.swing.JTabbedPane tabDetalles;
     private javax.swing.JTabbedPane tabReportes;
     private org.jdesktop.swingx.JXTable tblDetalle;
     private javax.swing.JTextField txtBusqueda;
     // End of variables declaration//GEN-END:variables
+
+    private final DetalleReporteAsistenciaComparator comparador = new DetalleReporteAsistenciaComparator();
+
+    private void inicializar() {
+        this.asistenciaDetalladoList = ObservableCollections.observableList(new ArrayList<RptAsistenciaDetallado>());
+        this.mtdra = new MTDetalleRegistroAsistencia(asistenciaDetalladoList);
+
+        this.cboFiltro.setModel(mcFiltro);
+        this.tblDetalle.setModel(mtdra);
+        RenderIndicadorAsistencia render = new RenderIndicadorAsistencia();
+        this.tblDetalle.getColumn(0).setCellRenderer(render);
+    }
+
+    private List<RptAsistenciaDetallado> filtrar(List<RptAsistenciaDetallado> listado) {
+        List<RptAsistenciaDetallado> filtroList = new ArrayList<>();
+//        char tipoAsistencia;
+//        tipoAsistencia = tipo.charAt(0);
+        for (RptAsistenciaDetallado registro : listado) {
+            switch (cboTipoAsistencia.getSelectedIndex()) {
+                case 1:
+                    if (registro.getTipoDetalle().equals("J") && registro.getTipoAsistencia().equals("R")) {
+                        filtroList.add(registro);
+                    }
+                    break;
+                case 2:
+                    if (registro.getMinutosExtra() > 0 && registro.isMinutosExtraAutorizado()) {
+                        filtroList.add(registro);
+                    }
+                    break;
+                case 3:
+                    if (registro.getMinutosExtra() > 0 && !registro.isMinutosExtraAutorizado()) {
+                        filtroList.add(registro);
+                    }
+                    break;
+                case 4:
+                    if (registro.getTipoAsistencia().equals("F")) {
+                        filtroList.add(registro);
+                    }
+                    break;
+                case 5:
+                    if (registro.getTipoAsistencia().equals("P")) {
+                        if (registro.getPermiso().getTipoPermiso().getTipoDescuento() == 'C') {
+                            filtroList.add(registro);
+                        }
+                    }
+                    break;
+                case 6:
+                    if (registro.getTipoAsistencia().equals("P")) {
+                        if (registro.getPermiso().getTipoPermiso().getTipoDescuento() == 'S') {
+                            filtroList.add(registro);
+                        }
+                    }
+                    break;
+                case 7:
+                    if (registro.getTipoAsistencia().equals("V")) {
+                        filtroList.add(registro);
+                    }
+                    break;
+            }
+        }
+        return filtroList;
+    }
 }
