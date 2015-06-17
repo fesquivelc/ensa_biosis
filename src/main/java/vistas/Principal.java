@@ -5,9 +5,34 @@
  */
 package vistas;
 
+import com.personal.utiles.ImagenFondo;
+import controladores.EmpleadoControlador;
+import controladores.UsuarioControlador;
 import entidades.RolAcceso;
 import entidades.Usuario;
+import entidades.escalafon.Empleado;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.MouseMotionListener;
+import java.beans.PropertyVetoException;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JInternalFrame;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
+import utiles.UsuarioActivo;
 import vistas.dialogos.DlgCambiarPassword;
+import vistas.mantenimientos.CRUDAreaSede;
 import vistas.mantenimientos.CRUDGrupoHorario;
 import vistas.mantenimientos.CRUDHorario;
 import vistas.mantenimientos.CRUDJornada;
@@ -17,27 +42,6 @@ import vistas.mantenimientos.CRUDUsuario;
 import vistas.reportes.RptPermisos;
 import vistas.reportes.RptRegistroAsistencia;
 import vistas.reportes.RptVacaciones;
-import com.personal.utiles.ImagenFondo;
-import controladores.EmpleadoControlador;
-import controladores.UsuarioControlador;
-import entidades.escalafon.Empleado;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.MouseMotionListener;
-import java.beans.PropertyVetoException;
-import java.io.File;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.JInternalFrame;
-import javax.swing.plaf.basic.BasicInternalFrameUI;
-import utiles.UsuarioActivo;
-import vistas.mantenimientos.CRUDAreaSede;
 
 /**
  *
@@ -51,14 +55,16 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
 
-//        File file = new File("img/fondo-ensa.gif");
-//        ImagenFondo borde;
-//        try {
-//            borde = new ImagenFondo(ImageIO.read(file));
-//            this.desktopPane.setBorder(borde);
-//        } catch (IOException ex) {
-//            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+//        setIconImage(new ImageIcon(getClass().getResource("iconos/logo.png")).getImage());
+
+        File file = new File("img/fondo-ensa.gif");
+        ImagenFondo borde;
+        try {
+            borde = new ImagenFondo(ImageIO.read(file));
+            this.desktopPane.setBorder(borde);
+        } catch (IOException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -89,10 +95,8 @@ public class Principal extends javax.swing.JFrame {
         mnuSalir = new javax.swing.JMenuItem();
         mnuHorario = new javax.swing.JMenu();
         mnuJornada = new javax.swing.JMenuItem();
-        mnuHorarios = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         mnuGruposHorario = new javax.swing.JMenuItem();
-        mnuAsignarHorario = new javax.swing.JMenuItem();
         mnuPermiso = new javax.swing.JMenu();
         mnuTiposPermiso = new javax.swing.JMenuItem();
         mnuAsignarPermiso = new javax.swing.JMenuItem();
@@ -112,6 +116,7 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SISTEMA DE CONTROL DE ASISTENCIA DE PERSONAL - BIOSIS - SAN MARCOS");
+        setIconImage(new javax.swing.ImageIcon("iconos/logo.png").getImage());
         java.awt.GridBagLayout layout = new java.awt.GridBagLayout();
         layout.columnWidths = new int[] {0, 10, 0};
         layout.rowHeights = new int[] {0, 10, 0, 10, 0};
@@ -270,16 +275,6 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuHorario.add(mnuJornada);
 
-        mnuHorarios.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        mnuHorarios.setMnemonic('s');
-        mnuHorarios.setText("Horarios");
-        mnuHorarios.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuHorariosActionPerformed(evt);
-            }
-        });
-        mnuHorario.add(mnuHorarios);
-
         jMenuItem4.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jMenuItem4.setText("Horario rotativo");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
@@ -297,15 +292,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         mnuHorario.add(mnuGruposHorario);
-
-        mnuAsignarHorario.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        mnuAsignarHorario.setText("Asignar horario");
-        mnuAsignarHorario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuAsignarHorarioActionPerformed(evt);
-            }
-        });
-        mnuHorario.add(mnuAsignarHorario);
 
         menuBar.add(mnuHorario);
 
@@ -477,12 +463,6 @@ public class Principal extends javax.swing.JFrame {
         agregarAPanel(jornadas, true);
     }//GEN-LAST:event_mnuJornadaActionPerformed
 
-    private void mnuHorariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuHorariosActionPerformed
-        // TODO add your handling code here:
-        horarios();
-
-    }//GEN-LAST:event_mnuHorariosActionPerformed
-
     private void mnuPeriodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPeriodosActionPerformed
         // TODO add your handling code here:
         CRUDPeriodo periodos = new CRUDPeriodo();
@@ -500,12 +480,6 @@ public class Principal extends javax.swing.JFrame {
         marcaciones();
 
     }//GEN-LAST:event_mnuMarcacionesSinProcesarActionPerformed
-
-    private void mnuAsignarHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAsignarHorarioActionPerformed
-        // TODO add your handling code here:
-        FrmAsignacionHorario asignacion = new FrmAsignacionHorario();
-        agregarAPanel(asignacion, true);
-    }//GEN-LAST:event_mnuAsignarHorarioActionPerformed
 
     private void mnuTiposPermisoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTiposPermisoActionPerformed
         // TODO add your handling code here:
@@ -578,12 +552,12 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
-        agregarAPanel(new EjecutarSQL(),true);
+        agregarAPanel(new EjecutarSQL(), true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
-        agregarAPanel(new HorarioRotativo(),true);
+        agregarAPanel(new HorarioRotativo(), true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void mnuSedesAreasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSedesAreasActionPerformed
@@ -617,7 +591,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel lblJuvitec;
     private javax.swing.JLabel lblUsuario;
     private javax.swing.JMenuBar menuBar;
-    private javax.swing.JMenuItem mnuAsignarHorario;
     private javax.swing.JMenuItem mnuAsignarPermiso;
     private javax.swing.JMenuItem mnuAsignarVacaciones;
     private javax.swing.JMenuItem mnuCambiarPasswd;
@@ -626,7 +599,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuControlUsuario;
     private javax.swing.JMenuItem mnuGruposHorario;
     private javax.swing.JMenu mnuHorario;
-    private javax.swing.JMenuItem mnuHorarios;
     private javax.swing.JMenuItem mnuJornada;
     private javax.swing.JMenu mnuMarcaciones;
     private javax.swing.JMenuItem mnuMarcacionesSinProcesar;
@@ -644,12 +616,13 @@ public class Principal extends javax.swing.JFrame {
         this.agregarAPanel(internal, false);
     }
     Dimension minimo = new Dimension(1024, 628);
+
     private void agregarAPanel(JInternalFrame internal, boolean maximizar) {
         if (!this.desktopPane.isAncestorOf(internal)) {
             this.desktopPane.add(internal);
             internal.setVisible(true);
             try {
-                
+
                 internal.setMinimumSize(minimo);
                 internal.setPreferredSize(minimo);
 //                internal.setMaximumSize(minimo);
@@ -700,18 +673,19 @@ public class Principal extends javax.swing.JFrame {
     private final EmpleadoControlador ec = new EmpleadoControlador();
     private final DateFormat dfTimestamp = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     private final UsuarioControlador uc = new UsuarioControlador();
+
     public void setUsuario(Usuario u) {
         if (u != null) {
             UsuarioActivo.setUsuario(u);
             Empleado e = u.getEmpleado();
-            lblUsuario.setText("Empleado: "+e.getPaterno()+" "+e.getMaterno()+" "+e.getNombre()+" | Usuario: " + u.getLogin() + " | Rol: " + u.getRol().getNombre()+" | Ult. inicio de sesión: "+(u.getUltimoInicio() != null ? dfTimestamp.format(u.getUltimoInicio()) : dfTimestamp.format(new Date()))+" |");
+            lblUsuario.setText("Empleado: " + e.getPaterno() + " " + e.getMaterno() + " " + e.getNombre() + " | Usuario: " + u.getLogin() + " | Rol: " + u.getRol().getNombre() + " | Ult. inicio de sesión: " + (u.getUltimoInicio() != null ? dfTimestamp.format(u.getUltimoInicio()) : dfTimestamp.format(new Date())) + " |");
             this.habilitarMenu();
-            if(u.getUltimoInicio() == null){
-                
-            }else{
+            if (u.getUltimoInicio() == null) {
+
+            } else {
                 u.setUltimoInicio(new Date());
             }
-            
+
             uc.modificar(u);
         } else {
             System.out.println("USUARIO NULL =(");
@@ -733,52 +707,48 @@ public class Principal extends javax.swing.JFrame {
         RptVacaciones vacaciones = new RptVacaciones();
         agregarAPanel(vacaciones, true);
     }
-    
-    private void habilitarMenu(){
+
+    private void habilitarMenu() {
         List<RolAcceso> accesos = UsuarioActivo.getUsuario().getRol().getRolAccesoList();
-        
+
         boolean horario = false;
         boolean periodo = false;
         boolean permiso = false;
         boolean vacacion = false;
         boolean reportes = false;
         boolean configuracion = false;
-        
+
         //Permiso para los botones
         boolean botonEmpleados = false;
         boolean botonMarcaciones = false;
         boolean botonAsignarPermiso = false;
         boolean botonHorarios = false;
         boolean botonRegistroAsistencia = false;
-        
-        for(RolAcceso acceso : accesos){
-            if(acceso.getAcceso().getClase().equals("HORARIO")){
+
+        for (RolAcceso acceso : accesos) {
+            if (acceso.getAcceso().getClase().equals("HORARIO")) {
                 horario = true;
                 botonEmpleados = true;
                 botonMarcaciones = true;
                 botonHorarios = true;
-              
-            }
-            else if(acceso.getAcceso().getClase().equals("PERIODO")){
+
+            } else if (acceso.getAcceso().getClase().equals("PERIODO")) {
                 periodo = true;
-                botonAsignarPermiso =true;
-                
-            }
-            else if(acceso.getAcceso().getClase().equals("PERMISO")){
+                botonAsignarPermiso = true;
+
+            } else if (acceso.getAcceso().getClase().equals("PERMISO")) {
                 permiso = true;
-                botonAsignarPermiso =true;
-            }
-            else if(acceso.getAcceso().getClase().equals("VACACION")){
+                botonAsignarPermiso = true;
+            } else if (acceso.getAcceso().getClase().equals("VACACION")) {
                 vacacion = true;
-            }
-            else if(acceso.getAcceso().getClase().equals("REPORTES")){
+            } else if (acceso.getAcceso().getClase().equals("REPORTES")) {
                 reportes = true;
-            }else if(acceso.getAcceso().getClase().equals("CONFIGURACION")){
+            } else if (acceso.getAcceso().getClase().equals("CONFIGURACION")) {
                 configuracion = true;
                 botonRegistroAsistencia = true;
             }
         }
-        
+
         mnuHorario.setEnabled(horario);
         mnuPeriodos.setEnabled(periodo);
         mnuTiposPermiso.setEnabled(permiso);
@@ -789,7 +759,7 @@ public class Principal extends javax.swing.JFrame {
         mnuConfiguracionBD.setEnabled(configuracion);
 //        mnuRolUsuario.setEnabled(configuracion);
         mnuControlUsuario.setEnabled(configuracion);
-        
+
         btnEmpleados.setEnabled(botonEmpleados);
         btnMarcaciones.setEnabled(botonMarcaciones);
         btnAsignarPermiso.setEnabled(botonAsignarPermiso);
