@@ -77,7 +77,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private final SituacionTrabajadorControlador stc = SituacionTrabajadorControlador.getInstance();
 
     private final AreaEmpleadoControlador ea = new AreaEmpleadoControlador();
-    private final ContratoControlador cc = new ContratoControlador();
+    private final ContratoControlador cc = ContratoControlador.getInstance();
 
     private final Empleado empleado;
     private final int accion;
