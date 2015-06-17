@@ -32,6 +32,7 @@ public class PermisoControlador extends Controlador<Permiso>{
     
     public List<Permiso> buscarXEmpleadoXFechaEntreHora(Empleado empleado, Date fecha, Date horaInicio, Date horaFin){
         String jpql = "SELECT p FROM Permiso p WHERE "
+                + "p.porFecha = FALSE AND "
                 + "p.fechaInicio = :fecha AND "
 //                + "(:horaInicio BETWEEN p.horaInicio AND p.horaFin) AND "
                 + "EXISTS(SELECT a FROM AsignacionPermiso a WHERE a.empleado = :empleado AND a.permiso = p) "

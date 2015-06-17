@@ -417,6 +417,9 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        File reporte = new File("reportes/ensa_sap_reporte_horas_extra.jasper");
+        Map<String, Object> parametros = new HashMap();
+        reporteador.verReporte(filtrar(asistenciaDetalladoList), reporte, parametros, null);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void btnReportePermisosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportePermisosActionPerformed
