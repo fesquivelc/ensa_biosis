@@ -23,13 +23,13 @@ public class VacacionControlador extends Controlador<Vacacion> {
         super(Vacacion.class);
     }
 
-    public List<Vacacion> buscarXEmpleadoXFecha(String dni, Date fechaInicio, Date fechaFin, int desde, int tamanio) {
+    public List<Vacacion> buscarXEmpleadoXFecha(Empleado empleado, Date fechaInicio, Date fechaFin, int desde, int tamanio) {
         String jpql = "SELECT v FROM Vacacion v"
                 + " WHERE v.empleado = :dni"
                 + " AND v.fechaInicio BETWEEN :fechaInicio AND :fechaFin"
                 + " ORDER BY v.empleado,v.fechaInicio DESC";
         Map<String, Object> mapa = new HashMap<>();
-        mapa.put("dni", dni);
+        mapa.put("dni", empleado);
         mapa.put("fechaInicio", fechaInicio);
         mapa.put("fechaFin", fechaFin);
         return this.getDao().buscar(jpql, mapa, desde, tamanio);
@@ -45,12 +45,12 @@ public class VacacionControlador extends Controlador<Vacacion> {
         return this.getDao().buscar(jpql, mapa, desde, tamanio);
     }
 
-    public int contarXEmpleadoXFecha(String dni, Date fechaInicio, Date fechaFin) {
+    public int contarXEmpleadoXFecha(Empleado empleado, Date fechaInicio, Date fechaFin) {
         String jpql = "SELECT COUNT(v.id) FROM Vacacion v"
                 + " WHERE v.empleado = :dni"
                 + " AND v.fechaInicio BETWEEN :fechaInicio AND :fechaFin";
         Map<String, Object> mapa = new HashMap<>();
-        mapa.put("dni", dni);
+        mapa.put("dni", empleado);
         mapa.put("fechaInicio", fechaInicio);
         mapa.put("fechaFin", fechaFin);
         return this.getDao().contar(jpql, mapa);
@@ -85,6 +85,15 @@ public class VacacionControlador extends Controlador<Vacacion> {
 
     public List<Vacacion> buscarXEmpleadoXPeriodo(Empleado empleado, Periodo periodo) {
         String jpql = "SELECT v FROM Vacacion v WHERE v.empleado = :dni AND v.periodo = :periodo";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("dni", empleado);
+        mapa.put("periodo", periodo);
+        List<Vacacion> vacacion = this.getDao().buscar(jpql, mapa);
+        return vacacion;
+    }
+
+    public List<Vacacion> buscarXEmpleadoXPeriodoNoReprogramacion(Empleado empleado, Periodo periodo) {
+        String jpql = "SELECT v FROM Vacacion v WHERE v.empleado = :dni AND v.periodo = :periodo AND v.vacacionOrigen IS NULL";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("dni", empleado);
         mapa.put("periodo", periodo);

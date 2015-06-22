@@ -44,19 +44,20 @@ import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 import utiles.UsuarioActivo;
 import vistas.dialogos.DlgReprogramarVacacion;
+import vistas.modelos.MTCompraVacacion;
 
 /**
  *
  * @author fesquivelc
  */
-public class AsignarVacacion extends javax.swing.JInternalFrame {
+public class FrmCompraVacacion extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form CRUDPeriodo
      */
-    private List<Vacacion> listado;
+    private List<CompraVacacion> listado;
     private List<Empleado> integrantes;
-    private VacacionControlador controlador;
+    private CompraVacacionControlador controlador;
     private EmpleadoControlador ec;
     private int accion;
     private TipoPermiso tipoSeleccionado;
@@ -68,7 +69,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private Periodo periodo;
     private String empleado;
 
-    public AsignarVacacion() {
+    public FrmCompraVacacion() {
         initComponents();
         reporteador = new ReporteUtil();
         inicializar();
@@ -89,9 +90,8 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         jPanel3 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTabla = new org.jdesktop.swingx.JXTable();
         lblBusqueda = new org.jdesktop.swingx.JXBusyLabel();
@@ -114,18 +114,22 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtEmpleadoSeleccionado = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
         pnlFHInicio = new javax.swing.JPanel();
-        dcFechaFin = new com.toedter.calendar.JDateChooser();
         pnlFHInicio1 = new javax.swing.JPanel();
-        dcFechaInicio = new com.toedter.calendar.JDateChooser();
+        dcFecha = new com.toedter.calendar.JDateChooser();
         jLabel7 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         cboPeriodo = new javax.swing.JComboBox();
         txtDocumento = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        btnGuardar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        pnlResumen = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         pnlVacacionesPedidas = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         txtLV = new javax.swing.JTextField();
@@ -133,21 +137,18 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         txtSab = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         txtDom = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
         txtSaldo = new javax.swing.JTextField();
-        jPanel5 = new javax.swing.JPanel();
-        btnGuardar = new javax.swing.JButton();
-        btnCancelar = new javax.swing.JButton();
+        txtDias = new javax.swing.JTextField();
 
         setClosable(true);
         setMaximizable(true);
-        setTitle("ASIGNAR VACACIONES A EMPLEADO");
+        setTitle("REGISTRO DE COMPRA DE VACACIONES");
         java.awt.GridBagLayout layout = new java.awt.GridBagLayout();
         layout.columnWidths = new int[] {0, 5, 0, 5, 0};
         layout.rowHeights = new int[] {0};
         getContentPane().setLayout(layout);
 
-        pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder("Vacaciones asignadas"));
+        pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Compras de vacaciones registradas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 14))); // NOI18N
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
         jPanel1Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel1Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0};
@@ -173,15 +174,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         });
         jPanel3.add(btnModificar);
 
-        jButton3.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jButton3.setText("Imprimir boleta");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jButton3);
-
         jButton2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jButton2.setText("Interrupción");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -191,14 +183,9 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         });
         jPanel3.add(jButton2);
 
-        jButton5.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jButton5.setText("Reprogramar");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jButton5);
+        jButton3.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jButton3.setText("Reprogramar");
+        jPanel3.add(jButton3);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -230,7 +217,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         pnlListado.add(lblBusqueda, gridBagConstraints);
 
         txtEmpleado.setEditable(false);
-        txtEmpleado.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         txtEmpleado.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtEmpleadoKeyReleased(evt);
@@ -243,7 +229,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 0.1;
         pnlListado.add(txtEmpleado, gridBagConstraints);
 
-        jButton4.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jButton4.setText("...");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -256,7 +241,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         pnlListado.add(jButton4, gridBagConstraints);
 
-        btnLimpiar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -276,7 +260,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         pnlListado.add(jLabel9, gridBagConstraints);
 
-        btnBuscar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -363,14 +346,12 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         pnlListado.add(pnlNavegacion, gridBagConstraints);
 
         dcFechaInicio1.setDateFormatString("dd.MM.yyyy");
-        dcFechaInicio1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 0;
         pnlListado.add(dcFechaInicio1, gridBagConstraints);
 
         dcFechaFin1.setDateFormatString("dd.MM.yyyy");
-        dcFechaFin1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
         gridBagConstraints.gridy = 0;
@@ -380,20 +361,20 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.3;
+        gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         getContentPane().add(pnlListado, gridBagConstraints);
 
-        pnlDatos.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de vacación"));
+        pnlDatos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos de compra de vacación", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 14))); // NOI18N
         java.awt.GridBagLayout jPanel2Layout = new java.awt.GridBagLayout();
         jPanel2Layout.columnWidths = new int[] {0, 0, 0, 0, 0};
         jPanel2Layout.rowHeights = new int[] {0, 5, 0};
         pnlDatos.setLayout(jPanel2Layout);
 
         java.awt.GridBagLayout jPanel4Layout = new java.awt.GridBagLayout();
-        jPanel4Layout.columnWidths = new int[] {0, 5, 0, 5, 0};
-        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        jPanel4Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0};
+        jPanel4Layout.rowHeights = new int[] {0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0};
         jPanel4.setLayout(jPanel4Layout);
 
         jLabel1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
@@ -414,37 +395,19 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
         jPanel4.add(txtEmpleadoSeleccionado, gridBagConstraints);
 
-        jLabel4.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jLabel4.setText("Fecha de fin:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel4.add(jLabel4, gridBagConstraints);
-
         java.awt.GridBagLayout pnlFHInicioLayout = new java.awt.GridBagLayout();
         pnlFHInicioLayout.columnWidths = new int[] {0, 5, 0, 5, 0};
         pnlFHInicioLayout.rowHeights = new int[] {0};
         pnlFHInicio.setLayout(pnlFHInicioLayout);
-
-        dcFechaFin.setDateFormatString("dd.MM.yyyy");
-        dcFechaFin.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 0.1;
-        pnlFHInicio.add(dcFechaFin, gridBagConstraints);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(pnlFHInicio, gridBagConstraints);
 
@@ -453,14 +416,14 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         pnlFHInicio1Layout.rowHeights = new int[] {0};
         pnlFHInicio1.setLayout(pnlFHInicio1Layout);
 
-        dcFechaInicio.setDateFormatString("dd.MM.yyyy");
-        dcFechaInicio.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        dcFecha.setDateFormatString("dd.MM.yyyy");
+        dcFecha.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
-        pnlFHInicio1.add(dcFechaInicio, gridBagConstraints);
+        pnlFHInicio1.add(dcFecha, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -470,7 +433,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         jPanel4.add(pnlFHInicio1, gridBagConstraints);
 
         jLabel7.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jLabel7.setText("Fecha de inicio:");
+        jLabel7.setText("Fecha de compra:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -485,7 +448,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 2;
         jPanel4.add(jButton1, gridBagConstraints);
 
@@ -514,23 +477,76 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(txtDocumento, gridBagConstraints);
 
         jLabel5.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jLabel5.setText("Documento de vacación:");
+        jLabel5.setText("Documento de referencia:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
         jPanel4.add(jLabel5, gridBagConstraints);
 
+        jPanel5.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
+
+        btnGuardar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnGuardar);
+
+        btnCancelar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnCancelar);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_START;
+        gridBagConstraints.weighty = 0.1;
+        jPanel4.add(jPanel5, gridBagConstraints);
+
+        jLabel12.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jLabel12.setText("Días a comprar:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel4.add(jLabel12, gridBagConstraints);
+
+        pnlResumen.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Resúmen de vacaciones", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 14))); // NOI18N
+        java.awt.GridBagLayout pnlResumenLayout = new java.awt.GridBagLayout();
+        pnlResumenLayout.columnWidths = new int[] {0, 5, 0};
+        pnlResumenLayout.rowHeights = new int[] {0, 5, 0};
+        pnlResumen.setLayout(pnlResumenLayout);
+
         jLabel6.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel6.setText("Vacaciones pedidas:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel4.add(jLabel6, gridBagConstraints);
+        pnlResumen.add(jLabel6, gridBagConstraints);
+
+        jLabel11.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jLabel11.setText("Saldo:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlResumen.add(jLabel11, gridBagConstraints);
+
+        pnlVacacionesPedidas.setLayout(new javax.swing.BoxLayout(pnlVacacionesPedidas, javax.swing.BoxLayout.LINE_AXIS));
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel3.setText("LUNES - VIERNES:");
@@ -561,54 +577,34 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel4.add(pnlVacacionesPedidas, gridBagConstraints);
-
-        jLabel11.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jLabel11.setText("Saldo:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 12;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel4.add(jLabel11, gridBagConstraints);
+        pnlResumen.add(pnlVacacionesPedidas, gridBagConstraints);
 
         txtSaldo.setColumns(5);
         txtSaldo.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         txtSaldo.setText("30");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel4.add(txtSaldo, gridBagConstraints);
-
-        jPanel5.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
-
-        btnGuardar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        btnGuardar.setText("Guardar");
-        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnGuardar);
-
-        btnCancelar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        btnCancelar.setText("Cancelar");
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnCancelar);
+        pnlResumen.add(txtSaldo, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 14;
-        gridBagConstraints.gridwidth = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_START;
-        gridBagConstraints.weighty = 0.1;
-        jPanel4.add(jPanel5, gridBagConstraints);
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel4.add(pnlResumen, gridBagConstraints);
+
+        txtDias.setColumns(5);
+        txtDias.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel4.add(txtDias, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -625,7 +621,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weightx = 0.2;
         gridBagConstraints.weighty = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         getContentPane().add(pnlDatos, gridBagConstraints);
@@ -671,7 +667,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
             return;
         }
         if (FormularioUtil.dialogoConfirmar(this, accion)) {
-            Vacacion seleccionada = this.controlador.getSeleccionado();
+            CompraVacacion seleccionada = this.controlador.getSeleccionado();
 
 //            FormularioUtil.convertirMayusculas(this.pnlDatos);
             if (accion == Controlador.NUEVO) {
@@ -682,14 +678,10 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
             } else {
                 System.out.println("No hay empleado");
             }
-//            if(accion == Controlador.MODIFICAR){
-//                seleccionada.setEmpleado(empleado);
-//            }
-            seleccionada.setFechaInicio(dcFechaInicio.getDate());
-            seleccionada.setFechaFin(dcFechaFin.getDate());
-            seleccionada.setHayInterrupcion(false);
-            seleccionada.setDocumento(txtDocumento.getText());
+            seleccionada.setFecha(dcFecha.getDate());
+            seleccionada.setDocumentoReferencia(txtDocumento.getText());
             seleccionada.setPeriodo(periodoList.get(cboPeriodo.getSelectedIndex()));
+            seleccionada.setDiasCompra(Integer.parseInt(txtDias.getText()));
 
             if (controlador.accion(accion)) {
 //                List<String> dni = new ArrayList<>();
@@ -709,9 +701,9 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
                 FormularioUtil.limpiarComponente(this.pnlDatos);
                 this.controles(accion);
                 this.actualizarTabla();
-                if (FormularioUtil.dialogoConfirmar(this, 4)) {
-                    imprimirBoleta(seleccionada);
-                }
+//                if (FormularioUtil.dialogoConfirmar(this, 4)) {
+//                    imprimirBoleta(seleccionada);
+//                }
             } else {
                 FormularioUtil.mensajeError(this, accion);
             }
@@ -728,7 +720,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         int fila = tblTabla.getSelectedRow();
         if (fila != -1) {
-            Vacacion vacacion = listado.get(fila);
+            CompraVacacion vacacion = listado.get(fila);
 
             mostrar(vacacion);
         }
@@ -777,7 +769,12 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        buscarVacacion();
+        System.out.println("BUSCAR");
+        lblBusqueda.setBusy(true);
+        paginaActual = 1;
+        buscar();
+        actualizarControlesNavegacion();
+        lblBusqueda.setBusy(false);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnPrimeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimeroActionPerformed
@@ -812,15 +809,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         this.actualizarControlesNavegacion();
     }//GEN-LAST:event_cboTamanioActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        int fila = tblTabla.getSelectedRow();
-        if (fila != -1) {
-            Vacacion vacacion = this.listado.get(fila);
-            this.imprimirBoleta(vacacion);
-        }
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void cboPeriodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboPeriodoActionPerformed
         // TODO add your handling code here:
         actualizarResumenVacaciones(empleadoSeleccionado);
@@ -834,23 +822,9 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         int fila = tblTabla.getSelectedRow();
         if(fila != -1){
-            Vacacion vacacion = this.listado.get(fila);
-            DlgInterrupcionVacacion interrupcion = new DlgInterrupcionVacacion(this, vacacion);
-            interrupcion.setVisible(true);
-            this.buscarVacacion();
+            
         }
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-        int fila = tblTabla.getSelectedRow();
-        if(fila != -1){
-            Vacacion vacacion = this.listado.get(fila);
-            DlgReprogramarVacacion reprogramar = new DlgReprogramarVacacion(this, vacacion);            
-            reprogramar.setVisible(true);
-            this.buscarVacacion();
-        }
-    }//GEN-LAST:event_jButton5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -866,21 +840,19 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnUltimo;
     private javax.swing.JComboBox cboPeriodo;
     private javax.swing.JComboBox cboTamanio;
-    private com.toedter.calendar.JDateChooser dcFechaFin;
+    private com.toedter.calendar.JDateChooser dcFecha;
     private com.toedter.calendar.JDateChooser dcFechaFin1;
-    private com.toedter.calendar.JDateChooser dcFechaInicio;
     private com.toedter.calendar.JDateChooser dcFechaInicio1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -896,9 +868,11 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlFHInicio1;
     private javax.swing.JPanel pnlListado;
     private javax.swing.JPanel pnlNavegacion;
+    private javax.swing.JPanel pnlResumen;
     private javax.swing.JPanel pnlVacacionesPedidas;
     private javax.swing.JSpinner spPagina;
     private org.jdesktop.swingx.JXTable tblTabla;
+    private javax.swing.JTextField txtDias;
     private javax.swing.JTextField txtDocumento;
     private javax.swing.JTextField txtDom;
     private javax.swing.JTextField txtEmpleado;
@@ -909,16 +883,14 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 
-    private void mostrar(Vacacion vacacion) {
-        Empleado e = vacacion.getEmpleado();
-        txtEmpleadoSeleccionado.setText(e.getNombreCompleto());
-        dcFechaInicio.setDate(vacacion.getFechaInicio());
-        dcFechaFin.setDate(vacacion.getFechaFin());
-        cboPeriodo.setSelectedItem(vacacion.getPeriodo());
-        txtDocumento.setText(vacacion.getDocumento());
-        cargarSaldoVacacional(vacacion.getPeriodo(), e);
-//        actualizarResumenVacaciones(e);
-        
+    private void mostrar(CompraVacacion compraVacacion) {
+        Empleado e = ec.buscarPorId(compraVacacion.getEmpleado());
+        txtEmpleadoSeleccionado.setText(e.getPaterno() + " " + e.getMaterno() + " " + e.getNombre());
+        dcFecha.setDate(compraVacacion.getFecha());
+        cboPeriodo.setSelectedItem(compraVacacion.getPeriodo());
+        txtDocumento.setText(compraVacacion.getDocumentoReferencia());
+        txtDias.setText(compraVacacion.getDiasCompra() + "");
+        actualizarResumenVacaciones(e);
 
     }
 
@@ -936,7 +908,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 
         bindingPeriodo.bind();
 
-        MTAsignarVacacion mt = new MTAsignarVacacion(listado);
+        MTCompraVacacion mt = new MTCompraVacacion(listado);
 //        MTEmpleado mtIntegrantes = new MTEmpleado(integrantes, columnasIntegrantes);
         tblTabla.setModel(mt);
 //        tblTabla.setModel(mtIntegrantes);
@@ -975,7 +947,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private void inicializar() {
         this.accion = 0;
         ec = new EmpleadoControlador();
-        controlador = new VacacionControlador();
+        controlador = CompraVacacionControlador.getInstance();
         pc = new PeriodoControlador();
 //        FormularioUtil.modeloSpinnerFechaHora(dcFechaInicio, "dd/MM/yyyy");
 //        FormularioUtil.modeloSpinnerFechaHora(FechaFin, "dd/MM/yyyy");
@@ -1033,14 +1005,14 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         Date fechaInicio = dcFechaInicio1.getDate();
         Date fechaFin = dcFechaFin1.getDate();
         listado.clear();
-        List<Vacacion> lista = this.listar(empleadoBusqueda, fechaInicio, fechaFin, paginaActual, tamanioPagina);
+        List<CompraVacacion> lista = this.listar(empleadoBusqueda, fechaInicio, fechaFin, paginaActual, tamanioPagina);
 //        System.out.println("LISTA: " + lista.size());
         listado.addAll(lista);
 
         tblTabla.packAll();
     }
 
-    private List<Vacacion> listar(Empleado empleado, Date fechaInicio, Date fechaFin, int pagina, int tamanio) {
+    private List<CompraVacacion> listar(Empleado empleado, Date fechaInicio, Date fechaFin, int pagina, int tamanio) {
         int total;
 
         if (empleado == null) {
@@ -1168,15 +1140,15 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 //    }
     private boolean erroresFormulario() {
         int errores = 0;
-        Date fechaInicio = dcFechaInicio.getDate();
+        Date fechaInicio = dcFecha.getDate();
 
         String mensaje = "";
 
-        Date fechaFin = dcFechaFin.getDate();
-        if (fechaInicio.compareTo(fechaFin) > 0) {
-            errores++;
-            mensaje = ">La fecha de inicio debe ser menor que la fecha de fin\n";
-        }
+//        Date fechaFin = dcFechaFin.getDate();
+//        if (fechaInicio.compareTo(fechaFin) > 0) {
+//            errores++;
+//            mensaje = ">La fecha de inicio debe ser menor que la fecha de fin\n";
+//        }
 //        //Traemos los dnis de los empleados
 ////        String empleadoPrueba = this.controlador.getSeleccionado().getEmpleado();
 ////        System.out.println(empleadoPrueba);
@@ -1198,7 +1170,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 //            }    
 //        }
 //            
-
         if (errores > 0) {
             JOptionPane.showMessageDialog(this, "Se ha(n) encontrado el(los) siguiente(s) error(es):\n" + mensaje, "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
         }
@@ -1206,41 +1177,10 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     }
 
     private final Calendar cal = Calendar.getInstance();
-
-    private int[] obtenerSaldos(Empleado empleado, Periodo periodo) {
-        List<Vacacion> vacaciones = controlador.buscarXEmpleadoXPeriodo(empleado, periodo);
-        int[] saldo = new int[3];
-        int lunesViernes = 0;
-        int sabado = 0;
-        int domingo = 0;
-
-        for (Vacacion vacacion : vacaciones) {
-            Date fechaInicio = vacacion.getFechaInicio();
-            Date fechaFin = vacacion.isHayInterrupcion() ? vacacion.getFechaInterrupcion() : vacacion.getFechaFin();
-
-            while (fechaInicio.compareTo(fechaFin) <= 0) {
-                cal.setTime(fechaInicio);
-                if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-//                    sabadoADomingo++;
-                } else {
-                    lunesViernes++;
-                }
-                cal.add(Calendar.DAY_OF_MONTH, 1);
-                fechaInicio = cal.getTime();
-            }
-        }
-        int division = lunesViernes / 5;
-        sabado = division;
-        domingo = division;
-
-        saldo[0] = lunesViernes;
-        saldo[1] = sabado;
-        saldo[2] = domingo;
-        return saldo;
-    }
+    private final VacacionControlador vacc = new VacacionControlador();
 
     private void cargarSaldoVacacional(Periodo periodo, Empleado empleado) {
-        List<Vacacion> vacaciones = this.controlador.buscarXEmpleadoXPeriodoNoReprogramacion(empleado, periodo);
+        List<Vacacion> vacaciones = this.vacc.buscarXEmpleadoXPeriodoNoReprogramacion(empleado, periodo);
         Calendar iterador = Calendar.getInstance();
         int lunesViernes = 0;
         int sab = 0;
@@ -1264,13 +1204,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
                             lunesViernes++;
                         }
                     }
-                } else {
-                    if (iterador.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
-                            && iterador.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
-                        lunesViernes++;
-                    }
                 }
-                iterador.add(Calendar.DATE, 1);
             }
         }
 
@@ -1284,15 +1218,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         txtSab.setText(sab + "");
         txtDom.setText(dom + "");
         txtSaldo.setText(saldo + "");
-    }
-    
-    private void buscarVacacion(){
-        System.out.println("BUSCAR");
-        lblBusqueda.setBusy(true);
-        paginaActual = 1;
-        buscar();
-        actualizarControlesNavegacion();
-        lblBusqueda.setBusy(false);
     }
 
     private final CompraVacacionControlador cmpvacc = CompraVacacionControlador.getInstance();

@@ -7,6 +7,7 @@ package entidades;
 
 import entidades.escalafon.Empleado;
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -34,6 +37,27 @@ public class CompraVacacion implements Serializable {
     private Periodo periodo;
     @Column(name = "dias_comprados")
     private int diasCompra;
+    @Column(name = "fecha")
+    @Temporal(TemporalType.DATE)
+    private Date fecha;
+    @Column(name = "documento_referencia")
+    private String documentoReferencia;
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getDocumentoReferencia() {
+        return documentoReferencia;
+    }
+
+    public void setDocumentoReferencia(String documentoReferencia) {
+        this.documentoReferencia = documentoReferencia;
+    }
 
     public Long getId() {
         return id;

@@ -47,4 +47,22 @@ public class PermisoControlador extends Controlador<Permiso>{
         return this.getDao().buscar(jpql, variables);
     }
     
+    public Permiso buscarXEmpleadoXFecha(Empleado empleado, Date fecha){
+        String jpql = "SELECT p FROM Permiso p WHERE "
+                + "p.porFecha = TRUE AND "
+                + ":fecha BETWEEN p.fechaInicio AND p.fechaFin  AND "
+//                + "(:horaInicio BETWEEN p.horaInicio AND p.horaFin) AND "
+                + "EXISTS(SELECT a FROM AsignacionPermiso a WHERE a.empleado = :empleado AND a.permiso = p) "
+                + "ORDER BY p.horaInicio ASC";
+        
+        Map<String, Object> variables = new HashMap();
+        variables.put("empleado", empleado);
+        variables.put("fecha", fecha);
+//        variables.put("horaInicio", horaInicio);
+//        variables.put("horaFin", horaFin);
+        List<Permiso> permisos = this.getDao().buscar(jpql, variables);
+        
+        return permisos.isEmpty() ? null : permisos.get(0);
+    }
+    
 }

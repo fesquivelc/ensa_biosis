@@ -7,6 +7,7 @@ package vistas.modelos;
 
 import entidades.Vacacion;
 import com.personal.utiles.ModeloTabla;
+import entidades.InterrupcionVacacion;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -21,7 +22,7 @@ public class MTAsignarVacacion extends ModeloTabla<Vacacion>{
     public MTAsignarVacacion(List<Vacacion> datos) {
         super(datos);
         dfFecha = new SimpleDateFormat("dd/MM/yyyy");
-        this.nombreColumnas = new String[]{"Nro de documento","Fecha de inicio","Fecha de fin","¿Interrumpida?","Fecha de interrupción"};
+        this.nombreColumnas = new String[]{"Código","Nro de documento","Fecha de inicio","Fecha de fin","Interrupcion","Reprogramacion"};
     }
 
     @Override
@@ -29,18 +30,26 @@ public class MTAsignarVacacion extends ModeloTabla<Vacacion>{
         Vacacion vacacion = this.datos.get(rowIndex);
         switch(columnIndex){
             case 0:
-                return vacacion.getEmpleado();
+                return vacacion.getEmpleado().getFichaLaboral().getCodigoTrabajador();
             case 1:
-                return dfFecha.format(vacacion.getFechaInicio());
+                return vacacion.getEmpleado().getNombreCompleto();
             case 2:
-                return dfFecha.format(vacacion.getFechaFin());
+                return dfFecha.format(vacacion.getFechaInicio());
             case 3:
-                return vacacion.isHayInterrupcion();
+                return dfFecha.format(vacacion.getFechaFin());
             case 4:
-                if(vacacion.isHayInterrupcion()){
-                    return dfFecha.format(vacacion.getFechaInterrupcion());
+                InterrupcionVacacion interrupcion = vacacion.getInterrupcionVacacion();
+                if(interrupcion != null){
+                    return String.format("INTERRUPCIÓN DESDE %s HASTA %s", dfFecha.format(interrupcion.getFechaInicio()), dfFecha.format(interrupcion.getFechaFin()));
                 }else{
-                    return null;
+                    return "NO";
+                }
+            case 5:
+                Vacacion reprogramacion = vacacion.getVacacionReprogramacion();
+                if(reprogramacion != null){
+                    return String.format("REPROGRAMADO DESDE %s HACIA  %s", dfFecha.format(reprogramacion.getVacacionOrigen().getFechaInterrupcion()),dfFecha.format(reprogramacion.getFechaInicio()));
+                }else{
+                    return "NO";
                 }
             default:
                 return null;
@@ -49,12 +58,7 @@ public class MTAsignarVacacion extends ModeloTabla<Vacacion>{
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        switch(columnIndex){
-            case 3:
-                return Boolean.class;
-            default:
-                return String.class;
-        }
+        return Object.class;
     }
     
     

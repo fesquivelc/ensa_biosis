@@ -6,7 +6,7 @@
 package vistas.dialogos;
 
 import controladores.Controlador;
-import dao.DAO;
+import dao.DAOBiosis;
 import entidades.Marcacion;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.PropertiesUtil;
@@ -440,7 +440,7 @@ public class DlgConfiguracion extends javax.swing.JDialog {
         int error = 0;
         String mensaje = "";
         try {
-            DAO dao = new DAO();
+            DAOBiosis dao = new DAOBiosis();
             dao.getEntityManager();
         } catch (Exception e) {
             LOG.error(e.getMessage());

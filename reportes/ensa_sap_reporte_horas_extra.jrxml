@@ -8,7 +8,9 @@
 	<field name="inicio" class="java.util.Date"/>
 	<field name="fin" class="java.util.Date"/>
 	<field name="fecha" class="java.util.Date"/>
-	<field name="autorizacion.motivo" class="java.lang.String"/>
+	<field name="autorizacionExtra.motivo" class="java.lang.String"/>
+	<field name="detalleJornada.salida" class="java.util.Date"/>
+	<field name="minutosExtra" class="java.lang.Integer"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -151,7 +153,7 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{empleado.fichaLaboral.codigoTrabajador}]]></textFieldExpression>
 			</textField>
@@ -165,7 +167,7 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{empleado.nombreCompleto}]]></textFieldExpression>
 			</textField>
@@ -179,9 +181,9 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{inicio}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{detalleJornada.salida}]]></textFieldExpression>
 			</textField>
 			<textField pattern="HH:mm:ss" isBlankWhenNull="false">
 				<reportElement x="360" y="0" width="48" height="20" uuid="6c249de5-088e-4e1c-9c91-45f360152c11"/>
@@ -193,7 +195,7 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fin}]]></textFieldExpression>
 			</textField>
@@ -207,12 +209,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="186" y="0" width="126" height="20" uuid="73fce6ad-f46b-4da7-bdc6-f02eb3af1087"/>
+				<reportElement mode="Transparent" x="186" y="0" width="126" height="20" uuid="73fce6ad-f46b-4da7-bdc6-f02eb3af1087"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -221,9 +223,9 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{autorizacion.motivo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{autorizacionExtra.motivo}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd.MM.yyyy">
 				<reportElement x="514" y="0" width="58" height="20" uuid="320aeeef-01b8-4b63-b13e-829539454e1a"/>
@@ -235,7 +237,7 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
@@ -249,9 +251,9 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date(18000000+$F{fin}.getTime()-$F{inicio}.getTime())]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new java.util.Date(18000000+$F{minutosExtra}*60*1000)]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

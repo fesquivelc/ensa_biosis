@@ -123,47 +123,58 @@ public class AnalisisAsistenciaCaliente {
 
             } else {
                 if (isDiaLaboral(fecha, turno)) {
+                    Permiso permisoXFecha = permc.buscarXEmpleadoXFecha(empleado, fecha);
+                    if (permisoXFecha != null) {
+                        asistenciaDetalle = new RptAsistenciaDetallado();
+                        asistenciaDetalle.setTipoAsistencia("P");
+                        asistenciaDetalle.setMotivo(permisoXFecha.getMotivo());
+                        asistenciaDetalle.setFecha(fecha);
+                        asistenciaDetalle.setPermiso(permisoXFecha);
+                        asistenciaDetalle.setEmpleado(empleado);
+                        asistenciaDetalladoList.add(asistenciaDetalle);
+                        return asistenciaDetalladoList;
+                    } else {
+                        List<DetalleJornada> detalleJornadaList = dtjornc.buscarXJornada(turno.getJornada());
 
-                    List<DetalleJornada> detalleJornadaList = dtjornc.buscarXJornada(turno.getJornada());
+                        char asistenciaResultado = 'R';
+                        int tardanzaTotal = 0;
+                        int extraTotal = 0;
+                        int conteo = 1;
+                        for (DetalleJornada detalle : detalleJornadaList) {
+//                            System.out.println("FECHA ENTRADA SALIDA " + fecha + " " + detalle.getEntrada() + " " + detalle.getSalida());
+                            List<Permiso> permisoList = permc.buscarXEmpleadoXFechaEntreHora(empleado, fecha, detalle.getEntradaDesde(), detalle.getSalida());
+//                            System.out.println("PERMISOS: " + permisoList.size());
+                            for (Permiso permiso : permisoList) {
+                                if (permiso.getHoraInicio().compareTo(detalle.getEntradaDesde()) >= 0 && permiso.getHoraFin().compareTo(detalle.getSalidaHasta()) <= 0) {
+//                                    System.out.println("PERMISO LIST");
+                                    RptAsistenciaDetallado asistenciaPermiso = analizarPermiso(empleado, contrato, permiso, detalle, fecha);
+                                    asistenciaDetalladoList.add(asistenciaPermiso);
+                                }
 
-                    char asistenciaResultado = 'R';
-                    int tardanzaTotal = 0;
-                    int extraTotal = 0;
-                    int conteo = 1;
-                    for (DetalleJornada detalle : detalleJornadaList) {
-                        System.out.println("FECHA ENTRADA SALIDA " + fecha + " " + detalle.getEntrada() + " " + detalle.getSalida());
-                        List<Permiso> permisoList = permc.buscarXEmpleadoXFechaEntreHora(empleado, fecha, detalle.getEntradaDesde(), detalle.getSalida());
-                        System.out.println("PERMISOS: " + permisoList.size());
-                        for (Permiso permiso : permisoList) {
-                            if (permiso.getHoraInicio().compareTo(detalle.getEntradaDesde()) >= 0 && permiso.getHoraFin().compareTo(detalle.getSalidaHasta()) <= 0) {
-                                System.out.println("PERMISO LIST");
-                                RptAsistenciaDetallado asistenciaPermiso = analizarPermiso(empleado, contrato, permiso, detalle, fecha);
-                                asistenciaDetalladoList.add(asistenciaPermiso);
                             }
 
-                        }
+                            RptAsistenciaDetallado asistencia = analizarDetalle(empleado, contrato, detalle, fecha);
+                            asistencia.setRegimenLaboral(null);
+                            asistenciaDetalladoList.add(asistencia);
 
-                        RptAsistenciaDetallado asistencia = analizarDetalle(empleado, contrato, detalle, fecha);
-                        asistencia.setRegimenLaboral(null);
-                        asistenciaDetalladoList.add(asistencia);
+                            char detalleResultado = asistencia.getTipoAsistencia().charAt(0);
+                            if (asistenciaResultado == 'R' && detalleResultado == 'R') {
+                                asistenciaResultado = 'R';
+                            } else if (asistenciaResultado == 'F' || detalleResultado == 'F') {
+                                asistenciaResultado = 'F';
+                            } else if (asistenciaResultado == 'T' || detalleResultado == 'T') {
+                                asistenciaResultado = 'T';
+                            }
 
-                        char detalleResultado = asistencia.getTipoAsistencia().charAt(0);
-                        if (asistenciaResultado == 'R' && detalleResultado == 'R') {
-                            asistenciaResultado = 'R';
-                        } else if (asistenciaResultado == 'F' || detalleResultado == 'F') {
-                            asistenciaResultado = 'F';
-                        } else if (asistenciaResultado == 'T' || detalleResultado == 'T') {
-                            asistenciaResultado = 'T';
-                        }
+                            if (!asistencia.getTipoAsistencia().equals("F")) {
+                                tardanzaTotal += asistencia.getMinutosTardanza();
+                                extraTotal += asistencia.getMinutosExtra();
+                            }
 
-                        if (!asistencia.getTipoAsistencia().equals("F")) {
-                            tardanzaTotal += asistencia.getMinutosTardanza();
-                            extraTotal += asistencia.getMinutosExtra();
-                        }
+                        }//FIN DEL FOR
 
-                    }//FIN DEL FOR
-
-                    return asistenciaDetalladoList;
+                        return asistenciaDetalladoList;
+                    }
 
                 } else {
                     return null;

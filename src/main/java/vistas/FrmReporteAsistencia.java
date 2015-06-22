@@ -480,6 +480,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         this.tblDetalle.setModel(mtdra);
         RenderIndicadorAsistencia render = new RenderIndicadorAsistencia();
         this.tblDetalle.getColumn(0).setCellRenderer(render);
+        this.tblDetalle.setDefaultRenderer(Object.class, render);
     }
 
     private List<RptAsistenciaDetallado> filtrar(List<RptAsistenciaDetallado> listado) {

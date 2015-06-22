@@ -68,6 +68,8 @@ public class MTDetalleRegistroAsistencia extends ModeloTabla<RptAsistenciaDetall
         }
     }
 
+    
+    
     public String evento(char ev) {
         switch (ev) {
             case 'E':

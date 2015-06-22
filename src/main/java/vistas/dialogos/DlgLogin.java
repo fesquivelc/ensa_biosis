@@ -6,7 +6,7 @@
 package vistas.dialogos;
 
 import controladores.UsuarioControlador;
-import dao.DAO;
+import dao.DAOBiosis;
 import entidades.Usuario;
 import vistas.Principal;
 import com.personal.utiles.FormularioUtil;
@@ -296,7 +296,7 @@ public class DlgLogin extends javax.swing.JDialog {
         int error = 0;
         String mensaje = "";
         try {
-            DAO dao = new DAO();
+            DAOBiosis dao = new DAOBiosis();
             dao.getEntityManager();
         } catch (Exception e) {
             LOG.error(e.getMessage());

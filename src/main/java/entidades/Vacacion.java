@@ -4,6 +4,7 @@ import entidades.escalafon.Empleado;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -55,8 +56,28 @@ public class Vacacion implements Serializable {
     @JoinColumn(name="vacacion_id",referencedColumnName="id")
     @OneToOne(optional = true, targetEntity = Vacacion.class)
     private Vacacion vacacionOrigen;
+    @OneToOne(mappedBy = "vacacionOrigen", targetEntity = Vacacion.class, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Vacacion vacacionReprogramacion;
     @Column(name = "documento_reprogramacion")
     private String documentoReprogramacion;
+    @OneToOne(mappedBy = "vacacion",cascade = CascadeType.ALL,orphanRemoval = true)
+    private InterrupcionVacacion interrupcionVacacion;
+
+    public InterrupcionVacacion getInterrupcionVacacion() {
+        return interrupcionVacacion;
+    }
+
+    public void setInterrupcionVacacion(InterrupcionVacacion interrupcionVacacion) {
+        this.interrupcionVacacion = interrupcionVacacion;
+    }
+
+    public Vacacion getVacacionReprogramacion() {
+        return vacacionReprogramacion;
+    }
+
+    public void setVacacionReprogramacion(Vacacion vacacionReprogramacion) {
+        this.vacacionReprogramacion = vacacionReprogramacion;
+    }
 
     public boolean isHayReprogramacion() {
         return hayReprogramacion;

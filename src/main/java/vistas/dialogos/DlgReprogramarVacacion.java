@@ -5,15 +5,19 @@
  */
 package vistas.dialogos;
 
+import com.personal.utiles.FechaUtil;
 import controladores.Controlador;
 import controladores.EmpleadoControlador;
 import controladores.VacacionControlador;
 import entidades.Vacacion;
 import com.personal.utiles.FormularioUtil;
+import controladores.HorarioControlador;
 import controladores.SaldoVacacionalControlador;
 import controladores.TCAnalisisControlador;
+import entidades.Horario;
 import entidades.Periodo;
 import entidades.SaldoVacacional;
+import entidades.Turno;
 import entidades.escalafon.Empleado;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,6 +38,7 @@ public class DlgReprogramarVacacion extends javax.swing.JDialog {
     private final Vacacion vacacion;
     private final VacacionControlador vc;
     private final EmpleadoControlador ec;
+    private final HorarioControlador horc = new HorarioControlador();
 
     public DlgReprogramarVacacion(JInternalFrame padre, Vacacion vacacion) {
         super(JOptionPane.getFrameForComponent(padre), true);
@@ -63,22 +68,29 @@ public class DlgReprogramarVacacion extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtEmpleado = new javax.swing.JTextField();
-        dtInterrupcionDesde = new com.toedter.calendar.JDateChooser();
-        dtInicioReprogramacion = new com.toedter.calendar.JDateChooser();
+        dcInterrupcionDesde = new com.toedter.calendar.JDateChooser();
+        dcInicioReprogramacion = new com.toedter.calendar.JDateChooser();
+        jLabel4 = new javax.swing.JLabel();
+        spDiasHabiles = new javax.swing.JSpinner();
+        jLabel5 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtDocumento = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Registrar interrupción");
+        setTitle("REPROGRAMAR VACACIONES");
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Definir fecha de interrupción"));
         jPanel1.setToolTipText("");
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
-        jPanel1Layout.columnWidths = new int[] {0, 0, 0};
-        jPanel1Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        jPanel1Layout.columnWidths = new int[] {0, 5, 0, 5, 0};
+        jPanel1Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel1.setLayout(jPanel1Layout);
 
+        jPanel2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jPanel2.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
 
+        jButton1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jButton1.setText("Guardar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -87,6 +99,7 @@ public class DlgReprogramarVacacion extends javax.swing.JDialog {
         });
         jPanel2.add(jButton1);
 
+        jButton2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jButton2.setText("Cancelar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -97,57 +110,97 @@ public class DlgReprogramarVacacion extends javax.swing.JDialog {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
         gridBagConstraints.weighty = 0.1;
         jPanel1.add(jPanel2, gridBagConstraints);
 
+        jLabel1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel1.setText("Empleado:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         jPanel1.add(jLabel1, gridBagConstraints);
 
+        jLabel2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel2.setText("Interrupción desde:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         jPanel1.add(jLabel2, gridBagConstraints);
 
+        jLabel3.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel3.setText("Inicio reprogramación:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         jPanel1.add(jLabel3, gridBagConstraints);
+
+        txtEmpleado.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
         jPanel1.add(txtEmpleado, gridBagConstraints);
+
+        dcInterrupcionDesde.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
-        jPanel1.add(dtInterrupcionDesde, gridBagConstraints);
+        jPanel1.add(dcInterrupcionDesde, gridBagConstraints);
+
+        dcInicioReprogramacion.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
-        jPanel1.add(dtInicioReprogramacion, gridBagConstraints);
+        jPanel1.add(dcInicioReprogramacion, gridBagConstraints);
+
+        jLabel4.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jLabel4.setText("Días hábiles a reprogramar:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel1.add(jLabel4, gridBagConstraints);
+
+        spDiasHabiles.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        spDiasHabiles.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel1.add(spDiasHabiles, gridBagConstraints);
+
+        jLabel5.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jLabel5.setText("Motivo o documento de reprogramación:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel1.add(jLabel5, gridBagConstraints);
+
+        txtDocumento.setColumns(20);
+        txtDocumento.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        txtDocumento.setRows(5);
+        jScrollPane1.setViewportView(txtDocumento);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        jPanel1.add(jScrollPane1, gridBagConstraints);
 
         getContentPane().add(jPanel1);
 
@@ -158,20 +211,31 @@ public class DlgReprogramarVacacion extends javax.swing.JDialog {
         // TODO add your handling code here:
         int accion = Controlador.MODIFICAR;
         if (FormularioUtil.dialogoConfirmar(this, accion)) {
-            vacacion.setHayReprogramacion(true);
-            vacacion.setFechaInterrupcion(dtInterrupcionDesde.getDate());
+            Date fechaFin = obtenerFechaFin(vacacion.getEmpleado(), this.dcInterrupcionDesde.getDate(), this.vacacion.getFechaFin());
+            
+            
+            Vacacion reprogramacion = new Vacacion();
+            reprogramacion.setFechaInicio(dcInicioReprogramacion.getDate());
+            reprogramacion.setFechaFin(fechaFin);
+            reprogramacion.setDocumento(txtDocumento.getText());
+            reprogramacion.setEmpleado(this.vacacion.getEmpleado());
+            reprogramacion.setVacacionOrigen(this.vacacion);
+            
+            this.vacacion.setVacacionReprogramacion(reprogramacion);
+//            vacacion.setHayReprogramacion(true);
+//            vacacion.setFechaInterrupcion(dcInterrupcionDesde.getDate());
             vc.setSeleccionado(vacacion);
             if (vc.accion(accion)) {
-                SaldoVacacional sv = svc.buscarXPeriodo(vc.getSeleccionado().getEmpleado(), vc.getSeleccionado().getPeriodo());
-                int[] saldos = obtenerSaldos(vc.getSeleccionado().getEmpleado(),vc.getSeleccionado().getPeriodo());
-                sv.setDiasRestantes(30 - (saldos[0] + saldos[1] + saldos[2]));
-                sv.setLunesViernes(saldos[0]);
-                sv.setSabado(saldos[1]);
-                sv.setDomingo(saldos[2]);
-                svc.modificar(sv);
-                List<String> dnis = new ArrayList<>();
-                dnis.add(vacacion.getEmpleado().getNroDocumento());
-                retrocederTiempo(dnis, vacacion.getFechaInicio());
+//                SaldoVacacional sv = svc.buscarXPeriodo(vc.getSeleccionado().getEmpleado(), vc.getSeleccionado().getPeriodo());
+//                int[] saldos = obtenerSaldos(vc.getSeleccionado().getEmpleado(), vc.getSeleccionado().getPeriodo());
+//                sv.setDiasRestantes(30 - (saldos[0] + saldos[1] + saldos[2]));
+//                sv.setLunesViernes(saldos[0]);
+//                sv.setSabado(saldos[1]);
+//                sv.setDomingo(saldos[2]);
+//                svc.modificar(sv);
+//                List<String> dnis = new ArrayList<>();
+//                dnis.add(vacacion.getEmpleado().getNroDocumento());
+//                retrocederTiempo(dnis, vacacion.getFechaInicio());
                 this.dispose();
             }
         }
@@ -188,38 +252,44 @@ public class DlgReprogramarVacacion extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JDateChooser dtInicioReprogramacion;
-    private com.toedter.calendar.JDateChooser dtInterrupcionDesde;
+    private com.toedter.calendar.JDateChooser dcInicioReprogramacion;
+    private com.toedter.calendar.JDateChooser dcInterrupcionDesde;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner spDiasHabiles;
+    private javax.swing.JTextArea txtDocumento;
     private javax.swing.JTextField txtEmpleado;
     // End of variables declaration//GEN-END:variables
 
     private void controles() {
         Empleado empleado = ec.buscarPorId(vacacion.getEmpleado());
         txtEmpleado.setText(empleado.getNombre() + " " + empleado.getPaterno() + " " + empleado.getMaterno());
-        dtInterrupcionDesde.setDate(vacacion.getFechaInicio());
-        dtInicioReprogramacion.setDate(vacacion.getFechaFin());
+        dcInterrupcionDesde.setDate(vacacion.getFechaInicio());
+        dcInicioReprogramacion.setDate(vacacion.getFechaFin());
 
         FormularioUtil.activarComponente(txtEmpleado, false);
-        FormularioUtil.activarComponente(dtInterrupcionDesde, false);
-        FormularioUtil.activarComponente(dtInicioReprogramacion, false);
+        FormularioUtil.activarComponente(dcInterrupcionDesde, false);
+        FormularioUtil.activarComponente(dcInicioReprogramacion, false);
     }
-    
+
     private final Calendar cal = Calendar.getInstance();
     private final SaldoVacacionalControlador svc = new SaldoVacacionalControlador();
+
     private int[] obtenerSaldos(Empleado empleado, Periodo periodo) {
         List<Vacacion> vacaciones = vc.buscarXEmpleadoXPeriodo(empleado, periodo);
         int[] saldo = new int[3];
         int lunesViernes = 0;
         int sabado = 0;
         int domingo = 0;
-        
+
         for (Vacacion v : vacaciones) {
             Date fechaInicio = v.getFechaInicio();
             Date fechaFin = v.isHayInterrupcion() ? v.getFechaInterrupcion() : v.getFechaFin();
@@ -238,12 +308,85 @@ public class DlgReprogramarVacacion extends javax.swing.JDialog {
         int division = lunesViernes / 5;
         sabado = division;
         domingo = division;
-        
+
         saldo[0] = lunesViernes;
         saldo[1] = sabado;
         saldo[2] = domingo;
         return saldo;
     }
     private final Calendar calendar = Calendar.getInstance();
+
+    private Date obtenerFechaFin(Empleado empleado, Date interrupcionDesde, Date fechaFin) {
+        List<Horario> horarios = horc.buscarXEmpleado(empleado, interrupcionDesde, fechaFin);
+        boolean lunes = false;
+        boolean martes = false;
+        boolean miercoles = false;
+        boolean jueves = false;
+        boolean viernes = false;
+        boolean sabado = false;
+        boolean domingo = false;
+        for (Horario horario : horarios) {
+            List<Turno> turnos = horario.getTurnoList();
+            for (Turno turno : turnos) {
+                lunes = lunes || turno.isLunes();
+                martes = martes || turno.isMartes();
+                miercoles = miercoles || turno.isMiercoles();
+                jueves = jueves || turno.isJueves();
+                viernes = viernes || turno.isViernes();
+                sabado = sabado || turno.isSabado();
+                domingo = domingo || turno.isDomingo();
+            }
+        }
+
+        Calendar iterador = Calendar.getInstance();
+        iterador.setTime(interrupcionDesde);
+        int contador = 0;
+        //LA DIFERENCIA DEBEN SER DIAS LABORALES
+        int diferencia = diferencia(interrupcionDesde, fechaFin, lunes, martes, miercoles, jueves, viernes, sabado, domingo);
+        while (contador <= diferencia) {
+            if (isLaboral(iterador.getTime(), lunes, martes, miercoles, jueves, viernes, sabado, domingo)) {
+                contador++;
+            }
+            iterador.add(Calendar.DATE, 1);
+        }
+
+        return iterador.getTime();
+    }
+
+    int diferencia(Date menor, Date mayor, boolean lunes, boolean martes, boolean miercoles, boolean jueves, boolean viernes, boolean sabado, boolean domingo) {
+        Calendar cl = Calendar.getInstance();
+        int conteo = 0;
+        cl.setTime(menor);
+        while (cl.getTime().compareTo(mayor) <= 0) {
+            if(isLaboral(cl.getTime(), lunes, martes, miercoles, jueves, viernes, sabado, domingo)){
+                conteo++;
+            }
+            cl.add(Calendar.DATE, 1);
+        }
+        return conteo;
+    }
+
+    private boolean isLaboral(Date fecha, boolean lunes, boolean martes, boolean miercoles, boolean jueves, boolean viernes, boolean sabado, boolean domingo) {
+        Calendar cl = Calendar.getInstance();
+        cl.setTime(fecha);
+        switch (cl.get(Calendar.DAY_OF_WEEK)) {
+            case Calendar.MONDAY:
+                return lunes;
+            case Calendar.TUESDAY:
+                return martes;
+            case Calendar.WEDNESDAY:
+                return miercoles;
+            case Calendar.THURSDAY:
+                return jueves;
+            case Calendar.FRIDAY:
+                return viernes;
+            case Calendar.SATURDAY:
+                return sabado;
+            case Calendar.SUNDAY:
+                return domingo;
+            default:
+                return false;
+        }
+    }
 
 }

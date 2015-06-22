@@ -6,7 +6,7 @@
 
 package controladores;
 
-import dao.DAO;
+import dao.DAOBiosis;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * @param <T>
  */
 public abstract class Controlador<T>{
-    private final DAO<T> dao;
+    private final DAOBiosis<T> dao;
     public static final int NUEVO = 1;
     public static final int MODIFICAR = 2;
     public static final int ELIMINAR = 3;
@@ -32,16 +32,16 @@ public abstract class Controlador<T>{
         this.seleccionado = seleccionado;
     }        
 
-    public DAO<T> getDao() {
+    public DAOBiosis<T> getDao() {
         return dao;
     }
 
     public Controlador(Class<T> clase) {
         this.seleccionadoClass = clase;
-        this.dao = new DAO<>(clase);
+        this.dao = new DAOBiosis<>(clase);
     }        
     
-    public Controlador(Class<T> clase, DAO<T> dao){
+    public Controlador(Class<T> clase, DAOBiosis<T> dao){
         this.seleccionadoClass = clase;
         this.dao = dao;
     }

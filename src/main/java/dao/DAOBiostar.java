@@ -5,7 +5,7 @@
  */
 package dao;
 
-import static dao.DAO.em;
+import static dao.DAOBiosis.em;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -15,7 +15,7 @@ import javax.persistence.Persistence;
  * @author RyuujiMD
  * @param <T>
  */
-public class DAOBiostar<T> extends DAO {
+public class DAOBiostar<T> extends DAOBiosis {
 
     private final static String biostar_PU = "biostar-PU";
     private EntityManager emBiostar;
