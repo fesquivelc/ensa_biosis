@@ -69,7 +69,7 @@ WHERE vacacion.id = $P{vacacion_id}]]>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="16" isBold="true"/>
 				</textElement>
-				<text><![CDATA[M.P. SAN MARCOS - USO FÍSICO DE VACACIONES]]></text>
+				<text><![CDATA[ENSA - USO FÍSICO DE VACACIONES]]></text>
 			</staticText>
 		</band>
 	</title>

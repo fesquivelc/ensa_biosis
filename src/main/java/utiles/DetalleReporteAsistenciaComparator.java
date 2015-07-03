@@ -5,6 +5,8 @@
  */
 package utiles;
 
+import entidades.escalafon.Contrato;
+import entidades.escalafon.RegimenLaboral;
 import entidades.reportes.RptAsistenciaDetallado;
 import java.util.Comparator;
 import java.util.Date;
@@ -19,24 +21,35 @@ public class DetalleReporteAsistenciaComparator implements Comparator<RptAsisten
     public int compare(RptAsistenciaDetallado primero, RptAsistenciaDetallado segundo) {
 //        System.out.println("PRIMERO: "+primero.toString());
 //        System.out.println("SEGUNDO: "+segundo.toString());
-        int comparacionEmpleado = primero.getEmpleado().getNombreCompleto().compareTo(segundo.getEmpleado().getNombreCompleto());
-        if (comparacionEmpleado == 0) {
-            int comparacionFecha = primero.getFecha().compareTo(segundo.getFecha());
-            if (comparacionFecha == 0) {
-                int comparacionDetalle = primero.getDetalleJornada().getEntrada().compareTo(segundo.getDetalleJornada().getEntrada());
-                if (comparacionDetalle == 0) {
-                    Date comparacionI = primero.getTipoAsistencia().equals("P") ? primero.getPermiso().getHoraInicio() : primero.getDetalleJornada().getEntrada();
-                    Date comparacionF = segundo.getTipoAsistencia().equals("P") ? segundo.getPermiso().getHoraInicio() : segundo.getDetalleJornada().getEntrada();
+        RegimenLaboral regimenPrimero = primero.getContrato().getRegimenLaboral();
+        RegimenLaboral regimenSegundo = segundo.getContrato().getRegimenLaboral();
+        String nombreRegimenPrimero = regimenPrimero == null ? "" : regimenPrimero.getNombre();
+        String nombreRegimenSegundo = regimenSegundo == null ? "" : regimenSegundo.getNombre();
+        int comparacionRegimen = nombreRegimenPrimero.compareTo(nombreRegimenSegundo);
+        if (comparacionRegimen == 0) {
+            int comparacionEmpleado = primero.getEmpleado().getNombreCompleto().compareTo(segundo.getEmpleado().getNombreCompleto());
+            if (comparacionEmpleado == 0) {
+                int comparacionFecha = primero.getFecha().compareTo(segundo.getFecha());
+                if (comparacionFecha == 0) {
+                    int comparacionDetalle = primero.getDetalleJornada().getEntrada().compareTo(segundo.getDetalleJornada().getEntrada());
+                    if (comparacionDetalle == 0) {
+                        Date comparacionI = primero.getTipoAsistencia().equals("P") ? primero.getPermiso().getHoraInicio() : primero.getDetalleJornada().getEntrada();
+                        Date comparacionF = segundo.getTipoAsistencia().equals("P") ? segundo.getPermiso().getHoraInicio() : segundo.getDetalleJornada().getEntrada();
 
-                    return comparacionI.compareTo(comparacionF);
+                        return comparacionI.compareTo(comparacionF);
 
+                    }
+                    return comparacionDetalle;
+                } else {
+                    return comparacionFecha;
                 }
-                return comparacionDetalle;
             } else {
-                return comparacionFecha;
+                return comparacionEmpleado;
             }
+        } else {
+            return comparacionRegimen;
         }
-        return comparacionEmpleado;
+
     }
 
 }

@@ -30,6 +30,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import principal.Main;
 import utiles.UsuarioActivo;
 import vistas.dialogos.DlgCambiarPassword;
 import vistas.mantenimientos.CRUDAreaSede;
@@ -54,17 +55,20 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        this.setTitle(Main.APLICACION_TITULO);
 
 //        setIconImage(new ImageIcon(getClass().getResource("iconos/logo.png")).getImage());
-
-        File file = new File("img/fondo-ensa.gif");
-        ImagenFondo borde;
-        try {
-            borde = new ImagenFondo(ImageIO.read(file));
-            this.desktopPane.setBorder(borde);
-        } catch (IOException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        File file = new File(Main.APLICACION_FONDO);
+        if (file.exists()) {
+            ImagenFondo borde;
+            try {
+                borde = new ImagenFondo(ImageIO.read(file));
+                this.desktopPane.setBorder(borde);
+            } catch (IOException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+
     }
 
     /**

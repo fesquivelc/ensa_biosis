@@ -532,32 +532,34 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(jLabel6, gridBagConstraints);
 
+        pnlVacacionesPedidas.setLayout(new java.awt.GridBagLayout());
+
         jLabel3.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel3.setText("LUNES - VIERNES:");
-        pnlVacacionesPedidas.add(jLabel3);
+        pnlVacacionesPedidas.add(jLabel3, new java.awt.GridBagConstraints());
 
-        txtLV.setColumns(5);
+        txtLV.setColumns(2);
         txtLV.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         txtLV.setText("0");
-        pnlVacacionesPedidas.add(txtLV);
+        pnlVacacionesPedidas.add(txtLV, new java.awt.GridBagConstraints());
 
         jLabel8.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel8.setText("SAB:");
-        pnlVacacionesPedidas.add(jLabel8);
+        pnlVacacionesPedidas.add(jLabel8, new java.awt.GridBagConstraints());
 
-        txtSab.setColumns(5);
+        txtSab.setColumns(2);
         txtSab.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         txtSab.setText("0");
-        pnlVacacionesPedidas.add(txtSab);
+        pnlVacacionesPedidas.add(txtSab, new java.awt.GridBagConstraints());
 
         jLabel10.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel10.setText("DOM:");
-        pnlVacacionesPedidas.add(jLabel10);
+        pnlVacacionesPedidas.add(jLabel10, new java.awt.GridBagConstraints());
 
-        txtDom.setColumns(5);
+        txtDom.setColumns(2);
         txtDom.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         txtDom.setText("0");
-        pnlVacacionesPedidas.add(txtDom);
+        pnlVacacionesPedidas.add(txtDom, new java.awt.GridBagConstraints());
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -573,7 +575,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(jLabel11, gridBagConstraints);
 
-        txtSaldo.setColumns(5);
+        txtSaldo.setColumns(2);
         txtSaldo.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         txtSaldo.setText("30");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -973,6 +975,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     }
 
     private void inicializar() {
+        this.tblTabla.setHorizontalScrollEnabled(true);
         this.accion = 0;
         ec = new EmpleadoControlador();
         controlador = new VacacionControlador();

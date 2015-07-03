@@ -25,10 +25,12 @@ public class MCFiltro<TipoFiltro> extends AbstractListModel implements ComboBoxM
     public TipoFiltro getElementAt(int index) {
         switch(index){
             case 0:
-                return TipoFiltro.POR_EMPLEADO;
+                return TipoFiltro.TODO;
             case 1:
-                return TipoFiltro.POR_OFICINA;
+                return TipoFiltro.POR_EMPLEADO;
             case 2:
+                return TipoFiltro.POR_OFICINA;
+            case 3:
                 return TipoFiltro.POR_GRUPO_HORARIO;
             default:
                 return null;
@@ -45,6 +47,7 @@ public class MCFiltro<TipoFiltro> extends AbstractListModel implements ComboBoxM
         return this.seleccionado;
     }
     public static enum TipoFiltro{
+        TODO,
         POR_EMPLEADO,
         POR_OFICINA,
         POR_GRUPO_HORARIO,        

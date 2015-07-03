@@ -168,13 +168,13 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         jLabel16 = new javax.swing.JLabel();
         cboTipoVia = new javax.swing.JComboBox();
         cboTipoZona = new javax.swing.JComboBox();
-        pnlLaborales = new javax.swing.JScrollPane();
-        jPanel5 = new javax.swing.JPanel();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
-        pnlContrato = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        tabDatosLaborales = new javax.swing.JTabbedPane();
+        pnlDatosContrato = new javax.swing.JPanel();
         panelTblC = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblContratos = new javax.swing.JTable();
+        jPanel5 = new javax.swing.JPanel();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         panelDatosC = new javax.swing.JPanel();
@@ -186,12 +186,13 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         jLabel28 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         dcFechaInicio = new com.toedter.calendar.JDateChooser();
-        btnAgregarC = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
         jLabel31 = new javax.swing.JLabel();
         dcFechaFin = new com.toedter.calendar.JDateChooser();
+        jPanel1 = new javax.swing.JPanel();
+        btnAgregarC = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
         btnModDatosC = new javax.swing.JButton();
-        pnlArea = new javax.swing.JPanel();
+        pnlDatosArea = new javax.swing.JPanel();
         panelTblA = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblAreas = new javax.swing.JTable();
@@ -205,6 +206,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         dtFechaInicio = new com.toedter.calendar.JDateChooser();
         jLabel30 = new javax.swing.JLabel();
         dtFechaFin = new com.toedter.calendar.JDateChooser();
+        jPanel7 = new javax.swing.JPanel();
         btnAgregarA = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
         btnModAreasA = new javax.swing.JButton();
@@ -559,9 +561,12 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
 
         jTabbedPane1.addTab("Datos generales", pnlGenerales);
 
-        jTabbedPane2.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        jPanel6.setLayout(new java.awt.GridBagLayout());
+
+        pnlDatosContrato.setLayout(new java.awt.GridBagLayout());
 
         panelTblC.setBorder(javax.swing.BorderFactory.createTitledBorder("Contratos"));
+        panelTblC.setLayout(new java.awt.GridBagLayout());
 
         tblContratos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -581,12 +586,24 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(tblContratos);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.2;
+        gridBagConstraints.weighty = 0.1;
+        panelTblC.add(jScrollPane1, gridBagConstraints);
+
+        jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.LINE_AXIS));
+
         jButton6.setText("Nuevo");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
             }
         });
+        jPanel5.add(jButton6);
 
         jButton7.setText("Editar");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -594,49 +611,109 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
                 jButton7ActionPerformed(evt);
             }
         });
+        jPanel5.add(jButton7);
 
-        javax.swing.GroupLayout panelTblCLayout = new javax.swing.GroupLayout(panelTblC);
-        panelTblC.setLayout(panelTblCLayout);
-        panelTblCLayout.setHorizontalGroup(
-            panelTblCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelTblCLayout.createSequentialGroup()
-                .addGroup(panelTblCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelTblCLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelTblCLayout.createSequentialGroup()
-                        .addGap(177, 177, 177)
-                        .addComponent(jButton6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton7)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelTblCLayout.setVerticalGroup(
-            panelTblCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTblCLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelTblCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton6)
-                    .addComponent(jButton7)))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        panelTblC.add(jPanel5, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.weighty = 0.1;
+        pnlDatosContrato.add(panelTblC, gridBagConstraints);
 
         panelDatosC.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
+        java.awt.GridBagLayout panelDatosCLayout = new java.awt.GridBagLayout();
+        panelDatosCLayout.columnWidths = new int[] {0, 5, 0};
+        panelDatosCLayout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        panelDatosC.setLayout(panelDatosCLayout);
 
         jLabel24.setText("Código de planilla:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        panelDatosC.add(jLabel24, gridBagConstraints);
 
-        txtCodigoTrabajador.setColumns(9);
+        txtCodigoTrabajador.setColumns(8);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.1;
+        panelDatosC.add(txtCodigoTrabajador, gridBagConstraints);
 
         jLabel25.setText("Tipo de contrato:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        panelDatosC.add(jLabel25, gridBagConstraints);
 
         cboTipoContrato.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.1;
+        panelDatosC.add(cboTipoContrato, gridBagConstraints);
 
         cboRegimenLaboral.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.1;
+        panelDatosC.add(cboRegimenLaboral, gridBagConstraints);
 
         jLabel28.setText("Régimen laboral:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        panelDatosC.add(jLabel28, gridBagConstraints);
 
         jLabel27.setText("Fecha de inicio:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        panelDatosC.add(jLabel27, gridBagConstraints);
+
+        dcFechaInicio.setDateFormatString("dd.MM.yyyy");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.1;
+        panelDatosC.add(dcFechaInicio, gridBagConstraints);
+
+        jLabel31.setText("Fecha de fin:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        panelDatosC.add(jLabel31, gridBagConstraints);
+
+        dcFechaFin.setDateFormatString("dd.MM.yyyy");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.1;
+        panelDatosC.add(dcFechaFin, gridBagConstraints);
+
+        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
 
         btnAgregarC.setText("Agregar");
         btnAgregarC.addActionListener(new java.awt.event.ActionListener() {
@@ -644,6 +721,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
                 btnAgregarCActionPerformed(evt);
             }
         });
+        jPanel1.add(btnAgregarC);
 
         jButton9.setText("Cancelar");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
@@ -651,8 +729,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
                 jButton9ActionPerformed(evt);
             }
         });
-
-        jLabel31.setText("Fecha de fin:");
+        jPanel1.add(jButton9);
 
         btnModDatosC.setText("Modificar");
         btnModDatosC.addActionListener(new java.awt.event.ActionListener() {
@@ -660,109 +737,31 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
                 btnModDatosCActionPerformed(evt);
             }
         });
+        jPanel1.add(btnModDatosC);
 
-        javax.swing.GroupLayout panelDatosCLayout = new javax.swing.GroupLayout(panelDatosC);
-        panelDatosC.setLayout(panelDatosCLayout);
-        panelDatosCLayout.setHorizontalGroup(
-            panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDatosCLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDatosCLayout.createSequentialGroup()
-                        .addGroup(panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelDatosCLayout.createSequentialGroup()
-                                .addComponent(jLabel25)
-                                .addGap(23, 23, 23)
-                                .addComponent(cboTipoContrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelDatosCLayout.createSequentialGroup()
-                                .addComponent(jLabel28)
-                                .addGap(26, 26, 26)
-                                .addComponent(cboRegimenLaboral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDatosCLayout.createSequentialGroup()
-                        .addGroup(panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel27)
-                            .addComponent(jLabel31))
-                        .addGap(32, 32, 32)
-                        .addGroup(panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(dcFechaInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dcFechaFin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(panelDatosCLayout.createSequentialGroup()
-                        .addComponent(jLabel24)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtCodigoTrabajador, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(panelDatosCLayout.createSequentialGroup()
-                        .addComponent(btnAgregarC, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnModDatosC)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        panelDatosCLayout.setVerticalGroup(
-            panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDatosCLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDatosCLayout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel24))
-                    .addComponent(txtCodigoTrabajador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDatosCLayout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel25))
-                    .addComponent(cboTipoContrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
-                .addGroup(panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDatosCLayout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel28))
-                    .addComponent(cboRegimenLaboral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
-                .addGroup(panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDatosCLayout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel27))
-                    .addComponent(dcFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(dcFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE)
-                .addGroup(panelDatosCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAgregarC)
-                    .addComponent(jButton9)
-                    .addComponent(btnModDatosC)))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
+        gridBagConstraints.weighty = 0.1;
+        panelDatosC.add(jPanel1, gridBagConstraints);
 
-        javax.swing.GroupLayout pnlContratoLayout = new javax.swing.GroupLayout(pnlContrato);
-        pnlContrato.setLayout(pnlContratoLayout);
-        pnlContratoLayout.setHorizontalGroup(
-            pnlContratoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlContratoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelTblC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
-                .addComponent(panelDatosC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        pnlContratoLayout.setVerticalGroup(
-            pnlContratoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlContratoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlContratoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelTblC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelDatosC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        pnlDatosContrato.add(panelDatosC, gridBagConstraints);
 
-        jTabbedPane2.addTab("Contrato", pnlContrato);
+        tabDatosLaborales.addTab("Datos de contratos", pnlDatosContrato);
+
+        pnlDatosArea.setLayout(new java.awt.GridBagLayout());
 
         panelTblA.setBorder(javax.swing.BorderFactory.createTitledBorder("Historial de Áreas"));
+        panelTblA.setLayout(new java.awt.GridBagLayout());
 
         tblAreas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -782,12 +781,27 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         });
         jScrollPane2.setViewportView(tblAreas);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        panelTblA.add(jScrollPane2, gridBagConstraints);
+
         jButton10.setText("Nuevo");
         jButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton10ActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        panelTblA.add(jButton10, gridBagConstraints);
 
         jButton11.setText("Editar");
         jButton11.addActionListener(new java.awt.event.ActionListener() {
@@ -795,36 +809,37 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
                 jButton11ActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        panelTblA.add(jButton11, gridBagConstraints);
 
-        javax.swing.GroupLayout panelTblALayout = new javax.swing.GroupLayout(panelTblA);
-        panelTblA.setLayout(panelTblALayout);
-        panelTblALayout.setHorizontalGroup(
-            panelTblALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelTblALayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(panelTblALayout.createSequentialGroup()
-                .addGap(177, 177, 177)
-                .addComponent(jButton10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton11)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelTblALayout.setVerticalGroup(
-            panelTblALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTblALayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelTblALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton10)
-                    .addComponent(jButton11)))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.3;
+        gridBagConstraints.weighty = 0.1;
+        pnlDatosArea.add(panelTblA, gridBagConstraints);
 
         panelDatosA.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
+        panelDatosA.setLayout(new java.awt.GridBagLayout());
 
         jLabel21.setText("Area: ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        panelDatosA.add(jLabel21, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 0.1;
+        panelDatosA.add(txtArea, gridBagConstraints);
 
         jButton5.setText("...");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -832,10 +847,45 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
                 jButton5ActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        panelDatosA.add(jButton5, gridBagConstraints);
 
         jLabel22.setText("Fecha Inicio: ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        panelDatosA.add(jLabel22, gridBagConstraints);
+
+        dtFechaInicio.setDateFormatString("dd.MM.yyyy");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 0.1;
+        panelDatosA.add(dtFechaInicio, gridBagConstraints);
 
         jLabel30.setText("Fecha Fin: ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        panelDatosA.add(jLabel30, gridBagConstraints);
+
+        dtFechaFin.setDateFormatString("dd.MM.yyyy");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 0.1;
+        panelDatosA.add(dtFechaFin, gridBagConstraints);
+
+        jPanel7.setLayout(new javax.swing.BoxLayout(jPanel7, javax.swing.BoxLayout.LINE_AXIS));
 
         btnAgregarA.setText("Agregar");
         btnAgregarA.addActionListener(new java.awt.event.ActionListener() {
@@ -843,6 +893,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
                 btnAgregarAActionPerformed(evt);
             }
         });
+        jPanel7.add(btnAgregarA);
 
         jButton13.setText("Cancelar");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
@@ -850,6 +901,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
                 jButton13ActionPerformed(evt);
             }
         });
+        jPanel7.add(jButton13);
 
         btnModAreasA.setText("Modificar");
         btnModAreasA.addActionListener(new java.awt.event.ActionListener() {
@@ -857,99 +909,34 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
                 btnModAreasAActionPerformed(evt);
             }
         });
+        jPanel7.add(btnModAreasA);
 
-        javax.swing.GroupLayout panelDatosALayout = new javax.swing.GroupLayout(panelDatosA);
-        panelDatosA.setLayout(panelDatosALayout);
-        panelDatosALayout.setHorizontalGroup(
-            panelDatosALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDatosALayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelDatosALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel21)
-                    .addGroup(panelDatosALayout.createSequentialGroup()
-                        .addGroup(panelDatosALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtArea, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelDatosALayout.createSequentialGroup()
-                                .addGroup(panelDatosALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel22)
-                                    .addComponent(jLabel30))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(panelDatosALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(dtFechaFin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(dtFechaInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5))
-                    .addGroup(panelDatosALayout.createSequentialGroup()
-                        .addComponent(btnAgregarA, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnModAreasA)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelDatosALayout.setVerticalGroup(
-            panelDatosALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDatosALayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel21)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelDatosALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelDatosALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(dtFechaInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelDatosALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(dtFechaFin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 207, Short.MAX_VALUE)
-                .addGroup(panelDatosALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAgregarA)
-                    .addComponent(jButton13)
-                    .addComponent(btnModAreasA))
-                .addContainerGap())
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
+        gridBagConstraints.weighty = 0.1;
+        panelDatosA.add(jPanel7, gridBagConstraints);
 
-        javax.swing.GroupLayout pnlAreaLayout = new javax.swing.GroupLayout(pnlArea);
-        pnlArea.setLayout(pnlAreaLayout);
-        pnlAreaLayout.setHorizontalGroup(
-            pnlAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlAreaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelTblA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panelDatosA, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        pnlAreaLayout.setVerticalGroup(
-            pnlAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlAreaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelTblA, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelDatosA, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        pnlDatosArea.add(panelDatosA, gridBagConstraints);
 
-        jTabbedPane2.addTab("Area", pnlArea);
+        tabDatosLaborales.addTab("Datos de áreas", pnlDatosArea);
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane2)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 80, Short.MAX_VALUE))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        jPanel6.add(tabDatosLaborales, gridBagConstraints);
 
-        pnlLaborales.setViewportView(jPanel5);
-
-        jTabbedPane1.addTab("Datos laborales", pnlLaborales);
+        jTabbedPane1.addTab("Datos laborales", jPanel6);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -959,7 +946,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 873, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1240,24 +1227,26 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JPanel panelDatosA;
     private javax.swing.JPanel panelDatosC;
     private javax.swing.JPanel panelTblA;
     private javax.swing.JPanel panelTblC;
-    private javax.swing.JPanel pnlArea;
-    private javax.swing.JPanel pnlContrato;
+    private javax.swing.JPanel pnlDatosArea;
+    private javax.swing.JPanel pnlDatosContrato;
     private javax.swing.JPanel pnlEmpleado;
     private javax.swing.JScrollPane pnlGenerales;
-    private javax.swing.JScrollPane pnlLaborales;
     private javax.swing.JPanel pnlNavegacion;
+    private javax.swing.JTabbedPane tabDatosLaborales;
     private javax.swing.JTable tblAreas;
     private javax.swing.JTable tblContratos;
     private javax.swing.JTextField txtArea;
@@ -1390,7 +1379,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
                 empleado.setNroDocumento(txtNroDocumento.getText());
             }
 
-            FormularioUtil.convertirMayusculas(pnlLaborales);
+//            FormularioUtil.convertirMayusculas(pnlLaborales);
             FormularioUtil.convertirMayusculas(pnlEmpleado);
             FormularioUtil.convertirMayusculas(pnlGenerales);
 

@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class MTDetalleHorarioHR extends ModeloTabla<Turno> {
 
-    private final DateFormat dfFecha = new SimpleDateFormat("dd/MM/yyyy");
+    private final DateFormat dfFecha = new SimpleDateFormat("dd.MM.yyyy");
     private final DateFormat dfHora = new SimpleDateFormat("HH:mm");
 
     public MTDetalleHorarioHR(List<Turno> datos) {

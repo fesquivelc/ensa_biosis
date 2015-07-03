@@ -53,14 +53,14 @@ public class Vacacion implements Serializable {
      */
     @Column(name = "hay_reprogramacion")
     private boolean hayReprogramacion;
-    @JoinColumn(name="vacacion_id",referencedColumnName="id")
+    @JoinColumn(name="vacacion_id",referencedColumnName="id",nullable = true)
     @OneToOne(optional = true, targetEntity = Vacacion.class)
     private Vacacion vacacionOrigen;
     @OneToOne(mappedBy = "vacacionOrigen", targetEntity = Vacacion.class, cascade = CascadeType.ALL, orphanRemoval = true)
     private Vacacion vacacionReprogramacion;
     @Column(name = "documento_reprogramacion")
     private String documentoReprogramacion;
-    @OneToOne(mappedBy = "vacacion",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToOne(mappedBy = "vacacion",cascade = CascadeType.ALL,orphanRemoval = true,optional = true)
     private InterrupcionVacacion interrupcionVacacion;
 
     public InterrupcionVacacion getInterrupcionVacacion() {

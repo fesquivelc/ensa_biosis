@@ -35,7 +35,7 @@ public class MTRegistroAsistencia extends ModeloTabla<RegistroAsistencia> {
 
     public MTRegistroAsistencia(List<RegistroAsistencia> datos) {
         super(datos);
-        this.dfFecha = new SimpleDateFormat("dd/MM/yyyy");
+        this.dfFecha = new SimpleDateFormat("dd.MM.yyyy");
         this.dfMinutos = new SimpleDateFormat("HH:mm:ss");
         this.cal = Calendar.getInstance();
         this.nombreColumnas = new String[]{"Nro de doc.", "Nombre del empleado", "Fecha", "Tipo de asist.", "Tardanza total"};

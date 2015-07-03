@@ -24,7 +24,7 @@ public class MTAsignacionPermiso extends ModeloTabla<AsignacionPermiso> {
     public MTAsignacionPermiso(List<AsignacionPermiso> datos) {
         super(datos);
         this.nombreColumnas = new String[]{"DNI / C.E.", "Documento", "Tipo de permiso", "Inicio", "Fin", "Motivo", ""};
-        dfFecha = new SimpleDateFormat("dd/MM/yyyy");
+        dfFecha = new SimpleDateFormat("dd.MM.yyyy");
         dfHora = new SimpleDateFormat("HH:mm:ss");
 
     }

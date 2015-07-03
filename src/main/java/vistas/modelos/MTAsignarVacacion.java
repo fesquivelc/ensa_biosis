@@ -21,7 +21,7 @@ public class MTAsignarVacacion extends ModeloTabla<Vacacion>{
 
     public MTAsignarVacacion(List<Vacacion> datos) {
         super(datos);
-        dfFecha = new SimpleDateFormat("dd/MM/yyyy");
+        dfFecha = new SimpleDateFormat("dd.MM.yyyy");
         this.nombreColumnas = new String[]{"Código","Nro de documento","Fecha de inicio","Fecha de fin","Interrupcion","Reprogramacion"};
     }
 

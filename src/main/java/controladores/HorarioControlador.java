@@ -48,6 +48,8 @@ public class HorarioControlador extends Controlador<Horario>{
                 + ")";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("empleado", empleado);
+        mapa.put("fechaInicio", fechaInicio);
+        mapa.put("fechaFin", fechaFin);
         return this.getDao().buscar(jpql, mapa);
     }
     

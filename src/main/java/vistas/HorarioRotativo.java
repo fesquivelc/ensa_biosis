@@ -11,17 +11,24 @@ import entidades.Horario;
 import entidades.Jornada;
 import vistas.modelos.MTHorario;
 import com.personal.utiles.FormularioUtil;
+import com.personal.utiles.ReporteUtil;
 import entidades.AsignacionHorario;
 import entidades.GrupoHorario;
 import entidades.Turno;
 import entidades.escalafon.Departamento;
 import entidades.escalafon.Empleado;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.text.DateFormatter;
 import org.jdesktop.observablecollections.ObservableCollections;
+import principal.Main;
+import utiles.UsuarioActivo;
 import vistas.dialogos.DlgAsignarHorario;
 import vistas.dialogos.DlgEmpleado;
 import vistas.dialogos.DlgOficina;
@@ -107,6 +114,7 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
         txtBusqueda = new javax.swing.JTextField();
         btnDialogo = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -437,6 +445,15 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 0;
         onlBusqueda.add(jButton2, gridBagConstraints);
 
+        jButton4.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jButton4.setText("Imprimir horarios asignados");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        onlBusqueda.add(jButton4, new java.awt.GridBagConstraints());
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -605,6 +622,18 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnAsignar1ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        String rutaReporte = "reportes/reporte_horario.jasper";
+        Map parametros = new HashMap();
+        parametros.put("reporte_usuario", UsuarioActivo.getUsuario().getLogin());
+        parametros.put("reporte_institucion", Main.REPORTE_INSTITUCION);
+        File fileReporte = new File(rutaReporte);
+        ReporteUtil rp = new ReporteUtil();
+        rp.setConn(horarioControlador.getDao().getConexion());
+        rp.generarReporte(fileReporte, parametros, JOptionPane.getRootFrame());
+    }//GEN-LAST:event_jButton4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAsignar;
@@ -621,6 +650,7 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel9;

@@ -34,27 +34,27 @@ public class PruebaReporteCaliente {
         EmpleadoControlador empc = new EmpleadoControlador();
         AnalisisAsistenciaCaliente analisis = new AnalisisAsistenciaCaliente();
         Calendar cal = Calendar.getInstance();
-        cal.set(2015, 4, 1);
+        cal.set(2014, 4, 1);
         Date desde = FechaUtil.soloFecha(cal.getTime());
-        cal.set(2015,4,31,23,59,59);
+        cal.set(2014,4,31,23,59,59);
         Date hasta = cal.getTime();
         
-        List<Empleado> empleados = empc.buscarXPatron("27916207");
+        List<Empleado> empleados = empc.buscarXPatron("");
         System.out.println("INICIO: "+new Date());
-        List<RptAsistenciaDetallado> asistenciaList = analisis.analisisDetallado(desde, hasta, empleados);
+        List<RptAsistenciaDetallado> asistenciaList = analisis.iniciarAnalisis(desde, hasta, empleados);
         System.out.println("FIN: "+new Date());
         ReporteUtil reporteador = new ReporteUtil();
-        reporteador.setConn(empc.getDao().getConexion());
+//        reporteador.setConn(empc.getDao().getConexion());
         
-        List<RptAsistenciaDetallado> permisoList = filtrar(asistenciaList, 'P');
+//        List<RptAsistenciaDetallado> permisoList = filtrar(asistenciaList, 'P');
         
-//        File reporte = new File("reportes/reporte_registro_asistencia_caliente.jasper");
-//        Map<String,Object> parametros = new HashMap();
-//        reporteador.verReporte(asistenciaList, reporte, parametros, null);
+        File reporte = new File("reportes/reporte_registro_asistencia_caliente.jasper");
+        Map<String,Object> parametros = new HashMap();
+        reporteador.verReporte(asistenciaList, reporte, parametros, null);
         
-        File reporte2 = new File("reportes/ensa_sap_reporte_permiso.jasper");
-        Map<String,Object> parametros2 = new HashMap();
-        reporteador.verReporte(permisoList, reporte2, parametros2, null);
+//        File reporte2 = new File("reportes/ensa_sap_reporte_permiso.jasper");
+//        Map<String,Object> parametros2 = new HashMap();
+//        reporteador.verReporte(permisoList, reporte2, parametros2, null);
         
         System.exit(0);
     }

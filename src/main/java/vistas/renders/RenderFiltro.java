@@ -22,6 +22,9 @@ public class RenderFiltro extends DefaultListCellRenderer{
             if(value instanceof TipoFiltro){
                 TipoFiltro filtro = (TipoFiltro)value;
                 switch(filtro){
+                    case TODO:
+                        value = "TODO";
+                        break;
                     case POR_EMPLEADO:
                         value = "EMPLEADO";
                         break;

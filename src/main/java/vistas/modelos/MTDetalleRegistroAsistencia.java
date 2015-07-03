@@ -36,7 +36,12 @@ public class MTDetalleRegistroAsistencia extends ModeloTabla<RptAsistenciaDetall
             case 2:
                 return detalle.getEmpleado().getNombreCompleto();
             case 3:
-                return detalle.getEmpleado().getFichaLaboral().getArea();
+                if(detalle.getArea() == null){
+                    return null;
+                }else{
+                    return detalle.getArea().getNombre();
+                }
+                
             case 4:
                 return dfFecha.format(detalle.getFecha());
             case 5:
@@ -44,7 +49,9 @@ public class MTDetalleRegistroAsistencia extends ModeloTabla<RptAsistenciaDetall
             case 6:
                 if (detalle.getTipoAsistencia().equals("P")) {
                     return detalle.getPermiso().getTipoPermiso().getCodigo() + " - " + detalle.getPermiso().getMotivo();
-                } else {
+                } else if(detalle.getTipoAsistencia().equals("E")){
+                    return detalle.getFeriado().getNombre();
+                }else{
                     return null;
                 }
             case 7:

@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ensa_reporte_vacacion" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a87faff7-2117-4252-93f2-407ad91c6c00">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="reporte_institucion" class="java.lang.String"/>
+	<parameter name="reporte_usuario" class="java.lang.String"/>
+	<parameter name="periodo_anio" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="persona_lista" class="java.util.List">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+ficha_laboral."codigo_trabajador" AS flab_codigo_trabajador,
+persona."nro_documento" AS pers_nro_documento,
+persona."paterno" AS pers_paterno,
+persona."materno" AS pers_materno,
+persona."nombres" AS pers_nombres,
+Vacacion."fecha_inicio" AS vac_fecha_inicio,
+Vacacion."fecha_fin" AS vac_fecha_fin,
+Vacacion."documento" AS vac_documento,
+Vacacion."documento_reprogramacion" AS vac_documento_reprogramacion,
+Vacacion."fecha_interrupcion" AS vac_fecha_interrupcion,
+intvac_fecha_inicio,
+intvac_fecha_fin,
+intvac_motivo,
+Vacacion.periodo_anio as periodo_anio
+FROM
+"Vacacion" Vacacion
+INNER JOIN "personal"."persona" persona ON Vacacion."empleado_nro_documento" = persona."nro_documento"
+INNER JOIN "personal"."ficha_laboral" ficha_laboral ON persona."nro_documento" = ficha_laboral."persona_nro_documento"
+LEFT JOIN "interrupcion_vacacion" interrupcion_vacacion ON Vacacion."id" = interrupcion_vacacion."vac_id"
+WHERE
+vacacion.periodo_anio = $P{periodo_anio} AND
+$X{IN,persona.nro_documento,persona_lista}
+ORDER BY
+pers_paterno,pers_materno,pers_nombres,vac_fecha_inicio]]>
+	</queryString>
+	<field name="empleado.nombreCompleto" class="java.lang.String"/>
+	<field name="empleado.fichaLaboral.codigoTrabajador" class="java.lang.String"/>
+	<field name="diasRestantes" class="java.lang.String"/>
+	<field name="lunesViernes" class="java.lang.String"/>
+	<field name="sabado" class="java.lang.String"/>
+	<field name="domingo" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="105" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="04d6c6fe-4a73-4f66-bb1b-a51ebaaf2e94"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="100" height="20" uuid="14b0ba11-165d-420f-8b8d-2513e2645f28"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INSTITUCIÓN:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="100" height="20" uuid="043b428b-5008-48e4-8410-8c30bdca0b8d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA Y HORA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="100" height="20" uuid="5a780a8e-8a26-40ef-b97b-cf55870ca52d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[USUARIO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="259" height="20" uuid="3a7d3355-bb49-4fb8-8d37-5b8645fac530"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE SALDO VACACIONAL]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="20" width="259" height="20" uuid="4be28a8f-758e-4f61-916c-e148524ab9f9"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reporte_institucion}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd.MM.yyyy HH:mm:ss">
+				<reportElement x="100" y="40" width="259" height="20" uuid="d9b65a2d-2d66-4287-ba12-a2d75186b1ab"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="60" width="259" height="20" uuid="a72a4adf-e145-4901-a66c-8dfe1a849925"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reporte_usuario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="80" width="100" height="20" uuid="1cef13aa-8d1b-451e-9a28-5e448ecef78c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PERÍODO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="80" width="259" height="20" uuid="90eb7232-c17d-4db6-832f-6632185e58e0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[String.format("%s - %s",$P{periodo_anio},$P{periodo_anio}+1)]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="74" height="20" backcolor="#CCCCCC" uuid="87699a28-e7f2-4285-9594-b2dd958b03d3"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CÓDIGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="74" y="0" width="241" height="20" backcolor="#CCCCCC" uuid="79fa12ea-06f2-481f-84cf-4adb4ebb2eef"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[EMPLEADO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="383" y="0" width="59" height="20" backcolor="#CCCCCC" uuid="977ca34f-cc11-461c-a2dd-a2ea3ef4fede"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[LUN - VIE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="442" y="0" width="41" height="20" backcolor="#CCCCCC" uuid="f1017901-e69c-4517-b6b1-de12f3731414"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SÁB]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="315" y="0" width="68" height="20" backcolor="#CCCCCC" uuid="35b1e23a-205f-45b9-95d6-7110e34a3e82"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SALDO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="483" y="0" width="41" height="20" backcolor="#CCCCCC" uuid="df3e8816-bebd-4692-b90d-1dbee1760931"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DOM]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="74" height="20" uuid="ccdba270-71b4-4c13-9c76-93abca87d30e"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{empleado.fichaLaboral.codigoTrabajador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="74" y="0" width="241" height="20" uuid="717d0681-3563-4d8e-b96f-6e6baf66e0c4"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{empleado.nombreCompleto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="315" y="0" width="68" height="20" uuid="9d6f9a81-5326-40f4-bcf1-7264a0b19974"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{diasRestantes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="383" y="0" width="59" height="20" uuid="5ec372e8-2532-442f-9137-47f1495816e5"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{lunesViernes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="442" y="0" width="41" height="20" uuid="aa2c42b7-192d-42e4-bb9b-fa427ee749b1"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{sabado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="483" y="0" width="41" height="20" uuid="d4b3f747-e913-4282-9772-1d8e54bd35ee"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{domingo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -57,6 +57,7 @@ public class DAOBiosis<T> {
             properties.put("javax.persistence.jdbc.password", Encriptador.decrypt(password));
             properties.put("javax.persistence.jdbc.driver", driver);
             properties.put("javax.persistence.jdbc.url", url);
+//            properties.put("hibernate.show_sql", "true");
             properties.put("javax.persistence.schema-generation.database.action", "none");
 
             

@@ -22,7 +22,7 @@ public class MTPermiso extends ModeloTabla<Permiso>{
     public MTPermiso(List<Permiso> datos) {
         super(datos);
         this.nombreColumnas = new String[]{"Tipo","Inicio","Fin","Motivo",""};
-        dfFecha = new SimpleDateFormat("dd/MM/yyyy");
+        dfFecha = new SimpleDateFormat("dd.MM.yyyy");
         dfHora = new SimpleDateFormat("HH:mm:ss");
         
     }

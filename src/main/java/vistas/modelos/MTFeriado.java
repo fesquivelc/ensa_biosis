@@ -20,7 +20,7 @@ public class MTFeriado extends ModeloTabla<Feriado>{
     private final DateFormat dfFecha;
     public MTFeriado(List<Feriado> datos) {
         super(datos);
-        dfFecha = new SimpleDateFormat("dd/MM");
+        dfFecha = new SimpleDateFormat("dd.MM");
         this.nombreColumnas = new String[]{"Nombre","F. Inicio","F. Fin"};
     }
 

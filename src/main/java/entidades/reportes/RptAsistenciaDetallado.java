@@ -11,6 +11,8 @@ import entidades.DetalleJornada;
 import entidades.Feriado;
 import entidades.Permiso;
 import entidades.Vacacion;
+import entidades.escalafon.Contrato;
+import entidades.escalafon.Departamento;
 import entidades.escalafon.Empleado;
 import entidades.sisgedo.Salida;
 import java.util.Date;
@@ -33,6 +35,25 @@ public class RptAsistenciaDetallado{
     private boolean minutosExtraAutorizado;
     private Autorizacion autorizacionExtra;
     private Date fecha;
+    private Departamento area;
+    private Contrato contrato;
+
+    public Contrato getContrato() {
+        return contrato;
+    }
+
+    public void setContrato(Contrato contrato) {
+        this.contrato = contrato;
+    }
+    
+
+    public Departamento getArea() {
+        return area;
+    }
+
+    public void setArea(Departamento area) {
+        this.area = area;
+    }
 
     public Integer getMinutosTardanza() {
         return minutosTardanza;

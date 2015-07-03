@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class MTAsignacionHorarioHR extends ModeloTabla<AsignacionHorario> {
 
-    private final DateFormat dfFecha = new SimpleDateFormat("dd/MM/yyyy");
+    private final DateFormat dfFecha = new SimpleDateFormat("dd.MM.yyyy");
 
     public MTAsignacionHorarioHR(List<AsignacionHorario> datos) {
         super(datos);

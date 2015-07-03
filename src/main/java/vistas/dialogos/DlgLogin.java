@@ -5,15 +5,17 @@
  */
 package vistas.dialogos;
 
+import com.personal.utiles.FormularioUtil;
 import controladores.UsuarioControlador;
 import dao.DAOBiosis;
 import entidades.Usuario;
 import vistas.Principal;
-import com.personal.utiles.FormularioUtil;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
+import principal.Main;
 
 /**
  *
@@ -28,9 +30,16 @@ public class DlgLogin extends javax.swing.JDialog {
 
     public DlgLogin(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+
         uc = new UsuarioControlador();
         initComponents();
-//        FormularioUtil.imagenALabel("reportes/logo.png", lblLogo);
+        this.lblTitulo.setText(Main.LOGIN_TITULO);
+        this.lblSubtitulo.setText(Main.LOGIN_SUBTITULO);
+        File file = new File(Main.LOGIN_IMAGEN);
+        if (file.exists()) {
+            FormularioUtil.imagenALabel(Main.LOGIN_IMAGEN, lblLogo);
+        }
+
         iniciar();
         this.setLocationRelativeTo(null);
     }
@@ -48,8 +57,8 @@ public class DlgLogin extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtUsuario = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        lblTitulo = new javax.swing.JLabel();
+        lblSubtitulo = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         btnIngresar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -65,6 +74,7 @@ public class DlgLogin extends javax.swing.JDialog {
         layout.rowHeights = new int[] {0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0};
         getContentPane().setLayout(layout);
 
+        jLabel1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel1.setText("Usuario:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -73,6 +83,7 @@ public class DlgLogin extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         getContentPane().add(jLabel1, gridBagConstraints);
 
+        jLabel2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel2.setText("Contraseña:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -82,6 +93,7 @@ public class DlgLogin extends javax.swing.JDialog {
         getContentPane().add(jLabel2, gridBagConstraints);
 
         txtUsuario.setColumns(50);
+        txtUsuario.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         txtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtUsuarioKeyReleased(evt);
@@ -95,27 +107,28 @@ public class DlgLogin extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         getContentPane().add(txtUsuario, gridBagConstraints);
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("SISTEMA DE CONTROL DE ASISTENCIA DE PERSONAL");
+        lblTitulo.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
+        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitulo.setText("SISTEMA DE CONTROL DE ASISTENCIA DE PERSONAL");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 3;
-        getContentPane().add(jLabel3, gridBagConstraints);
+        getContentPane().add(lblTitulo, gridBagConstraints);
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("BIOSIS - SAN MARCOS");
+        lblSubtitulo.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
+        lblSubtitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSubtitulo.setText("BIOSIS - SAN MARCOS");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        getContentPane().add(jLabel4, gridBagConstraints);
+        getContentPane().add(lblSubtitulo, gridBagConstraints);
 
         jPanel1.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
 
+        btnIngresar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         btnIngresar.setText("Ingresar");
         btnIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -124,6 +137,7 @@ public class DlgLogin extends javax.swing.JDialog {
         });
         jPanel1.add(btnIngresar);
 
+        btnCancelar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         btnCancelar.setText("Salir");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -139,6 +153,7 @@ public class DlgLogin extends javax.swing.JDialog {
         getContentPane().add(jPanel1, gridBagConstraints);
 
         txtPassword.setColumns(50);
+        txtPassword.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtPasswordKeyReleased(evt);
@@ -251,11 +266,11 @@ public class DlgLogin extends javax.swing.JDialog {
     private javax.swing.JButton btnIngresar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblLogo;
+    private javax.swing.JLabel lblSubtitulo;
+    private javax.swing.JLabel lblTitulo;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
@@ -269,14 +284,14 @@ public class DlgLogin extends javax.swing.JDialog {
             if (u == null) {
                 JOptionPane.showMessageDialog(this, "El usuario o password son incorrectos", "Mensaje del Sistema", JOptionPane.ERROR_MESSAGE);
             } else {
-                
-                if(u.isCambiarPassword()){
+
+                if (u.isCambiarPassword()) {
                     JOptionPane.showMessageDialog(this, "Debe cambiar su password", "Mensaje del sistema", JOptionPane.INFORMATION_MESSAGE);
                     DlgCambiarPasswordInicio cambiarPwd = new DlgCambiarPasswordInicio(null, u, true);
                     cambiarPwd.setVisible(true);
-                    
+
                 }
-                if(u== null){
+                if (u == null) {
                     LOG.error("USUARIO ES NULL");
                 }
                 Principal principal = new Principal();
@@ -300,13 +315,13 @@ public class DlgLogin extends javax.swing.JDialog {
             dao.getEntityManager();
         } catch (Exception e) {
             LOG.error(e.getMessage());
-            error ++;
+            error++;
             mensaje += "LA CONEXION CON LA BD BIOSIS FALLA\n";
         }
-        
-        if(error > 0){
-            JOptionPane.showMessageDialog(this, "EXISTEN "+error+" ERROR(ES):\n"+mensaje, mensaje, error);
-            if(JOptionPane.showConfirmDialog(this, "¿DESEA REVISAR LA CONFIGURACIÓN DE LA BD", "MENSAJE DEL SISTEMA", JOptionPane.ERROR_MESSAGE) == JOptionPane.YES_OPTION){
+
+        if (error > 0) {
+            JOptionPane.showMessageDialog(this, "EXISTEN " + error + " ERROR(ES):\n" + mensaje, mensaje, error);
+            if (JOptionPane.showConfirmDialog(this, "¿DESEA REVISAR LA CONFIGURACIÓN DE LA BD", "MENSAJE DEL SISTEMA", JOptionPane.ERROR_MESSAGE) == JOptionPane.YES_OPTION) {
                 DlgConfiguracion dialogo = new DlgConfiguracion(null);
                 dialogo.setVisible(true);
             }

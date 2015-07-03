@@ -17,6 +17,11 @@ import entidades.SaldoVacacional;
 import vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
+import controladores.CompraVacacionControlador;
+import controladores.VacacionControlador;
+import entidades.CompraVacacion;
+import entidades.InterrupcionVacacion;
+import entidades.Vacacion;
 import entidades.escalafon.Departamento;
 import entidades.escalafon.Empleado;
 import entidades.escalafon.FichaLaboral;
@@ -36,6 +41,7 @@ import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.SwingBindings;
+import principal.Main;
 import utiles.UsuarioActivo;
 import vistas.dialogos.DlgEmpleado;
 import vistas.dialogos.DlgOficina;
@@ -76,9 +82,12 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         grpSeleccion = new javax.swing.ButtonGroup();
+        grpTipo = new javax.swing.ButtonGroup();
         pnlRango = new javax.swing.JPanel();
         cboPeriodo = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
+        radDetalle = new javax.swing.JRadioButton();
+        radSaldo = new javax.swing.JRadioButton();
         pnlEmpleados = new javax.swing.JPanel();
         radGrupo = new javax.swing.JRadioButton();
         radPersonalizado = new javax.swing.JRadioButton();
@@ -96,6 +105,9 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         grpSeleccion.add(radGrupo);
         grpSeleccion.add(radPersonalizado);
         grpSeleccion.add(radOficina);
+
+        grpTipo.add(radDetalle);
+        grpTipo.add(radSaldo);
 
         setClosable(true);
         setMaximizable(true);
@@ -119,8 +131,24 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         pnlRango.add(jLabel1, gridBagConstraints);
+
+        radDetalle.setSelected(true);
+        radDetalle.setText("Detalle de vacaciones");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlRango.add(radDetalle, gridBagConstraints);
+
+        radSaldo.setText("Saldos vacacionales");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlRango.add(radSaldo, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -309,6 +337,7 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox cboGrupoHorario;
     private javax.swing.JComboBox cboPeriodo;
     private javax.swing.ButtonGroup grpSeleccion;
+    private javax.swing.ButtonGroup grpTipo;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -316,9 +345,11 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlEmpleados;
     private javax.swing.JPanel pnlRango;
     private javax.swing.JTabbedPane pnlTab;
+    private javax.swing.JRadioButton radDetalle;
     private javax.swing.JRadioButton radGrupo;
     private javax.swing.JRadioButton radOficina;
     private javax.swing.JRadioButton radPersonalizado;
+    private javax.swing.JRadioButton radSaldo;
     private org.jdesktop.swingx.JXTable tblTabla;
     private javax.swing.JTextField txtOficina;
     // End of variables declaration//GEN-END:variables
@@ -399,33 +430,42 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
 
     private void generarReporte() {
         List<Empleado> empleados = obtenerDNI();
+
+        if (radSaldo.isSelected()) {
+            List<SaldoVacacional> saldos = generarSaldos((Periodo) cboPeriodo.getSelectedItem(), empleados);
+            String ficheroReport = "reportes/ensa_reporte_saldo_vacacion.jasper";
+            Map<String, Object> parametros = new HashMap<>();
+            parametros.put("reporte_usuario", UsuarioActivo.getUsuario().getLogin());
+            parametros.put("reporte_institucion", Main.REPORTE_INSTITUCION);
+            parametros.put("periodo_anio", ((Periodo) cboPeriodo.getSelectedItem()).getAnio());
+            File reporteFile = new File(ficheroReport);
+            Component component = reporteUtil.obtenerReporte(saldos, reporteFile, parametros);
+            if (component != null) {
+                pnlTab.remove(0);
+                pnlTab.add("Vista previa", component);
+            }
+            return;
+        }
+
         List<String> dnis = new ArrayList<>();
         Periodo periodo = obtenerPeriodo();
-       
-        
-        
-//        List<Empleado> empleados = ec.buscarPorLista(dnis);
         for (Empleado e : empleados) {
             dnis.add(e.getNroDocumento());
-            buscarCrear(e, periodo);
         }
-        String ficheroReporte = "reportes/r_vacaciones.jasper";
+        String ficheroReporte = "reportes/ensa_reporte_vacacion.jasper";
 
         File archivo = new File(ficheroReporte);
         Map<String, Object> parametros = new HashMap<>();
-        parametros.put("usuario", UsuarioActivo.getUsuario().getLogin());
-        parametros.put("lista", dnis);
+        parametros.put("reporte_usuario", UsuarioActivo.getUsuario().getLogin());
+        parametros.put("persona_lista", dnis);
         parametros.put("periodo_anio", periodo.getAnio());
-        parametros.put("CONEXION_EMPLEADOS", ec.getDao().getConexion());
-
+        parametros.put("reporte_institucion", Main.REPORTE_INSTITUCION);
         reporteUtil.setConn(svc.getDao().getConexion());
         Component componente = reporteUtil.obtenerReporte(archivo, parametros);
-
         if (componente != null) {
             pnlTab.remove(0);
             pnlTab.add("Vista previa", componente);
         }
-
     }
     private final SaldoVacacionalControlador svc = new SaldoVacacionalControlador();
     private final Calendar calendar = Calendar.getInstance();
@@ -482,7 +522,6 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
 
         return lista;
     }
-    
 
     private GrupoHorario grupoSeleccionado;
     private final DetalleGrupoControlador dgc = new DetalleGrupoControlador();
@@ -500,5 +539,66 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
             return periodoList.get(fila);
         }
         return null;
+    }
+
+    private VacacionControlador vacc = new VacacionControlador();
+    private CompraVacacionControlador cmpvacc = CompraVacacionControlador.getInstance();
+
+    private List<SaldoVacacional> generarSaldos(Periodo periodo, List<Empleado> empleados) {
+        List<SaldoVacacional> saldoVacacionalList = new ArrayList<>();
+        for (Empleado empleado : empleados) {
+            SaldoVacacional saldoVacacional = new SaldoVacacional();
+
+            List<Vacacion> vacaciones = this.vacc.buscarXEmpleadoXPeriodoNoReprogramacion(empleado, periodo);
+            Calendar iterador = Calendar.getInstance();
+            int lunesViernes = 0;
+            int sab = 0;
+            int dom = 0;
+            int saldo = 30;
+            List<CompraVacacion> compras = cmpvacc.buscarXEmpleadoXPeriodo(empleado, periodo);
+            for (CompraVacacion compra : compras) {
+                saldo -= compra.getDiasCompra();
+            }
+            for (Vacacion vacacion : vacaciones) {
+                iterador.setTime(vacacion.getFechaInicio());
+                InterrupcionVacacion interrupcion = vacacion.getInterrupcionVacacion();
+                while (iterador.getTime().compareTo(vacacion.getFechaFin()) <= 0) {
+                    if (interrupcion != null) {
+                        if (interrupcion.getFechaInicio().compareTo(iterador.getTime()) <= 0
+                                && interrupcion.getFechaFin().compareTo(iterador.getTime()) >= 0) {
+                            //no pasa nada
+                        } else {
+                            if (iterador.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
+                                    && iterador.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+                                lunesViernes++;
+                            }
+                        }
+                    } else {
+                        if (iterador.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
+                                && iterador.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+                            lunesViernes++;
+                        }
+                    }
+                    iterador.add(Calendar.DATE, 1);
+                }
+            }
+
+            int division = lunesViernes / 5;
+            sab = division;
+            dom = division;
+
+            saldo = saldo - (lunesViernes + sab + dom);
+
+            saldoVacacional.setDiasRestantes(saldo);
+            saldoVacacional.setLunesViernes(lunesViernes);
+            saldoVacacional.setSabado(sab);
+            saldoVacacional.setDomingo(dom);
+            saldoVacacional.setEmpleado(empleado);
+            saldoVacacional.setPeriodo(periodo);
+
+            saldoVacacionalList.add(saldoVacacional);
+        }
+
+        return saldoVacacionalList;
     }
 }

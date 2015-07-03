@@ -67,10 +67,14 @@ public class VacacionControlador extends Controlador<Vacacion> {
 
     public Vacacion buscarXDia(Empleado empleado, Date dia) {
         String jpql = "SELECT v FROM Vacacion v"
-                + " WHERE v.empleado = :dni"
-                + " AND ("
-                + "(v.hayInterrupcion = FALSE AND :dia BETWEEN v.fechaInicio AND v.fechaFin) OR "
-                + "(v.hayInterrupcion = TRUE AND :dia BETWEEN v.fechaInicio AND v.fechaInterrupcion)"
+                + " WHERE v.empleado = :dni "
+                + " AND ( "
+                + "(v.fechaInterrupcion IS NULL AND :dia BETWEEN v.fechaInicio AND v.fechaFin) OR "
+                + "(v.fechaInterrupcion IS NOT NULL AND :dia >= v.fechaInicio AND :dia < v.fechaInterrupcion)"
+                + ") AND ("
+                + "v.interrupcionVacacion IS NULL OR (v.interrupcionVacacion IS NOT NULL AND "
+                + "((:dia >= v.fechaInicio AND :dia < v.interrupcionVacacion.fechaInicio) OR (:dia > v.interrupcionVacacion.fechaFin AND :dia <= v.fechaFin))"
+                + ")"
                 + ")";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("dni", empleado);

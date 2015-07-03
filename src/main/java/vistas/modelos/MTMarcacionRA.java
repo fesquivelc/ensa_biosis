@@ -16,20 +16,14 @@ import java.util.List;
  *
  * @author fesquivelc
  */
-public class MTMarcacion extends ModeloTabla<Marcacion> {
+public class MTMarcacionRA extends ModeloTabla<Marcacion> {
 
     private final DateFormat dtFecha;
     private final DateFormat dtHora;
     
-    public MTMarcacion(List<Marcacion> datos) {
+    public MTMarcacionRA(List<Marcacion> datos) {
         super(datos);
-        this.nombreColumnas = new String[]{"Nro de documento", "Empleado", "Fecha", "Hora", "Ip de Equipo"};
-        dtFecha = new SimpleDateFormat("dd.MM.yyyy");
-        dtHora = new SimpleDateFormat("HH:mm:ss");
-    }
-
-    public MTMarcacion(List<Marcacion> datos, String[] nombreColumnas) {
-        super(datos, nombreColumnas);
+        this.nombreColumnas = new String[]{"Fecha", "Hora", "Equipo"};
         dtFecha = new SimpleDateFormat("dd.MM.yyyy");
         dtHora = new SimpleDateFormat("HH:mm:ss");
     }
@@ -37,19 +31,13 @@ public class MTMarcacion extends ModeloTabla<Marcacion> {
     @Override
     public Object getValorEn(int rowIndex, int columnIndex) {
         Marcacion marcacion = this.datos.get(rowIndex);
-//        Empleado e = ec.buscarPorId(marcacion.getEmpleado());
-        Empleado empleado = marcacion.getEmpleado();
         switch (columnIndex) {
             case 0:
-                return empleado.getFichaLaboral().getCodigoTrabajador();
-            case 1:
-                return String.format("%s %s %s", empleado.getPaterno(),empleado.getMaterno(),empleado.getNombre());
-            case 2:
                 return dtFecha.format(marcacion.getFechaHora());
-            case 3:
+            case 1:
                 return dtHora.format(marcacion.getFechaHora());
-            case 4:
-                return marcacion.getEquipo();
+            case 2:
+                return "SEDE PRINCIPAL";//marcacion.getEquipo();
             default:
                 return null;
         }

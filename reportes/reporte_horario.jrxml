@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_horario" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="372ba24b-a4e3-4271-aa02-cfd902c220a6">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="196"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
@@ -69,11 +69,11 @@ WHERE
 		<field name="asghor_fecha_fin" class="java.sql.Timestamp"/>
 		<field name="grphor_nombre" class="java.lang.String"/>
 	</subDataset>
-	<parameter name="por_area" class="java.lang.Boolean">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	<parameter name="reporte_institucion" class="java.lang.String">
+		<defaultValueExpression><![CDATA["MUNICIPALIDAD PROVINCIAL DE SAN MARCOS"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="area_id" class="java.lang.Long">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	<parameter name="reporte_usuario" class="java.lang.String">
+		<defaultValueExpression><![CDATA["admin"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
@@ -84,7 +84,6 @@ persona."nro_documento" AS pers_numero_documento,
 horario."nombre" AS hor_nombre,
 asignacion_horario."fecha_inicio" AS asghor_fecha_inicio,
 asignacion_horario."fecha_fin" AS asghor_fecha_fin,
-grupo_horario."nombre" AS grphor_nombre,
 dtjorn_entrada,
 dtjorn_salida,
 turno.lunes as turno_lunes,
@@ -96,23 +95,17 @@ turno.sabado as turno_sabado,
 turno.domingo as turno_domingo,
 CASE WHEN reglab.nombre IS NULL THEN 'SIN ASIGNAR' ELSE reglab.nombre END as reglab_descripcion
 FROM
-"personal"."persona" persona
-INNER JOIN "personal"."ficha_laboral" flab ON persona."nro_documento" = flab."persona_nro_documento"
+"dbo"."asignacion_horario" asignacion_horario
+INNER JOIN Horario horario ON asignacion_horario.horario_codigo = horario.codigo
+INNER JOIN turno ON turno.horario_codigo = horario.codigo
+INNER JOIN detalle_jornada ON turno.jornada_codigo = detalle_jornada.jorn_codigo,
+personal.persona persona INNER JOIN "personal"."ficha_laboral" flab ON persona."nro_documento" = flab."persona_nro_documento"
 LEFT JOIN parametricas.regimen_laboral reglab ON flab.regimen_laboral_codigo = reglab.codigo
-LEFT JOIN "dbo"."asignacion_horario" asignacion_horario ON persona."nro_documento" = asignacion_horario."empleado_nro_documento"
-LEFT JOIN Horario horario ON asignacion_horario.horario_codigo = horario.codigo
-LEFT JOIN turno ON turno.horario_codigo = horario.codigo
-LEFT JOIN detalle_jornada ON turno.jornada_codigo = detalle_jornada.jorn_codigo
-LEFT JOIN "dbo"."detalle_grupo_horario" detalle_grupo_horario ON persona."nro_documento" = detalle_grupo_horario."empleado_nro_documento"
-LEFT JOIN "dbo"."grupo_horario" grupo_horario ON detalle_grupo_horario."grupo_horario_codigo" = grupo_horario."codigo"
-LEFT JOIN "institucional"."area" area ON flab."area_codigo" = area."area_id"
 WHERE
-horario.nombre IS NOT NULL AND
-(
-($P{por_area} = 1 AND area_id = $P{area_id}) OR ($P{por_area} = 0)
-)
+(asignacion_horario.por_grupo = 0 AND asignacion_horario.empleado_nro_documento = persona.nro_documento) OR
+(asignacion_horario.por_grupo = 1 AND grupo_horario_codigo IN (SELECT grupo_horario_codigo FROM detalle_grupo_horario WHERE detalle_grupo_horario.empleado_nro_documento = persona.nro_documento))
 ORDER BY
-reglab_descripcion,pers_paterno,pers_materno,pers_nombres]]>
+reglab_descripcion,pers_paterno,pers_materno,pers_nombres,asghor_fecha_inicio ASC]]>
 	</queryString>
 	<field name="pers_paterno" class="java.lang.String"/>
 	<field name="pers_materno" class="java.lang.String"/>
@@ -121,7 +114,6 @@ reglab_descripcion,pers_paterno,pers_materno,pers_nombres]]>
 	<field name="hor_nombre" class="java.lang.String"/>
 	<field name="asghor_fecha_inicio" class="java.sql.Timestamp"/>
 	<field name="asghor_fecha_fin" class="java.sql.Timestamp"/>
-	<field name="grphor_nombre" class="java.lang.String"/>
 	<field name="dtjorn_entrada" class="java.sql.Timestamp"/>
 	<field name="dtjorn_salida" class="java.sql.Timestamp"/>
 	<field name="turno_lunes" class="java.lang.Boolean"/>
@@ -137,14 +129,14 @@ reglab_descripcion,pers_paterno,pers_materno,pers_nombres]]>
 		<groupHeader>
 			<band height="40">
 				<staticText>
-					<reportElement style="SubTitle" x="0" y="0" width="136" height="20" uuid="a324e321-27f3-4e48-a11a-532a3157da9a"/>
+					<reportElement style="SubTitle" x="0" y="0" width="136" height="20" forecolor="#000000" uuid="a324e321-27f3-4e48-a11a-532a3157da9a"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="SansSerif" size="12" isBold="true"/>
 					</textElement>
 					<text><![CDATA[RÉGIMEN LABORAL:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="103" y="20" width="222" height="20" backcolor="#CCCCFF" uuid="7996742f-3759-4a2d-9b87-d679da238c77"/>
+					<reportElement mode="Opaque" x="103" y="20" width="363" height="20" backcolor="#CCCCCC" uuid="7996742f-3759-4a2d-9b87-d679da238c77"/>
 					<box>
 						<topPen lineWidth="0.75"/>
 						<leftPen lineWidth="0.75"/>
@@ -164,7 +156,7 @@ reglab_descripcion,pers_paterno,pers_materno,pers_nombres]]>
 					<textFieldExpression><![CDATA[$F{reglab_descripcion}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement mode="Opaque" x="0" y="20" width="103" height="20" backcolor="#CCCCFF" uuid="5d506d6e-f267-4a8e-9f25-5eb6c21fee7f"/>
+					<reportElement mode="Opaque" x="0" y="20" width="103" height="20" backcolor="#CCCCCC" uuid="5d506d6e-f267-4a8e-9f25-5eb6c21fee7f"/>
 					<box>
 						<topPen lineWidth="0.75"/>
 						<leftPen lineWidth="0.75"/>
@@ -177,20 +169,7 @@ reglab_descripcion,pers_paterno,pers_materno,pers_nombres]]>
 					<text><![CDATA[NRO DOCUMENTO]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="325" y="20" width="141" height="20" backcolor="#CCCCFF" uuid="314bc8ee-6861-4295-a5a9-432d3a73be1f"/>
-					<box>
-						<topPen lineWidth="0.75"/>
-						<leftPen lineWidth="0.75"/>
-						<bottomPen lineWidth="0.75"/>
-						<rightPen lineWidth="0.75"/>
-					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="SansSerif" size="9" isBold="true"/>
-					</textElement>
-					<text><![CDATA[GRUPO HORARIO]]></text>
-				</staticText>
-				<staticText>
-					<reportElement mode="Opaque" x="466" y="20" width="50" height="20" backcolor="#CCCCFF" uuid="2ab037ea-1a43-4678-9b33-ae61694605f0"/>
+					<reportElement mode="Opaque" x="466" y="20" width="50" height="20" backcolor="#CCCCCC" uuid="2ab037ea-1a43-4678-9b33-ae61694605f0"/>
 					<box>
 						<topPen lineWidth="0.75"/>
 						<leftPen lineWidth="0.75"/>
@@ -203,7 +182,7 @@ reglab_descripcion,pers_paterno,pers_materno,pers_nombres]]>
 					<text><![CDATA[DESDE]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="516" y="20" width="50" height="20" backcolor="#CCCCFF" uuid="f0eeadea-04fd-4e7b-aed8-892d39210fcc"/>
+					<reportElement mode="Opaque" x="516" y="20" width="50" height="20" backcolor="#CCCCCC" uuid="f0eeadea-04fd-4e7b-aed8-892d39210fcc"/>
 					<box>
 						<topPen lineWidth="0.75"/>
 						<leftPen lineWidth="0.75"/>
@@ -216,7 +195,7 @@ reglab_descripcion,pers_paterno,pers_materno,pers_nombres]]>
 					<text><![CDATA[HASTA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="566" y="20" width="64" height="20" backcolor="#CCCCFF" uuid="e7213f24-e955-4946-add0-c0654dd3f01c"/>
+					<reportElement mode="Opaque" x="566" y="20" width="64" height="20" backcolor="#CCCCCC" uuid="e7213f24-e955-4946-add0-c0654dd3f01c"/>
 					<box>
 						<topPen lineWidth="0.75"/>
 						<leftPen lineWidth="0.75"/>
@@ -229,7 +208,7 @@ reglab_descripcion,pers_paterno,pers_materno,pers_nombres]]>
 					<text><![CDATA[H. ENTRADA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="630" y="20" width="64" height="20" backcolor="#CCCCFF" uuid="58621f8d-04b6-4c6d-9c47-4f43bcb89080"/>
+					<reportElement mode="Opaque" x="630" y="20" width="64" height="20" backcolor="#CCCCCC" uuid="58621f8d-04b6-4c6d-9c47-4f43bcb89080"/>
 					<box>
 						<topPen lineWidth="0.75"/>
 						<leftPen lineWidth="0.75"/>
@@ -242,7 +221,7 @@ reglab_descripcion,pers_paterno,pers_materno,pers_nombres]]>
 					<text><![CDATA[H. SALIDA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="694" y="20" width="15" height="20" backcolor="#CCCCFF" uuid="f9bfe65c-e284-4090-8a66-d9d7a2fe948e"/>
+					<reportElement mode="Opaque" x="694" y="20" width="15" height="20" backcolor="#CCCCCC" uuid="f9bfe65c-e284-4090-8a66-d9d7a2fe948e"/>
 					<box>
 						<topPen lineWidth="0.75"/>
 						<leftPen lineWidth="0.75"/>
@@ -255,7 +234,7 @@ reglab_descripcion,pers_paterno,pers_materno,pers_nombres]]>
 					<text><![CDATA[L]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="709" y="20" width="15" height="20" backcolor="#CCCCFF" uuid="35421621-3f22-43fe-a371-4a84943dd62c"/>
+					<reportElement mode="Opaque" x="709" y="20" width="15" height="20" backcolor="#CCCCCC" uuid="35421621-3f22-43fe-a371-4a84943dd62c"/>
 					<box>
 						<topPen lineWidth="0.75"/>
 						<leftPen lineWidth="0.75"/>
@@ -268,7 +247,7 @@ reglab_descripcion,pers_paterno,pers_materno,pers_nombres]]>
 					<text><![CDATA[M]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="724" y="20" width="15" height="20" backcolor="#CCCCFF" uuid="c7f67099-b5b4-49bd-8835-eb4e3d8002c2"/>
+					<reportElement mode="Opaque" x="724" y="20" width="15" height="20" backcolor="#CCCCCC" uuid="c7f67099-b5b4-49bd-8835-eb4e3d8002c2"/>
 					<box>
 						<topPen lineWidth="0.75"/>
 						<leftPen lineWidth="0.75"/>
@@ -281,7 +260,7 @@ reglab_descripcion,pers_paterno,pers_materno,pers_nombres]]>
 					<text><![CDATA[M]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="739" y="20" width="15" height="20" backcolor="#CCCCFF" uuid="d040f152-450f-42cd-8061-21914b0090ed"/>
+					<reportElement mode="Opaque" x="739" y="20" width="15" height="20" backcolor="#CCCCCC" uuid="d040f152-450f-42cd-8061-21914b0090ed"/>
 					<box>
 						<topPen lineWidth="0.75"/>
 						<leftPen lineWidth="0.75"/>
@@ -294,7 +273,7 @@ reglab_descripcion,pers_paterno,pers_materno,pers_nombres]]>
 					<text><![CDATA[J]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="754" y="20" width="15" height="20" backcolor="#CCCCFF" uuid="69680bfd-a17b-4bb6-8a51-e64f67428486"/>
+					<reportElement mode="Opaque" x="754" y="20" width="15" height="20" backcolor="#CCCCCC" uuid="69680bfd-a17b-4bb6-8a51-e64f67428486"/>
 					<box>
 						<topPen lineWidth="0.75"/>
 						<leftPen lineWidth="0.75"/>
@@ -307,7 +286,7 @@ reglab_descripcion,pers_paterno,pers_materno,pers_nombres]]>
 					<text><![CDATA[V]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="769" y="20" width="15" height="20" backcolor="#CCCCFF" uuid="f28d3d08-7673-404f-b280-95fd847e7fa8"/>
+					<reportElement mode="Opaque" x="769" y="20" width="15" height="20" backcolor="#CCCCCC" uuid="f28d3d08-7673-404f-b280-95fd847e7fa8"/>
 					<box>
 						<topPen lineWidth="0.75"/>
 						<leftPen lineWidth="0.75"/>
@@ -320,7 +299,7 @@ reglab_descripcion,pers_paterno,pers_materno,pers_nombres]]>
 					<text><![CDATA[S]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="784" y="20" width="15" height="20" backcolor="#CCCCFF" uuid="97cc1fd5-6f3f-4215-81f7-af628e0b5bf2"/>
+					<reportElement mode="Opaque" x="784" y="20" width="15" height="20" backcolor="#CCCCCC" uuid="97cc1fd5-6f3f-4215-81f7-af628e0b5bf2"/>
 					<box>
 						<topPen lineWidth="0.75"/>
 						<leftPen lineWidth="0.75"/>
@@ -339,13 +318,62 @@ reglab_descripcion,pers_paterno,pers_materno,pers_nombres]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="70" splitType="Stretch">
+		<band height="105" splitType="Stretch">
 			<staticText>
-				<reportElement style="Title" x="0" y="0" width="802" height="46" uuid="df7ec538-dca0-4e87-a2a2-d387392b7bb6"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
+				<reportElement x="0" y="40" width="100" height="20" uuid="b918c051-a73e-4b35-994a-7b272c812893"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[REPORTE GENERAL DE HORARIOS ASIGNADOS]]></text>
+				<text><![CDATA[FECHA Y HORA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="100" height="20" uuid="03574ab7-fc48-4bbe-84d3-a9037a8e9c63"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[USUARIO:]]></text>
+			</staticText>
+			<textField pattern="dd.MM.yyyy HH:mm:ss">
+				<reportElement x="100" y="40" width="259" height="20" uuid="d9c89934-e236-4869-84c7-3602155bc19e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="60" width="259" height="20" uuid="78e9d3b3-f1f5-4288-a1c2-cb648d9ddc2b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reporte_usuario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="20" width="702" height="20" uuid="bcfebb8c-885f-4f5c-82a2-e4c32f00aa74"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reporte_institucion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="cdfe11d1-6152-43ef-b1bc-7778b1d94170"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="702" height="20" uuid="a1418081-3db7-427d-ad93-65d888d32eae"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[REPORTE GENERAL DE HORARIOS POR EMPLEADO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="100" height="20" uuid="1f1089fb-fa36-4c43-94ba-dee90f6ac0be"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INSTITUCIÓN:]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -382,19 +410,6 @@ reglab_descripcion,pers_paterno,pers_materno,pers_nombres]]>
 					<font fontName="SansSerif" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{asghor_fecha_fin}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="325" y="0" width="141" height="20" uuid="baf8597f-d91b-4e22-b59a-6d754b62b829"/>
-				<box>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{grphor_nombre}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="0" width="103" height="20" uuid="6ac6233c-b066-4ed7-b83f-59bb7fb55243"/>
@@ -436,7 +451,7 @@ reglab_descripcion,pers_paterno,pers_materno,pers_nombres]]>
 				<textFieldExpression><![CDATA[$F{dtjorn_salida}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="103" y="0" width="222" height="20" uuid="1d24f5dd-646c-404d-b00a-38af749dcbcf"/>
+				<reportElement x="103" y="0" width="363" height="20" uuid="1d24f5dd-646c-404d-b00a-38af749dcbcf"/>
 				<box>
 					<topPen lineWidth="0.75"/>
 					<leftPen lineWidth="0.75"/>
