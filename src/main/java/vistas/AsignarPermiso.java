@@ -34,6 +34,7 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import org.jdesktop.observablecollections.ObservableCollections;
+import principal.Main;
 import utiles.UsuarioActivo;
 
 /**
@@ -522,17 +523,22 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(spHoraInicio, gridBagConstraints);
+
+        dcFechaFin.setDateFormatString("dd.MM.yyyy");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(dcFechaFin, gridBagConstraints);
 
+        dcFechaInicio.setDateFormatString("dd.MM.yyyy");
         dcFechaInicio.setMinimumSize(new java.awt.Dimension(130, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(dcFechaInicio, gridBagConstraints);
@@ -1117,52 +1123,14 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
     private final DateFormat dfHora = new SimpleDateFormat("HH:mm");
 
     private void imprimirBoleta(Permiso seleccionada) {
-
-        File reporte = new File("reportes/r_papeleta_permiso_lote.jasper");
+        File reporte = new File("reportes/reporte_papeleta_salida.jasper");
 //        List<Long> lista = new ArrayList<>();
-        String tipoPermiso = "";
-        String conGoce = "";
-        String fechas = "";
-        switch (seleccionada.getTipoPermiso().getTipoDescuento()) {
-            case 'C':
-                conGoce += "SI";
-                break;
-            case 'S':
-                conGoce += "NO";
-                break;
-        }
-
-        switch (seleccionada.getTipoPermiso().getClase()) {
-            case 'L':
-                tipoPermiso = "LICENCIA - " + seleccionada.getTipoPermiso().getNombre();
-                break;
-            case 'P':
-                tipoPermiso = "PERMISO - " + seleccionada.getTipoPermiso().getNombre();
-                break;
-            case 'C':
-                tipoPermiso = "COMISIÓN DE SERVICIOS";
-                break;
-        }
-
-        if (seleccionada.isPorFecha()) {
-            fechas = dfFecha.format(seleccionada.getFechaInicio()) + " - " + dfFecha.format(seleccionada.getFechaFin());
-        } else {
-            fechas = dfFecha.format(seleccionada.getFechaInicio()) + " " + dfHora.format(seleccionada.getHoraInicio()) + " - " + dfFecha.format(seleccionada.getFechaFin()) + " " + dfHora.format(seleccionada.getHoraFin());
-        }
-
-//        for (AsignacionPermiso asignacion : seleccionada.getAsignacionPermisoList()) {
-//            lista.add(asignacion.getId());
-//        }
+        
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("permiso_id", seleccionada.getId());
-        parametros.put("tipoPermiso", tipoPermiso);
-        parametros.put("conGoce", conGoce);
-        System.out.println("NULL 1 ");
-        parametros.put("usuario", UsuarioActivo.getUsuario().getLogin());
-        System.out.println("NULL 2 ");
-        parametros.put("CONEXION_EMPLEADOS", ec.getDao().getConexion());
-        parametros.put("fechas", fechas);
-        System.out.println("NULL 3 ");
+        parametros.put("por_lote", true);
+        parametros.put("reporte_ususario", UsuarioActivo.getUsuario().getLogin());
+        parametros.put("reporte_institucion", Main.REPORTE_INSTITUCION);
 
         reporteador.setConn(controlador.getDao().getConexion());
         reporteador.generarReporte(reporte, parametros, JOptionPane.getFrameForComponent(this));
@@ -1171,49 +1139,15 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 
     private void imprimirBoleta(AsignacionPermiso seleccionada) {
 
-        File reporte = new File("reportes/r_papeleta_permiso2.jasper");
+        File reporte = new File("reportes/reporte_papeleta_salida.jasper");
 //        List<Long> lista = new ArrayList<>();
-        String tipoPermiso = "";
-        String conGoce = "";
-        String fechas = "";
-        switch (seleccionada.getPermiso().getTipoPermiso().getTipoDescuento()) {
-            case 'C':
-                conGoce += "SI";
-                break;
-            case 'S':
-                conGoce += "NO";
-                break;
-        }
-
-        switch (seleccionada.getPermiso().getTipoPermiso().getClase()) {
-            case 'L':
-                tipoPermiso = "LICENCIA - " + seleccionada.getPermiso().getTipoPermiso().getNombre();
-                break;
-            case 'P':
-                tipoPermiso = "PERMISO - " + seleccionada.getPermiso().getTipoPermiso().getNombre();
-                break;
-            case 'C':
-                tipoPermiso = "COMISIÓN DE SERVICIOS";
-                break;
-        }
-
-        if (seleccionada.getPermiso().isPorFecha()) {
-            fechas = dfFecha.format(seleccionada.getPermiso().getFechaInicio()) + " - " + dfFecha.format(seleccionada.getPermiso().getFechaFin());
-        } else {
-            fechas = dfFecha.format(seleccionada.getPermiso().getFechaInicio()) + " " + dfHora.format(seleccionada.getPermiso().getHoraInicio()) + " - " + dfFecha.format(seleccionada.getPermiso().getFechaFin()) + " " + dfHora.format(seleccionada.getPermiso().getHoraFin());
-        }
-
-//        for(AsignacionPermiso asignacion : seleccionada.getAsignacionPermisoList()){
-//        lista.add(seleccionada.getId());
-//        }
+        
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("permiso_id", seleccionada.getPermiso().getId());
-        parametros.put("empleado_nro_documento", seleccionada.getEmpleado().getNroDocumento());
-        parametros.put("tipoPermiso", tipoPermiso);
-        parametros.put("conGoce", conGoce);
-        System.out.println("NULL 1 ");
-        parametros.put("usuario", UsuarioActivo.getUsuario().getLogin());
-        parametros.put("fechas", fechas);
+        parametros.put("pers_nro_documento", seleccionada.getEmpleado().getNroDocumento());
+        parametros.put("por_lote", false);
+        parametros.put("reporte_ususario", UsuarioActivo.getUsuario().getLogin());
+        parametros.put("reporte_institucion", Main.REPORTE_INSTITUCION);
 
         reporteador.setConn(controlador.getDao().getConexion());
         reporteador.generarReporte(reporte, parametros, JOptionPane.getFrameForComponent(this));

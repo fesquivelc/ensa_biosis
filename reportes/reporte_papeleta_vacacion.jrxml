@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_registro_asistencia_consolidado" pageWidth="595" pageHeight="380" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55865ced-10c9-4375-a77d-07d9f5f8916b">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_papeleta_vacacion" pageWidth="595" pageHeight="380" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55865ced-10c9-4375-a77d-07d9f5f8916b">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -16,76 +16,45 @@
 	<parameter name="reporte_usuario" class="java.lang.String">
 		<defaultValueExpression><![CDATA["fesquivelc"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="ruta" class="java.lang.String"/>
-	<parameter name="permiso_id" class="java.lang.Long">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<parameter name="reporte_institucion" class="java.lang.String"/>
-	<parameter name="por_lote" class="java.lang.Boolean">
-		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
-	</parameter>
-	<parameter name="pers_nro_documento" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
+	<parameter name="vac_id" class="java.lang.Long"/>
 	<queryString>
 		<![CDATA[SELECT
-permiso.motivo AS permiso_motivo,
-permiso.por_fecha AS permiso_por_fecha,
-permiso.documento AS permiso_documento,
-permiso.motivo as permiso_motivo,
-permiso.fecha_inicio as pers_fecha_inicio,
-permiso.fecha_fin as pers_fecha_fin,
-permiso.hora_inicio as pers_hora_inicio,
-permiso.hora_fin as pers_hora_fin,
-asignacion_permiso.empleado_nro_documento AS empleado_nro_documento,
-tipo_permiso.nombre AS tipo_permiso_nombre,
-tipo_permiso.codigo as tipo_permiso_codigo,
-tipo_permiso.clase AS tipo_permiso_clase,
-permiso.documento as permiso_documento,
-pers.paterno as pers_paterno,
-pers.materno as pers_materno,
-pers.nombres as pers_nombres,
-pers.nro_documento as pers_nro_documento
+pers.nro_documento AS pers_nro_documento,
+pers.paterno AS pers_paterno,
+pers.materno AS pers_materno,
+pers.nombres AS pers_nombres,
+vac.fecha_inicio AS vac_fecha_inicio,
+vac.fecha_fin AS vac_fecha_fin,
+vac.periodo_anio AS per_anio,
+vac.documento AS vac_documento
 FROM
-Permiso permiso
-INNER JOIN asignacion_permiso asignacion_permiso ON permiso.id = asignacion_permiso.permiso_id
-INNER JOIN tipo_permiso tipo_permiso ON permiso.tipo_permiso_codigo = tipo_permiso.codigo
-INNER JOIN personal.persona pers ON pers.nro_documento = asignacion_permiso.empleado_nro_documento
+personal.persona pers INNER JOIN
+Vacacion vac ON pers.nro_documento = vac.empleado_nro_documento
 WHERE
-permiso.id = $P{permiso_id} AND
-(
-$P{por_lote}=1 OR
-($P{por_lote} = 0 AND asignacion_permiso.empleado_nro_documento = $P{pers_nro_documento})
-)]]>
+vac.id = $P{vac_id}]]>
 	</queryString>
-	<field name="permiso_motivo" class="java.lang.String"/>
-	<field name="permiso_por_fecha" class="java.lang.Boolean"/>
-	<field name="permiso_documento" class="java.lang.String"/>
-	<field name="pers_fecha_inicio" class="java.sql.Timestamp"/>
-	<field name="pers_fecha_fin" class="java.sql.Timestamp"/>
-	<field name="pers_hora_inicio" class="java.sql.Timestamp"/>
-	<field name="pers_hora_fin" class="java.sql.Timestamp"/>
-	<field name="empleado_nro_documento" class="java.lang.String"/>
-	<field name="tipo_permiso_nombre" class="java.lang.String"/>
-	<field name="tipo_permiso_codigo" class="java.lang.String"/>
-	<field name="tipo_permiso_clase" class="java.lang.String"/>
+	<field name="pers_nro_documento" class="java.lang.String"/>
 	<field name="pers_paterno" class="java.lang.String"/>
 	<field name="pers_materno" class="java.lang.String"/>
 	<field name="pers_nombres" class="java.lang.String"/>
-	<field name="pers_nro_documento" class="java.lang.String"/>
+	<field name="vac_fecha_inicio" class="java.sql.Timestamp"/>
+	<field name="vac_fecha_fin" class="java.sql.Timestamp"/>
+	<field name="per_anio" class="java.lang.Integer"/>
+	<field name="vac_documento" class="java.lang.String"/>
 	<group name="grp_persona" isStartNewPage="true">
-		<groupExpression><![CDATA[$P{pers_nro_documento}]]></groupExpression>
+		<groupExpression><![CDATA[$F{pers_nro_documento}]]></groupExpression>
 	</group>
 	<detail>
 		<band height="313">
 			<rectangle>
-				<reportElement x="277" y="190" width="278" height="118" uuid="c1666615-bfc2-4328-9a8d-f71922cf92b4"/>
+				<reportElement x="277" y="165" width="278" height="143" uuid="c1666615-bfc2-4328-9a8d-f71922cf92b4"/>
 				<graphicElement>
 					<pen lineWidth="0.75"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement x="0" y="190" width="277" height="118" uuid="7986b84d-2f01-4f64-96ac-8d91f4b5ec78"/>
+				<reportElement x="0" y="165" width="277" height="143" uuid="7986b84d-2f01-4f64-96ac-8d91f4b5ec78"/>
 				<graphicElement>
 					<pen lineWidth="0.75"/>
 				</graphicElement>
@@ -127,7 +96,7 @@ $P{por_lote}=1 OR
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[PAPELETA DE SALIDA]]></text>
+				<text><![CDATA[USO FÍSICO DE VACACIONES]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="131" y="40" width="424" height="25" uuid="549d62b4-ce7f-44ee-8b0b-d7eb545a5e91"/>
@@ -196,10 +165,10 @@ $F{pers_nombres} == null ? "" : $F{pers_nombres}
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{empleado_nro_documento}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{pers_nro_documento}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="90" width="131" height="25" backcolor="#CCCCCC" uuid="0b772ad5-fa34-471a-8152-60c625a46e66"/>
+				<reportElement mode="Opaque" x="0" y="90" width="131" height="25" backcolor="#CCCCCC" uuid="012c8a93-05e9-4f88-86cd-ddfc750efbd3"/>
 				<box leftPadding="5">
 					<topPen lineWidth="0.75"/>
 					<leftPen lineWidth="0.75"/>
@@ -209,10 +178,10 @@ $F{pers_nombres} == null ? "" : $F{pers_nombres}
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[TIPO DE SALIDA:]]></text>
+				<text><![CDATA[DOCUMENTO:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="227" y="90" width="328" height="25" uuid="982ef027-1747-4630-a1b0-1c00ac3789fc"/>
+				<reportElement x="131" y="90" width="424" height="25" uuid="11eab99c-eb01-4326-b90e-8ed07182290d"/>
 				<box leftPadding="5">
 					<topPen lineWidth="0.75"/>
 					<leftPen lineWidth="0.75"/>
@@ -222,10 +191,10 @@ $F{pers_nombres} == null ? "" : $F{pers_nombres}
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{tipo_permiso_nombre}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{vac_documento}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="115" width="131" height="25" backcolor="#CCCCCC" uuid="012c8a93-05e9-4f88-86cd-ddfc750efbd3"/>
+				<reportElement mode="Opaque" x="0" y="115" width="131" height="25" backcolor="#CCCCCC" uuid="1c634bff-088b-4f4f-a85f-a271741a5bb6"/>
 				<box leftPadding="5">
 					<topPen lineWidth="0.75"/>
 					<leftPen lineWidth="0.75"/>
@@ -235,52 +204,10 @@ $F{pers_nombres} == null ? "" : $F{pers_nombres}
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[MOTIVO:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="131" y="115" width="424" height="25" uuid="11eab99c-eb01-4326-b90e-8ed07182290d"/>
-				<box leftPadding="5">
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{permiso_motivo}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="131" y="90" width="96" height="25" uuid="eb3faed2-499a-4f8d-936f-ece0405c53f9"/>
-				<box leftPadding="5">
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{tipo_permiso_clase}.equals("L") ? "LICENCIA" :
-$F{tipo_permiso_clase}.equals("C") ? "COMISIÓN DE SERVICIOS" :
-$F{tipo_permiso_clase}.equals("P") ? "PERMISO" :
-""]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement mode="Opaque" x="0" y="140" width="131" height="25" backcolor="#CCCCCC" uuid="1c634bff-088b-4f4f-a85f-a271741a5bb6"/>
-				<box leftPadding="5">
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[FECHA:]]></text>
+				<text><![CDATA[PERÍODO:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="165" width="131" height="25" backcolor="#CCCCCC" uuid="f38be835-ab61-4b03-adbd-fe086dc66b7c"/>
+				<reportElement mode="Opaque" x="0" y="140" width="131" height="25" backcolor="#CCCCCC" uuid="f38be835-ab61-4b03-adbd-fe086dc66b7c"/>
 				<box leftPadding="5">
 					<topPen lineWidth="0.75"/>
 					<leftPen lineWidth="0.75"/>
@@ -292,23 +219,8 @@ $F{tipo_permiso_clase}.equals("P") ? "PERMISO" :
 				</textElement>
 				<text><![CDATA[INICIO:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="131" y="165" width="146" height="25" uuid="66b76543-a36f-44d5-8d89-73f39ac10077"/>
-				<box leftPadding="5">
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{permiso_por_fecha} == true ?
-new java.text.SimpleDateFormat("dd.MM.yyyy").format($F{pers_fecha_inicio})
-: new java.text.SimpleDateFormat("HH:mm").format($F{pers_hora_inicio})]]></textFieldExpression>
-			</textField>
 			<textField pattern="dd.MM.yyyy">
-				<reportElement x="131" y="140" width="424" height="25" uuid="691b3839-0f69-4741-8085-c115918b77c2"/>
+				<reportElement x="131" y="140" width="146" height="25" uuid="66b76543-a36f-44d5-8d89-73f39ac10077"/>
 				<box leftPadding="5">
 					<topPen lineWidth="0.75"/>
 					<leftPen lineWidth="0.75"/>
@@ -318,10 +230,23 @@ new java.text.SimpleDateFormat("dd.MM.yyyy").format($F{pers_fecha_inicio})
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{pers_fecha_inicio}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{vac_fecha_inicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="131" y="115" width="424" height="25" uuid="691b3839-0f69-4741-8085-c115918b77c2"/>
+				<box leftPadding="5">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{per_anio}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="277" y="165" width="131" height="25" backcolor="#CCCCCC" uuid="fd64d665-7ad9-4380-8d65-05c6859c72f7"/>
+				<reportElement mode="Opaque" x="277" y="140" width="131" height="25" backcolor="#CCCCCC" uuid="fd64d665-7ad9-4380-8d65-05c6859c72f7"/>
 				<box leftPadding="5">
 					<topPen lineWidth="0.75"/>
 					<leftPen lineWidth="0.75"/>
@@ -333,8 +258,8 @@ new java.text.SimpleDateFormat("dd.MM.yyyy").format($F{pers_fecha_inicio})
 				</textElement>
 				<text><![CDATA[FIN:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="408" y="165" width="147" height="25" uuid="c3411176-0ab5-42e0-b940-cc6a2f2a8551"/>
+			<textField pattern="dd.MM.yyyy">
+				<reportElement x="408" y="140" width="147" height="25" uuid="c3411176-0ab5-42e0-b940-cc6a2f2a8551"/>
 				<box leftPadding="5">
 					<topPen lineWidth="0.75"/>
 					<leftPen lineWidth="0.75"/>
@@ -344,9 +269,7 @@ new java.text.SimpleDateFormat("dd.MM.yyyy").format($F{pers_fecha_inicio})
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{permiso_por_fecha} == true ?
-new java.text.SimpleDateFormat("dd.MM.yyyy").format($F{pers_fecha_fin})
-: new java.text.SimpleDateFormat("HH:mm").format($F{pers_hora_fin})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{vac_fecha_fin}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

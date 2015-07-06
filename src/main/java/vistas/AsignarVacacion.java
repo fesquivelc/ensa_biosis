@@ -42,6 +42,7 @@ import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.SwingBindings;
+import principal.Main;
 import utiles.UsuarioActivo;
 import vistas.dialogos.DlgReprogramarVacacion;
 
@@ -1116,16 +1117,11 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     }
 
     private void imprimirBoleta(Vacacion seleccionada) {
-        File reporte = new File("reportes/r_boleta_vacaciones.jasper");
-//        DAOMINEDU dao = new DAOMINEDU(Empleado.class);
+        File reporte = new File("reportes/reporte_papeleta_vacacion.jasper");
         Map<String, Object> parametros = new HashMap<>();
-        parametros.put("vacacion_id", seleccionada.getId());
-        System.out.println("NULL 1 ");
-        parametros.put("usuario", UsuarioActivo.getUsuario().getLogin());
-        System.out.println("NULL 2 ");
-        parametros.put("CONEXION_EMPLEADOS", ec.getDao().getConexion());
-        System.out.println("NULL 3 ");
-
+        parametros.put("vac_id", seleccionada.getId());
+        parametros.put("reporte_institucion", Main.REPORTE_INSTITUCION);
+        parametros.put("reporte_usuario", UsuarioActivo.getUsuario().getLogin());
         reporteador.setConn(controlador.getDao().getConexion());
         reporteador.generarReporte(reporte, parametros, JOptionPane.getFrameForComponent(this));
 

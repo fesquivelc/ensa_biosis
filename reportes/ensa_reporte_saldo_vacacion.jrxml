@@ -50,11 +50,11 @@ pers_paterno,pers_materno,pers_nombres,vac_fecha_inicio]]>
 	<title>
 		<band height="105" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="100" height="20" uuid="04d6c6fe-4a73-4f66-bb1b-a51ebaaf2e94"/>
+				<reportElement x="0" y="0" width="359" height="20" uuid="04d6c6fe-4a73-4f66-bb1b-a51ebaaf2e94"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[REPORTE:]]></text>
+				<text><![CDATA[REPORTE DE SALDO VACACIONAL]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="20" width="100" height="20" uuid="14b0ba11-165d-420f-8b8d-2513e2645f28"/>
@@ -76,13 +76,6 @@ pers_paterno,pers_materno,pers_nombres,vac_fecha_inicio]]>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[USUARIO:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="100" y="0" width="259" height="20" uuid="3a7d3355-bb49-4fb8-8d37-5b8645fac530"/>
-				<textElement verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<text><![CDATA[REPORTE DE SALDO VACACIONAL]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="100" y="20" width="259" height="20" uuid="4be28a8f-758e-4f61-916c-e148524ab9f9"/>
