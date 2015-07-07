@@ -60,12 +60,12 @@ public class DAOBiosis<T> {
 //            properties.put("hibernate.show_sql", "true");
             properties.put("javax.persistence.schema-generation.database.action", "none");
 
-//            try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory(this.PU, properties);
-            em = emf.createEntityManager();
-//            } catch (Exception e) {
-//                System.out.println("EM: "+e.getCause().getMessage()+" "+e.getMessage());
-//            }
+            try {
+                EntityManagerFactory emf = Persistence.createEntityManagerFactory(this.PU, properties);
+                em = emf.createEntityManager();
+            } catch (Exception e) {
+                System.out.println("EM: " + e.getCause().getMessage() + " " + e.getMessage());
+            }
 
         }
         return em;

@@ -20,10 +20,12 @@ import javax.persistence.TemporalType;
  *
  * @author RyuujiMD
  */
+/*
 @Table(name = "SPa_boleta")
 @Entity
+*/
 public class Boleta implements Serializable {
-
+/*
     @EmbeddedId
     private BoletaPK boletaPK;
     @Temporal(TemporalType.TIMESTAMP)
@@ -113,5 +115,5 @@ public class Boleta implements Serializable {
     }
     
     
-
+*/
 }
