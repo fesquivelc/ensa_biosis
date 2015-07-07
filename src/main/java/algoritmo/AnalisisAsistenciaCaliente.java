@@ -200,6 +200,7 @@ public class AnalisisAsistenciaCaliente {
             asistenciaDetalle.setEmpleado(empleado);
             asistenciaDetalle.setAsignacionHorario(asignacionHorario);
             asistenciaDetalle.setArea(areaEmpleado == null ? null : areaEmpleado.getDepartamento());
+            asistenciaDetalle.setContrato(contrato);            
             asistenciaDetalladoList.add(asistenciaDetalle);
             
             return asistenciaDetalladoList;
@@ -215,6 +216,7 @@ public class AnalisisAsistenciaCaliente {
                 asistenciaDetalle.setAsignacionHorario(asignacionHorario);
                 asistenciaDetalle.setArea(areaEmpleado ==null ? null : areaEmpleado.getDepartamento());
                 asistenciaDetalladoList.add(asistenciaDetalle);
+                asistenciaDetalle.setContrato(contrato);
                 return asistenciaDetalladoList;
                 
             } else {
@@ -227,6 +229,7 @@ public class AnalisisAsistenciaCaliente {
                         asistenciaDetalle.setFecha(fecha);
                         asistenciaDetalle.setPermiso(permisoXFecha);
                         asistenciaDetalle.setEmpleado(empleado);
+                        asistenciaDetalle.setContrato(contrato);
                         asistenciaDetalle.setAsignacionHorario(asignacionHorario);
                         asistenciaDetalle.setArea(areaEmpleado == null ? null : areaEmpleado.getDepartamento());
                         asistenciaDetalladoList.add(asistenciaDetalle);

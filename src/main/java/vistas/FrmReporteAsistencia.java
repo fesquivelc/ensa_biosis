@@ -292,7 +292,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         pnlImprimirSAP.add(btnReportePermisos, gridBagConstraints);
 
         btnImprimirDetalle.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
-        btnImprimirDetalle.setText("Reporte general");
+        btnImprimirDetalle.setText("Imprimir reporte");
         btnImprimirDetalle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnImprimirDetalleActionPerformed(evt);
@@ -568,6 +568,8 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
 
     private class AnalisisAsistenciaWorker extends SwingWorker {
 
+        List<RptAsistenciaDetallado> reporte;
+
         @Override
         protected Object doInBackground() throws Exception {
             FormularioUtil.activarComponente(pnlBusqueda, false);
@@ -590,23 +592,30 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
             }
             asistenciaDetalladoList.clear();
             if (!empleadosAnalisis.isEmpty()) {
-                List<RptAsistenciaDetallado> reporte = analisis.iniciarAnalisis(dcFechaInicio.getDate(), dcFechaFin.getDate(), empleadosAnalisis);
-                if (!reporte.isEmpty()) {
-                    if (cboTipoAsistencia.getSelectedIndex() > 0) {
-                        reporte = filtrar(reporte);
-                    }
+                reporte = analisis.iniciarAnalisis(dcFechaInicio.getDate(), dcFechaFin.getDate(), empleadosAnalisis);
+                System.out.println("REPORTE TAMANIO AL GENERAR: " + reporte.size());
 
-                    Collections.sort(reporte, comparador);
-                    asistenciaDetalladoList.addAll(reporte);
-                    tblDetalle.packAll();
-                }
             }
-            
+
             return null;
         }
 
         @Override
         protected void done() {
+            if (!reporte.isEmpty()) {
+                if (cboTipoAsistencia.getSelectedIndex() > 0) {
+                    reporte = filtrar(reporte);
+                    System.out.println("REPORTE TAMANIO DESPUES DE FILTRAR: " + reporte.size());
+                }
+
+                Collections.sort(reporte, comparador);
+                System.out.println("REPORTE TAMANIO ANTES DE AÑADIR A LA LISTA: " + reporte.size());
+                asistenciaDetalladoList.addAll(reporte);
+                tblDetalle.packAll();
+            } else {
+                System.out.println("REPORTE VACÍO");
+            }
+
             pbProgreso.setIndeterminate(false);
             FormularioUtil.activarComponente(pnlBusqueda, true);
             pbProgreso.setString("Análisis completado");

@@ -15,10 +15,6 @@ import javax.swing.UIManager;
  * @author fesquivelc
  */
 public class Main {
-
-    /**
-     * @param args the command line arguments
-     */
     public static String APLICACION_TITULO = "";
     public static String APLICACION_FONDO = "";
     public static String LOGIN_TITULO = "";
@@ -30,7 +26,7 @@ public class Main {
         // TODO code application logic here
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equalsIgnoreCase(info.getName())) {
+                if ("Windows".equalsIgnoreCase(info.getName())) {
                     UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }

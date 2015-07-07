@@ -39,18 +39,32 @@ public class PruebaReporteCaliente {
         cal.set(2014,4,31,23,59,59);
         Date hasta = cal.getTime();
         
-        List<Empleado> empleados = empc.buscarXPatron("");
-        System.out.println("INICIO: "+new Date());
-        List<RptAsistenciaDetallado> asistenciaList = analisis.iniciarAnalisis(desde, hasta, empleados);
-        System.out.println("FIN: "+new Date());
-        ReporteUtil reporteador = new ReporteUtil();
+        List<Empleado> empleados = empc.buscarTodos();
+        Date inicio;
+        Date fin;
+        long tiempo;
+        inicio = new Date();
+        analisis.analisisDetallado(desde, hasta, empleados);
+        fin = new Date();
+        tiempo = fin.getTime() - inicio.getTime();
+        System.out.println("---------------- RESULTADO ----------------");
+        System.out.println("TIEMPO SIN HILOS "+(tiempo/1000));
+        System.out.println("-------------------------------------------");
+        inicio = new Date();
+        analisis.iniciarAnalisis(desde, hasta, empleados);
+        fin = new Date();
+        tiempo = fin.getTime() - inicio.getTime();
+        System.out.println("---------------- RESULTADO ----------------");
+        System.out.println("TIEMPO CON HILOS "+(tiempo/1000));
+        System.out.println("-------------------------------------------");
+//        ReporteUtil reporteador = new ReporteUtil();
 //        reporteador.setConn(empc.getDao().getConexion());
         
 //        List<RptAsistenciaDetallado> permisoList = filtrar(asistenciaList, 'P');
         
-        File reporte = new File("reportes/reporte_registro_asistencia_caliente.jasper");
-        Map<String,Object> parametros = new HashMap();
-        reporteador.verReporte(asistenciaList, reporte, parametros, null);
+//        File reporte = new File("reportes/reporte_registro_asistencia_caliente.jasper");
+//        Map<String,Object> parametros = new HashMap();
+//        reporteador.verReporte(asistenciaList, reporte, parametros, null);
         
 //        File reporte2 = new File("reportes/ensa_sap_reporte_permiso.jasper");
 //        Map<String,Object> parametros2 = new HashMap();

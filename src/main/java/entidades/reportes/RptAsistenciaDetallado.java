@@ -14,7 +14,7 @@ import entidades.Vacacion;
 import entidades.escalafon.Contrato;
 import entidades.escalafon.Departamento;
 import entidades.escalafon.Empleado;
-import entidades.sisgedo.Salida;
+//import entidades.sisgedo.Salida;
 import java.util.Date;
 
 /**
@@ -108,7 +108,7 @@ public class RptAsistenciaDetallado{
     private Feriado feriado;
     private Permiso permiso;
     private Vacacion vacacion;
-    private Salida salida;
+//    private Salida salida;
 
     public Vacacion getVacacion() {
         return vacacion;
@@ -150,13 +150,13 @@ public class RptAsistenciaDetallado{
         this.permiso = permiso;
     }
 
-    public Salida getSalida() {
-        return salida;
-    }
-
-    public void setSalida(Salida salida) {
-        this.salida = salida;
-    }
+//    public Salida getSalida() {
+//        return salida;
+//    }
+//
+//    public void setSalida(Salida salida) {
+//        this.salida = salida;
+//    }
     public Date getFecha() {
         return fecha;
     }
