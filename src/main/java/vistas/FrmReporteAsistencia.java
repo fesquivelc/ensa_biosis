@@ -135,7 +135,6 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
 
         pnlFechas.setLayout(new javax.swing.BoxLayout(pnlFechas, javax.swing.BoxLayout.LINE_AXIS));
 
-        dcFechaInicio.setDateFormatString("dd/MM/yyyy");
         dcFechaInicio.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         pnlFechas.add(dcFechaInicio);
 
@@ -143,7 +142,6 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         jLabel4.setText("-");
         pnlFechas.add(jLabel4);
 
-        dcFechaFin.setDateFormatString("dd/MM/yyyy");
         dcFechaFin.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         pnlFechas.add(dcFechaFin);
 
@@ -184,7 +182,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         pnlBusqueda.add(pnlFiltro, gridBagConstraints);
 
         cboTipoAsistencia.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        cboTipoAsistencia.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "TODO", "ASISTENCIA REGULAR", "MINUTOS EXTRA AUTORIZADOS", "MINUTOS EXTRA NO AUTORIZADOS", "FALTA INJUSTIFICADA", "PERMISOS CON GOCE", "PERMISOS SIN GOCE", "VACACIONES" }));
+        cboTipoAsistencia.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "TODO", "ASISTENCIA REGULAR", "MINUTOS EXTRA AUTORIZADOS", "MINUTOS EXTRA NO AUTORIZADOS", "FALTA INJUSTIFICADA", "PERMISOS CON GOCE", "PERMISOS SIN GOCE", "VACACIONES", "SUSPENCIONES" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
@@ -544,6 +542,13 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
                 case 7:
                     if (registro.getTipoAsistencia().equals("V")) {
                         filtroList.add(registro);
+                    }
+                    break;
+                case 8:
+                    if (registro.getTipoAsistencia().equals("P")) {
+                        if (registro.getPermiso().getTipoPermiso().getClase() == 'S') {
+                            filtroList.add(registro);
+                        }
                     }
                     break;
             }

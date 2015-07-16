@@ -427,6 +427,11 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         jPanel4.add(btnQuitar, gridBagConstraints);
 
         txtTipoPermiso.setEditable(false);
+        txtTipoPermiso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTipoPermisoActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
@@ -858,6 +863,10 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         opciones();
     }//GEN-LAST:event_radLoteActionPerformed
+
+    private void txtTipoPermisoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTipoPermisoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTipoPermisoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
