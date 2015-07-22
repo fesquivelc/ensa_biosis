@@ -28,6 +28,7 @@ public class RenderIndicadorAsistencia extends DefaultTableCellRenderer implemen
     private final Color PERMISO_COLOR = Color.decode("#ffd3b6");
     private final Color VACACION_COLOR = Color.decode("#e0cdff");
     private final Color FERIADO_COLOR = Color.decode("#b69f95");
+    private final Color SUSPENCION_COLOR = Color.decode("#89BABE");
 
     public RenderIndicadorAsistencia() {
         this.label = new JLabel();
@@ -46,14 +47,25 @@ public class RenderIndicadorAsistencia extends DefaultTableCellRenderer implemen
         } else {
             this.label.setForeground(Color.BLACK);
             Object elemento = table.getValueAt(row, 0);
+            Object suspencion = table.getValueAt(row, 6);
+
             if (elemento != null) {
 //            System.out.println(String.format("FILA: %s COLUMNA: %s ELEMENTO: %s", row, column, elemento));
                 this.label.setText(value != null ? value.toString() : "");
                 String valor = elemento.toString();
+                String sus = " ";
+                if(suspencion != null){
+                    sus = suspencion.toString();
+                }
+                
                 if (valor.equals("R")) {
                     this.label.setBackground(REGULAR_COLOR);
                 } else if (valor.equals("P")) {
-                    this.label.setBackground(PERMISO_COLOR);
+                    if (sus.substring(0, 3).equals("SUS")) {
+                        this.label.setBackground(SUSPENCION_COLOR);
+                    }else{
+                        this.label.setBackground(PERMISO_COLOR);
+                    }
                 } else if (valor.equals("F")) {
                     this.label.setBackground(FALTA_COLOR);
                 } else if (valor.equals("E")) {
