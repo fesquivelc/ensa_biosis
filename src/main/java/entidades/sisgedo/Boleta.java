@@ -20,12 +20,10 @@ import javax.persistence.TemporalType;
  *
  * @author RyuujiMD
  */
-/*
+
 @Table(name = "SPa_boleta")
 @Entity
-*/
 public class Boleta implements Serializable {
-/*
     @EmbeddedId
     private BoletaPK boletaPK;
     @Temporal(TemporalType.TIMESTAMP)
@@ -41,11 +39,6 @@ public class Boleta implements Serializable {
     private String descripcion;
     @Column(name = "observacion")
     private String observacion;
-    
-    @ManyToOne(targetEntity = UsuarioSISGEDO.class,optional = true)
-    @JoinColumn(name = "login", referencedColumnName = "login",nullable = true)
-    private UsuarioSISGEDO usuarioSISGEDO;
-    
     @ManyToOne(targetEntity = Motivo.class,optional = false)
     @JoinColumn(name = "idmotivo", referencedColumnName = "idmotivo",insertable = false,updatable = false)
     private Motivo motivo;
@@ -106,14 +99,11 @@ public class Boleta implements Serializable {
         this.observacion = observacion;
     }
 
-    public UsuarioSISGEDO getUsuarioSISGEDO() {
-        return usuarioSISGEDO;
-    }
-
-    public void setUsuarioSISGEDO(UsuarioSISGEDO usuarioSISGEDO) {
-        this.usuarioSISGEDO = usuarioSISGEDO;
-    }
-    
-    
-*/
+//    public UsuarioSISGEDO getUsuarioSISGEDO() {
+//        return usuarioSISGEDO;
+//    }
+//
+//    public void setUsuarioSISGEDO(UsuarioSISGEDO usuarioSISGEDO) {
+//        this.usuarioSISGEDO = usuarioSISGEDO;
+//    }
 }
