@@ -116,7 +116,7 @@ public class CRUDTipoPermiso extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 0.1;
         jPanel1.add(txtNombre, gridBagConstraints);
 
-        cboTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PERMISO", "LICENCIA", "COMISION DE SERVICIOS" }));
+        cboTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PERMISO", "LICENCIA", "COMISION DE SERVICIOS", "SUSPENCION" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
@@ -132,7 +132,7 @@ public class CRUDTipoPermiso extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel2, gridBagConstraints);
 
-        cboCuenta.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "CON GOCE", "SIN GOCE" }));
+        cboCuenta.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "CON GOCE", "SIN GOCE", "CTA DE VACACIONES" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
@@ -277,33 +277,33 @@ public class CRUDTipoPermiso extends javax.swing.JInternalFrame {
             seleccionada.setNombre(txtNombre.getText());
             seleccionada.setClase(getClase());
             seleccionada.setTipoDescuento(getDescuento());
-            
-            if(controlador.accion(accion)){
+
+            if (controlador.accion(accion)) {
                 FormularioUtil.mensajeExito(this, accion);
                 this.accion = 0;
                 this.controles(accion);
-                this.actualizarTabla();                
-            }else{
+                this.actualizarTabla();
+            } else {
                 FormularioUtil.mensajeError(this, accion);
-            }                        
-            
+            }
+
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void tblTablaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTablaMouseReleased
         // TODO add your handling code here:
         int fila = tblTabla.getSelectedRow();
-        if(fila != -1){
+        if (fila != -1) {
             mostrar(listado.get(fila));
         }
-        
+
     }//GEN-LAST:event_tblTablaMouseReleased
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         this.accion = 0;
         this.controles(accion);
-        FormularioUtil.limpiarComponente(this.pnlDatos);        
+        FormularioUtil.limpiarComponente(this.pnlDatos);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
 
@@ -329,18 +329,15 @@ public class CRUDTipoPermiso extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 
-
     private void controles(int accion) {
         boolean bandera = accion == Controlador.NUEVO || accion == Controlador.MODIFICAR;
 
         FormularioUtil.activarComponente(this.pnlListado, !bandera);
         FormularioUtil.activarComponente(this.pnlDatos, bandera);
-        
-        if(accion != Controlador.MODIFICAR){
+
+        if (accion != Controlador.MODIFICAR) {
             FormularioUtil.limpiarComponente(this.pnlDatos);
         }
-        
-        
 
     }
 
@@ -348,7 +345,7 @@ public class CRUDTipoPermiso extends javax.swing.JInternalFrame {
         listado = new ArrayList<>();
         listado = ObservableCollections.observableList(listado);
 
-        String[] columnas = {"Codigo","Nombre", "Tipo", "Descuento"};
+        String[] columnas = {"Codigo", "Nombre", "Tipo", "Descuento"};
 
         MTTipoPermiso mt = new MTTipoPermiso(listado, columnas);
         tblTabla.setModel(mt);
@@ -367,18 +364,18 @@ public class CRUDTipoPermiso extends javax.swing.JInternalFrame {
         listado.addAll(controlador.buscarTodos());
         tblTabla.packAll();
     }
-    
-    private char getClase(){
+
+    private char getClase() {
         String valor = cboTipo.getSelectedItem().toString();
-        
+
         return valor.charAt(0);
     }
-    
-    private char getDescuento(){
+
+    private char getDescuento() {
         String valor = cboCuenta.getSelectedItem().toString();
         return valor.charAt(0);
     }
-    
+
     private String clase(char clase) {
         switch (clase) {
             case 'C':
@@ -387,6 +384,8 @@ public class CRUDTipoPermiso extends javax.swing.JInternalFrame {
                 return "PERMISO";
             case 'L':
                 return "LICENCIA";
+            case 'S':
+                return "SUSPENCION";
             default:
                 return "";
         }

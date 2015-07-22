@@ -44,6 +44,8 @@ public class MTTipoPermiso extends ModeloTabla<TipoPermiso> {
                 return "PERMISO";
             case 'L':
                 return "LICENCIA";
+            case 'S':
+                return "SUSPENCION";
             default:
                 return "";
         }
