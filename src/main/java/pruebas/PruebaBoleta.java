@@ -25,8 +25,9 @@ public class PruebaBoleta {
         EmpleadoControlador ec = new EmpleadoControlador();
         BoletaControlador bc = BoletaControlador.getInstance();
         
-        Empleado empleado = ec.buscarPorId("44927519");
+        Empleado empleado = ec.buscarPorId("02607628");
         
+        System.out.println("EMPLEADO: "+ empleado.getNombreCompleto());
         List<Boleta> boletaList = bc.permisoXEmpleado(empleado);
         
         System.out.println("HOLA: "+boletaList.size());

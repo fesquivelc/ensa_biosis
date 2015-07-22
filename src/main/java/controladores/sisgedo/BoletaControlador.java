@@ -29,13 +29,14 @@ public class BoletaControlador extends Controlador<Boleta>{
     }
     
     public List<Boleta> permisoXEmpleado(Empleado empleado){
+        System.out.println("DNI: "+ empleado.getNroDocumento());
         String sql = 
                 "SELECT "
                 + "boleta.* "
                 + "FROM "
-                + "SPa_boleta boleta INNER JOIN SPa_motivo motivo ON boleta.idmotivo = motivo.idmotivo AND "
-                + "SPa_usuario usuario INNER JOIN boleta ON boleta.login = usuario.login "
-                + "WHERE usuario.dni = :empleado";
+                + "SPa_motivo motivo INNER JOIN SPa_boleta boleta ON boleta.idmotivo = motivo.idmotivo "
+                + "INNER JOIN usuario us ON boleta.login = us.login "
+                + "WHERE us.dni = :empleado";
         Map<String,Object> parametros = new HashMap<>();
         parametros.put("empleado", empleado.getNroDocumento());
         List<Boleta> permisos = this.getDao().getEntityManager().createNativeQuery(sql, Boleta.class)
@@ -48,9 +49,9 @@ public class BoletaControlador extends Controlador<Boleta>{
                 "SELECT "
                 + "boleta.* "
                 + "FROM "
-                + "SPa_boleta boleta INNER JOIN SPa_motivo motivo ON boleta.idmotivo = motivo.idmotivo AND "
-                + "SPa_usuario usuario INNER JOIN boleta ON boleta.login = usuario.login "
-                + "WHERE usuario.dni = :empleado AND :fecha BETWEEN boleta.horasal AND boleta.horaret";
+                + "SPa_motivo motivo INNER JOIN SPa_boleta boleta ON boleta.idmotivo = motivo.idmotivo "
+                + "INNER JOIN usuario us ON boleta.login = us.login "
+                + "WHERE us.dni = :empleado AND :fecha BETWEEN boleta.horasal AND boleta.horaret";
         Map<String,Object> parametros = new HashMap<>();
         parametros.put("empleado", empleado.getNroDocumento());
         List<Boleta> permisos = this.getDao().getEntityManager().createNativeQuery(sql, Boleta.class)
