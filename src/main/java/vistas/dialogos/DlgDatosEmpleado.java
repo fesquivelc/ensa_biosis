@@ -6,8 +6,13 @@
 package vistas.dialogos;
 
 import com.personal.utiles.FormularioUtil;
+import controladores.AreaEmpleadoControlador;
+import controladores.ContratoControlador;
+import entidades.escalafon.AreaEmpleado;
+import entidades.escalafon.Contrato;
 import entidades.escalafon.Empleado;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
@@ -361,6 +366,9 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
     private javax.swing.JTextField txtTipoDoc;
     // End of variables declaration//GEN-END:variables
 
+    ContratoControlador cc = ContratoControlador.getInstance();
+    AreaEmpleadoControlador ae = new AreaEmpleadoControlador();
+   
     private void actualizarControles() {
         txtNroDoc.setText(empleado.getNroDocumento());
         txtTipoDoc.setText(empleado.getTipoDocumento().getNombre());
@@ -368,10 +376,25 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
         txtApellidoMaterno.setText(empleado.getMaterno());
         txtNombre.setText(empleado.getNombre());
         dtFechaNacimiento.setDate(empleado.getFechaNacimiento());
-        txtRegimenLaboral.setText(empleado.getFichaLaboral().getRegimenLaboral().getNombre());
+        
+        Contrato contratoVigente = new Contrato();
+        List<Contrato> contratos = cc.buscarXNombrexFechaASC(empleado);
+        if(!contratos.isEmpty()){
+            contratoVigente = contratos.get(0);
+        }
+        
+        
+        txtRegimenLaboral.setText(contratoVigente.getRegimenLaboral() == null ? "" : contratoVigente.getRegimenLaboral().getNombre());
         dtFechaContrato.setDate(empleado.getFichaLaboral().getFechaInicio());
         txtCodigoModular.setText(empleado.getFichaLaboral().getCodigoTrabajador());
-        txtArea.setText(empleado.getFichaLaboral().getArea() == null ? "" : empleado.getFichaLaboral().getArea().getNombre());
+        
+        AreaEmpleado areaVigente = new AreaEmpleado();
+        List<AreaEmpleado> areas = ae.buscarXNombrexFechaASC(empleado);
+        if(!areas.isEmpty()){
+            areaVigente = areas.get(0);
+        }
+        
+        txtArea.setText(areaVigente.getDepartamento() == null ? "" : areaVigente.getDepartamento().getNombre());
         
     }
 }

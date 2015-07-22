@@ -106,8 +106,8 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
             this.mostrarDatos(empleado);
         }
         this.setLocationRelativeTo(parent);
-        listarArea();
-        listarContratos();
+//        listarArea();
+//        listarContratos();
 
         FormularioUtil.activarComponente(panelDatosC, false);
         FormularioUtil.activarComponente(panelDatosA, false);
@@ -1030,6 +1030,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         // TODO add your handling code here:
         contratosG = new Contrato();
         FormularioUtil.activarComponente(this.panelDatosC, true);
+        FormularioUtil.activarComponente(this.panelTblC, false);
         btnModDatosC.setEnabled(false);
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -1037,6 +1038,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         // TODO add your handling code here:
         areaF = new AreaEmpleado();
         FormularioUtil.activarComponente(this.panelDatosA, true);
+        FormularioUtil.activarComponente(this.panelTblA, false);
         btnModAreasA.setEnabled(false);
     }//GEN-LAST:event_jButton10ActionPerformed
 

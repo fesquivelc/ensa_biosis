@@ -38,7 +38,7 @@ public class ContratoControlador extends Controlador<Contrato> {
                 + "(c.fechaInicio <= :fechaInicio AND (c.fechaInicio <= :fechaFin OR c.fechaFin IS NULL)) "
                 + "OR (c.fechaInicio <= :fechaFin AND (:fechaFin <= c.fechaFin OR c.fechaFin IS NULL))"
                 + ") "
-                + "ORDER BY c.fechaInicio";
+                + "ORDER BY c.fechaInicio ASC";
         Map<String, Object> variables = new HashMap();
         variables.put("empleado", empleado);
         variables.put("fechaInicio", fechaInicio);
