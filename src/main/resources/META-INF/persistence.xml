@@ -89,6 +89,8 @@
   </persistence-unit>
   <persistence-unit name="sisgedo-PU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>entidades.sisgedo.Boleta</class>
+    <class>entidades.sisgedo.Motivo</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://127.0.0.1:3306/sisgedo_tramite?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.password" value="root"/>
