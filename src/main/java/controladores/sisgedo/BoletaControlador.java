@@ -36,7 +36,8 @@ public class BoletaControlador extends Controlador<Boleta>{
                 + "FROM "
                 + "SPa_motivo motivo INNER JOIN SPa_boleta boleta ON boleta.idmotivo = motivo.idmotivo "
                 + "INNER JOIN usuario us ON boleta.login = us.login "
-                + "WHERE us.dni = :empleado";
+                + "WHERE us.dni = :empleado "
+                + "AND boleta.estado= 'C'";
         Map<String,Object> parametros = new HashMap<>();
         parametros.put("empleado", empleado.getNroDocumento());
         List<Boleta> permisos = this.getDao().getEntityManager().createNativeQuery(sql, Boleta.class)
@@ -44,6 +45,7 @@ public class BoletaControlador extends Controlador<Boleta>{
                 .getResultList();
         return permisos;
     }
+    
     public List<Boleta> permisoXFechaXEmpleado(Empleado empleado, Date fecha){
         String sql = 
                 "SELECT "
@@ -51,7 +53,8 @@ public class BoletaControlador extends Controlador<Boleta>{
                 + "FROM "
                 + "SPa_motivo motivo INNER JOIN SPa_boleta boleta ON boleta.idmotivo = motivo.idmotivo "
                 + "INNER JOIN usuario us ON boleta.login = us.login "
-                + "WHERE us.dni = :empleado AND :fecha BETWEEN boleta.horasal AND boleta.horaret";
+                + "WHERE us.dni = :empleado AND :fecha BETWEEN boleta.horasal AND boleta.horaret "
+                + "AND boleta.estado= 'C'";
         Map<String,Object> parametros = new HashMap<>();
         parametros.put("empleado", empleado.getNroDocumento());
         List<Boleta> permisos = this.getDao().getEntityManager().createNativeQuery(sql, Boleta.class)
