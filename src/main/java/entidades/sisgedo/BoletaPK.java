@@ -21,7 +21,7 @@ public class BoletaPK implements Serializable {
     private String login;
     @Column(name="idboleta")
     private int id;
-    @Column(name="login")
+    @Column(name="periodo")
     private String periodo;
 
     public int getTipoBoleta() {

@@ -26,7 +26,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel1" pref="840" max="32767" attributes="0"/>
+              <Component id="jPanel1" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -1066,7 +1066,7 @@
                       </Events>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                          <GridBagConstraints gridX="2" gridY="0" gridWidth="1" gridHeight="1" fill="3" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
+                          <GridBagConstraints gridX="4" gridY="0" gridWidth="1" gridHeight="1" fill="3" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
                         </Constraint>
                       </Constraints>
                     </Component>
@@ -1095,7 +1095,7 @@
                       </Properties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                          <GridBagConstraints gridX="4" gridY="0" gridWidth="1" gridHeight="1" fill="3" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
+                          <GridBagConstraints gridX="6" gridY="0" gridWidth="1" gridHeight="1" fill="3" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
                         </Constraint>
                       </Constraints>
                     </Component>
@@ -1111,7 +1111,23 @@
                       </Events>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                          <GridBagConstraints gridX="6" gridY="0" gridWidth="1" gridHeight="1" fill="3" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
+                          <GridBagConstraints gridX="8" gridY="0" gridWidth="1" gridHeight="1" fill="3" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
+                        </Constraint>
+                      </Constraints>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="btnReporteResumen">
+                      <Properties>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="SansSerif" size="15" style="1"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Reporte res&#xfa;men"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReporteResumenActionPerformed"/>
+                      </Events>
+                      <Constraints>
+                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                          <GridBagConstraints gridX="2" gridY="0" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
                         </Constraint>
                       </Constraints>
                     </Component>
@@ -1139,7 +1155,7 @@
                         <CodeExpression id="50">
                           <ExpressionOrigin>
                             <Value type="[I" editor="org.netbeans.modules.form.layoutsupport.delegates.GridBagLayoutSupport$IntArrayPropertyEditor">
-                              <PropertyValue value="[0, 8, 0, 8, 0, 8, 0]"/>
+                              <PropertyValue value="[0, 8, 0, 8, 0, 8, 0, 8, 0]"/>
                             </Value>
                           </ExpressionOrigin>
                         </CodeExpression>
@@ -1197,7 +1213,7 @@
                       <Parameters>
                         <CodeExpression id="54">
                           <ExpressionOrigin>
-                            <Value type="int" value="2"/>
+                            <Value type="int" value="4"/>
                           </ExpressionOrigin>
                         </CodeExpression>
                       </Parameters>
@@ -1335,7 +1351,7 @@
                       <Parameters>
                         <CodeExpression id="64">
                           <ExpressionOrigin>
-                            <Value type="int" value="4"/>
+                            <Value type="int" value="6"/>
                           </ExpressionOrigin>
                         </CodeExpression>
                       </Parameters>
@@ -1404,7 +1420,7 @@
                       <Parameters>
                         <CodeExpression id="69">
                           <ExpressionOrigin>
-                            <Value type="int" value="6"/>
+                            <Value type="int" value="8"/>
                           </ExpressionOrigin>
                         </CodeExpression>
                       </Parameters>
@@ -1450,6 +1466,62 @@
                           </ExpressionOrigin>
                         </CodeExpression>
                         <CodeExpression id="68_gridBagConstraints"/>
+                      </Parameters>
+                    </CodeStatement>
+                    <CodeStatement>
+                      <CodeExpression id="73_gridBagConstraints">
+                        <CodeVariable name="gridBagConstraints"/>
+                        <ExpressionOrigin>
+                          <ExpressionProvider type="CodeConstructor">
+                            <CodeConstructor class="java.awt.GridBagConstraints" parameterTypes=""/>
+                          </ExpressionProvider>
+                        </ExpressionOrigin>
+                      </CodeExpression>
+                      <StatementProvider type="CodeExpression">
+                        <CodeExpression id="73_gridBagConstraints"/>
+                      </StatementProvider>
+                    </CodeStatement>
+                    <CodeStatement>
+                      <CodeExpression id="73_gridBagConstraints"/>
+                      <StatementProvider type="CodeField">
+                        <CodeField name="gridx" class="java.awt.GridBagConstraints"/>
+                      </StatementProvider>
+                      <Parameters>
+                        <CodeExpression id="74">
+                          <ExpressionOrigin>
+                            <Value type="int" value="2"/>
+                          </ExpressionOrigin>
+                        </CodeExpression>
+                      </Parameters>
+                    </CodeStatement>
+                    <CodeStatement>
+                      <CodeExpression id="73_gridBagConstraints"/>
+                      <StatementProvider type="CodeField">
+                        <CodeField name="gridy" class="java.awt.GridBagConstraints"/>
+                      </StatementProvider>
+                      <Parameters>
+                        <CodeExpression id="75">
+                          <ExpressionOrigin>
+                            <Value type="int" value="0"/>
+                          </ExpressionOrigin>
+                        </CodeExpression>
+                      </Parameters>
+                    </CodeStatement>
+                    <CodeStatement>
+                      <CodeExpression id="52_pnlImprimirSAP"/>
+                      <StatementProvider type="CodeMethod">
+                        <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component, java.lang.Object"/>
+                      </StatementProvider>
+                      <Parameters>
+                        <CodeExpression id="76_btnReporteResumen">
+                          <CodeVariable name="btnReporteResumen" type="8194" declaredType="javax.swing.JButton"/>
+                          <ExpressionOrigin>
+                            <ExpressionProvider type="ComponentRef">
+                              <ComponentRef name="btnReporteResumen"/>
+                            </ExpressionProvider>
+                          </ExpressionOrigin>
+                        </CodeExpression>
+                        <CodeExpression id="73_gridBagConstraints"/>
                       </Parameters>
                     </CodeStatement>
                   </LayoutCode>

@@ -9,6 +9,7 @@ import controladores.Controlador;
 import dao.DAOSISGEDO;
 import entidades.escalafon.Empleado;
 import entidades.sisgedo.Boleta;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,11 +29,35 @@ public class BoletaControlador extends Controlador<Boleta>{
     }
     
     public List<Boleta> permisoXEmpleado(Empleado empleado){
-        String jpql = "SELECT b FROM Boleta b WHERE "
-                + "b.usuarioSISGEDO.personaNroDocumento = :empleado";
+        String sql = 
+                "SELECT "
+                + "boleta.* "
+                + "FROM "
+                + "SPa_boleta boleta INNER JOIN SPa_motivo motivo ON boleta.idmotivo = motivo.idmotivo AND "
+                + "SPa_usuario usuario INNER JOIN boleta ON boleta.login = usuario.login "
+                + "WHERE usuario.dni = :empleado";
         Map<String,Object> parametros = new HashMap<>();
         parametros.put("empleado", empleado.getNroDocumento());
-        return this.getDao().buscar(jpql, parametros);
+        List<Boleta> permisos = this.getDao().getEntityManager().createNativeQuery(sql, Boleta.class)
+                .setParameter("empleado", empleado.getNroDocumento())
+                .getResultList();
+        return permisos;
+    }
+    public List<Boleta> permisoXFechaXEmpleado(Empleado empleado, Date fecha){
+        String sql = 
+                "SELECT "
+                + "boleta.* "
+                + "FROM "
+                + "SPa_boleta boleta INNER JOIN SPa_motivo motivo ON boleta.idmotivo = motivo.idmotivo AND "
+                + "SPa_usuario usuario INNER JOIN boleta ON boleta.login = usuario.login "
+                + "WHERE usuario.dni = :empleado AND :fecha BETWEEN boleta.horasal AND boleta.horaret";
+        Map<String,Object> parametros = new HashMap<>();
+        parametros.put("empleado", empleado.getNroDocumento());
+        List<Boleta> permisos = this.getDao().getEntityManager().createNativeQuery(sql, Boleta.class)
+                .setParameter("empleado", empleado.getNroDocumento())
+                .setParameter("fecha", fecha)
+                .getResultList();
+        return permisos;
     }
     
     private static class BoletaControladorHolder {

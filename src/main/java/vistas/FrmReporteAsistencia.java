@@ -96,6 +96,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         btnImprimirDetalle = new javax.swing.JButton();
         btnReporteVacaciones = new javax.swing.JButton();
         btnReporteHorasExtra = new javax.swing.JButton();
+        btnReporteResumen = new javax.swing.JButton();
 
         setClosable(true);
         setMaximizable(true);
@@ -272,7 +273,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         pnlDetallado.add(jScrollPane1, gridBagConstraints);
 
         java.awt.GridBagLayout pnlImprimirSAPLayout = new java.awt.GridBagLayout();
-        pnlImprimirSAPLayout.columnWidths = new int[] {0, 8, 0, 8, 0, 8, 0};
+        pnlImprimirSAPLayout.columnWidths = new int[] {0, 8, 0, 8, 0, 8, 0, 8, 0};
         pnlImprimirSAPLayout.rowHeights = new int[] {0};
         pnlImprimirSAP.setLayout(pnlImprimirSAPLayout);
 
@@ -284,7 +285,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         pnlImprimirSAP.add(btnReportePermisos, gridBagConstraints);
@@ -305,7 +306,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         btnReporteVacaciones.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
         btnReporteVacaciones.setText("Reporte de vacaciones");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         pnlImprimirSAP.add(btnReporteVacaciones, gridBagConstraints);
@@ -318,10 +319,22 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         pnlImprimirSAP.add(btnReporteHorasExtra, gridBagConstraints);
+
+        btnReporteResumen.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
+        btnReporteResumen.setText("Reporte resúmen");
+        btnReporteResumen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReporteResumenActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        pnlImprimirSAP.add(btnReporteResumen, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -345,7 +358,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 840, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -420,6 +433,11 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tblDetalleMouseReleased
 
+    private void btnReporteResumenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteResumenActionPerformed
+        // TODO add your handling code here:
+        generarReporteResumen();
+    }//GEN-LAST:event_btnReporteResumenActionPerformed
+
     private final ReporteUtil reporteador = new ReporteUtil();
     private Empleado empleadoSeleccionado;
     private Departamento departamentoSeleccionado;
@@ -437,6 +455,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnImprimirDetalle;
     private javax.swing.JButton btnReporteHorasExtra;
     private javax.swing.JButton btnReportePermisos;
+    private javax.swing.JButton btnReporteResumen;
     private javax.swing.JButton btnReporteVacaciones;
     private javax.swing.JComboBox cboFiltro;
     private javax.swing.JComboBox cboTipoAsistencia;
@@ -474,6 +493,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         this.btnReporteHorasExtra.setVisible(false);
         this.btnReportePermisos.setVisible(false);
         this.btnReporteVacaciones.setVisible(false);
+        this.btnReporteResumen.setVisible(false);
         //FIN PARA SAN MARCOS
         this.tblDetalle.setHorizontalScrollEnabled(true);
         this.asistenciaDetalladoList = ObservableCollections.observableList(new ArrayList<RptAsistenciaDetallado>());
@@ -571,6 +591,14 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         tblMarcacionesDia.packAll();
     }
 
+    private void generarReporteResumen() {
+        for(RptAsistenciaDetallado detalle : asistenciaDetalladoList){
+            if(detalle.getTipoAsistencia().equals("R")){
+                
+            }
+        }
+    }
+
     private class AnalisisAsistenciaWorker extends SwingWorker {
 
         List<RptAsistenciaDetallado> reporte;
@@ -617,6 +645,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
                 System.out.println("REPORTE TAMANIO ANTES DE AÑADIR A LA LISTA: " + reporte.size());
                 asistenciaDetalladoList.addAll(reporte);
                 tblDetalle.packAll();
+                btnReporteResumen.setVisible(true);
             } else {
                 System.out.println("REPORTE VACÍO");
             }
