@@ -18,7 +18,7 @@ public class PruebaEncriptador {
      */
     public static void main(String[] args) {
         Encriptador.iniciar();
-        System.out.println("CLAVE: "+Encriptador.encrypt("root"));
+        System.out.println("CLAVE: "+Encriptador.encrypt("p4p3l3t4"));
     }
     
 }
