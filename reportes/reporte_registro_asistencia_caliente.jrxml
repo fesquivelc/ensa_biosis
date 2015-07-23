@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- 2015-07-23T12:26:23 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_registro_asistencia_grupo_2" pageWidth="595" pageHeight="842" columnWidth="585" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" uuid="2351c35a-4e16-4c1c-aaf5-8e900d7ae54e">
 	<property name="ireport.zoom" value="4.0"/>
 	<property name="ireport.x" value="0"/>
@@ -112,7 +114,7 @@
 				<text><![CDATA[FECHA Y HORA:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="100" y="20" width="259" height="20" uuid="bd77b8ce-73fe-48f0-95e5-789a32065b74"/>
+				<reportElement x="100" y="20" width="462" height="20" uuid="bd77b8ce-73fe-48f0-95e5-789a32065b74"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
@@ -393,7 +395,8 @@
 ? "TARDANZA" : $F{tipoAsistencia}.equals("P")
 ? "PERMISO" : $F{tipoAsistencia}.equals("V")
 ? "VACACIONES - " : $F{tipoAsistencia}.equals("E")
-? "FERIADO" : ""]]></textFieldExpression>
+? "FERIADO" : $F{tipoAsistencia}.equals("SP")
+? "PERMISO SISGEDO" : ""]]></textFieldExpression>
 			</textField>
 			<textField pattern="">
 				<reportElement x="0" y="0" width="53" height="20" uuid="632283a3-41f1-4bcd-8f4f-b9807bb789fa"/>

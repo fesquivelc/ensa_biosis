@@ -5,6 +5,7 @@
  */
 package controladores.sisgedo;
 
+import com.personal.utiles.FechaUtil;
 import controladores.Controlador;
 import dao.DAOSISGEDO;
 import entidades.escalafon.Empleado;
@@ -26,7 +27,7 @@ public class BoletaControlador extends Controlador<Boleta>{
     
     public static BoletaControlador getInstance() {
         return BoletaControladorHolder.INSTANCE;
-    }
+    }    
     
     public List<Boleta> permisoXEmpleado(Empleado empleado){
         System.out.println("DNI: "+ empleado.getNroDocumento());
@@ -46,7 +47,7 @@ public class BoletaControlador extends Controlador<Boleta>{
         return permisos;
     }
     
-    public List<Boleta> permisoXFechaXEmpleado(Empleado empleado, Date fecha){
+    public Boleta permisoXFechaXEmpleado(Empleado empleado, Date fecha){
         String sql = 
                 "SELECT "
                 + "boleta.* "
@@ -54,12 +55,35 @@ public class BoletaControlador extends Controlador<Boleta>{
                 + "SPa_motivo motivo INNER JOIN SPa_boleta boleta ON boleta.idmotivo = motivo.idmotivo "
                 + "INNER JOIN usuario us ON boleta.login = us.login "
                 + "WHERE us.dni = :empleado AND :fecha BETWEEN boleta.horasal AND boleta.horaret "
-                + "AND boleta.estado= 'C'";
+                + "AND boleta.estado= 'C' AND datediff(horaret, horasal) > 0";
         Map<String,Object> parametros = new HashMap<>();
         parametros.put("empleado", empleado.getNroDocumento());
         List<Boleta> permisos = this.getDao().getEntityManager().createNativeQuery(sql, Boleta.class)
                 .setParameter("empleado", empleado.getNroDocumento())
                 .setParameter("fecha", fecha)
+                .getResultList();
+        if(permisos.isEmpty()){
+            return null;
+        }else{
+            return permisos.get(0);
+        }
+    }
+    
+    public List<Boleta> permisoXHoraXFecha(Empleado empleado, Date fecha, Date horaInicio, Date horaFin){
+        String sql = 
+                "SELECT "
+                + "boleta.* "
+                + "FROM "
+                + "SPa_motivo motivo INNER JOIN SPa_boleta boleta ON boleta.idmotivo = motivo.idmotivo "
+                + "INNER JOIN usuario us ON boleta.login = us.login "
+                + "WHERE us.dni = :empleado AND boleta.horasal BETWEEN :fechaInicio AND :fechaFin "
+                + "AND boleta.estado= 'C' AND datediff(horaret, horasal) = 0";
+        Map<String,Object> parametros = new HashMap<>();
+        parametros.put("empleado", empleado.getNroDocumento());
+        List<Boleta> permisos = this.getDao().getEntityManager().createNativeQuery(sql, Boleta.class)
+                .setParameter("empleado", empleado.getNroDocumento())
+                .setParameter("fechaInicio", FechaUtil.unirFechaHora(fecha, horaInicio))
+                .setParameter("fechaFin", FechaUtil.unirFechaHora(fecha, horaFin))
                 .getResultList();
         return permisos;
     }
