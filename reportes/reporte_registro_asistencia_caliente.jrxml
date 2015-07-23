@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2015-07-23T12:26:23 -->
+<!-- 2015-07-23T12:29:49 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_registro_asistencia_grupo_2" pageWidth="595" pageHeight="842" columnWidth="585" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" uuid="2351c35a-4e16-4c1c-aaf5-8e900d7ae54e">
 	<property name="ireport.zoom" value="4.0"/>
 	<property name="ireport.x" value="0"/>
@@ -102,56 +102,56 @@
 			<staticText>
 				<reportElement x="0" y="0" width="259" height="20" uuid="b9e02bd1-8c4a-42b1-9d0c-ac9265e4563d"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[REPORTE GENERAL DE ASISTENCIA]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="40" width="100" height="20" uuid="2b154131-53fb-4edd-9f99-66c9e169202c"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[FECHA Y HORA:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="100" y="20" width="462" height="20" uuid="bd77b8ce-73fe-48f0-95e5-789a32065b74"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12"/>
+					<font fontName="SansSerif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{reporte_institucion}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="100" y="60" width="259" height="20" uuid="bd207f98-8c70-4f59-992f-b10c567167fe"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12"/>
+					<font fontName="SansSerif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{reporte_usuario}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd.MM.yyyy HH:mm:ss">
 				<reportElement x="100" y="40" width="259" height="20" uuid="9979daf7-b1d2-447c-b3ff-ab6cd007208d"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12"/>
+					<font fontName="SansSerif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="60" width="100" height="20" uuid="8e92f96c-d1b7-4847-8bd8-d1811dfff931"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[USUARIO:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="20" width="100" height="20" uuid="a95e2043-bf1b-4661-9164-025f6c511493"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[INSTITUCIÓN:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="80" width="100" height="20" uuid="99f8b0c0-5608-42ac-94af-66ce2bb7d9ab"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[FECHAS:]]></text>
 			</staticText>
