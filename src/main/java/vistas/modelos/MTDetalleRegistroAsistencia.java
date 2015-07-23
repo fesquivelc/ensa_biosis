@@ -105,8 +105,10 @@ public class MTDetalleRegistroAsistencia extends ModeloTabla<RptAsistenciaDetall
         switch (r.charAt(0)) {
             case 'V':
                 return "VACACIÓN";
+            case 'S':
+                return "SISGEDO - SALIDA";
             case 'P':
-                return "PERMISO";
+                return "PERMISO BIOSIS";
             case 'E':
                 return "FERIADO";
             case 'T':

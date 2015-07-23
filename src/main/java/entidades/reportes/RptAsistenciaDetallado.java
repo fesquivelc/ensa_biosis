@@ -14,6 +14,7 @@ import entidades.Vacacion;
 import entidades.escalafon.Contrato;
 import entidades.escalafon.Departamento;
 import entidades.escalafon.Empleado;
+import entidades.sisgedo.Boleta;
 //import entidades.sisgedo.Salida;
 import java.util.Date;
 
@@ -37,6 +38,15 @@ public class RptAsistenciaDetallado{
     private Date fecha;
     private Departamento area;
     private Contrato contrato;
+    private Boleta boleta;
+
+    public Boleta getBoleta() {
+        return boleta;
+    }
+
+    public void setBoleta(Boleta boleta) {
+        this.boleta = boleta;
+    }
 
     public Contrato getContrato() {
         return contrato;
