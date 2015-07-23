@@ -105,7 +105,7 @@ public class Principal extends javax.swing.JFrame {
         mnuTiposPermiso = new javax.swing.JMenuItem();
         mnuAsignarPermiso = new javax.swing.JMenuItem();
         mnuAsignarVacaciones = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
+        mnuHorasExtra = new javax.swing.JMenuItem();
         mnuReportes = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -329,14 +329,14 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuPermiso.add(mnuAsignarVacaciones);
 
-        jMenuItem6.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jMenuItem6.setText("Autorizar horas extra");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+        mnuHorasExtra.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        mnuHorasExtra.setText("Autorizar horas extra");
+        mnuHorasExtra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
+                mnuHorasExtraActionPerformed(evt);
             }
         });
-        mnuPermiso.add(jMenuItem6);
+        mnuPermiso.add(mnuHorasExtra);
 
         menuBar.add(mnuPermiso);
 
@@ -571,11 +571,11 @@ public class Principal extends javax.swing.JFrame {
         agregarAPanel(sedesAreas, true);
     }//GEN-LAST:event_mnuSedesAreasActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+    private void mnuHorasExtraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuHorasExtraActionPerformed
         // TODO add your handling code here:
         AsignarAutorizacion autorizacion = new AsignarAutorizacion();
         agregarAPanel(autorizacion, true);
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
+    }//GEN-LAST:event_mnuHorasExtraActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -590,7 +590,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblJuvitec;
@@ -604,6 +603,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuControlUsuario;
     private javax.swing.JMenuItem mnuGruposHorario;
     private javax.swing.JMenu mnuHorario;
+    private javax.swing.JMenuItem mnuHorasExtra;
     private javax.swing.JMenuItem mnuJornada;
     private javax.swing.JMenu mnuMarcaciones;
     private javax.swing.JMenuItem mnuMarcacionesSinProcesar;
@@ -730,6 +730,12 @@ public class Principal extends javax.swing.JFrame {
         boolean botonHorarios = false;
         boolean botonRegistroAsistencia = false;
 
+        //Caso de Salidas no Autorizadas (Guardian)
+        boolean asignarVacaciones = true;
+        boolean tiposPermiso = true;
+        boolean horasExtra = true;
+        boolean sedeArea = true;
+
         for (RolAcceso acceso : accesos) {
             if (acceso.getAcceso().getClase().equals("HORARIO")) {
                 horario = true;
@@ -744,6 +750,15 @@ public class Principal extends javax.swing.JFrame {
             } else if (acceso.getAcceso().getClase().equals("PERMISO")) {
                 permiso = true;
                 botonAsignarPermiso = true;
+                if (UsuarioActivo.getUsuario().getRol().getNombre().equals("GUARDIAN")) {
+
+                    asignarVacaciones = false;
+                    tiposPermiso = false;
+                    botonMarcaciones = false;
+                    horasExtra = false;
+                    sedeArea = false;
+                }
+
             } else if (acceso.getAcceso().getClase().equals("VACACION")) {
                 vacacion = true;
             } else if (acceso.getAcceso().getClase().equals("REPORTES")) {
@@ -756,15 +771,21 @@ public class Principal extends javax.swing.JFrame {
 
         mnuHorario.setEnabled(horario);
         mnuPeriodos.setEnabled(periodo);
-        mnuTiposPermiso.setEnabled(permiso);
+//        System.out.println("PERMISO: "+ permiso);
+        mnuPermiso.setEnabled(permiso);
+        mnuMarcaciones.setEnabled(botonMarcaciones);
+        mnuTiposPermiso.setEnabled(tiposPermiso);
         mnuAsignarPermiso.setEnabled(permiso);
-        mnuAsignarVacaciones.setEnabled(vacacion);
+        mnuAsignarVacaciones.setEnabled(asignarVacaciones);
+        mnuHorasExtra.setEnabled(horasExtra);
+        mnuSedesAreas.setEnabled(sedeArea);
+        
         mnuReportes.setEnabled(reportes);
 //        mnuUsuarios.setEnabled(configuracion);
         mnuConfiguracionBD.setEnabled(configuracion);
 //        mnuRolUsuario.setEnabled(configuracion);
         mnuControlUsuario.setEnabled(configuracion);
-
+        
         btnEmpleados.setEnabled(botonEmpleados);
         btnMarcaciones.setEnabled(botonMarcaciones);
         btnAsignarPermiso.setEnabled(botonAsignarPermiso);

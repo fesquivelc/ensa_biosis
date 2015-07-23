@@ -6,6 +6,9 @@
 package controladores;
 
 import entidades.TipoPermiso;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -15,5 +18,13 @@ public class TipoPermisoControlador extends Controlador<TipoPermiso>{
 
     public TipoPermisoControlador() {
         super(TipoPermiso.class);
+    }
+    
+    public List<TipoPermiso> buscarXTipo(String tipo) {
+        String jpql = "SELECT e FROM TipoPermiso e WHERE "
+                + "UPPER(codigo) = UPPER(:tipo)";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("tipo", tipo);
+        return this.getDao().buscar(jpql, mapa);
     }
 }

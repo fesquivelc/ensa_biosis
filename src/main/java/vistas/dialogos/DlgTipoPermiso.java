@@ -16,6 +16,7 @@ import javax.swing.JDialog;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import org.jdesktop.observablecollections.ObservableCollections;
+import utiles.UsuarioActivo;
 
 /**
  *
@@ -386,7 +387,11 @@ public class DlgTipoPermiso extends JDialog {
 
     private void actualizarTabla() {
         listado.clear();
-        listado.addAll(controlador.buscarTodos());
+        if (UsuarioActivo.getUsuario().getRol().getNombre().equals("GUARDIAN")) {            
+            listado.addAll(controlador.buscarXTipo("SNA"));            
+        } else {           
+            listado.addAll(controlador.buscarTodos());            
+        }
         tblTabla.packAll();
     }
     
