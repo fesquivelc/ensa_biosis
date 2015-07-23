@@ -208,8 +208,8 @@
                     <StringItem index="4" value="FALTA INJUSTIFICADA"/>
                     <StringItem index="5" value="PERMISOS CON GOCE"/>
                     <StringItem index="6" value="PERMISOS SIN GOCE"/>
-                    <StringItem index="7" value="VACACIONES"/>
-                    <StringItem index="8" value="SUSPENCIONES"/>
+                    <StringItem index="7" value="SUSPENSIONES"/>
+                    <StringItem index="8" value="VACACIONES"/>
                   </StringArray>
                 </Property>
               </Properties>

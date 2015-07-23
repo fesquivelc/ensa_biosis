@@ -118,7 +118,7 @@ public class DlgTipoPermiso extends JDialog {
         gridBagConstraints.weightx = 0.1;
         jPanel1.add(txtNombre, gridBagConstraints);
 
-        cboTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PERMISO", "LICENCIA", "COMISION DE SERVICIOS" }));
+        cboTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PERMISO", "LICENCIA", "COMISION DE SERVICIOS", "SUSPENSION" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
@@ -178,7 +178,7 @@ public class DlgTipoPermiso extends JDialog {
             .addGroup(pnlDatosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 331, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 340, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -415,7 +415,7 @@ public class DlgTipoPermiso extends JDialog {
             case 'L':
                 return "LICENCIA";
             case 'S':
-                return "SUSPENCION";
+                return "SUSPENSION";
             default:
                 return "";
         }

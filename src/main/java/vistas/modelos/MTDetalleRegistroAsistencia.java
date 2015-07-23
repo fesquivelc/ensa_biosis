@@ -22,7 +22,7 @@ public class MTDetalleRegistroAsistencia extends ModeloTabla<RptAsistenciaDetall
 
     public MTDetalleRegistroAsistencia(List<RptAsistenciaDetallado> datos) {
         super(datos);
-        this.nombreColumnas = new String[]{"IND", "NRO DOCUMENTO", "EMPLEADO", "ÁREA", "FECHA", "TIPO", "MOTIVO", "H. REGULAR", "H. ENTRADA", "TARDANZA (min)", "H. SALIDA","EXTRA (min)"};
+        this.nombreColumnas = new String[]{"IND", "NRO DOCUMENTO", "EMPLEADO", "ÁREA", "FECHA", "TIPO", "MOTIVO", "H. REGULAR", "H. ENTRADA", "TARDANZA (min)", "H. SALIDA", "EXTRA (min)"};
     }
 
     @Override
@@ -36,31 +36,40 @@ public class MTDetalleRegistroAsistencia extends ModeloTabla<RptAsistenciaDetall
             case 2:
                 return detalle.getEmpleado().getNombreCompleto();
             case 3:
-                if(detalle.getArea() == null){
+                if (detalle.getArea() == null) {
                     return null;
-                }else{
+                } else {
                     return detalle.getArea().getNombre();
                 }
-                
+
             case 4:
                 return dfFecha.format(detalle.getFecha());
             case 5:
-                return this.resultado(detalle.getTipoAsistencia());
+                if (detalle.getTipoAsistencia().equals("P")) {
+                    if (detalle.getPermiso().getTipoPermiso().getCodigo().equals("SUS")) {
+                        return this.resultado("S");
+                    } else {
+                        return this.resultado(detalle.getTipoAsistencia());
+                    }
+                } else {
+                    return this.resultado(detalle.getTipoAsistencia());
+                }
+
             case 6:
                 if (detalle.getTipoAsistencia().equals("P")) {
                     return detalle.getPermiso().getTipoPermiso().getCodigo() + " - " + detalle.getPermiso().getMotivo();
-                } else if(detalle.getTipoAsistencia().equals("E")){
+                } else if (detalle.getTipoAsistencia().equals("E")) {
                     return detalle.getFeriado().getNombre();
-                }else{
+                } else {
                     return null;
                 }
             case 7:
-                if(detalle.getDetalleJornada() != null){
+                if (detalle.getDetalleJornada() != null) {
                     return String.format("%s - %s", dfHora.format(detalle.getDetalleJornada().getEntrada()), dfHora.format(detalle.getDetalleJornada().getSalida()));
-                }else{
+                } else {
                     return null;
                 }
-                
+
             case 8:
                 return detalle.getInicio() == null ? null : dfHora.format(detalle.getInicio());
             case 9:
@@ -75,8 +84,6 @@ public class MTDetalleRegistroAsistencia extends ModeloTabla<RptAsistenciaDetall
         }
     }
 
-    
-    
     public String evento(char ev) {
         switch (ev) {
             case 'E':
@@ -107,6 +114,8 @@ public class MTDetalleRegistroAsistencia extends ModeloTabla<RptAsistenciaDetall
                 return "VACACIÓN";
             case 'P':
                 return "PERMISO";
+            case 'S':
+                return "SUSPENSION";
             case 'E':
                 return "FERIADO";
             case 'T':

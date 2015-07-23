@@ -183,7 +183,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         pnlBusqueda.add(pnlFiltro, gridBagConstraints);
 
         cboTipoAsistencia.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        cboTipoAsistencia.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "TODO", "ASISTENCIA REGULAR", "MINUTOS EXTRA AUTORIZADOS", "MINUTOS EXTRA NO AUTORIZADOS", "FALTA INJUSTIFICADA", "PERMISOS CON GOCE", "PERMISOS SIN GOCE", "VACACIONES", "SUSPENCIONES" }));
+        cboTipoAsistencia.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "TODO", "ASISTENCIA REGULAR", "MINUTOS EXTRA AUTORIZADOS", "MINUTOS EXTRA NO AUTORIZADOS", "FALTA INJUSTIFICADA", "PERMISOS CON GOCE", "PERMISOS SIN GOCE", "SUSPENSIONES", "VACACIONES" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
