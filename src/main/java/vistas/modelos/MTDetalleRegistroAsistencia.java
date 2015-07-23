@@ -47,7 +47,7 @@ public class MTDetalleRegistroAsistencia extends ModeloTabla<RptAsistenciaDetall
             case 5:
                 if (detalle.getTipoAsistencia().equals("P")) {
                     if (detalle.getPermiso().getTipoPermiso().getCodigo().equals("SUS")) {
-                        return this.resultado("S");
+                        return this.resultado("U");
                     } else {
                         return this.resultado(detalle.getTipoAsistencia());
                     }
@@ -116,6 +116,8 @@ public class MTDetalleRegistroAsistencia extends ModeloTabla<RptAsistenciaDetall
                 return "SISGEDO - SALIDA";
             case 'P':
                 return "PERMISO BIOSIS";
+            case 'U':
+                return "SUSPENSION";
             case 'E':
                 return "FERIADO";
             case 'T':
