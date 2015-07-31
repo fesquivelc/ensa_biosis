@@ -10,13 +10,18 @@ import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
 import controladores.EmpleadoControlador;
 import controladores.MarcacionControlador;
+import controladores.PermisoControlador;
+import controladores.TurnoControlador;
+import controladores.sisgedo.BoletaControlador;
 import entidades.AsignacionHorario;
 import entidades.Marcacion;
+import entidades.Permiso;
 import entidades.Turno;
 import entidades.escalafon.AreaEmpleado;
 import entidades.escalafon.Departamento;
 import entidades.escalafon.Empleado;
 import entidades.reportes.RptAsistenciaDetallado;
+import entidades.sisgedo.Boleta;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -89,6 +94,12 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         pnlDetalleMarcacion = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblMarcacionesDia = new org.jdesktop.swingx.JXTable();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tblPermisos = new org.jdesktop.swingx.JXTable();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblPermisosSISGEDO = new org.jdesktop.swingx.JXTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblDetalle = new org.jdesktop.swingx.JXTable();
         pnlImprimirSAP = new javax.swing.JPanel();
@@ -104,13 +115,12 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        pnlBusqueda.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Búsqueda", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 14))); // NOI18N
+        pnlBusqueda.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Búsqueda", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
         java.awt.GridBagLayout pnlBusquedaLayout = new java.awt.GridBagLayout();
         pnlBusquedaLayout.columnWidths = new int[] {0, 8, 0, 8, 0};
         pnlBusquedaLayout.rowHeights = new int[] {0, 8, 0, 8, 0, 8, 0, 8, 0};
         pnlBusqueda.setLayout(pnlBusquedaLayout);
 
-        jLabel1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel1.setText("Fechas:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -118,7 +128,6 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlBusqueda.add(jLabel1, gridBagConstraints);
 
-        jLabel2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel2.setText("Filtrar por:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -126,7 +135,6 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlBusqueda.add(jLabel2, gridBagConstraints);
 
-        jLabel3.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel3.setText("Tipo de asistencia:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -135,15 +143,11 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         pnlBusqueda.add(jLabel3, gridBagConstraints);
 
         pnlFechas.setLayout(new javax.swing.BoxLayout(pnlFechas, javax.swing.BoxLayout.LINE_AXIS));
-
-        dcFechaInicio.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         pnlFechas.add(dcFechaInicio);
 
         jLabel4.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel4.setText("-");
         pnlFechas.add(jLabel4);
-
-        dcFechaFin.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         pnlFechas.add(dcFechaFin);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -153,12 +157,10 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
 
         pnlFiltro.setLayout(new java.awt.GridBagLayout());
 
-        cboFiltro.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         cboFiltro.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         pnlFiltro.add(cboFiltro, new java.awt.GridBagConstraints());
 
         txtBusqueda.setEditable(false);
-        txtBusqueda.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
@@ -182,7 +184,6 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 0.1;
         pnlBusqueda.add(pnlFiltro, gridBagConstraints);
 
-        cboTipoAsistencia.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         cboTipoAsistencia.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "TODO", "ASISTENCIA REGULAR", "MINUTOS EXTRA AUTORIZADOS", "MINUTOS EXTRA NO AUTORIZADOS", "FALTA INJUSTIFICADA", "PERMISOS CON GOCE", "PERMISOS SIN GOCE", "SUSPENSIONES", "VACACIONES" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -191,7 +192,6 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlBusqueda.add(cboTipoAsistencia, gridBagConstraints);
 
-        jButton1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jButton1.setText("Procesar reporte");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -215,12 +215,9 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 0.1;
         jPanel1.add(pnlBusqueda, gridBagConstraints);
 
-        tabReportes.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-
         pnlDetallado.setLayout(new java.awt.GridBagLayout());
 
         tabDetalles.setTabPlacement(javax.swing.JTabbedPane.LEFT);
-        tabDetalles.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
 
         pnlDetalleHorario.setLayout(new java.awt.GridBagLayout());
 
@@ -247,6 +244,74 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         pnlDetalleMarcacion.add(jScrollPane2, gridBagConstraints);
 
         tabDetalles.addTab("Marcaciones en el día", pnlDetalleMarcacion);
+
+        tblPermisos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "", "", "", ""
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(tblPermisos);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 759, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+        );
+
+        tabDetalles.addTab("Permisos del dia", jPanel2);
+
+        tblPermisosSISGEDO.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "", "", "", ""
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(tblPermisosSISGEDO);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 759, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+        );
+
+        tabDetalles.addTab("Permisos del dia (SISGEDO)", jPanel3);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -277,7 +342,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         pnlImprimirSAPLayout.rowHeights = new int[] {0};
         pnlImprimirSAP.setLayout(pnlImprimirSAPLayout);
 
-        btnReportePermisos.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
+        btnReportePermisos.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnReportePermisos.setText("Reporte de permisos");
         btnReportePermisos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -290,7 +355,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         pnlImprimirSAP.add(btnReportePermisos, gridBagConstraints);
 
-        btnImprimirDetalle.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
+        btnImprimirDetalle.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnImprimirDetalle.setText("Imprimir reporte");
         btnImprimirDetalle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -303,7 +368,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         pnlImprimirSAP.add(btnImprimirDetalle, gridBagConstraints);
 
-        btnReporteVacaciones.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
+        btnReporteVacaciones.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnReporteVacaciones.setText("Reporte de vacaciones");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
@@ -311,7 +376,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         pnlImprimirSAP.add(btnReporteVacaciones, gridBagConstraints);
 
-        btnReporteHorasExtra.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
+        btnReporteHorasExtra.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnReporteHorasExtra.setText("Reporte de horas extra");
         btnReporteHorasExtra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -324,7 +389,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         pnlImprimirSAP.add(btnReporteHorasExtra, gridBagConstraints);
 
-        btnReporteResumen.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
+        btnReporteResumen.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnReporteResumen.setText("Reporte resúmen");
         btnReporteResumen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -365,7 +430,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 586, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -423,13 +488,20 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         reporteador.verReporte(filtrar(asistenciaDetalladoList), reporte, parametros, null);
     }//GEN-LAST:event_btnReportePermisosActionPerformed
 
+    PermisoControlador pc = new PermisoControlador();
+    BoletaControlador bc = BoletaControlador.getInstance();
+    
     private void tblDetalleMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDetalleMouseReleased
         // TODO add your handling code here:
         int fila = tblDetalle.getSelectedRow();
         if (fila != -1) {
             RptAsistenciaDetallado asistencia = this.asistenciaDetalladoList.get(fila);
+            
             mostrarHorario(asistencia.getAsignacionHorario());
             mostrarMarcacion(asistencia.getEmpleado(), asistencia.getFecha());
+            //PERMISOS X HORAS
+            mostrarPermisosXHoras(asistencia);
+            mostrarPermisosXHorasSISGEDO(asistencia);
         }
     }//GEN-LAST:event_tblDetalleMouseReleased
 
@@ -446,6 +518,8 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
     private List<RptAsistenciaDetallado> asistenciaDetalladoList;
     private List<Turno> turnoList;
     private List<Marcacion> marcacionList;
+    private List<Permiso> permisoList;
+    private List<Boleta> boletaList;
     private MTDetalleRegistroAsistencia mtdra;
     private final MarcacionControlador marcc = new MarcacionControlador();
     private final EmpleadoControlador empc = new EmpleadoControlador();
@@ -467,9 +541,13 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JProgressBar pbProgreso;
     private javax.swing.JPanel pnlBusqueda;
     private javax.swing.JPanel pnlDetallado;
@@ -483,6 +561,8 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
     private org.jdesktop.swingx.JXTable tblDetalle;
     private org.jdesktop.swingx.JXTable tblHorario;
     private org.jdesktop.swingx.JXTable tblMarcacionesDia;
+    private org.jdesktop.swingx.JXTable tblPermisos;
+    private org.jdesktop.swingx.JXTable tblPermisosSISGEDO;
     private javax.swing.JTextField txtBusqueda;
     // End of variables declaration//GEN-END:variables
 
@@ -502,6 +582,9 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
 
         MTDetalleHorarioHR mtTurno = new MTDetalleHorarioHR(turnoList);
         MTMarcacionRA mtMarcacion = new MTMarcacionRA(marcacionList);
+        
+        //
+        
 
         this.mtdra = new MTDetalleRegistroAsistencia(asistenciaDetalladoList);
 
@@ -578,6 +661,7 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
 
     private void mostrarHorario(AsignacionHorario asignacionHorario) {
         List<Turno> turnos = asignacionHorario.getHorario().getTurnoList();
+        
         turnoList.clear();
         turnoList.addAll(turnos);
         tblHorario.packAll();
@@ -589,6 +673,36 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         marcacionList.clear();
         marcacionList.addAll(marcaciones);
         tblMarcacionesDia.packAll();
+    }
+    
+    TurnoControlador tc = TurnoControlador.getInstance();
+    
+    private void mostrarPermisosXHoras(RptAsistenciaDetallado asistencia){
+        List<Permiso> listaPermisos = pc.buscarXEmpleadoXFechaEntreHora(asistencia.getEmpleado(),
+                                                                            asistencia.getFecha(),
+                                                                            asistencia.getDetalleJornada().getEntradaDesde(),
+                                                                            asistencia.getDetalleJornada().getSalida());
+        
+        List<Boleta> boletaLista = bc.permisoXHoraXFecha(asistencia.getEmpleado(),
+                                                                            asistencia.getFecha(),
+                                                                            asistencia.getDetalleJornada().getEntradaDesde(),
+                                                                            asistencia.getDetalleJornada().getSalida());
+        permisoList.clear();
+        permisoList.addAll(listaPermisos);
+        tblPermisos.packAll();
+        
+    }
+    
+    private void mostrarPermisosXHorasSISGEDO(RptAsistenciaDetallado asistencia){
+        
+        List<Boleta> boletaLista = bc.permisoXHoraXFecha(asistencia.getEmpleado(),
+                                                                            asistencia.getFecha(),
+                                                                            asistencia.getDetalleJornada().getEntradaDesde(),
+                                                                            asistencia.getDetalleJornada().getSalida());
+        boletaList.clear();
+        boletaList.addAll(boletaLista);
+        tblPermisosSISGEDO.packAll();
+        
     }
 
     private void generarReporteResumen() {

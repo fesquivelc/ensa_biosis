@@ -60,7 +60,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
      * Creates new form VistaEmpleado
      */
     private List<AreaEmpleado> lista;
-    private List<Contrato> lista2;
+    private List<Contrato> lista2 = new ArrayList();
 
     private final EmpleadoControlador ec;
     private final JInternalFrame padre;
@@ -106,8 +106,8 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
             this.mostrarDatos(empleado);
         }
         this.setLocationRelativeTo(parent);
-//        listarArea();
-//        listarContratos();
+        listarArea();
+        listarContratos();
 
         FormularioUtil.activarComponente(panelDatosC, false);
         FormularioUtil.activarComponente(panelDatosA, false);

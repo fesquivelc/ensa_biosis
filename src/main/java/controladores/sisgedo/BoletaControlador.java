@@ -54,15 +54,19 @@ public class BoletaControlador extends Controlador<Boleta>{
                 + "FROM "
                 + "SPa_motivo motivo INNER JOIN SPa_boleta boleta ON boleta.idmotivo = motivo.idmotivo "
                 + "INNER JOIN usuario us ON boleta.login = us.login "
-                + "WHERE us.dni = :empleado AND :fecha BETWEEN boleta.horasal AND boleta.horaret "
-                + "AND boleta.estado= 'C' AND datediff(horaret, horasal) > 0";
+                + "WHERE us.dni = :empleado "
+                + "AND DATE_FORMAT(:fecha,'%Y-%m-%d') BETWEEN DATE_FORMAT(boleta.horasal,'%Y-%m-%d') AND DATE_FORMAT(boleta.horaret,'%Y-%m-%d') "
+                + "AND boleta.estado= 'C' "
+                + "AND datediff(horaret, horasal) > 0";
         Map<String,Object> parametros = new HashMap<>();
         parametros.put("empleado", empleado.getNroDocumento());
         List<Boleta> permisos = this.getDao().getEntityManager().createNativeQuery(sql, Boleta.class)
                 .setParameter("empleado", empleado.getNroDocumento())
                 .setParameter("fecha", fecha)
                 .getResultList();
+        
         if(permisos.isEmpty()){
+            System.out.println("LISTA X FECHA ES NULL");
             return null;
         }else{
             return permisos.get(0);
@@ -76,14 +80,21 @@ public class BoletaControlador extends Controlador<Boleta>{
                 + "FROM "
                 + "SPa_motivo motivo INNER JOIN SPa_boleta boleta ON boleta.idmotivo = motivo.idmotivo "
                 + "INNER JOIN usuario us ON boleta.login = us.login "
-                + "WHERE us.dni = :empleado AND boleta.horasal BETWEEN :fechaInicio AND :fechaFin "
-                + "AND boleta.estado= 'C' AND datediff(horaret, horasal) = 0";
+                + "WHERE us.dni = :empleado "
+                + "AND DATE_FORMAT(boleta.horasal,'%H:%i:%s') BETWEEN :fechaInicio AND :fechaFin "
+                + "AND DATE_FORMAT(boleta.fecapr,'%Y-%m-%d') = DATE_FORMAT(:fecha,'%Y-%m-%d')"
+//                + "AND boleta.horasal BETWEEN :fechaInicio AND :fechaFin "
+                + "AND boleta.estado= 'C' "
+                + "AND datediff(boleta.horaret, boleta.horasal) = 0";
         Map<String,Object> parametros = new HashMap<>();
         parametros.put("empleado", empleado.getNroDocumento());
         List<Boleta> permisos = this.getDao().getEntityManager().createNativeQuery(sql, Boleta.class)
                 .setParameter("empleado", empleado.getNroDocumento())
-                .setParameter("fechaInicio", FechaUtil.unirFechaHora(fecha, horaInicio))
-                .setParameter("fechaFin", FechaUtil.unirFechaHora(fecha, horaFin))
+//                .setParameter("fechaInicio", FechaUtil.unirFechaHora(fecha, horaInicio))
+//                .setParameter("fechaFin", FechaUtil.unirFechaHora(fecha, horaFin))
+                .setParameter("fechaInicio",  horaInicio)
+                .setParameter("fechaFin", horaFin)
+                .setParameter("fecha", fecha)
                 .getResultList();
         return permisos;
     }
