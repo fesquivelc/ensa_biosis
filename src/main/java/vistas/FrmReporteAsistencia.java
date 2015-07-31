@@ -683,10 +683,6 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
                                                                             asistencia.getDetalleJornada().getEntradaDesde(),
                                                                             asistencia.getDetalleJornada().getSalida());
         
-        List<Boleta> boletaLista = bc.permisoXHoraXFecha(asistencia.getEmpleado(),
-                                                                            asistencia.getFecha(),
-                                                                            asistencia.getDetalleJornada().getEntradaDesde(),
-                                                                            asistencia.getDetalleJornada().getSalida());
         permisoList.clear();
         permisoList.addAll(listaPermisos);
         tblPermisos.packAll();

@@ -286,41 +286,41 @@ public class AnalisisAsistenciaCaliente {
                             int conteo = 1;
                             for (DetalleJornada detalle : detalleJornadaList) {
 //                            System.out.println("FECHA ENTRADA SALIDA " + fecha + " " + detalle.getEntrada() + " " + detalle.getSalida());
-                                List<Permiso> permisoList = permc.buscarXEmpleadoXFechaEntreHora(empleado, fecha, detalle.getEntradaDesde(), detalle.getSalida());
+//                                List<Permiso> permisoList = permc.buscarXEmpleadoXFechaEntreHora(empleado, fecha, detalle.getEntradaDesde(), detalle.getSalida());
                                 //PERMISOS X HORAS
                                 
-                                System.out.println("DATOS BOLETA: " + empleado.getNombreCompleto() + " - " + fecha + " - " + detalle.getEntradaDesde() + "--" + detalle.getSalida());
-                                List<Boleta> boletaList = bolc.permisoXHoraXFecha(empleado, fecha, detalle.getEntradaDesde(), detalle.getSalida());
-                                System.out.println("PERMISOS: " + permisoList.size());
-                                System.out.println("PERMISOS BOLETA: " + boletaList.size());
-                                for (Permiso permiso : permisoList) {
-                                    if (permiso.getHoraInicio().compareTo(detalle.getEntradaDesde()) >= 0 && permiso.getHoraFin().compareTo(detalle.getSalidaHasta()) <= 0) {
-//                                    System.out.println("PERMISO LIST");
-                                        RptAsistenciaDetallado asistenciaPermiso = analizarPermiso(empleado, contrato, permiso, detalle, fecha);
-                                        asistenciaPermiso.setAsignacionHorario(asignacionHorario);
-                                        asistenciaPermiso.setContrato(contrato);
-                                        asistenciaDetalladoList.add(asistenciaPermiso);
-                                    }
-                                }
+//                                System.out.println("DATOS BOLETA: " + empleado.getNombreCompleto() + " - " + fecha + " - " + detalle.getEntradaDesde() + "--" + detalle.getSalida());
+//                                List<Boleta> boletaList = bolc.permisoXHoraXFecha(empleado, fecha, detalle.getEntradaDesde(), detalle.getSalida());
+//                                System.out.println("PERMISOS: " + permisoList.size());
+//                                System.out.println("PERMISOS BOLETA: " + boletaList.size());
+//                                for (Permiso permiso : permisoList) {
+//                                    if (permiso.getHoraInicio().compareTo(detalle.getEntradaDesde()) >= 0 && permiso.getHoraFin().compareTo(detalle.getSalidaHasta()) <= 0) {
+////                                    System.out.println("PERMISO LIST");
+//                                        RptAsistenciaDetallado asistenciaPermiso = analizarPermiso(empleado, contrato, permiso, detalle, fecha);
+//                                        asistenciaPermiso.setAsignacionHorario(asignacionHorario);
+//                                        asistenciaPermiso.setContrato(contrato);
+//                                        asistenciaDetalladoList.add(asistenciaPermiso);
+//                                    }
+//                                }
 
-                                for (Boleta bol : boletaList) {
-                                    asistenciaDetalle = new RptAsistenciaDetallado();
-//                                    asistenciaDetalle.setInicio(permisoInicio == null ? null : permisoInicio.getFechaHora());
-//                                    asistenciaDetalle.setFin(permisoFin == null ? null : permisoFin.getFechaHora());
-                                    asistenciaDetalle.setTipoDetalle("P");
-                                    asistenciaDetalle.setTipoAsistencia("SP");
-                                    asistenciaDetalle.setMotivo(bol.getDescripcion());
-                                    asistenciaDetalle.setFecha(fecha);
-                                    asistenciaDetalle.setBoleta(bol);
-                                    asistenciaDetalle.setEmpleado(empleado);
-                                    asistenciaDetalle.setContrato(contrato);
-                                    asistenciaDetalle.setAsignacionHorario(asignacionHorario);
-                                    asistenciaDetalle.setDetalleJornada(detalle);
-//                                    asistenciaDetalle.setRegimenLaboral(contrato.getRegimenLaboral() == null ? "" : contrato.getRegimenLaboral().getNombre());
-                                    asistenciaDetalle.setArea(areaEmpleado == null ? null : areaEmpleado.getDepartamento());
-                                    asistenciaDetalladoList.add(asistenciaDetalle);
-//                                    return asistenciaDetalladoList;
-                                }
+//                                for (Boleta bol : boletaList) {
+//                                    asistenciaDetalle = new RptAsistenciaDetallado();
+////                                    asistenciaDetalle.setInicio(permisoInicio == null ? null : permisoInicio.getFechaHora());
+////                                    asistenciaDetalle.setFin(permisoFin == null ? null : permisoFin.getFechaHora());
+//                                    asistenciaDetalle.setTipoDetalle("P");
+//                                    asistenciaDetalle.setTipoAsistencia("SP");
+//                                    asistenciaDetalle.setMotivo(bol.getDescripcion());
+//                                    asistenciaDetalle.setFecha(fecha);
+//                                    asistenciaDetalle.setBoleta(bol);
+//                                    asistenciaDetalle.setEmpleado(empleado);
+//                                    asistenciaDetalle.setContrato(contrato);
+//                                    asistenciaDetalle.setAsignacionHorario(asignacionHorario);
+//                                    asistenciaDetalle.setDetalleJornada(detalle);
+////                                    asistenciaDetalle.setRegimenLaboral(contrato.getRegimenLaboral() == null ? "" : contrato.getRegimenLaboral().getNombre());
+//                                    asistenciaDetalle.setArea(areaEmpleado == null ? null : areaEmpleado.getDepartamento());
+//                                    asistenciaDetalladoList.add(asistenciaDetalle);
+////                                    return asistenciaDetalladoList;
+//                                }
 
                                 RptAsistenciaDetallado asistencia = analizarDetalle(empleado, contrato, detalle, fecha);
                                 asistencia.setAsignacionHorario(asignacionHorario);
