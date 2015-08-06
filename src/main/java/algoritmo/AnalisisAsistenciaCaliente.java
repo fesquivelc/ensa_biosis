@@ -285,6 +285,8 @@ public class AnalisisAsistenciaCaliente {
                             int extraTotal = 0;
                             int conteo = 1;
                             for (DetalleJornada detalle : detalleJornadaList) {
+                                //Se quitan los permisos x horas de la lista principal de los reportes x peticion del GRP.
+                                
 //                            System.out.println("FECHA ENTRADA SALIDA " + fecha + " " + detalle.getEntrada() + " " + detalle.getSalida());
 //                                List<Permiso> permisoList = permc.buscarXEmpleadoXFechaEntreHora(empleado, fecha, detalle.getEntradaDesde(), detalle.getSalida());
                                 //PERMISOS X HORAS
@@ -435,7 +437,7 @@ public class AnalisisAsistenciaCaliente {
             detalleResultado = 'R';
         } else if (entradaResultado == 'T' || salidaResultado == 'T') {
             detalleResultado = 'T';
-        } else if (entradaResultado == 'F' && salidaResultado == 'F') {
+        } else if (entradaResultado == 'F' || salidaResultado == 'F') {
             detalleResultado = 'F';
         }
 
@@ -485,6 +487,7 @@ public class AnalisisAsistenciaCaliente {
         asistenciaPermiso.setPermiso(permiso);
         asistenciaPermiso.setDetalleJornada(detalle);
         asistenciaPermiso.setRegimenLaboral(contrato.getRegimenLaboral() == null ? "" : contrato.getRegimenLaboral().getNombre());
+        
         return asistenciaPermiso;
     }
 }

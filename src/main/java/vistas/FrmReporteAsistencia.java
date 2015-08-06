@@ -321,7 +321,6 @@ public class FrmReporteAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.weighty = 0.2;
         pnlDetallado.add(tabDetalles, gridBagConstraints);
 
-        tblDetalle.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         tblDetalle.setGridColor(new java.awt.Color(102, 102, 102));
         tblDetalle.setRowHeight(27);
         tblDetalle.addMouseListener(new java.awt.event.MouseAdapter() {
